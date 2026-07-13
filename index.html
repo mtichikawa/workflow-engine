@@ -166,6 +166,8 @@
              letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
  .result .ok{color:var(--green);font-weight:600}
  .card .lead{color:var(--ink);font-size:14.5px;margin-top:10px}
+ code{font-family:var(--mono);font-size:.88em;background:var(--panel2);border:1px solid var(--line);
+      padding:1px 6px;border-radius:5px;color:var(--ink)}
 
 
  footer{padding:60px 0 80px}
@@ -194,15 +196,9 @@
   <div class="hero">
     <p class="eyebrow">A from-scratch workflow-automation engine</p>
     <h1>Describe a job. It builds the workflow,<br><span class="b">runs it</span>, and hands you back the result.</h1>
-    <p class="lede">Small AI specialists, each with a fixed contract, that compose themselves into a
-      validated workflow and run it — coordinated on a board, gated by a human, sharpened by a
-      learning loop. Built from scratch.</p>
-    <p class="sub">Not a shipped product — a from-scratch build of the architecture the field is
-      converging on, with measured, re-runnable results. It runs on <b style="color:var(--ink)">real, public data</b>;
-      the composer re-wrote my hand-built specialists and <b style="color:var(--green)">matched them</b>; one went
-      <b style="color:var(--green);white-space:nowrap">50% → 100%</b> from six examples.</p>
     <div class="herocta">
       <a class="gobtn" href="#see">See it run on a real issue ↓</a>
+      <a class="gobtn" href="#run">Clone &amp; run it →</a>
       <a class="gobtn" href="usecases/">Explore real runs →</a>
     </div>
     <div class="tags">
@@ -264,9 +260,81 @@ verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> �
   </div>
 </section>
 
+<section id="run">
+  <div class="sec-head col">
+    <p class="eyebrow">See how it works by doing</p>
+    <h2>Clone it and run a real workflow</h2>
+    <p>No account, no key to start — the engine is pure Python and the default brain is the free Claude CLI.
+      Three example recipes; each takes real input and <b>stages</b> a result for a human. Nothing is sent
+      automatically.</p>
+  </div>
+  <div class="term">
+    <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span>&nbsp;your terminal</div>
+<pre><span class="cmd">git clone</span> https://github.com/mtichikawa/workflow-engine
+<span class="cmd">cd</span> workflow-engine && <span class="cmd">pip install</span> -e .
+
+<span class="dim"># a support inbox that reads itself — real GitHub issues in, staged actions out</span>
+<span class="cmd">python -m engine.cli run</span> triage --repo vercel/next.js --limit 5
+
+<span class="dim"># research + write a short post in a set voice</span>
+<span class="cmd">python -m engine.cli run</span> content --topic "why flaky tests erode trust" --auto
+
+<span class="dim"># draft → self-grade → rewrite until it passes (the loop)</span>
+<span class="cmd">python -m engine.cli run</span> refine --topic "why on-call burns people out" --auto</pre>
+  </div>
+  <p style="margin-top:14px">Each run prints a board summary and saves to <code>state/&lt;run_id&gt;.json</code>;
+    staged results land in <code>output/</code>. Point <code>--repo</code> at any public repo or swap the
+    <code>--topic</code> — it's real data, not ours.</p>
+  <div class="ctarow">
+    <a class="gobtn" href="https://github.com/mtichikawa/workflow-engine#try-it--run-real-workflows">The full guide + every command →</a>
+    <a class="gobtn" href="usecases/">Watch these runs, step by step →</a>
+  </div>
+</section>
+
+<section id="composer">
+  <div class="sec-head col">
+    <p class="eyebrow">Describe your job — it builds the workflow</p>
+    <h2>The Composer</h2>
+    <p>Give it a task in plain English. It composes a workflow out of the shared library of specialists —
+      reusing what fits, and honestly flagging what it doesn't have instead of faking it.</p>
+  </div>
+  <div class="grid">
+    <div class="term">
+      <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span>&nbsp;compose your own</div>
+<pre><span class="cmd">python -m engine.cli compose</span> \
+  "screen support tickets, draft
+   replies, flag the urgent ones"
+
+<span class="dim">Composed recipe:</span>
+  reuse  classify
+  reuse  rank
+  reuse  respond
+  reuse  verify
+  reuse  act            [GATE]
+
+runnable:  <span class="ok">True</span></pre>
+    </div>
+    <div class="card">
+      <span class="k">reading the output</span>
+      <ul class="result">
+        <li><span class="rk">reuse</span> an existing shared specialist, as-is</li>
+        <li><span class="rk">NEW!</span> a capability it lacks — flagged, never faked</li>
+        <li><span class="rk">DRFT</span> a provisional specialist it drafted for you</li>
+        <li><span class="rk">[GATE]</span> a human-approval pause</li>
+        <li><span class="rk">runnable</span> composable from the library right now</li>
+      </ul>
+      <p style="margin-top:12px">Hit a gap it can't cover and it says so — with the missing specialist's
+        input→output contract — rather than pretend. <code>--run --input "…"</code> then runs it on your data.</p>
+    </div>
+  </div>
+  <div class="ctarow">
+    <a class="gobtn" href="https://github.com/mtichikawa/workflow-engine#try-the-composer--describe-your-job-watch-it-build-the-workflow">Try the Composer on your own task →</a>
+  </div>
+</section>
+
 <section id="flow">
   <div class="sec-head col">
-    <p class="eyebrow">The whole thing, top down</p>
+    <p class="eyebrow">Under the hood — for the curious</p>
     <h2>Compose → validate → dispatch → learn</h2>
     <p>One plain-English use case in; a validated, running, improving workflow out. The composer
       builds the graph, the validator checks it, the dispatcher runs it on the specialists — and a
