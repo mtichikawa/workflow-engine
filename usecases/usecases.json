@@ -1,0 +1,99 @@
+{
+  "_comment": "The source of truth for the use-case gallery. Add an entry here + a usecases/<slug>/ folder (README + replay.html + example-input.json [+ sample-output.txt]), then run `python tools/build_gallery.py` to regenerate index.html. Every new successful use case gets added this way.",
+  "usecases": [
+    {
+      "slug": "triage",
+      "title": "Triage — a support inbox that reads itself",
+      "tagline": "Takes a GitHub issue: works out what it is, how urgent, who owns it, drafts a reply, checks it, and waits for a human.",
+      "flow": [
+        {
+          "s": "classify",
+          "k": "shared"
+        },
+        {
+          "s": "rank",
+          "k": "shared"
+        },
+        {
+          "s": "route",
+          "k": ""
+        },
+        {
+          "s": "respond",
+          "k": ""
+        },
+        {
+          "s": "verify",
+          "k": "shared"
+        },
+        {
+          "s": "act ⏸",
+          "k": "gate"
+        }
+      ],
+      "meta": "shared: classify · rank · verify · act &nbsp;·&nbsp; domain: route · respond",
+      "sample_output": false,
+      "explorer": true
+    },
+    {
+      "slug": "content",
+      "title": "Content — a writer that does its own research",
+      "tagline": "Takes a topic: pulls sources, picks an angle, writes a short post in a set voice, checks it's on-brand, and stages it. Reuses the same specialists as triage — only write is new.",
+      "flow": [
+        {
+          "s": "fetch",
+          "k": "shared"
+        },
+        {
+          "s": "classify",
+          "k": "shared"
+        },
+        {
+          "s": "rank",
+          "k": "shared"
+        },
+        {
+          "s": "write",
+          "k": ""
+        },
+        {
+          "s": "verify",
+          "k": "shared"
+        },
+        {
+          "s": "act ⏸",
+          "k": "gate"
+        }
+      ],
+      "meta": "shared: fetch · classify · rank · verify · act &nbsp;·&nbsp; domain: write",
+      "sample_output": true,
+      "explorer": true
+    },
+    {
+      "slug": "refine",
+      "title": "Refine — an editor that won't ship slop",
+      "tagline": "Drafts, grades itself against a strict bar, and rewrites and re-checks until it passes — then waits for a human. The loop is the point; watch tokens flow back through write ↔ verify.",
+      "flow": [
+        {
+          "s": "write",
+          "k": ""
+        },
+        {
+          "s": "verify",
+          "k": "shared"
+        },
+        {
+          "s": "⟲ fail → rewrite",
+          "k": "loop"
+        },
+        {
+          "s": "act ⏸",
+          "k": "gate"
+        }
+      ],
+      "meta": "the control-flow <b>loop</b> — a real run failed twice, revised, passed on the third",
+      "sample_output": false,
+      "explorer": true
+    }
+  ]
+}

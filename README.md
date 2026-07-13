@@ -145,8 +145,8 @@ python -m engine.cli benchmark         # re-derives hand-built specialists from 
                                        #   their REAL human-labeled evals — the composer matched them
 python -m engine.cli eval              # every specialist's accuracy + leave-one-out over curated examples
 python -m engine.cli registry          # every specialist, its run count + eval score
-python examples/learning_loop_demo.py  # a weak specialist learns from a handful of examples: 4/8 -> 8/8, promoted
-python examples/proof_shared.py        # the reuse proof — the same specialists across different recipes
+python examples/scripts/learning_loop_demo.py  # a weak specialist learns from a handful of examples: 4/8 -> 8/8, promoted
+python examples/scripts/proof_shared.py        # the reuse proof — the same specialists across different recipes
 ```
 Full CLI: `run · compose · board · view · approve · eval · fit · benchmark · train · review · capture · registry · costs`.
 
@@ -156,7 +156,7 @@ Full CLI: `run · compose · board · view · approve · eval · fit · benchmar
 | `engine/` | the engine — domain · ports · dispatcher · composer · validator · specialists · fewshot · registry · scope |
 | `engine/recipes/` | the recipe definitions (triage · content · refine · review) |
 | `usecases/` | one self-contained bundle per use case (interactive explorer + example I/O) + the gallery |
-| `examples/` | runnable demos — `python examples/<name>.py` |
+| `examples/` | `full_run/` (real runs + output) · `composer/` (task → recipe) · `scripts/` (runnable demos) |
 | `evals/` · `tests/` | grading harness · tests |
 | `tools/` | the site/explorer generators (`build_explorer.py`, `build_gallery.py`) |
 | `deploy/` | container-per-customer security **design** (skeleton, not run) |

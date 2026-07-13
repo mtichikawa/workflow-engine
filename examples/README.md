@@ -1,17 +1,15 @@
-# examples/ — runnable demos & proofs
+# Examples
 
-Illustrations of the product, run directly (`python examples/<file>.py`). **These contain
-synthetic / illustrative data** (fake tenants, hand-authored golds, dummy specialists) kept
-here deliberately, *out of the `engine/` product package.* Not part of the shipped library and
-not run by the test suite.
+Everything here runs on real data and shows real output — nothing is mocked.
 
-| file | what it shows |
+| folder | what's in it |
 |---|---|
-| `hello_world.py` | the smallest end-to-end run — a recipe over the board |
-| `proof_shared.py` | the reuse proof — two recipes share one set of specialist instances |
-| `complex_demo.py` | a non-linear graph: fan-out → AND-join → refine↔verify loop → gated publish |
-| `learning_loop_demo.py` | the learning loop — a weak specialist climbs 4/8 → 8/8 → promoted (synthetic policy) |
-| `tailored_voice_demo.py` | a tenant's tailored voice layered on the baseline via the scope seam (synthetic "Acme" voice) |
+| [`full_run/`](full_run/) | complete runs: a recipe on real input → the run log + what it produced (`output/`) |
+| [`composer/`](composer/) | the Composer's work: a plain-English task → the workflow it built |
+| [`scripts/`](scripts/) | runnable one-liners — `python examples/scripts/<name>.py` |
 
-For the automated test suite see `tests/`; for utility scripts (e.g. building baseline data)
-see `tools/`.
+**Run your own** (see the [README](../README.md#try-it--run-real-workflows)):
+```bash
+python -m engine.cli run triage --repo <any/public-repo> --limit 5
+python -m engine.cli compose "<describe a job in plain English>"
+```

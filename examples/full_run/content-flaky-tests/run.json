@@ -1,0 +1,360 @@
+{
+  "recipe": "content",
+  "run_id": "content-1783745645",
+  "items": {
+    "topic": {
+      "payload": {
+        "topic": "why flaky tests erode team trust",
+        "brief": "sharp technical founder, no hype, numbers over adjectives",
+        "source": "hn",
+        "limit": 8,
+        "slug": "why-flaky-tests-erode-team-trust.txt"
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "topic": {
+      "fetch": {
+        "items": [
+          {
+            "id": "48866134",
+            "title": "Einstein's relativity rules chemical bonds in heavy elements, new research shows",
+            "url": "https://www.brown.edu/news/2026-07-09/chemical-bonds-relativity",
+            "score": 159
+          },
+          {
+            "id": "48861717",
+            "title": "QuadRF can spot drones and see WiFi through my wall",
+            "url": "https://www.jeffgeerling.com/blog/2026/quadrf-can-spot-drones-and-see-wifi-through-my-wall/",
+            "score": 503
+          },
+          {
+            "id": "48865019",
+            "title": "Apple sues OpenAI, accuses ex-employees of stealing trade secrets",
+            "url": "https://9to5mac.com/2026/07/10/apple-sues-openai-trade-secret-theft/",
+            "score": 765
+          },
+          {
+            "id": "48817539",
+            "title": "An iroh powered smart fan",
+            "url": "https://www.iroh.computer/blog/an-iroh-powered-smart-fan",
+            "score": 54
+          },
+          {
+            "id": "48864252",
+            "title": "An update on residential proxies and the scraper situation",
+            "url": "https://lwn.net/SubscriberLink/1080822/990a8a5e2d379085/",
+            "score": 136
+          },
+          {
+            "id": "48863490",
+            "title": "GPT-5.6 Sol Ultra produces proof of the Cycle Double Cover Conjecture [pdf]",
+            "url": "https://cdn.openai.com/pdf/04d1d1e4-bc75-476a-97cf-49055cd98d31/cdc_proof.pdf",
+            "score": 396
+          },
+          {
+            "id": "48863064",
+            "title": "SpaceX wants to launch 100k more Starlink satellites for 100x the bandwidth",
+            "url": "https://www.zdnet.com/home-and-office/networking/spacex-wants-to-launch-100000-more-starlink-satellites/",
+            "score": 126
+          },
+          {
+            "id": "48862365",
+            "title": "The tech of 'Terminator 2' \u2013 an oral history (2017)",
+            "url": "https://vfxblog.com/2017/08/23/the-tech-of-terminator-2-an-oral-history/",
+            "score": 194
+          }
+        ]
+      },
+      "classify": {
+        "label": "opinion",
+        "confidence": 0.68,
+        "reasoning": "The 'why...erode trust' framing argues a stance on impact rather than teaching steps or reporting news, though it borders on analysis."
+      },
+      "rank": {
+        "score": 0.72,
+        "reasoning": "Flaky tests are a near-universal, emotionally relatable pain point for engineers, giving this strong recognition and shareability, though the framing is familiar rather than novel."
+      },
+      "write": {
+        "post": "Skipping a flaky test doesn't cost you one build, it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading the results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero."
+      },
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.82,
+        "issues": [
+          "'numbers over adjectives' preference not really exercised \u2014 the piece is entirely conceptual with no concrete figures, but it also makes no fake-precision claims, so this is acceptable rather than a violation"
+        ]
+      },
+      "act": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-flaky-tests-erode-team-trust.txt",
+          "meta": {
+            "angle": "opinion",
+            "priority": 0.72
+          }
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "topic",
+      "step_id": "fetch",
+      "status": "done",
+      "input": {
+        "source": "hn",
+        "params": {
+          "topic": "why flaky tests erode team trust",
+          "brief": "sharp technical founder, no hype, numbers over adjectives",
+          "source": "hn",
+          "limit": 8,
+          "slug": "why-flaky-tests-erode-team-trust.txt"
+        }
+      },
+      "output": {
+        "items": [
+          {
+            "id": "48866134",
+            "title": "Einstein's relativity rules chemical bonds in heavy elements, new research shows",
+            "url": "https://www.brown.edu/news/2026-07-09/chemical-bonds-relativity",
+            "score": 159
+          },
+          {
+            "id": "48861717",
+            "title": "QuadRF can spot drones and see WiFi through my wall",
+            "url": "https://www.jeffgeerling.com/blog/2026/quadrf-can-spot-drones-and-see-wifi-through-my-wall/",
+            "score": 503
+          },
+          {
+            "id": "48865019",
+            "title": "Apple sues OpenAI, accuses ex-employees of stealing trade secrets",
+            "url": "https://9to5mac.com/2026/07/10/apple-sues-openai-trade-secret-theft/",
+            "score": 765
+          },
+          {
+            "id": "48817539",
+            "title": "An iroh powered smart fan",
+            "url": "https://www.iroh.computer/blog/an-iroh-powered-smart-fan",
+            "score": 54
+          },
+          {
+            "id": "48864252",
+            "title": "An update on residential proxies and the scraper situation",
+            "url": "https://lwn.net/SubscriberLink/1080822/990a8a5e2d379085/",
+            "score": 136
+          },
+          {
+            "id": "48863490",
+            "title": "GPT-5.6 Sol Ultra produces proof of the Cycle Double Cover Conjecture [pdf]",
+            "url": "https://cdn.openai.com/pdf/04d1d1e4-bc75-476a-97cf-49055cd98d31/cdc_proof.pdf",
+            "score": 396
+          },
+          {
+            "id": "48863064",
+            "title": "SpaceX wants to launch 100k more Starlink satellites for 100x the bandwidth",
+            "url": "https://www.zdnet.com/home-and-office/networking/spacex-wants-to-launch-100000-more-starlink-satellites/",
+            "score": 126
+          },
+          {
+            "id": "48862365",
+            "title": "The tech of 'Terminator 2' \u2013 an oral history (2017)",
+            "url": "https://vfxblog.com/2017/08/23/the-tech-of-terminator-2-an-oral-history/",
+            "score": 194
+          }
+        ]
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": "why flaky tests erode team trust"
+      },
+      "output": {
+        "label": "opinion",
+        "confidence": 0.68,
+        "reasoning": "The 'why...erode trust' framing argues a stance on impact rather than teaching steps or reporting news, though it borders on analysis."
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": "why flaky tests erode team trust"
+      },
+      "output": {
+        "score": 0.72,
+        "reasoning": "Flaky tests are a near-universal, emotionally relatable pain point for engineers, giving this strong recognition and shareability, though the framing is familiar rather than novel."
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "write",
+      "status": "done",
+      "input": {
+        "topic": "why flaky tests erode team trust",
+        "sources": [
+          {
+            "id": "48866134",
+            "title": "Einstein's relativity rules chemical bonds in heavy elements, new research shows",
+            "url": "https://www.brown.edu/news/2026-07-09/chemical-bonds-relativity",
+            "score": 159
+          },
+          {
+            "id": "48861717",
+            "title": "QuadRF can spot drones and see WiFi through my wall",
+            "url": "https://www.jeffgeerling.com/blog/2026/quadrf-can-spot-drones-and-see-wifi-through-my-wall/",
+            "score": 503
+          },
+          {
+            "id": "48865019",
+            "title": "Apple sues OpenAI, accuses ex-employees of stealing trade secrets",
+            "url": "https://9to5mac.com/2026/07/10/apple-sues-openai-trade-secret-theft/",
+            "score": 765
+          },
+          {
+            "id": "48817539",
+            "title": "An iroh powered smart fan",
+            "url": "https://www.iroh.computer/blog/an-iroh-powered-smart-fan",
+            "score": 54
+          },
+          {
+            "id": "48864252",
+            "title": "An update on residential proxies and the scraper situation",
+            "url": "https://lwn.net/SubscriberLink/1080822/990a8a5e2d379085/",
+            "score": 136
+          },
+          {
+            "id": "48863490",
+            "title": "GPT-5.6 Sol Ultra produces proof of the Cycle Double Cover Conjecture [pdf]",
+            "url": "https://cdn.openai.com/pdf/04d1d1e4-bc75-476a-97cf-49055cd98d31/cdc_proof.pdf",
+            "score": 396
+          },
+          {
+            "id": "48863064",
+            "title": "SpaceX wants to launch 100k more Starlink satellites for 100x the bandwidth",
+            "url": "https://www.zdnet.com/home-and-office/networking/spacex-wants-to-launch-100000-more-starlink-satellites/",
+            "score": 126
+          },
+          {
+            "id": "48862365",
+            "title": "The tech of 'Terminator 2' \u2013 an oral history (2017)",
+            "url": "https://vfxblog.com/2017/08/23/the-tech-of-terminator-2-an-oral-history/",
+            "score": 194
+          }
+        ],
+        "brief": "sharp technical founder, no hype, numbers over adjectives"
+      },
+      "output": {
+        "post": "Skipping a flaky test doesn't cost you one build, it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading the results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero."
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "draft": "Skipping a flaky test doesn't cost you one build, it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading the results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero.",
+          "topic": "why flaky tests erode team trust"
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.82,
+        "issues": [
+          "'numbers over adjectives' preference not really exercised \u2014 the piece is entirely conceptual with no concrete figures, but it also makes no fake-precision claims, so this is acceptable rather than a violation"
+        ]
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "act",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "Skipping a flaky test doesn't cost you one build, it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading the results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero.",
+          "name": "why-flaky-tests-erode-team-trust.txt",
+          "angle": "opinion",
+          "priority": 0.72
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-flaky-tests-erode-team-trust.txt",
+          "meta": {
+            "angle": "opinion",
+            "priority": 0.72
+          }
+        }
+      },
+      "attempts": [],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "topic",
+      "step": "fetch",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "topic",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "topic",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "topic",
+      "step": "write",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "topic",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 5,
+      "item": "topic",
+      "step": "act",
+      "status": "gated"
+    },
+    {
+      "n": 6,
+      "item": "topic",
+      "step": "act",
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "recipe": "refine",
+  "run_id": "refine-1783959479",
+  "items": {
+    "topic": {
+      "payload": {
+        "topic": "why flaky tests erode team trust",
+        "brief": "a short, punchy opinion post for engineers",
+        "sources": [],
+        "slug": "why-flaky-tests-erode-team-trust.txt"
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "topic": {
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "issues": []
+      },
+      "write": {
+        "post": "A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax."
+      },
+      "act": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-flaky-tests-erode-team-trust.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "topic",
+      "step_id": "write",
+      "status": "done",
+      "input": {
+        "topic": "why flaky tests erode team trust",
+        "sources": [],
+        "brief": "a short, punchy opinion post for engineers",
+        "feedback": [
+          "Zero to one numeric statistics; needs at least two distinct concrete numbers/percentages/units. 'three times' is the only number, and 'coin flip' is not numeric.",
+          "No real statistics (percentages, counts, units) \u2014 the standard requires concrete stats, not rhetorical figures."
+        ]
+      },
+      "output": {
+        "post": "A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax."
+      },
+      "attempts": [
+        {
+          "output": {
+            "post": "Flaky tests train engineers to hit \"retry\" instead of reading the failure. Once that reflex sets in, a real regression gets the same shrug as a timing blip, and the suite stops being a signal anyone acts on. A test that fails 1 in 20 runs isn't 95% reliable \u2014 across a 200-test suite it means most green builds passed by luck, not correctness. The fix isn't more retries; it's quarantining the flake and treating an unexplained failure as a bug, not noise."
+          }
+        },
+        {
+          "output": {
+            "post": "Flaky tests train your team to ignore red builds. Once \"just hit rerun\" becomes the reflex, a real regression looks identical to noise and ships anyway. A suite you retry three times isn't a signal\u2014it's a coin flip you've stopped reading."
+          }
+        },
+        {
+          "output": {
+            "post": "A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax."
+          }
+        }
+      ],
+      "visits": 3,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "draft": "A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax.",
+          "topic": "why flaky tests erode team trust"
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "issues": []
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "fail",
+            "confidence": 0.9,
+            "issues": [
+              "Contains 4 sentences; standard requires under 4 (i.e. 3 or fewer)"
+            ]
+          }
+        },
+        {
+          "output": {
+            "verdict": "fail",
+            "confidence": 0.95,
+            "issues": [
+              "Zero to one numeric statistics; needs at least two distinct concrete numbers/percentages/units. 'three times' is the only number, and 'coin flip' is not numeric.",
+              "No real statistics (percentages, counts, units) \u2014 the standard requires concrete stats, not rhetorical figures."
+            ]
+          }
+        },
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.9,
+            "issues": []
+          }
+        }
+      ],
+      "visits": 3,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "act",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax.",
+          "name": "why-flaky-tests-erode-team-trust.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-flaky-tests-erode-team-trust.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/why-flaky-tests-erode-team-trust.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "topic",
+      "step": "write",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "topic",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "topic",
+      "step": "write",
+      "status": "loop"
+    },
+    {
+      "n": 3,
+      "item": "topic",
+      "step": "write",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "topic",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 5,
+      "item": "topic",
+      "step": "write",
+      "status": "loop"
+    },
+    {
+      "n": 6,
+      "item": "topic",
+      "step": "write",
+      "status": "done"
+    },
+    {
+      "n": 7,
+      "item": "topic",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 8,
+      "item": "topic",
+      "step": "act",
+      "status": "gated"
+    },
+    {
+      "n": 9,
+      "item": "topic",
+      "step": "act",
+      "status": "done"
+    }
+  ]
+}

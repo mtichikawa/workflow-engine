@@ -20,7 +20,7 @@ from engine.explorer import build_html, load_run
 SPECS = {
     "triage": {
         "recipe": "engine.recipes.triage:TRIAGE",
-        "run": "usecases/_runs/triage-1783745537.json",
+        "run": "examples/full_run/triage-nextjs-95698/run.json",
         "item": "95698",
         "work_item": "issue",
         "title": "Triage",
@@ -29,7 +29,7 @@ SPECS = {
     },
     "content": {
         "recipe": "engine.recipes.content:CONTENT",
-        "run": "usecases/_runs/content-1783745645.json",
+        "run": "examples/full_run/content-flaky-tests/run.json",
         "item": "topic",
         "work_item": "topic",
         "title": "Content",
@@ -38,7 +38,7 @@ SPECS = {
     },
     "refine": {
         "recipe": "engine.recipes.refine:REFINE",
-        "run": "usecases/_runs/refine-1783959479.json",
+        "run": "examples/full_run/refine-loop/run.json",
         "item": "topic",
         "work_item": "brief",
         "title": "Refine",
