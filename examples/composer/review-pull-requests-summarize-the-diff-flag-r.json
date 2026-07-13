@@ -1,0 +1,23 @@
+{
+  "use_case": "review pull requests: summarize the diff, flag risky changes, and suggest a reviewer",
+  "steps": [
+    {
+      "specialist": "review",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [],
+  "gaps": [],
+  "runnable": true
+}

@@ -1,0 +1,75 @@
+{
+  "use_case": "generate a product image from a text description and stage it",
+  "steps": [
+    {
+      "specialist": "generate_image",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "stage_scene",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "generate_image",
+      "to": "stage_scene",
+      "when": ""
+    },
+    {
+      "from": "stage_scene",
+      "to": "check_fidelity",
+      "when": ""
+    },
+    {
+      "from": "check_fidelity",
+      "to": "generate_image",
+      "when": "check_fidelity.verdict == 'fail'"
+    },
+    {
+      "from": "check_fidelity",
+      "to": "stage_result",
+      "when": "check_fidelity.verdict == 'pass'"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "generate_image",
+      "why": "No specialist in the library can synthesize an image from a text description; this is the core generation step.",
+      "input": [
+        "description",
+        "style",
+        "aspect_ratio"
+      ],
+      "output": [
+        "image"
+      ]
+    },
+    {
+      "name": "stage_scene",
+      "why": "No specialist composes/stages a generated product image into a realistic scene (backgrounds, props, lighting) as the use case requires.",
+      "input": [
+        "product_image",
+        "scene",
+        "lighting",
+        "description"
+      ],
+      "output": [
+        "staged_image"
+      ]
+    }
+  ],
+  "runnable": false
+}

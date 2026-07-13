@@ -1,0 +1,54 @@
+{
+  "use_case": "triage patient intake forms by urgency and route to the right department",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "route",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "triage",
+      "to": "acuity",
+      "when": ""
+    },
+    {
+      "from": "acuity",
+      "to": "assign",
+      "when": ""
+    },
+    {
+      "from": "assign",
+      "to": "stage_emergent",
+      "when": "triage.label == 'emergent'"
+    },
+    {
+      "from": "assign",
+      "to": "stage_routine",
+      "when": "triage.label != 'emergent'"
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

@@ -1,0 +1,34 @@
+{
+  "use_case": "classify customer feedback and route it to product, engineering, or sales",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "route",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "triage",
+      "to": "assign",
+      "when": ""
+    },
+    {
+      "from": "assign",
+      "to": "stage_routing",
+      "when": ""
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

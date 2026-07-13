@@ -1,0 +1,44 @@
+{
+  "use_case": "triage security alerts by severity and assign them to the right on-call",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "route",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "classify_severity",
+      "to": "assign_oncall",
+      "when": ""
+    },
+    {
+      "from": "assign_oncall",
+      "to": "stage_critical",
+      "when": "classify_severity.label == 'critical'"
+    },
+    {
+      "from": "assign_oncall",
+      "to": "stage_routine",
+      "when": "classify_severity.label != 'critical'"
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

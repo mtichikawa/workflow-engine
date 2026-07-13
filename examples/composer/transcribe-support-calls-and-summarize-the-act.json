@@ -1,0 +1,40 @@
+{
+  "use_case": "transcribe support calls and summarize the action items",
+  "steps": [
+    {
+      "specialist": "transcribe",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "summarize_action_items",
+      "tag": "new",
+      "gate": false
+    }
+  ],
+  "edges": [],
+  "gaps": [
+    {
+      "name": "transcribe",
+      "why": "No library specialist can turn a support-call recording into text; the pipeline needs a speech-to-text step before anything can be summarized.",
+      "input": [
+        "audio"
+      ],
+      "output": [
+        "transcript"
+      ]
+    },
+    {
+      "name": "summarize_action_items",
+      "why": "No library specialist extracts and summarizes action items from a conversation transcript; write/respond are for drafting outbound messages, not distilling owners/tasks/next-steps from a call.",
+      "input": [
+        "transcript"
+      ],
+      "output": [
+        "action_items",
+        "summary"
+      ]
+    }
+  ],
+  "runnable": false
+}

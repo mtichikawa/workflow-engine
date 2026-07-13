@@ -1,0 +1,67 @@
+{
+  "use_case": "screen job applications for fraud signals and flag suspicious ones",
+  "steps": [
+    {
+      "specialist": "detect_fraud_signals",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "detect_fraud_signals",
+      "to": "score_fraud_risk",
+      "when": ""
+    },
+    {
+      "from": "score_fraud_risk",
+      "to": "triage",
+      "when": ""
+    },
+    {
+      "from": "triage",
+      "to": "stage_flagged",
+      "when": "triage.label == 'flag_for_review'"
+    },
+    {
+      "from": "triage",
+      "to": "stage_cleared",
+      "when": "triage.label == 'clear'"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "detect_fraud_signals",
+      "why": "Extracting concrete, domain-specific fraud indicators from a job application (identity/date inconsistencies, fabricated employers, degree mills, AI-generated text) is a specialized analysis not covered by the generic classify/rank/verify capabilities; those downstream steps consume its structured signals.",
+      "input": [
+        "application",
+        "signal_catalog"
+      ],
+      "output": [
+        "signals",
+        "explanation"
+      ]
+    }
+  ],
+  "runnable": false
+}

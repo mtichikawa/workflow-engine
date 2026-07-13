@@ -1,0 +1,44 @@
+{
+  "use_case": "review expense reports and flag ones that violate policy",
+  "steps": [
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "check_policy",
+      "to": "classify_violation",
+      "when": "check_policy.verdict != 'pass'"
+    },
+    {
+      "from": "classify_violation",
+      "to": "flag",
+      "when": ""
+    },
+    {
+      "from": "check_policy",
+      "to": "record_clean",
+      "when": "check_policy.verdict == 'pass'"
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

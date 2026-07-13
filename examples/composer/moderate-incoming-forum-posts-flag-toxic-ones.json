@@ -1,0 +1,44 @@
+{
+  "use_case": "moderate incoming forum posts: flag toxic ones and route the rest to the right subforum",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "route",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "moderate",
+      "to": "flag",
+      "when": "moderate.label == 'toxic'"
+    },
+    {
+      "from": "moderate",
+      "to": "route_post",
+      "when": "moderate.label == 'clean'"
+    },
+    {
+      "from": "route_post",
+      "to": "place",
+      "when": ""
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

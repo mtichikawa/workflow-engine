@@ -1,0 +1,59 @@
+{
+  "use_case": "monitor brand mentions, gauge sentiment, and draft a response to the negative ones",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "respond",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "sentiment",
+      "to": "draft",
+      "when": "sentiment.label == 'negative'"
+    },
+    {
+      "from": "sentiment",
+      "to": "log_mention",
+      "when": "sentiment.label != 'negative'"
+    },
+    {
+      "from": "draft",
+      "to": "check",
+      "when": ""
+    },
+    {
+      "from": "check",
+      "to": "stage_reply",
+      "when": "check.verdict == 'pass'"
+    },
+    {
+      "from": "check",
+      "to": "draft",
+      "when": "check.verdict != 'pass'"
+    }
+  ],
+  "gaps": [],
+  "runnable": true
+}

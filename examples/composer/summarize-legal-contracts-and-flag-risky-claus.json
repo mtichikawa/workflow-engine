@@ -1,0 +1,48 @@
+{
+  "use_case": "summarize legal contracts and flag risky clauses",
+  "steps": [
+    {
+      "specialist": "summarize_contract",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "flag_risky_clauses",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [],
+  "gaps": [
+    {
+      "name": "summarize_contract",
+      "why": "No library specialist produces a plain-language summary of a legal contract's key terms; needed to give the reader a concise overview before diving into risks.",
+      "input": [
+        "item",
+        "focus",
+        "length"
+      ],
+      "output": [
+        "summary"
+      ]
+    },
+    {
+      "name": "flag_risky_clauses",
+      "why": "No library specialist extracts and flags individual risky clauses from contract text with an explanation and per-clause severity; this is the core legal-review task.",
+      "input": [
+        "contract",
+        "risk_criteria"
+      ],
+      "output": [
+        "flagged_clauses",
+        "risk_notes"
+      ]
+    }
+  ],
+  "runnable": false
+}

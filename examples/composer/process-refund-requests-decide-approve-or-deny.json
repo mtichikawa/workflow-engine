@@ -1,0 +1,63 @@
+{
+  "use_case": "process refund requests: decide approve or deny, and draft the customer reply",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "draft_refund_reply",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "decide",
+      "to": "draft_reply",
+      "when": ""
+    },
+    {
+      "from": "draft_reply",
+      "to": "check_reply",
+      "when": ""
+    },
+    {
+      "from": "check_reply",
+      "to": "stage_reply",
+      "when": "check_reply.verdict == 'pass'"
+    },
+    {
+      "from": "check_reply",
+      "to": "draft_reply",
+      "when": "check_reply.verdict != 'pass'"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "draft_refund_reply",
+      "why": "The reply must reflect the approve/deny decision and its reason \u2014 the generic 'respond' specialist only takes item+tone and cannot condition the wording on the decision, so a refund-specific drafter is needed.",
+      "input": [
+        "item",
+        "decision",
+        "reasoning",
+        "tone"
+      ],
+      "output": [
+        "reply"
+      ]
+    }
+  ],
+  "runnable": false
+}

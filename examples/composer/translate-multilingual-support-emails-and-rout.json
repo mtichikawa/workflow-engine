@@ -1,0 +1,36 @@
+{
+  "use_case": "translate multilingual support emails and route them to the right team",
+  "steps": [
+    {
+      "specialist": "translate",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "route",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [],
+  "gaps": [
+    {
+      "name": "translate",
+      "why": "Support emails arrive in many languages; the routing specialist needs consistent English text (and the detected language is useful metadata for the receiving team). No library specialist detects language or translates.",
+      "input": [
+        "text",
+        "target_language"
+      ],
+      "output": [
+        "translated_text",
+        "detected_language"
+      ]
+    }
+  ],
+  "runnable": false
+}

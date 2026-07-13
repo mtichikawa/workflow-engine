@@ -1,0 +1,28 @@
+{
+  "use_case": "read GitHub issues, label and prioritize them, and draft a first response",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "respond",
+      "tag": "domain",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    }
+  ],
+  "edges": [],
+  "gaps": [],
+  "runnable": true
+}

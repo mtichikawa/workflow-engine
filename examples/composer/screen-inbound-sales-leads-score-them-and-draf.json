@@ -1,0 +1,84 @@
+{
+  "use_case": "screen inbound sales leads, score them, and draft a tailored intro email",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "draft_sales_intro",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen",
+      "to": "score",
+      "when": "screen.label == 'qualified_lead'"
+    },
+    {
+      "from": "screen",
+      "to": "stage_disqualified",
+      "when": "screen.label != 'qualified_lead'"
+    },
+    {
+      "from": "score",
+      "to": "draft",
+      "when": ""
+    },
+    {
+      "from": "draft",
+      "to": "check",
+      "when": ""
+    },
+    {
+      "from": "check",
+      "to": "send",
+      "when": "check.verdict == 'pass'"
+    },
+    {
+      "from": "check",
+      "to": "draft",
+      "when": "check.verdict != 'pass'"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "draft_sales_intro",
+      "why": "Library 'respond' only drafts a generic first reply from item+tone; a sales intro must be tailored to the lead's qualification score and context, and emit a subject line \u2014 needs a sales-specific drafting specialist.",
+      "input": [
+        "item",
+        "score",
+        "context",
+        "tone"
+      ],
+      "output": [
+        "email",
+        "subject"
+      ]
+    }
+  ],
+  "runnable": false
+}

@@ -1,0 +1,91 @@
+{
+  "use_case": "detect duplicate bug reports, group them, and draft a merge note",
+  "steps": [
+    {
+      "specialist": "fetch",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "detect_duplicates",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "draft_merge_note",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "fetch_existing",
+      "to": "find_duplicates",
+      "when": ""
+    },
+    {
+      "from": "find_duplicates",
+      "to": "confirm_duplicate",
+      "when": ""
+    },
+    {
+      "from": "confirm_duplicate",
+      "to": "draft_merge_note",
+      "when": "confirm_duplicate.verdict == 'pass'"
+    },
+    {
+      "from": "confirm_duplicate",
+      "to": "stage_new",
+      "when": "confirm_duplicate.verdict != 'pass'"
+    },
+    {
+      "from": "draft_merge_note",
+      "to": "stage_merge",
+      "when": ""
+    }
+  ],
+  "gaps": [
+    {
+      "name": "detect_duplicates",
+      "why": "No library specialist compares an incoming report against a candidate set to find and group duplicates; classify/rank operate on a single item against static categories, not cross-item similarity.",
+      "input": [
+        "item",
+        "candidates",
+        "criteria"
+      ],
+      "output": [
+        "is_duplicate",
+        "group",
+        "reasoning"
+      ]
+    },
+    {
+      "name": "draft_merge_note",
+      "why": "No library specialist writes a merge/dedup note from a duplicate group; 'write' drafts posts from a topic+sources and 'respond' drafts a first reply, neither produces a maintainer merge note tying a group of issues to a canonical target.",
+      "input": [
+        "item",
+        "group",
+        "tone"
+      ],
+      "output": [
+        "merge_note"
+      ]
+    }
+  ],
+  "runnable": false
+}

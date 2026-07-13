@@ -1,0 +1,65 @@
+{
+  "use_case": "grade student essays against a rubric and write feedback",
+  "steps": [
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "grade_essay",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "verify",
+      "tag": "reuse",
+      "gate": true
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "score",
+      "to": "grade",
+      "when": ""
+    },
+    {
+      "from": "grade",
+      "to": "check",
+      "when": ""
+    },
+    {
+      "from": "check",
+      "to": "save",
+      "when": "check.verdict == 'pass'"
+    },
+    {
+      "from": "check",
+      "to": "grade",
+      "when": "check.verdict != 'pass'"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "grade_essay",
+      "why": "No specialist grades a student essay against a multi-dimension rubric and writes rubric-anchored feedback; rank only yields a single 0..1 score and review is diff/PR-specific.",
+      "input": [
+        "essay",
+        "rubric",
+        "grade_scale",
+        "overall_score"
+      ],
+      "output": [
+        "grade",
+        "dimension_scores",
+        "feedback"
+      ]
+    }
+  ],
+  "runnable": false
+}

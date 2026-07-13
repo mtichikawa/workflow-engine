@@ -1,0 +1,68 @@
+{
+  "use_case": "sort incoming resumes, score fit against a role, and shortlist candidates",
+  "steps": [
+    {
+      "specialist": "classify",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "rank",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "shortlist_candidate",
+      "tag": "new",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    },
+    {
+      "specialist": "act",
+      "tag": "reuse",
+      "gate": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "sort",
+      "to": "fit",
+      "when": ""
+    },
+    {
+      "from": "fit",
+      "to": "decide",
+      "when": ""
+    },
+    {
+      "from": "decide",
+      "to": "stage_shortlist",
+      "when": "decide.shortlist == true"
+    },
+    {
+      "from": "decide",
+      "to": "stage_pass",
+      "when": "decide.shortlist == false"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "shortlist_candidate",
+      "why": "The middle decision \u2014 combining track fit and role-specific fit score into a shortlist/no-shortlist call with a defensible rationale \u2014 is a hiring-domain judgment not covered by the generic capability specialists.",
+      "input": [
+        "resume",
+        "category",
+        "score"
+      ],
+      "output": [
+        "shortlist",
+        "rationale"
+      ]
+    }
+  ],
+  "runnable": false
+}
