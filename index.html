@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A modular multi-agent workflow engine — built from scratch</title>
+<style>
+ :root{
+   --bg:#0e1015; --panel:#161a21; --panel2:#1b202a; --line:#272d37; --line2:#333b47;
+   --ink:#e9ecf1; --mut:#9aa3b1; --dim:#6d7482;
+   --brass:#c9a860; --brass-dim:#9a8149;
+   --green:#57b083; --red:#cf6b5c; --blue:#5b8fd6;
+   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ }
+ *{box-sizing:border-box}
+ html{scroll-behavior:smooth}
+ @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+      font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+ .wrap{max-width:940px;margin:0 auto;padding:0 24px}
+ .col{max-width:66ch}
+ a{color:var(--brass);text-decoration:none;border-bottom:1px solid var(--brass-dim)}
+ a:hover{color:#e0c684}
+ a:focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:2px}
+ h1,h2,h3{font-family:var(--mono);text-wrap:balance;letter-spacing:-.01em;margin:0}
+ .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+          color:var(--brass);margin:0 0 14px}
+ .mut{color:var(--mut)} .tnum{font-variant-numeric:tabular-nums}
+
+ /* ---- hero ---- */
+ header{border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+ .hero{padding:96px 0 72px;position:relative;z-index:1}
+ .hero h1{font-size:clamp(30px,5.4vw,54px);line-height:1.06;font-weight:700;letter-spacing:-.02em}
+ .hero h1 .b{color:var(--brass)}
+ .hero .lede{font-size:clamp(17px,2.3vw,20px);color:var(--ink);margin:22px 0 0;max-width:60ch;line-height:1.55}
+ .hero .sub{color:var(--mut);margin:16px 0 0;max-width:66ch;font-size:15.5px}
+ .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+ .tag{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--mut);
+      border:1px solid var(--line2);border-radius:100px;padding:5px 12px}
+ .tag b{color:var(--brass);font-weight:600}
+ #ambient{position:absolute;inset:0;width:100%;height:100%;opacity:.5;z-index:0}
+
+ /* ---- sections ---- */
+ section{padding:70px 0;border-bottom:1px solid var(--line)}
+ .sec-head{margin-bottom:34px}
+ .sec-head h2{font-size:clamp(21px,3vw,27px);font-weight:650;letter-spacing:-.015em}
+ .sec-head p{color:var(--mut);margin:12px 0 0;max-width:64ch}
+ p{margin:0 0 18px}
+
+
+ /* ---- the loop instrument ---- */
+ .instrument{background:#101319;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+             box-shadow:0 30px 60px -30px #000}
+ .inst-top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);
+           font-family:var(--mono);font-size:12px;color:var(--mut)}
+ .inst-top .dot{width:9px;height:9px;border-radius:50%;background:var(--brass);box-shadow:0 0 10px var(--brass)}
+ .inst-top .grow{flex:1}
+ canvas{display:block;width:100%}
+ /* board-in-motion */
+ #boardsvg{display:block;width:100%;height:auto;background:#101319}
+ .boardscroll{overflow-x:auto}
+ @media(max-width:640px){#boardsvg{min-width:600px}}
+ #boardsvg .bedge{stroke:rgba(120,130,145,.20);stroke-width:1.4;fill:none}
+ #boardsvg .bbay{fill:rgba(28,34,42,.5);stroke:#39414d;stroke-width:1.3}
+ #boardsvg .bbay.hot{stroke:var(--brass);fill:rgba(34,40,49,.6)}
+ #boardsvg .bbay.gate{stroke:var(--brass);stroke-width:1.6;stroke-dasharray:4 3}
+ #boardsvg .chip{fill:rgba(34,40,49,.9);stroke:var(--brass-dim);stroke-width:1;transition:opacity .18s}
+ #boardsvg .blab{fill:#9aa2ae;font-family:var(--mono);font-size:10.5px;text-anchor:middle}
+ #boardsvg .item{stroke:rgba(0,0,0,.25);stroke-width:.5}
+ #boardsvg .bout{fill:rgba(24,42,32,.5);stroke:#3f6b52;stroke-width:1.4}
+ #boardsvg .arrow{fill:#57b083}
+ #boardsvg .outlab{fill:#7fbf9c;font-family:var(--mono);font-size:10.5px;text-anchor:middle}
+ #boardsvg .bloop{fill:none;stroke:rgba(207,107,92,.55);stroke-width:1.6;stroke-dasharray:5 4}
+ #boardsvg .bloop-lab{fill:#d98a7e;font-family:var(--mono);font-size:10px;text-anchor:middle}
+ .inst-bar{display:flex;align-items:center;gap:14px;padding:13px 16px;border-top:1px solid var(--line)}
+ button{font-family:var(--mono);font-size:13px;background:var(--panel2);color:var(--ink);
+        border:1px solid var(--line2);border-radius:6px;padding:8px 15px;cursor:pointer;transition:.15s}
+ button:hover{border-color:var(--brass);color:#fff}
+ button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+ a.gobtn{display:inline-block;font-family:var(--mono);font-size:13.5px;text-decoration:none;
+         background:var(--panel2);color:var(--ink);border:1px solid var(--brass);border-radius:7px;padding:11px 20px;transition:.15s}
+ a.gobtn:hover{background:rgba(255,255,255,.05);color:#fff}
+ a.gobtn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+ .legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:16px;font-family:var(--mono);font-size:11.5px;color:var(--mut)}
+ .legend span{display:inline-flex;align-items:center;gap:7px}
+ .sw{width:11px;height:11px;border-radius:50%}
+
+ /* ---- evidence cards ---- */
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+ @media(max-width:720px){.grid{grid-template-columns:1fr}}
+ .modscroll{overflow-x:auto}
+ .modscroll canvas{min-width:560px}
+ .specimen{background:#101319;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-top:18px;overflow-x:auto}
+ .specimen pre{margin:8px 0 0;font-family:var(--mono);font-size:13px;line-height:1.62;color:var(--ink);white-space:pre;min-width:460px}
+ .specimen .c{color:var(--dim)} .specimen .kw{color:var(--brass)} .specimen .str{color:var(--green)}
+ .term{background:#0c0e13;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:18px}
+ .term-top{display:flex;align-items:center;gap:7px;padding:9px 13px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--mut)}
+ .term-top .d{width:10px;height:10px;border-radius:50%;background:#2c333d}
+ .term pre{margin:0;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.5;color:#c6ccd6;overflow-x:auto;white-space:pre}
+ .term .ok{color:var(--green)} .term .no{color:var(--red)} .term .cmd{color:var(--brass)} .term .dim{color:var(--dim)}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+ .card h3{font-size:16px;font-weight:600;letter-spacing:0;margin-bottom:6px}
+ .card .k{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+ .card p{font-size:14.5px;color:var(--mut);margin:12px 0 0}
+ .card .big{font-family:var(--mono);font-size:40px;font-weight:700;color:var(--ink);
+            font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1;margin:14px 0 0}
+ .card .big .arw{color:var(--brass);font-size:26px;vertical-align:middle;margin:0 6px}
+ .card .big .to{color:var(--green)}
+
+ /* end-to-end pipeline diagram */
+ .flowscroll{overflow-x:auto}
+ @media(max-width:640px){#flowsvg{min-width:600px}}
+ #flowsvg{display:block;width:100%;height:auto;margin-top:8px}
+ #flowsvg text{dominant-baseline:middle}
+ #flowsvg .fbox{fill:var(--panel);stroke:var(--line2);stroke-width:1.3}
+ #flowsvg .ft{fill:var(--brass);font-family:var(--mono);font-size:15px;font-weight:600;text-anchor:middle}
+ #flowsvg .fs{fill:var(--mut);font-family:var(--mono);font-size:11px;text-anchor:middle}
+ #flowsvg .fmini{fill:var(--panel2);stroke:var(--brass-dim);stroke-width:1}
+ #flowsvg .fml{fill:#c6ccd6;font-family:var(--mono);font-size:9.5px;text-anchor:middle}
+ #flowsvg .farr{fill:var(--dim);font-family:var(--mono);font-size:19px;text-anchor:middle}
+ #flowsvg .floop{fill:none;stroke:var(--brass-dim);stroke-width:1.6;stroke-dasharray:5 4}
+ #flowsvg .floop-head{fill:var(--brass-dim)}
+ #flowsvg .floop-lab{fill:var(--brass);font-family:var(--mono);font-size:11px;text-anchor:middle}
+ #flowsvg a{cursor:pointer}
+ #flowsvg a .fbox,#flowsvg a .fmini{transition:stroke .15s}
+ #flowsvg a:hover .fbox,#flowsvg a:focus-visible .fbox{stroke:var(--brass);stroke-width:1.8}
+ #flowsvg a:focus{outline:none}
+ .flowhint{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin:10px 0 0}
+ #compose,#board,#specialist{scroll-margin-top:10px} #validate{scroll-margin-top:28px}
+
+ /* learning-loop bars */
+ .bars{display:flex;align-items:flex-end;gap:16px;margin:20px 0 4px}
+ .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+ .bar .track{width:100%;height:120px;display:flex;align-items:flex-end;background:rgba(255,255,255,.035);border-radius:6px;overflow:hidden}
+ .bar .fill{width:100%;height:0;border-radius:5px 5px 0 0;transition:height 1.1s cubic-bezier(.2,.7,.2,1)}
+ @media(prefers-reduced-motion:reduce){.bar .fill{transition:none}}
+ .bar .lab{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.05em}
+ .bar .val{font-family:var(--mono);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+ .bar.cold .fill{background:linear-gradient(180deg,#3a4149,#2a2f37)}
+ .bar.warm .fill{background:linear-gradient(180deg,var(--brass),var(--brass-dim))}
+
+ /* benchmark table */
+ .tbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13.5px}
+ .tbl th{text-align:left;color:var(--mut);font-weight:500;font-size:11px;letter-spacing:.14em;
+         text-transform:uppercase;padding:0 14px 12px;border-bottom:1px solid var(--line)}
+ .tbl td{padding:13px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+ .tbl td:first-child{color:var(--ink)}
+ .tbl .match{color:var(--green)} .tbl .orig{color:var(--mut)}
+ .tblwrap{overflow-x:auto}
+
+ /* use-case chips */
+ .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:var(--mono);font-size:12.5px;margin-top:14px}
+ .step{background:var(--panel2);border:1px solid var(--line2);border-radius:6px;padding:5px 11px;color:var(--ink)}
+ .step.gate{border-color:var(--brass-dim);color:var(--brass)}
+ .arr{color:var(--dim)}
+ .loopnote{color:var(--blue)}
+
+ /* ---- "see it work" worked example ---- */
+ .herocta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+ .ctarow{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+ .result{list-style:none;margin:14px 0 0;padding:0;font-size:14px;color:var(--ink)}
+ .result li{padding:8px 0;border-bottom:1px solid var(--line);line-height:1.5}
+ .result li:last-child{border-bottom:0}
+ .result .rk{display:inline-block;min-width:116px;font-family:var(--mono);font-size:10.5px;
+             letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+ .result .ok{color:var(--green);font-weight:600}
+ .card .lead{color:var(--ink);font-size:14.5px;margin-top:10px}
+
+
+ footer{padding:60px 0 80px}
+ .foot-frame{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;margin-bottom:28px}
+ .foot-frame p{margin:0;color:var(--ink);font-size:15px}
+ .links{display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:13px;color:var(--mut)}
+ .disc{color:var(--dim);font-size:12.5px;font-family:var(--mono);margin-top:26px;line-height:1.7}
+ /* top page-tabs (Overview · Use cases) — identical bar on both pages so they don't shift when you switch */
+ .topbar-inner{max-width:940px;margin:0 auto;padding:16px 24px 0}
+ .pagetabs{display:flex;gap:6px;font-family:var(--mono);position:relative;z-index:5}
+ .pagetabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent;transition:color .15s,background .15s,border-color .15s}
+ .pagetabs a:hover{color:var(--ink)}
+ .pagetabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner">
+  <nav class="pagetabs" aria-label="Pages">
+    <a class="on" href="./" aria-current="page">Overview</a>
+    <a href="usecases/">Use cases</a>
+  </nav>
+</div></div>
+<div class="wrap">
+<header>
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="hero">
+    <p class="eyebrow">A from-scratch workflow-automation engine</p>
+    <h1>Describe a job. It builds the workflow,<br><span class="b">runs it</span>, and hands you back the result.</h1>
+    <p class="lede">Small AI specialists, each with a fixed contract, that compose themselves into a
+      validated workflow and run it — coordinated on a board, gated by a human, sharpened by a
+      learning loop. Built from scratch.</p>
+    <p class="sub">Not a shipped product — a from-scratch build of the architecture the field is
+      converging on, with measured, re-runnable results. It runs on <b style="color:var(--ink)">real, public data</b>;
+      the composer re-wrote my hand-built specialists and <b style="color:var(--green)">matched them</b>; one went
+      <b style="color:var(--green);white-space:nowrap">50% → 100%</b> from six examples.</p>
+    <div class="herocta">
+      <a class="gobtn" href="#see">See it run on a real issue ↓</a>
+      <a class="gobtn" href="usecases/">Explore real runs →</a>
+    </div>
+    <div class="tags">
+      <span class="tag">specialists + contracts</span>
+      <span class="tag">control-flow graphs</span>
+      <span class="tag">static validator</span>
+      <span class="tag">learning loop</span>
+      <span class="tag">per-tenant isolation</span>
+    </div>
+  </div>
+</header>
+
+<section id="see">
+  <div class="sec-head col">
+    <p class="eyebrow">See it work — one real run, end to end</p>
+    <h2>A task in. A workflow out. Real results back.</h2>
+    <p>A real, public GitHub issue goes in; the engine composes a workflow for it, runs it, and hands
+      back what you see below — staged for a human. Nothing here is mocked, and it isn't our data.</p>
+  </div>
+
+  <div class="term">
+    <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span>&nbsp;your terminal</div>
+<pre><span class="cmd">$ engine run triage</span> --issue https://github.com/vercel/next.js/issues/95698
+
+<span class="dim"># composes the workflow, runs it, stages the result for a human</span>
+classify <span class="ok">bug</span> 0.96   ·   rank 0.30   ·   route build   ·   respond drafted
+verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> ✓   → labels ['bug','build'] + reply, waiting for review</pre>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <div class="card">
+      <span class="k">what goes in</span>
+      <h3 style="margin-top:8px">A plain-English task + real data</h3>
+      <p class="lead"><b>Task:</b> “Triage this GitHub issue — work out what it is, how urgent, who
+        owns it, draft a reply, check the reply, and stage it for a human.”</p>
+      <p style="margin-top:10px"><b>Input:</b> a real, public issue —
+        <a href="https://github.com/vercel/next.js/issues/95698" target="_blank" rel="noopener">vercel/next.js #95698</a>,
+        “Turbopack does not tree-shake correctly.” Not our data — open it yourself.</p>
+      <div class="flow"><span class="step">classify</span><span class="arr">→</span><span class="step">rank</span><span class="arr">→</span><span class="step">route</span><span class="arr">→</span><span class="step">respond</span><span class="arr">→</span><span class="step">verify</span><span class="arr">→</span><span class="step gate">act ⏸</span></div>
+      <p class="mut" style="font-size:12.5px;font-family:var(--mono);margin-top:12px">the workflow it composed for this task</p>
+    </div>
+    <div class="card">
+      <span class="k">what comes back</span>
+      <h3 style="margin-top:8px">A staged result — never sent automatically</h3>
+      <ul class="result">
+        <li><span class="rk">classified</span> <b class="ok">bug</b> · 0.96 confidence</li>
+        <li><span class="rk">prioritized</span> 0.30</li>
+        <li><span class="rk">routed</span> build</li>
+        <li><span class="rk">drafted reply</span> “Thanks for the thorough repro — the Viem chains case…”</li>
+        <li><span class="rk">verified</span> <b class="ok">pass</b> — flagged 1 concern (asks for the Turbopack/Next.js version)</li>
+        <li><span class="rk">staged</span> would add labels <b>['bug', 'build']</b> + post the reply — waiting for a human</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ctarow">
+    <a class="gobtn" href="usecases/triage/">Watch this exact run, step by step →</a>
+    <a class="gobtn" href="usecases/">See all three recipes →</a>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="sec-head col">
+    <p class="eyebrow">The whole thing, top down</p>
+    <h2>Compose → validate → dispatch → learn</h2>
+    <p>One plain-English use case in; a validated, running, improving workflow out. The composer
+      builds the graph, the validator checks it, the dispatcher runs it on the specialists — and a
+      learning loop feeds back to sharpen them. We zoom into each below.</p>
+  </div>
+  <div class="flowscroll">
+  <svg id="flowsvg" viewBox="0 0 900 168" role="img" aria-label="Pipeline: composer to validator to dispatcher to specialists, with a learning loop feeding back to the start">
+    <a href="#compose"><rect class="fbox" x="18" y="22" width="172" height="80" rx="10"/><text class="ft" x="104" y="52">Composer</text><text class="fs" x="104" y="72">composes the graph</text></a>
+    <a href="#validate"><rect class="fbox" x="249" y="22" width="172" height="80" rx="10"/><text class="ft" x="335" y="52">Validator</text><text class="fs" x="335" y="72">checks it's sound</text></a>
+    <a href="#board"><rect class="fbox" x="480" y="22" width="172" height="80" rx="10"/><text class="ft" x="566" y="52">Dispatcher</text><text class="fs" x="566" y="72">runs it on the board</text></a>
+    <a href="#specialist"><rect class="fbox" x="711" y="22" width="172" height="80" rx="10"/><text class="ft" x="797" y="37">Specialists</text><rect class="fmini" x="723" y="46" width="70" height="23" rx="4"/><text class="fml" x="758" y="58">classify</text><rect class="fmini" x="801" y="46" width="70" height="23" rx="4"/><text class="fml" x="836" y="58">rank</text><rect class="fmini" x="723" y="75" width="70" height="23" rx="4"/><text class="fml" x="758" y="87">verify</text><rect class="fmini" x="801" y="75" width="70" height="23" rx="4"/><text class="fml" x="836" y="87">write</text></a>
+    <text class="farr" x="219.5" y="61">&#8594;</text>
+    <text class="farr" x="450.5" y="61">&#8594;</text>
+    <text class="farr" x="681.5" y="61">&#8594;</text>
+    <path class="floop" d="M797 102 L797 150 L104 150 L104 112"/>
+    <path class="floop-head" d="M99 112 L104 102 L109 112 Z"/>
+    <text class="floop-lab" x="450" y="132">learning loop — real runs curate examples that sharpen the specialists</text>
+  </svg>
+  </div>
+  <p class="flowhint">click any stage to jump to its detail below</p>
+</section>
+
+<section id="compose">
+  <div class="sec-head col">
+    <p class="eyebrow">Zoom 1 — compose &amp; validate</p>
+    <h2>Composing parts into a workflow</h2>
+    <p>Every specialist declares a fixed <b>contract</b> — its exact inputs and outputs — so any part
+      snaps into any <b>recipe</b> (a graph of steps, with branches and loops) without glue code. The
+      composer wires the graph, and the same shared parts get reused across very different problems.</p>
+  </div>
+  <div class="card">
+    <span class="k">modularity, shown</span>
+    <p style="margin:8px 0 2px;color:var(--ink)">Three real workflows reuse the same shelf, unchanged — and a fourth you define yourself reuses what fits and drafts the rest.</p>
+    <div class="modscroll" style="margin-top:8px"><canvas id="modcanvas" height="260"></canvas></div>
+    <p class="mut" style="font-size:13px;font-family:var(--mono);margin:6px 2px 0">A specialist glows when it's used by the recipe you hover. classify · rank · verify · act are shared; fetch · write · route · respond are recipe-specific. Hover <b style="color:var(--ink)">your use case</b> — it reuses what's on the shelf and marks the new parts (<b style="color:var(--brass)">?</b>) the composer would draft.</p>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <span class="k">the composer, benchmarked</span>
+    <p style="margin-top:2px">Given only a plain-English description, the composer re-wrote
+      specialists I'd hand-built — scored against their <b>real, human-labeled</b> evals, it matched
+      the originals. And when it <em>can't</em> cover a use case it flags the missing specialist and
+      <b>refuses to call the recipe runnable</b> (2 of 2 coverable ran; 3 of 3 with gaps held back).
+      It doesn't fake capability.</p>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>specialist</th><th>auto-written</th><th>hand-built</th></tr>
+      <tr><td>classify</td><td class="match">6/6 · 100%</td><td class="orig">6/6</td></tr>
+      <tr><td>rank</td><td class="match">3/3 · 100%</td><td class="orig">3/3</td></tr>
+      <tr><td>route</td><td class="match">3/3 · 100%</td><td class="orig">3/3</td></tr>
+    </table></div>
+  </div>
+  <div class="card" id="validate" style="margin-top:18px">
+    <span class="k">the validator — checked before it runs</span>
+    <p style="margin-top:2px">A composed graph isn't trusted blindly. A static <b>validator</b> checks
+      it first — entry/exit, reachability, <b>loop termination</b> (a backward edge must have a guard),
+      dangling outputs, and contract compatibility. It's a little type-checker for the workflow:
+      invalid graphs are <b>rejected up front</b>, not discovered halfway through a run.</p>
+  </div>
+</section>
+
+<section id="board">
+  <div class="sec-head col">
+    <p class="eyebrow">Zoom 2 — the dispatcher, live</p>
+    <h2>Controlled chaos</h2>
+    <p>The <b>board</b> is the shared surface the dispatcher writes onto. Work <em>streams in</em> and
+      flows through the graph <em>concurrently</em>, each item advancing on its own; a specialist
+      <em>clones per item</em> (the stacked chips); when <b>verify</b> flags a draft it <em>loops
+      back</em> to rewrite (the red curve); the rest wait at the <b>gate</b> for a human, then flow
+      out. Deliberately dumb, single-writer, concurrency-safe by construction — the piece I'm most
+      proud of. The flow here is <em>illustrative</em>.</p>
+  </div>
+  <div class="instrument">
+    <div class="inst-top"><span class="dot"></span><span>content · board</span><span class="grow"></span><span id="bstat" style="font-family:var(--mono)">—</span></div>
+    <div class="boardscroll">
+    <svg id="boardsvg" viewBox="0 0 900 220" role="img" aria-label="work-items flowing through the content recipe (fetch, classify, rank, write, verify, act), with a verify-to-rewrite loop and a human gate">
+      <g id="bedges"></g>
+      <g id="bnodes"></g>
+      <g id="bitems"></g>
+    </svg>
+    </div>
+    <div class="inst-bar" style="justify-content:space-between">
+      <span style="font-family:var(--mono);font-size:12px;color:var(--mut)">items flow in continuously · specialists clone under load · all pause at the gate</span>
+      <button id="bpause">❚❚ pause</button>
+    </div>
+  </div>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--blue)"></span>in flight</span>
+    <span><span class="sw" style="background:var(--red);box-shadow:0 0 5px var(--red)"></span>flagged → loops back to rewrite</span>
+    <span><span class="sw" style="background:var(--brass)"></span>held at the gate</span>
+    <span><span class="sw" style="background:var(--green)"></span>approved → output</span>
+  </div>
+</section>
+
+<section id="specialist">
+  <div class="sec-head col">
+    <p class="eyebrow">Zoom 3 — down to one specialist</p>
+    <h2>The atom, and how it learns</h2>
+    <p>Each specialist is a tiny agent with one job and that fixed contract — small enough to test,
+      improve, and trust on its own. Here's a real one, nothing hidden:</p>
+  </div>
+  <div class="specimen">
+    <span class="k">classify — a real specialist</span>
+<pre><span class="kw">classify</span> — capability specialist        <span class="c"># one job: item → one category</span>
+
+  contract   in   { item, categories, criteria }
+             out  { label, confidence, reasoning }
+
+  role       <span class="str">"You are a precise classification specialist. You assign
+              an item to exactly one category and never invent
+              categories outside the given list."</span>
+
+  <span class="c"># config-driven: the SAME instance labels bug types for triage</span>
+  <span class="c"># and content angles for content — only the categories change.</span></pre>
+  </div>
+  <div class="grid" style="margin-top:18px">
+    <div class="card">
+      <span class="k">it learns — measured</span>
+      <div class="bars" id="llbars">
+        <div class="bar cold"><span class="val" id="v1">—</span><div class="track"><div class="fill" id="f1" style="height:0"></div></div><span class="lab">cold</span></div>
+        <div class="bar warm"><span class="val" id="v2">—</span><div class="track"><div class="fill" id="f2" style="height:0"></div></div><span class="lab">+6 examples</span></div>
+      </div>
+      <p>A deliberately weak specialist, cold, follows a wrong instinct. Six curated examples → <b style="color:var(--green)">50% → 100%</b> on an <b>independent</b> eval, then <b style="color:var(--brass)">promoted to trusted</b> — the real terminal output is below.</p>
+    </div>
+    <div class="card">
+      <span class="k">how the learning works</span>
+      <p style="margin-top:2px">Retrieval-injected few-shot from curated examples — no fine-tuning. A drafted specialist is <b>provisional</b> until its eval clears a bar, then trusted. Examples are isolated <b>per tenant</b> by path — and building that seam surfaced a real bug: <b>ThreadPoolExecutor doesn't propagate context</b>, silently breaking tenancy under concurrency. Found and fixed. A finding fell out too: few-shot helps “mapper” specialists but <b>hurts</b> the checker.</p>
+    </div>
+  </div>
+  <div class="term">
+    <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span><span style="margin-left:6px">actual output · python examples/learning_loop_demo.py</span></div>
+<pre><span class="cmd">$ python examples/learning_loop_demo.py</span>
+
+drafted 'escalate_policy' (provisional, no examples).
+<span class="dim"># the escalate rule is a churn signal — ORTHOGONAL to severity — and the base instruction hides it</span>
+
+COLD (no examples — follows its severity prior): <span class="no">4/8 = 50%</span>
+  <span class="no">✗</span> want standard  got escalate   URGENT: total outage, the entire app is down…
+  <span class="no">✗</span> want escalate  got standard   Loving it so far! Quick question — how do I cancel…
+  <span class="ok">✓</span> want escalate  got escalate   Cancelling today — fed up with the constant bugs.
+  <span class="dim">… 5 more rows</span>
+
+curating 6 golds (the human's corrections)…
+
+WARM (few-shot: the curated golds injected): <span class="ok">8/8 = 100%</span>
+  <span class="ok">✓</span> want standard  got standard   URGENT: total outage, the entire app is down…
+  <span class="ok">✓</span> want escalate  got escalate   Loving it so far! Quick question — how do I cancel…
+  <span class="dim">… 6 more, all ✓</span>
+
+CLIMB: 4/8 → 8/8   <span class="ok">(+50%)</span>
+provisional: True → after promote(): <span class="cmd">TRUSTED</span>   <span class="dim">(bar: eval ≥ 0.8 on ≥ 4 examples)</span></pre>
+  </div>
+  <p class="mut" style="font-size:13.5px;font-family:var(--mono);margin-top:20px;max-width:none">
+    Honest caveats: the evals are small (a coarse filter); on the free dev brain the scores are
+    single-pass (temperature isn't wired to the CLI); a genuinely novel specialist's domain
+    judgments still require the human gate.</p>
+</section>
+
+<section id="cases">
+  <div class="sec-head col">
+    <p class="eyebrow">It generalizes — three distinct domains</p>
+    <h2>One engine, real data</h2>
+    <p>The same specialists compose into different recipes. Reuse between the first two is the
+      compounding library; the third adds a control-flow loop.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <span class="k">technical support</span>
+      <h3 style="margin-top:8px">Triage — a support inbox that reads itself</h3>
+      <p style="margin-top:4px">A raw bug report comes in. The engine works out <em>what</em> it is, <em>how urgent</em>, and <em>who owns it</em>, drafts a first reply, checks that reply is any good — then stops and waits for a person to hit send.</p>
+      <div class="flow"><span class="step">classify</span><span class="arr">→</span><span class="step">rank</span><span class="arr">→</span><span class="step">route</span><span class="arr">→</span><span class="step">respond</span><span class="arr">→</span><span class="step">verify</span><span class="arr">→</span><span class="step gate">act ⏸</span></div>
+    </div>
+    <div class="card">
+      <span class="k">creative</span>
+      <h3 style="margin-top:8px">Content — a writer that does its own research</h3>
+      <p style="margin-top:4px">Give it a topic. It pulls real sources, picks an angle, writes a short post in a set voice, and checks it's on-brand before staging. <b>Same classify / rank / verify / act as triage</b> — only the writing step is new.</p>
+      <div class="flow"><span class="step">fetch</span><span class="arr">→</span><span class="step">classify</span><span class="arr">→</span><span class="step">rank</span><span class="arr">→</span><span class="step">write</span><span class="arr">→</span><span class="step">verify</span><span class="arr">→</span><span class="step gate">act ⏸</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <span class="k">quality control · with a loop</span>
+    <h3 style="margin-top:8px">Refine — an editor that won't ship slop</h3>
+    <p style="margin-top:4px">It writes a draft, grades it against a strict bar (real specifics, no hype), and — if it falls short — <span class="loopnote">rewrites and re-checks until it passes</span>. On a real run it failed twice, revised, and passed on the third — the same loop-back mechanism the board animates — then waited for a human to publish.</p>
+    <div class="flow"><span class="step">write</span><span class="arr">→</span><span class="step">verify</span><span class="loopnote">⟲ fail → revise</span><span class="arr">→</span><span class="step gate">act ⏸ (on pass)</span></div>
+  </div>
+  <div style="margin-top:28px;display:flex;justify-content:center">
+    <a class="gobtn" href="usecases/">Explore all three interactively, step by step →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-frame col" style="max-width:none">
+    <p class="eyebrow">Honest frame · positioning</p>
+    <p style="margin:0 0 14px">The <span style="color:var(--red)">components aren't novel</span> —
+      orchestration, few-shot retrieval, human-in-the-loop labeling, and LLM-as-judge all exist
+      (LangGraph, DSPy, Snorkel). The value is <span style="color:var(--green)">a coherent,
+      from-scratch, working synthesis</span> with measured results, and the hard parts solved by hand.
+      Differentiated and forward-looking. Not novel — that distinction is the whole point.</p>
+    <p>A complement to my shipped product (<a href="https://microclaw.app">Microclaw</a>), not an
+      equal to it. For “can you ship production AI,” that product leads. For agent-orchestration and
+      forward-deployed work — building the architecture the field is converging on, from scratch,
+      with measured results — this engine is the piece, and I can defend every decision in it end to end.</p>
+  </div>
+  <div class="links">
+    <a href="https://mtichikawa.github.io" style="color:var(--ink)"><b>Mike Ichikawa</b> <span class="mut">— portfolio</span></a>
+    <span>·</span>
+    <a href="https://microclaw.app">microclaw.app <span class="mut">— shipped product</span></a>
+    <span>·</span>
+    <a href="https://github.com/mtichikawa/workflow-engine">source on GitHub <span class="mut">— read it</span></a>
+  </div>
+  <p class="disc">Every number here is measured and re-runnable. The brain is Claude — free via CLI
+    in dev, API on the ship path. Text generation cost in development: $0.</p>
+</footer>
+</div>
+
+<script>
+"use strict";
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ================= ambient hero graph ================= */
+try{(function(){
+  const c=document.getElementById("ambient"); if(!c) return;
+  const x=c.getContext("2d");
+  let W,H,parts=[];
+  function size(){const r=c.parentElement.getBoundingClientRect();W=c.width=r.width;H=c.height=r.height;
+    const nodes=[]; const cols=6, rows=3;
+    for(let i=0;i<14;i++)nodes.push({x:Math.random()*W,y:Math.random()*H});
+    parts=nodes;}
+  size(); addEventListener("resize",size);
+  let t=0;
+  function frame(){
+    x.clearRect(0,0,W,H);
+    // faint edges
+    x.strokeStyle="rgba(201,168,96,.10)"; x.lineWidth=1;
+    for(let i=0;i<parts.length;i++)for(let j=i+1;j<parts.length;j++){
+      const a=parts[i],b=parts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<190){x.globalAlpha=(1-d/190)*.5;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}
+    }
+    x.globalAlpha=1;
+    // drifting token along a wandering path
+    const tx=W*(.5+.42*Math.cos(t*.0007)), ty=H*(.5+.4*Math.sin(t*.0009));
+    const g=x.createRadialGradient(tx,ty,0,tx,ty,26);
+    g.addColorStop(0,"rgba(201,168,96,.9)");g.addColorStop(1,"rgba(201,168,96,0)");
+    x.fillStyle=g;x.beginPath();x.arc(tx,ty,26,0,7);x.fill();
+    parts.forEach(p=>{x.fillStyle="rgba(150,160,175,.5)";x.beginPath();x.arc(p.x,p.y,1.6,0,7);x.fill();});
+    t+=16; if(!RM)requestAnimationFrame(frame);
+  }
+  frame();
+})();}catch(err){ console.error("ambient failed:",err); }
+
+/* ================= modularity — shelf → recipes ================= */
+try{(function(){
+  const c=document.getElementById("modcanvas"); if(!c)return;
+  const x=c.getContext("2d");
+  const SHELF=["classify","rank","verify","act","fetch","route","respond","write"];
+  const SHARED=new Set(["classify","rank","verify","act"]);
+  const RECIPES=[
+    {name:"triage",  uses:["classify","rank","route","respond","verify","act"]},
+    {name:"content", uses:["fetch","classify","rank","write","verify","act"]},
+    {name:"refine",  uses:["write","verify","act"]},
+    {name:"your use case", uses:["classify","verify","route"], gapAt:[["verify","act"],["route","respond"]], custom:true},
+  ];
+  let W,H,scale=1,hover=-1,shelfPos={},recPos={};
+  function size(){const r=c.getBoundingClientRect();W=c.width=r.width*devicePixelRatio;
+    H=c.height=260*devicePixelRatio;scale=devicePixelRatio;c.style.height="260px";layout();}
+  function layout(){
+    const padL=W*0.06, padR=W*0.06, top=34*scale, gap=(W-padL-padR)/(SHELF.length-1);
+    SHELF.forEach((s,i)=>shelfPos[s]={x:padL+gap*i,y:top});
+    const ry=H-40*scale, rgap=(W-padL-padR)/(RECIPES.length-1);
+    RECIPES.forEach((r,i)=>recPos[r.name]={x:padL+rgap*i,y:ry});
+  }
+  size(); addEventListener("resize",size);
+  function draw(){
+    x.clearRect(0,0,W,H);
+    x.font=`600 ${11*scale}px ui-monospace,Menlo,monospace`; x.textAlign="center";x.textBaseline="middle";
+    // edges
+    RECIPES.forEach((r,ri)=>{
+      const active = hover===ri;
+      r.uses.forEach(u=>{
+        const a=shelfPos[u], b=recPos[r.name];
+        x.strokeStyle= active? "rgba(201,168,96,.55)" : "rgba(120,130,145,.13)";
+        x.lineWidth=(active?1.8:1)*scale;
+        x.beginPath();x.moveTo(a.x,a.y+13*scale);
+        x.bezierCurveTo(a.x,(a.y+b.y)/2,b.x,(a.y+b.y)/2,b.x,b.y-15*scale);x.stroke();
+      });
+    });
+    // shelf nodes
+    const usedByHover = hover>=0 ? new Set(RECIPES[hover].uses) : null;
+    SHELF.forEach(s=>{
+      const p=shelfPos[s], on = usedByHover? usedByHover.has(s) : false;
+      const shared=SHARED.has(s);
+      x.fillStyle= on? (shared?"#28230f":"#182a20") : "#171b21";
+      x.strokeStyle= on? "#c9a860" : shared? "#4a4326" : "#333b47";
+      x.lineWidth=(on?2:1.3)*scale;
+      rr(p.x-30*scale,p.y-13*scale,60*scale,26*scale,6*scale); x.fill();x.stroke();
+      x.fillStyle= on? "#fff" : "#9aa2ae"; x.fillText(s,p.x,p.y);
+    });
+    // recipe nodes
+    RECIPES.forEach((r,ri)=>{
+      const p=recPos[r.name], active=hover===ri;
+      x.fillStyle= active?"#22262e":"#171b21"; x.strokeStyle= active?"#c9a860": r.custom?"#5c6470":"#39414d";
+      x.lineWidth=(active?2:1.3)*scale;
+      if(r.custom) x.setLineDash([5*scale,3*scale]);
+      rr(p.x-50*scale,p.y-15*scale,100*scale,30*scale,7*scale); x.fill();x.stroke();
+      x.setLineDash([]);
+      x.fillStyle= active?"#c9a860":"#c6ccd6"; x.font=`700 ${12*scale}px ui-monospace,Menlo,monospace`;
+      x.fillText(r.name,p.x,p.y); x.font=`600 ${11*scale}px ui-monospace,Menlo,monospace`;
+    });
+    // custom recipe: new specialists (?) slotted between the real ones, right on the shelf row
+    const ci=RECIPES.findIndex(r=>r.custom);
+    if(hover===ci && ci>=0){
+      const rp=recPos[RECIPES[ci].name];
+      (RECIPES[ci].gapAt||[]).forEach(([a,b])=>{
+        const mx=(shelfPos[a].x+shelfPos[b].x)/2, my=shelfPos[a].y;
+        x.setLineDash([4*scale,3*scale]);
+        x.strokeStyle="rgba(201,168,96,.55)"; x.lineWidth=1.4*scale;
+        x.beginPath();x.moveTo(mx,my+13*scale);
+        x.bezierCurveTo(mx,(my+rp.y)/2,rp.x,(my+rp.y)/2,rp.x,rp.y-15*scale);x.stroke();
+        x.fillStyle="#1c1710"; x.strokeStyle="#c9a860"; x.lineWidth=1.6*scale;
+        x.beginPath();x.arc(mx,my,10.5*scale,0,7);x.fill();x.stroke();
+        x.setLineDash([]);
+        x.fillStyle="#c9a860"; x.font=`700 ${13*scale}px ui-monospace,Menlo,monospace`;
+        x.fillText("?",mx,my+scale);
+      });
+    }
+  }
+  function rr(x0,y0,w,h,r){x.beginPath();x.moveTo(x0+r,y0);x.arcTo(x0+w,y0,x0+w,y0+h,r);
+    x.arcTo(x0+w,y0+h,x0,y0+h,r);x.arcTo(x0,y0+h,x0,y0,r);x.arcTo(x0,y0,x0+w,y0,r);x.closePath();}
+  c.addEventListener("mousemove",e=>{
+    const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)*scale,my=(e.clientY-r.top)*scale;
+    let h=-1;
+    RECIPES.forEach((rc,ri)=>{const p=recPos[rc.name];
+      if(Math.abs(mx-p.x)<50*scale&&Math.abs(my-p.y)<20*scale)h=ri;});
+    if(h!==hover){hover=h;draw();}
+  });
+  // gentle auto-cycle; pauses on hover, RESUMES when the mouse leaves
+  let auto=0, autoOn=true;
+  c.addEventListener("mouseleave",()=>{hover=-1;autoOn=true;draw();});
+  c.addEventListener("mouseenter",()=>{autoOn=false;});
+  function cycle(){ if(RM) return; if(autoOn){hover=auto%RECIPES.length;auto++;draw();} setTimeout(cycle,1600); }
+  draw(); if(!RM) setTimeout(cycle,1200);
+})();}catch(err){ console.error("modularity failed:",err); }
+
+/* ================= the board in motion — pipelined dispatch (bays + fan-out + output) ================= */
+try{(function(){
+  const svg=document.getElementById("boardsvg"); if(!svg) return;
+  const NS="http://www.w3.org/2000/svg";
+  const gE=document.getElementById("bedges"), gN=document.getElementById("bnodes"),
+        gI=document.getElementById("bitems"), stat=document.getElementById("bstat"),
+        pauseBtn=document.getElementById("bpause");
+  const LABELS=["fetch","classify","rank","write","verify","act·gate"];
+  const ENTRY=30, CY=105, X0=158, X1=712, N=6, GATE=N-1, VERIFY=4, OUTX=848;
+  const NX=[]; for(let i=0;i<N;i++) NX.push(X0+(X1-X0)*i/(N-1));
+  const nodeX=s=> s<0?ENTRY:NX[s];
+  function el(tag,a){const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  // intake: work arrives (in bursts) and streams straight into classify — no buffer
+  gE.appendChild(el("line",{class:"bedge",x1:ENTRY+6,y1:CY,x2:NX[0]-16,y2:CY}));
+  for(let d=-1;d<=1;d++) gE.appendChild(el("path",{style:"fill:rgba(150,160,175,.4)",d:"M"+(ENTRY-16)+" "+(CY+d*14-3)+" L"+(ENTRY-7)+" "+(CY+d*14)+" L"+(ENTRY-16)+" "+(CY+d*14+3)+" Z"}));
+  gN.appendChild(el("text",{class:"blab",x:ENTRY-4,y:CY+73})).textContent="intake";
+  for(let i=0;i<N-1;i++) gE.appendChild(el("line",{class:"bedge",x1:NX[i]+16,y1:CY,x2:NX[i+1]-16,y2:CY}));
+  // gate → output arrow
+  gE.appendChild(el("line",{class:"bedge",x1:NX[GATE]+16,y1:CY,x2:OUTX-24,y2:CY}));
+  gE.appendChild(el("path",{class:"arrow",d:"M"+(OUTX-24)+" "+(CY-4)+" L"+(OUTX-15)+" "+CY+" L"+(OUTX-24)+" "+(CY+4)+" Z"}));
+  // loop-back path (red dashed, up-and-over): verify flags → back to write
+  const LTOP=CY-64;
+  gE.appendChild(el("path",{class:"bloop",d:"M"+NX[4]+" "+(CY-22)+" C"+NX[4]+" "+LTOP+","+NX[3]+" "+LTOP+","+NX[3]+" "+(CY-22)}));
+  gE.appendChild(el("path",{style:"fill:#cf6b5c",d:"M"+(NX[3]-4)+" "+(CY-27)+" L"+NX[3]+" "+(CY-18)+" L"+(NX[3]+4)+" "+(CY-27)+" Z"}));
+  // specialist bays + labels
+  const bay=[];
+  const MAXCHIPS=12, chips=[];                                     // per-specialist instance chips (clones)
+  for(let i=0;i<N;i++){
+    if(i===GATE){                                                 // the gate is a human queue, not a specialist — keep its box
+      bay[i]=el("rect",{class:"bbay gate",x:NX[i]-15,y:CY-20,width:30,height:40,rx:8}); gN.appendChild(bay[i]);
+    } else {                                                      // each specialist = a stack of clone-chips, one per concurrent item
+      chips[i]=[];
+      for(let k=0;k<MAXCHIPS;k++){ const c=el("rect",{class:"chip",x:NX[i]-13,y:CY-7,width:26,height:14,rx:4}); c.style.opacity="0"; gN.appendChild(c); chips[i].push(c); }
+    }
+    const lbl=el("text",{class:"blab",x:NX[i],y:CY+73}); if(i===GATE) lbl.setAttribute("style","fill:#c9a860");
+    lbl.textContent=LABELS[i]; gN.appendChild(lbl);
+  }
+  gN.appendChild(el("text",{x:NX[GATE],y:CY-63,style:"fill:#c9a860;font-family:var(--mono);font-size:10px;text-anchor:middle"})).textContent="⏸ human";
+  gN.appendChild(el("text",{class:"bloop-lab",x:(NX[3]+NX[4])/2,y:LTOP-5})).textContent="verify flags → rewrite";
+  // output tray
+  const outBay=el("rect",{class:"bout",x:OUTX-16,y:CY-22,width:34,height:44,rx:8}); gN.appendChild(outBay);
+  gN.appendChild(el("text",{class:"outlab",x:OUTX+1,y:CY+73})).textContent="output";
+  gN.appendChild(el("text",{class:"outlab",x:OUTX+1,y:CY+87,style:"font-size:9px;opacity:.7"})).textContent="staged";
+  const items=[]; let cleared=0, running=true, lastT=0, spawnAcc=0, gateT=0, outPulse=0;
+  const MAX=34, MAX_TRANSIT=20, GATE_EVERY=2.3;
+  // in flight = blue · flagged (looping) = red · held at the gate = yellow/brass · approved = green
+  const COL={flow:"#5b8fd6", flag:"#cf6b5c", hold:"#c9a860", clear:"#57b083"};
+  function paint(it){
+    it.el.setAttribute("fill", COL[it.state] || COL.flow);
+    // flagged items pop with a bright stroke ring (NO svg filter — the filter caused render dropouts)
+    if(it.state==="flag"){ it.el.setAttribute("r",7); it.el.setAttribute("stroke","#f2b0a6"); it.el.setAttribute("stroke-width","1.5"); }
+    else { it.el.setAttribute("r",5.5); it.el.setAttribute("stroke","rgba(0,0,0,.25)"); it.el.setAttribute("stroke-width",".5"); }
+  }
+  function lerpHex(a,b,t){ const A=parseInt(a.slice(1),16),B=parseInt(b.slice(1),16);
+    const r=Math.round((A>>16)+((B>>16)-(A>>16))*t), g=Math.round(((A>>8)&255)+(((B>>8)&255)-((A>>8)&255))*t), c=Math.round((A&255)+((B&255)-(A&255))*t);
+    return "#"+((1<<24)+(r<<16)+(g<<8)+c).toString(16).slice(1); }
+  function startFade(it,f,t,d,r0,r1,s0,s1){ it.cf={f,t,d,e:0,r0,r1,s0,s1}; }  // color tween; paint() on finish
+  function inTransit(){ let n=0; for(const it of items) if(!it.done && it.stage<GATE) n++; return n; }
+  function spawn(){
+    if(items.length>=MAX || inTransit()>=MAX_TRANSIT) return;
+    const sy=CY+(Math.random()*44-22);
+    const it={stage:-1, target:0, mode:"transit", state:"flow", fx:ENTRY, fy:sy, tx:NX[0],
+              dur:0.18+Math.random()*0.12, x:ENTRY, y:sy, fanY:CY, reworked:false, done:false, appear:0.3};
+    it.timer=it.dur;
+    it.el=el("circle",{class:"item",r:5.5,cx:it.x,cy:it.y,fill:COL.flow,opacity:0});
+    gI.appendChild(it.el); items.push(it);
+  }
+  function frame(t){
+    if(!lastT)lastT=t; let dt=(t-lastT)/1000; lastT=t; if(dt>0.08)dt=0.08;
+    if(running){
+      spawnAcc-=dt; if(spawnAcc<=0){ const burst=1+Math.floor(Math.random()*4); for(let b=0;b<burst;b++) spawn(); spawnAcc=0.35+Math.random()*1.2; }
+      gateT+=dt; const gateReady=gateT>=GATE_EVERY; if(gateReady){ gateT=0; outPulse=0.5; }
+      if(outPulse>0) outPulse-=dt;
+      for(const it of items){
+        if(it.done) continue;
+        it.timer-=dt;
+        if(it.mode==="transit"){                                    // fast flit; loop-back arcs up
+          const p=1-Math.max(0,it.timer)/it.dur, e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+          const back=it.target<it.stage;
+          it.x=it.fx+(it.tx-it.fx)*e; it.y=it.fy+(CY-it.fy)*e-(back?Math.sin(e*Math.PI)*40:0);
+          if(it.timer<=0){ it.stage=it.target; it.y=CY;
+            if(it.stage>=GATE){ it.mode="held"; it.state="hold"; it.dur=it.timer=9e9; } // arrives already yellow (faded in transit)
+            else { it.mode="work"; it.dur=it.timer=0.4+Math.random()*1.2;
+                   if(it.state==="flag"){ it.state="flow"; startFade(it,COL.flag,COL.flow,0.5,7,5.5,1.5,0.5); } } } // red → blue over the rewrite
+        } else if(it.mode==="out"){                                 // approved → flow to output
+          const p=1-Math.max(0,it.timer)/it.dur, e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+          it.x=it.fx+(OUTX-it.fx)*e; it.y=it.fy+(CY-it.fy)*e;
+          if(it.timer<=0){ it.done=true; it.fade=0.45; }
+        } else if(it.mode==="held"){                                // waiting at the gate (yellow)
+          if(gateReady){ it.state="clear"; it.mode="out"; it.fx=it.x; it.fy=it.y; it.dur=it.timer=0.3+Math.random()*0.12; startFade(it,COL.hold,COL.clear,it.dur); } // fade yellow→green across the hop to output
+        } else {                                                    // work (dwell)
+          if(it.timer<=0){
+            if(it.stage===VERIFY && !it.reworked && Math.random()<0.32){ // verify flags → loop back to write
+              it.reworked=true; it.state="flag"; paint(it);
+              it.mode="transit"; it.fx=it.x; it.fy=it.y; it.tx=nodeX(3); it.target=3; it.dur=it.timer=0.32+Math.random()*0.1;
+            } else {
+              it.mode="transit"; it.fx=it.x; it.fy=it.y; it.tx=nodeX(it.stage+1); it.target=it.stage+1; it.dur=it.timer=0.16+Math.random()*0.08;
+              if(it.stage===VERIFY){ it.state="hold"; startFade(it,COL.flow,COL.hold,it.dur); } // fade blue→yellow across the hop into the gate
+            }
+          }
+        }
+      }
+      const MAXHALF=50, PAD=9;                                       // fan working+held items; cap bay height
+      for(let s=0;s<N;s++){
+        const grp=items.filter(it=>!it.done && (it.mode==="work"||it.mode==="held") && it.stage===s);
+        const n=grp.length; let sp=13;
+        if(n>1 && n*sp/2+PAD>MAXHALF) sp=Math.max(5,(2*(MAXHALF-PAD))/n);
+        grp.forEach((it,j)=> it.fanY=CY+(j-(n-1)/2)*sp);
+        if(s===GATE){                                             // gate box grows with the queue
+          const half=Math.min(MAXHALF,Math.max(20,(n*sp)/2+PAD));
+          bay[GATE].setAttribute("y",CY-half); bay[GATE].setAttribute("height",2*half);
+          bay[GATE].classList.toggle("hot",n>0);
+        } else {                                                  // one clone-chip per item; a single dim chip at rest
+          const cs=chips[s], show=Math.max(1,Math.min(n,MAXCHIPS));
+          for(let k=0;k<MAXCHIPS;k++){
+            if(k<show){ cs[k].setAttribute("y",((n>0?grp[Math.min(k,n-1)].fanY:CY)-7).toFixed(1)); cs[k].style.opacity=n>0?"1":".3"; }
+            else cs[k].style.opacity="0";
+          }
+        }
+      }
+      outBay.style.stroke = outPulse>0?"#57b083":"#3f6b52";
+      for(const it of items){
+        if(it.mode==="work"||it.mode==="held"){ it.x=nodeX(it.stage); it.y+=(it.fanY-it.y)*Math.min(1,dt*16); }
+        it.el.setAttribute("cx",it.x); it.el.setAttribute("cy",it.y);
+        if(it.cf){ it.cf.e+=dt; const pr=Math.min(1,it.cf.e/it.cf.d);   // active color tween
+          it.el.setAttribute("fill",lerpHex(it.cf.f,it.cf.t,pr));
+          if(it.cf.r0!==undefined){ it.el.setAttribute("r",(it.cf.r0+(it.cf.r1-it.cf.r0)*pr).toFixed(2)); it.el.setAttribute("stroke-width",(it.cf.s0+(it.cf.s1-it.cf.s0)*pr).toFixed(2)); }
+          if(pr>=1){ it.cf=null; paint(it); }
+        }
+        if(it.appear!==undefined){ it.appear-=dt; it.el.setAttribute("opacity",Math.min(1,1-it.appear/0.3)); if(it.appear<=0) delete it.appear; }
+        else if(it.fade!==undefined){ it.fade-=dt; it.el.setAttribute("opacity",Math.max(0,it.fade/0.45)); }
+        else it.el.setAttribute("opacity",1);                       // force full opacity — no more ghost-vanishing
+      }
+      for(let i=items.length-1;i>=0;i--){ const it=items[i]; if(it.done && it.fade!==undefined && it.fade<=0){ it.el.remove(); if(it.state==="clear")cleared++; items.splice(i,1); } }
+      if(stat) stat.textContent=items.filter(i=>!i.done).length+" in flight · "+cleared+" out";
+    }
+    requestAnimationFrame(frame);
+  }
+  if(pauseBtn) pauseBtn.onclick=()=>{ running=!running; pauseBtn.textContent=running?"❚❚ pause":"▶ play"; if(running)lastT=0; };
+  for(let i=0;i<14;i++){ spawn(); const it=items[i]; if(it){ it.stage=Math.floor(Math.random()*N); it.x=nodeX(it.stage); it.y=CY; it.fanY=CY;
+    if(it.stage>=GATE){ it.mode="held"; it.state="hold"; paint(it); it.dur=it.timer=9e9; } else { it.mode="work"; it.dur=it.timer=0.3+Math.random()*1.0; } } }
+  if(!RM) requestAnimationFrame(frame);
+})();}catch(err){ console.error("board failed:",err); }
+
+/* ================= learning-loop bars ================= */
+try{(function(){
+  const f1=document.getElementById("f1"),f2=document.getElementById("f2"),
+        v1=document.getElementById("v1"),v2=document.getElementById("v2");
+  const host=document.getElementById("llbars"); if(!host) return;
+  let fired=false;
+  function go(){if(fired)return;fired=true;
+    f1.style.height="50%";v1.textContent="4/8";
+    setTimeout(()=>{f2.style.height="100%";v2.textContent="8/8";},450);}
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)go();});},{threshold:.4}).observe(host);
+  } else go();
+})();}catch(err){ console.error("bars failed:",err); }
+</script>
+</body>
+</html>

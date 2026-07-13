@@ -1,0 +1,28 @@
+# DESIGN SKELETON — illustrative, not run (needs the API brain). See deploy/README.md.
+# Two customers, each an isolated container with its OWN volume at /app/state. Neither service can
+# reach the other's volume — the kernel enforces the boundary, so isolation becomes an OS guarantee
+# rather than our code being bug-free. This is the "real security" the --scope seam can't provide.
+version: "3.8"
+
+services:
+  customer-acme:
+    build: ..
+    environment:
+      - ENGINE_BRAIN=api          # brain port flip (cli|api); already coded
+      - ENGINE_SCOPE=acme          # this customer's tailored layer, atop the shared baseline in the image
+      # - ANTHROPIC_API_KEY=...    # per-deployment key (or a shared key with per-tenant accounting)
+    volumes:
+      - acme_state:/app/state     # acme's tailored exemplars + config + secrets — theirs alone
+
+  customer-globex:
+    build: ..
+    environment:
+      - ENGINE_BRAIN=api          # brain port flip (cli|api); already coded
+      - ENGINE_SCOPE=globex
+      # - ANTHROPIC_API_KEY=...
+    volumes:
+      - globex_state:/app/state   # globex's volume — there is no path from acme's container to here
+
+volumes:
+  acme_state:                     # separate named volumes = no shared filesystem between customers
+  globex_state:

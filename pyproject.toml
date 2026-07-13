@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "engine"
+version = "0.0.1"
+description = "A general workflow-automation engine: modular AI specialists composed into recipes on a board."
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    # added as phases need them (e.g. anthropic, requests). The brain call is a
+    # swappable port: dev = Claude CLI (free on Max), product = Claude API (billed).
+]
+
+[tool.setuptools.packages.find]
+include = ["engine*"]

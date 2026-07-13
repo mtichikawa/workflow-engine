@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Env / secrets
+.env
+.env.*
+
+# Runtime state + generated artifacts — not source
+state/
+logs/
+output/
+scratch/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
