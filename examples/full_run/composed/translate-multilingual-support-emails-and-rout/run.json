@@ -1,0 +1,134 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-translate-multilingual-s",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider.",
+        "topic": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider.",
+        "message": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider.",
+        "subject": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider.",
+        "body": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "translate": {
+        "translated_text": "Hello, I haven't been able to log in since this morning, it's urgent, please help me.",
+        "source_language": "fr"
+      },
+      "route": {
+        "component": "technical_support",
+        "escalate": false,
+        "reasoning": "User cannot log in, which is a technical access problem rather than a security, data-loss, or outage event."
+      },
+      "stage": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/routing.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "translate",
+      "status": "done",
+      "input": {
+        "text": "Bonjour, je n'arrive pas a me connecter depuis ce matin, c'est urgent, merci de m'aider."
+      },
+      "output": {
+        "translated_text": "Hello, I haven't been able to log in since this morning, it's urgent, please help me.",
+        "source_language": "fr"
+      },
+      "attempts": [
+        {
+          "output": {
+            "translated_text": "Hello, I haven't been able to log in since this morning, it's urgent, please help me.",
+            "source_language": "fr"
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "route",
+      "status": "done",
+      "input": {
+        "item": "Hello, I haven't been able to log in since this morning, it's urgent, please help me."
+      },
+      "output": {
+        "component": "technical_support",
+        "escalate": false,
+        "reasoning": "User cannot log in, which is a technical access problem rather than a security, data-loss, or outage event."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "technical_support",
+            "escalate": false,
+            "reasoning": "User cannot log in, which is a technical access problem rather than a security, data-loss, or outage event."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "technical_support",
+          "name": "routing.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/routing.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/routing.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "translate",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "route",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "stage",
+      "status": "done"
+    }
+  ]
+}

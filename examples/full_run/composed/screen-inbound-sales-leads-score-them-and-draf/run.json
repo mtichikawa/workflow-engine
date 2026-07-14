@@ -1,0 +1,182 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-screen-inbound-sales-lea",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "topic": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "message": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "subject": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "body": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "screen": {
+        "label": "qualified",
+        "confidence": 0.95,
+        "reasoning": "200-person fintech actively evaluating workflow tools this quarter with approved budget shows clear buying intent and authority."
+      },
+      "score": {
+        "score": 0.85,
+        "reasoning": "Strong ICP fit with explicit need, active Q3 timeline, and approved budget, but seniority of contact and urgency to close remain unconfirmed."
+      },
+      "draft": {
+        "email": "Subject: A workflow evaluation shortlist for your Q3 rollout\n\nHi there,\n\nThanks for reaching out \u2014 it sounds like you're in a good spot: a 200-person fintech with an approved Q3 budget and a clear need to get workflow tooling in place. That combination usually means the real question isn't whether to move, but how to pick the right fit without a long, noisy evaluation.\n\nWe work with fintech teams at your scale on exactly this, and I'd suggest keeping your Q3 shortlist tight and testing each option against two things that tend to make or break these rollouts: how cleanly it fits your existing stack and compliance needs, and how quickly your team actually adopts it day to day.\n\nWould a short 20-minute call next week make sense? I can walk you through how similar teams structured their evaluation and where they saw the fastest wins \u2014 no pressure, just a useful reference point as you compare tools.\n\nBest,\nThe team"
+      },
+      "send": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/intro_email.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "screen",
+      "status": "done",
+      "input": {
+        "item": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved."
+      },
+      "output": {
+        "label": "qualified",
+        "confidence": 0.95,
+        "reasoning": "200-person fintech actively evaluating workflow tools this quarter with approved budget shows clear buying intent and authority."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "qualified",
+            "confidence": 0.95,
+            "reasoning": "200-person fintech actively evaluating workflow tools this quarter with approved budget shows clear buying intent and authority."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "score",
+      "status": "done",
+      "input": {
+        "item": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved."
+      },
+      "output": {
+        "score": 0.85,
+        "reasoning": "Strong ICP fit with explicit need, active Q3 timeline, and approved budget, but seniority of contact and urgency to close remain unconfirmed."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.85,
+            "reasoning": "Strong ICP fit with explicit need, active Q3 timeline, and approved budget, but seniority of contact and urgency to close remain unconfirmed."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "draft",
+      "status": "done",
+      "input": {
+        "item": "Hi, we're a 200-person fintech evaluating workflow tools for Q3, budget already approved.",
+        "qualification": "qualified",
+        "score": 0.85,
+        "reasoning": "Strong ICP fit with explicit need, active Q3 timeline, and approved budget, but seniority of contact and urgency to close remain unconfirmed."
+      },
+      "output": {
+        "email": "Subject: A workflow evaluation shortlist for your Q3 rollout\n\nHi there,\n\nThanks for reaching out \u2014 it sounds like you're in a good spot: a 200-person fintech with an approved Q3 budget and a clear need to get workflow tooling in place. That combination usually means the real question isn't whether to move, but how to pick the right fit without a long, noisy evaluation.\n\nWe work with fintech teams at your scale on exactly this, and I'd suggest keeping your Q3 shortlist tight and testing each option against two things that tend to make or break these rollouts: how cleanly it fits your existing stack and compliance needs, and how quickly your team actually adopts it day to day.\n\nWould a short 20-minute call next week make sense? I can walk you through how similar teams structured their evaluation and where they saw the fastest wins \u2014 no pressure, just a useful reference point as you compare tools.\n\nBest,\nThe team"
+      },
+      "attempts": [
+        {
+          "output": {
+            "email": "Subject: A workflow evaluation shortlist for your Q3 rollout\n\nHi there,\n\nThanks for reaching out \u2014 it sounds like you're in a good spot: a 200-person fintech with an approved Q3 budget and a clear need to get workflow tooling in place. That combination usually means the real question isn't whether to move, but how to pick the right fit without a long, noisy evaluation.\n\nWe work with fintech teams at your scale on exactly this, and I'd suggest keeping your Q3 shortlist tight and testing each option against two things that tend to make or break these rollouts: how cleanly it fits your existing stack and compliance needs, and how quickly your team actually adopts it day to day.\n\nWould a short 20-minute call next week make sense? I can walk you through how similar teams structured their evaluation and where they saw the fastest wins \u2014 no pressure, just a useful reference point as you compare tools.\n\nBest,\nThe team"
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "send",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "Subject: A workflow evaluation shortlist for your Q3 rollout\n\nHi there,\n\nThanks for reaching out \u2014 it sounds like you're in a good spot: a 200-person fintech with an approved Q3 budget and a clear need to get workflow tooling in place. That combination usually means the real question isn't whether to move, but how to pick the right fit without a long, noisy evaluation.\n\nWe work with fintech teams at your scale on exactly this, and I'd suggest keeping your Q3 shortlist tight and testing each option against two things that tend to make or break these rollouts: how cleanly it fits your existing stack and compliance needs, and how quickly your team actually adopts it day to day.\n\nWould a short 20-minute call next week make sense? I can walk you through how similar teams structured their evaluation and where they saw the fastest wins \u2014 no pressure, just a useful reference point as you compare tools.\n\nBest,\nThe team",
+          "name": "intro_email.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/intro_email.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/intro_email.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "flag",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "screen",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "flag",
+      "status": "skipped"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "score",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "draft",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "item",
+      "step": "send",
+      "status": "done"
+    }
+  ]
+}

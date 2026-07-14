@@ -1,0 +1,326 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-summarize-legal-contract",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause.",
+        "topic": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause.",
+        "message": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause.",
+        "subject": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause.",
+        "body": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "summarize": {
+        "summary": "This is a fragmentary contract excerpt rather than a full agreement, so most standard terms cannot be summarized faithfully. PARTIES: Not identified in the provided text. PURPOSE: Not stated. TERM/DURATION: The contract runs on an annual cycle. RENEWAL: It automatically renews every year (\u26a0\ufe0f AUTO-RENEWAL RISK) unless a party cancels at least 90 days before the renewal date \u2014 miss that 90-day window and you are locked in for another full year. TERMINATION: The only exit mechanism shown is the 90-day advance cancellation notice tied to the renewal date; no other termination rights (for cause, convenience, etc.) appear in the excerpt. PAYMENT/CONSIDERATION: Not stated. OBLIGATIONS OF EACH SIDE: Not specified in the excerpt beyond the notice requirement. RISK FLAGS: (1) \u26a0\ufe0f UNLIMITED LIABILITY \u2014 \u00a712 imposes uncapped liability, meaning a party's exposure is not limited to fees paid or any ceiling; this is a serious, atypical risk a lawyer would want addressed before signing. (2) \u26a0\ufe0f AUTO-RENEWAL with a long 90-day cancellation lead time. RECOMMENDATION: Obtain the complete contract; negotiate a liability cap for \u00a712 and consider shortening the cancellation-notice period or adding a renewal reminder.",
+        "key_terms": [
+          {
+            "term": "Auto-Renewal",
+            "detail": "Contract renews automatically on an annual basis."
+          },
+          {
+            "term": "Cancellation Notice Period",
+            "detail": "90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date."
+          },
+          {
+            "term": "Term",
+            "detail": "Annual (one-year) cycle."
+          },
+          {
+            "term": "Unlimited Liability (\u00a712)",
+            "detail": "Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk."
+          }
+        ]
+      },
+      "flag_clauses": {
+        "flagged_clauses": [
+          {
+            "excerpt": "Contract auto-renews annually unless cancelled 90 days prior",
+            "clause_type": "auto-renewal",
+            "severity": "medium"
+          },
+          {
+            "excerpt": "\u00a712 has an unlimited-liability clause",
+            "clause_type": "unlimited/uncapped liability",
+            "severity": "high"
+          }
+        ],
+        "reasoning": "Two clauses in the provided contract text meet the risk_criteria. (1) Auto-renewal \u2014 \"Contract auto-renews annually unless cancelled 90 days prior\" triggers the 'creates lock-in' criterion: the contract renews automatically for a further one-year term unless the reviewing party affirmatively cancels within a long 90-day advance-notice window. Missing that window locks the party into another full year, so the burden of escape is placed entirely on the reviewing party (also one-sided in effect). Severity medium because exposure is time-bounded (one year) and avoidable with a diary reminder, but the 90-day cutoff is aggressive. (2) Unlimited/uncapped liability \u2014 \"\u00a712 has an unlimited-liability clause\" triggers the 'imposes uncapped or open-ended exposure' criterion directly: liability is unlimited, meaning there is no cap on damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the most dangerous term present. Severity high because uncapped liability can exceed the total contract value without limit. Note: the contract text is only a one-line summary; the actual \u00a712 wording is not quoted here, so the excerpt for the liability clause is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs."
+      },
+      "score_risk": {
+        "score": 0.75,
+        "reasoning": "A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high, though only two flagged clauses limits it from the extreme."
+      },
+      "compile_report": {
+        "report": "# Contract Review Report\n\n> **Scope note:** This report is based on a **fragmentary contract excerpt**, not a complete agreement. Many standard terms (parties, purpose, payment, and each side's obligations) are **not stated in the provided text** and therefore cannot be summarized. Findings below are grounded strictly in the excerpt supplied.\n\n## Executive Summary\n\nThe provided material is a partial contract excerpt rather than a full agreement, so most standard terms cannot be reported faithfully:\n\n- **Parties:** Not identified in the provided text.\n- **Purpose:** Not stated.\n- **Term / Duration:** Runs on an **annual (one-year) cycle**.\n- **Renewal:** **Automatically renews every year** ( auto-renewal risk) unless a party cancels **at least 90 days before** the renewal date. Missing that 90-day window locks the party in for another full year.\n- **Termination:** The **only exit mechanism shown** is the 90-day advance cancellation notice tied to the renewal date. No other termination rights (for cause, for convenience, etc.) appear in the excerpt.\n- **Payment / Consideration:** Not stated.\n- **Obligations of each side:** Not specified beyond the notice requirement.\n\n**Two material risks stand out:** (1) an **uncapped/unlimited-liability clause at \u00a712** \u2014 a serious, atypical exposure \u2014 and (2) an **auto-renewal** term with a **long 90-day** cancellation lead time. Because a high-severity unlimited-liability term creates severe one-sided exposure, the contract carries an elevated overall risk.\n\n## Key Terms\n\n| Term | Detail |\n|------|--------|\n| **Term** | Annual (one-year) cycle. |\n| **Auto-Renewal** | Contract renews automatically on an annual basis. |\n| **Cancellation Notice Period** | 90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date. |\n| **Unlimited Liability (\u00a712)** | Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk. |\n\n## Flagged Risky Clauses (with quoted text, severity, rationale)\n\n### 1.  Unlimited / Uncapped Liability (\u00a712) \u2014 Severity: **HIGH**\n\n- **Clause type:** Unlimited / uncapped liability\n- **Quoted text:** *\"\u00a712 has an unlimited-liability clause\"*\n  - *Note: The excerpt provides only a one-line summary; the actual \u00a712 wording is not quoted. This is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs.*\n- **Rationale:** This directly triggers the *\"imposes uncapped or open-ended exposure\"* criterion. Liability is unlimited, meaning there is **no cap** on the damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the **most dangerous term present**. Severity is **high** because uncapped liability can exceed the total contract value without limit.\n\n### 2.  Auto-Renewal (90-day cancellation window) \u2014 Severity: **MEDIUM**\n\n- **Clause type:** Auto-renewal\n- **Quoted text:** *\"Contract auto-renews annually unless cancelled 90 days prior\"*\n- **Rationale:** This triggers the *\"creates lock-in\"* criterion. The contract renews automatically for a further one-year term unless the reviewing party **affirmatively cancels within a long 90-day advance-notice window**. Missing that window locks the party into another full year, so the entire burden of escape falls on the reviewing party (one-sided in effect). Severity is **medium** because the exposure is time-bounded (one year) and avoidable with a diary reminder \u2014 but the 90-day cutoff is aggressive.\n\n## Overall Risk Score & Recommendation\n\n**Overall Risk Score: 0.75 / 1.00 (High)**\n\n**Rationale:** A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high. The presence of only two flagged clauses keeps it from the extreme end of the scale.\n\n**Recommendation:**\n\n1. **Obtain the complete contract** \u2014 the excerpt omits parties, purpose, payment, and obligations, all of which are needed for a full assessment.\n2. **Negotiate a liability cap for \u00a712** \u2014 replace unlimited exposure with a defined ceiling (e.g., fees paid) and confirm any carve-outs by reviewing the full \u00a712 language.\n3. **Address the auto-renewal** \u2014 consider shortening the 90-day cancellation-notice period, and/or add a **renewal reminder** (diary/calendar entry) so the cancellation window is not missed.\n"
+      },
+      "save_report": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/contract_review.md"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "summarize",
+      "status": "done",
+      "input": {
+        "contract": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause."
+      },
+      "output": {
+        "summary": "This is a fragmentary contract excerpt rather than a full agreement, so most standard terms cannot be summarized faithfully. PARTIES: Not identified in the provided text. PURPOSE: Not stated. TERM/DURATION: The contract runs on an annual cycle. RENEWAL: It automatically renews every year (\u26a0\ufe0f AUTO-RENEWAL RISK) unless a party cancels at least 90 days before the renewal date \u2014 miss that 90-day window and you are locked in for another full year. TERMINATION: The only exit mechanism shown is the 90-day advance cancellation notice tied to the renewal date; no other termination rights (for cause, convenience, etc.) appear in the excerpt. PAYMENT/CONSIDERATION: Not stated. OBLIGATIONS OF EACH SIDE: Not specified in the excerpt beyond the notice requirement. RISK FLAGS: (1) \u26a0\ufe0f UNLIMITED LIABILITY \u2014 \u00a712 imposes uncapped liability, meaning a party's exposure is not limited to fees paid or any ceiling; this is a serious, atypical risk a lawyer would want addressed before signing. (2) \u26a0\ufe0f AUTO-RENEWAL with a long 90-day cancellation lead time. RECOMMENDATION: Obtain the complete contract; negotiate a liability cap for \u00a712 and consider shortening the cancellation-notice period or adding a renewal reminder.",
+        "key_terms": [
+          {
+            "term": "Auto-Renewal",
+            "detail": "Contract renews automatically on an annual basis."
+          },
+          {
+            "term": "Cancellation Notice Period",
+            "detail": "90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date."
+          },
+          {
+            "term": "Term",
+            "detail": "Annual (one-year) cycle."
+          },
+          {
+            "term": "Unlimited Liability (\u00a712)",
+            "detail": "Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk."
+          }
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "summary": "This is a fragmentary contract excerpt rather than a full agreement, so most standard terms cannot be summarized faithfully. PARTIES: Not identified in the provided text. PURPOSE: Not stated. TERM/DURATION: The contract runs on an annual cycle. RENEWAL: It automatically renews every year (\u26a0\ufe0f AUTO-RENEWAL RISK) unless a party cancels at least 90 days before the renewal date \u2014 miss that 90-day window and you are locked in for another full year. TERMINATION: The only exit mechanism shown is the 90-day advance cancellation notice tied to the renewal date; no other termination rights (for cause, convenience, etc.) appear in the excerpt. PAYMENT/CONSIDERATION: Not stated. OBLIGATIONS OF EACH SIDE: Not specified in the excerpt beyond the notice requirement. RISK FLAGS: (1) \u26a0\ufe0f UNLIMITED LIABILITY \u2014 \u00a712 imposes uncapped liability, meaning a party's exposure is not limited to fees paid or any ceiling; this is a serious, atypical risk a lawyer would want addressed before signing. (2) \u26a0\ufe0f AUTO-RENEWAL with a long 90-day cancellation lead time. RECOMMENDATION: Obtain the complete contract; negotiate a liability cap for \u00a712 and consider shortening the cancellation-notice period or adding a renewal reminder.",
+            "key_terms": [
+              {
+                "term": "Auto-Renewal",
+                "detail": "Contract renews automatically on an annual basis."
+              },
+              {
+                "term": "Cancellation Notice Period",
+                "detail": "90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date."
+              },
+              {
+                "term": "Term",
+                "detail": "Annual (one-year) cycle."
+              },
+              {
+                "term": "Unlimited Liability (\u00a712)",
+                "detail": "Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk."
+              }
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "flag_clauses",
+      "status": "done",
+      "input": {
+        "contract": "Contract auto-renews annually unless cancelled 90 days prior; \u00a712 has an unlimited-liability clause."
+      },
+      "output": {
+        "flagged_clauses": [
+          {
+            "excerpt": "Contract auto-renews annually unless cancelled 90 days prior",
+            "clause_type": "auto-renewal",
+            "severity": "medium"
+          },
+          {
+            "excerpt": "\u00a712 has an unlimited-liability clause",
+            "clause_type": "unlimited/uncapped liability",
+            "severity": "high"
+          }
+        ],
+        "reasoning": "Two clauses in the provided contract text meet the risk_criteria. (1) Auto-renewal \u2014 \"Contract auto-renews annually unless cancelled 90 days prior\" triggers the 'creates lock-in' criterion: the contract renews automatically for a further one-year term unless the reviewing party affirmatively cancels within a long 90-day advance-notice window. Missing that window locks the party into another full year, so the burden of escape is placed entirely on the reviewing party (also one-sided in effect). Severity medium because exposure is time-bounded (one year) and avoidable with a diary reminder, but the 90-day cutoff is aggressive. (2) Unlimited/uncapped liability \u2014 \"\u00a712 has an unlimited-liability clause\" triggers the 'imposes uncapped or open-ended exposure' criterion directly: liability is unlimited, meaning there is no cap on damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the most dangerous term present. Severity high because uncapped liability can exceed the total contract value without limit. Note: the contract text is only a one-line summary; the actual \u00a712 wording is not quoted here, so the excerpt for the liability clause is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs."
+      },
+      "attempts": [
+        {
+          "output": {
+            "flagged_clauses": [
+              {
+                "excerpt": "Contract auto-renews annually unless cancelled 90 days prior",
+                "clause_type": "auto-renewal",
+                "severity": "medium"
+              },
+              {
+                "excerpt": "\u00a712 has an unlimited-liability clause",
+                "clause_type": "unlimited/uncapped liability",
+                "severity": "high"
+              }
+            ],
+            "reasoning": "Two clauses in the provided contract text meet the risk_criteria. (1) Auto-renewal \u2014 \"Contract auto-renews annually unless cancelled 90 days prior\" triggers the 'creates lock-in' criterion: the contract renews automatically for a further one-year term unless the reviewing party affirmatively cancels within a long 90-day advance-notice window. Missing that window locks the party into another full year, so the burden of escape is placed entirely on the reviewing party (also one-sided in effect). Severity medium because exposure is time-bounded (one year) and avoidable with a diary reminder, but the 90-day cutoff is aggressive. (2) Unlimited/uncapped liability \u2014 \"\u00a712 has an unlimited-liability clause\" triggers the 'imposes uncapped or open-ended exposure' criterion directly: liability is unlimited, meaning there is no cap on damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the most dangerous term present. Severity high because uncapped liability can exceed the total contract value without limit. Note: the contract text is only a one-line summary; the actual \u00a712 wording is not quoted here, so the excerpt for the liability clause is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "score_risk",
+      "status": "done",
+      "input": {
+        "item": [
+          {
+            "excerpt": "Contract auto-renews annually unless cancelled 90 days prior",
+            "clause_type": "auto-renewal",
+            "severity": "medium"
+          },
+          {
+            "excerpt": "\u00a712 has an unlimited-liability clause",
+            "clause_type": "unlimited/uncapped liability",
+            "severity": "high"
+          }
+        ]
+      },
+      "output": {
+        "score": 0.75,
+        "reasoning": "A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high, though only two flagged clauses limits it from the extreme."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.75,
+            "reasoning": "A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high, though only two flagged clauses limits it from the extreme."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "compile_report",
+      "status": "done",
+      "input": {
+        "summary": "This is a fragmentary contract excerpt rather than a full agreement, so most standard terms cannot be summarized faithfully. PARTIES: Not identified in the provided text. PURPOSE: Not stated. TERM/DURATION: The contract runs on an annual cycle. RENEWAL: It automatically renews every year (\u26a0\ufe0f AUTO-RENEWAL RISK) unless a party cancels at least 90 days before the renewal date \u2014 miss that 90-day window and you are locked in for another full year. TERMINATION: The only exit mechanism shown is the 90-day advance cancellation notice tied to the renewal date; no other termination rights (for cause, convenience, etc.) appear in the excerpt. PAYMENT/CONSIDERATION: Not stated. OBLIGATIONS OF EACH SIDE: Not specified in the excerpt beyond the notice requirement. RISK FLAGS: (1) \u26a0\ufe0f UNLIMITED LIABILITY \u2014 \u00a712 imposes uncapped liability, meaning a party's exposure is not limited to fees paid or any ceiling; this is a serious, atypical risk a lawyer would want addressed before signing. (2) \u26a0\ufe0f AUTO-RENEWAL with a long 90-day cancellation lead time. RECOMMENDATION: Obtain the complete contract; negotiate a liability cap for \u00a712 and consider shortening the cancellation-notice period or adding a renewal reminder.",
+        "key_terms": [
+          {
+            "term": "Auto-Renewal",
+            "detail": "Contract renews automatically on an annual basis."
+          },
+          {
+            "term": "Cancellation Notice Period",
+            "detail": "90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date."
+          },
+          {
+            "term": "Term",
+            "detail": "Annual (one-year) cycle."
+          },
+          {
+            "term": "Unlimited Liability (\u00a712)",
+            "detail": "Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk."
+          }
+        ],
+        "flagged_clauses": [
+          {
+            "excerpt": "Contract auto-renews annually unless cancelled 90 days prior",
+            "clause_type": "auto-renewal",
+            "severity": "medium"
+          },
+          {
+            "excerpt": "\u00a712 has an unlimited-liability clause",
+            "clause_type": "unlimited/uncapped liability",
+            "severity": "high"
+          }
+        ],
+        "clause_reasoning": "Two clauses in the provided contract text meet the risk_criteria. (1) Auto-renewal \u2014 \"Contract auto-renews annually unless cancelled 90 days prior\" triggers the 'creates lock-in' criterion: the contract renews automatically for a further one-year term unless the reviewing party affirmatively cancels within a long 90-day advance-notice window. Missing that window locks the party into another full year, so the burden of escape is placed entirely on the reviewing party (also one-sided in effect). Severity medium because exposure is time-bounded (one year) and avoidable with a diary reminder, but the 90-day cutoff is aggressive. (2) Unlimited/uncapped liability \u2014 \"\u00a712 has an unlimited-liability clause\" triggers the 'imposes uncapped or open-ended exposure' criterion directly: liability is unlimited, meaning there is no cap on damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the most dangerous term present. Severity high because uncapped liability can exceed the total contract value without limit. Note: the contract text is only a one-line summary; the actual \u00a712 wording is not quoted here, so the excerpt for the liability clause is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs.",
+        "risk_score": 0.75,
+        "risk_reasoning": "A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high, though only two flagged clauses limits it from the extreme."
+      },
+      "output": {
+        "report": "# Contract Review Report\n\n> **Scope note:** This report is based on a **fragmentary contract excerpt**, not a complete agreement. Many standard terms (parties, purpose, payment, and each side's obligations) are **not stated in the provided text** and therefore cannot be summarized. Findings below are grounded strictly in the excerpt supplied.\n\n## Executive Summary\n\nThe provided material is a partial contract excerpt rather than a full agreement, so most standard terms cannot be reported faithfully:\n\n- **Parties:** Not identified in the provided text.\n- **Purpose:** Not stated.\n- **Term / Duration:** Runs on an **annual (one-year) cycle**.\n- **Renewal:** **Automatically renews every year** ( auto-renewal risk) unless a party cancels **at least 90 days before** the renewal date. Missing that 90-day window locks the party in for another full year.\n- **Termination:** The **only exit mechanism shown** is the 90-day advance cancellation notice tied to the renewal date. No other termination rights (for cause, for convenience, etc.) appear in the excerpt.\n- **Payment / Consideration:** Not stated.\n- **Obligations of each side:** Not specified beyond the notice requirement.\n\n**Two material risks stand out:** (1) an **uncapped/unlimited-liability clause at \u00a712** \u2014 a serious, atypical exposure \u2014 and (2) an **auto-renewal** term with a **long 90-day** cancellation lead time. Because a high-severity unlimited-liability term creates severe one-sided exposure, the contract carries an elevated overall risk.\n\n## Key Terms\n\n| Term | Detail |\n|------|--------|\n| **Term** | Annual (one-year) cycle. |\n| **Auto-Renewal** | Contract renews automatically on an annual basis. |\n| **Cancellation Notice Period** | 90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date. |\n| **Unlimited Liability (\u00a712)** | Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk. |\n\n## Flagged Risky Clauses (with quoted text, severity, rationale)\n\n### 1.  Unlimited / Uncapped Liability (\u00a712) \u2014 Severity: **HIGH**\n\n- **Clause type:** Unlimited / uncapped liability\n- **Quoted text:** *\"\u00a712 has an unlimited-liability clause\"*\n  - *Note: The excerpt provides only a one-line summary; the actual \u00a712 wording is not quoted. This is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs.*\n- **Rationale:** This directly triggers the *\"imposes uncapped or open-ended exposure\"* criterion. Liability is unlimited, meaning there is **no cap** on the damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the **most dangerous term present**. Severity is **high** because uncapped liability can exceed the total contract value without limit.\n\n### 2.  Auto-Renewal (90-day cancellation window) \u2014 Severity: **MEDIUM**\n\n- **Clause type:** Auto-renewal\n- **Quoted text:** *\"Contract auto-renews annually unless cancelled 90 days prior\"*\n- **Rationale:** This triggers the *\"creates lock-in\"* criterion. The contract renews automatically for a further one-year term unless the reviewing party **affirmatively cancels within a long 90-day advance-notice window**. Missing that window locks the party into another full year, so the entire burden of escape falls on the reviewing party (one-sided in effect). Severity is **medium** because the exposure is time-bounded (one year) and avoidable with a diary reminder \u2014 but the 90-day cutoff is aggressive.\n\n## Overall Risk Score & Recommendation\n\n**Overall Risk Score: 0.75 / 1.00 (High)**\n\n**Rationale:** A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high. The presence of only two flagged clauses keeps it from the extreme end of the scale.\n\n**Recommendation:**\n\n1. **Obtain the complete contract** \u2014 the excerpt omits parties, purpose, payment, and obligations, all of which are needed for a full assessment.\n2. **Negotiate a liability cap for \u00a712** \u2014 replace unlimited exposure with a defined ceiling (e.g., fees paid) and confirm any carve-outs by reviewing the full \u00a712 language.\n3. **Address the auto-renewal** \u2014 consider shortening the 90-day cancellation-notice period, and/or add a **renewal reminder** (diary/calendar entry) so the cancellation window is not missed.\n"
+      },
+      "attempts": [
+        {
+          "output": {
+            "report": "# Contract Review Report\n\n> **Scope note:** This report is based on a **fragmentary contract excerpt**, not a complete agreement. Many standard terms (parties, purpose, payment, and each side's obligations) are **not stated in the provided text** and therefore cannot be summarized. Findings below are grounded strictly in the excerpt supplied.\n\n## Executive Summary\n\nThe provided material is a partial contract excerpt rather than a full agreement, so most standard terms cannot be reported faithfully:\n\n- **Parties:** Not identified in the provided text.\n- **Purpose:** Not stated.\n- **Term / Duration:** Runs on an **annual (one-year) cycle**.\n- **Renewal:** **Automatically renews every year** ( auto-renewal risk) unless a party cancels **at least 90 days before** the renewal date. Missing that 90-day window locks the party in for another full year.\n- **Termination:** The **only exit mechanism shown** is the 90-day advance cancellation notice tied to the renewal date. No other termination rights (for cause, for convenience, etc.) appear in the excerpt.\n- **Payment / Consideration:** Not stated.\n- **Obligations of each side:** Not specified beyond the notice requirement.\n\n**Two material risks stand out:** (1) an **uncapped/unlimited-liability clause at \u00a712** \u2014 a serious, atypical exposure \u2014 and (2) an **auto-renewal** term with a **long 90-day** cancellation lead time. Because a high-severity unlimited-liability term creates severe one-sided exposure, the contract carries an elevated overall risk.\n\n## Key Terms\n\n| Term | Detail |\n|------|--------|\n| **Term** | Annual (one-year) cycle. |\n| **Auto-Renewal** | Contract renews automatically on an annual basis. |\n| **Cancellation Notice Period** | 90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date. |\n| **Unlimited Liability (\u00a712)** | Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk. |\n\n## Flagged Risky Clauses (with quoted text, severity, rationale)\n\n### 1.  Unlimited / Uncapped Liability (\u00a712) \u2014 Severity: **HIGH**\n\n- **Clause type:** Unlimited / uncapped liability\n- **Quoted text:** *\"\u00a712 has an unlimited-liability clause\"*\n  - *Note: The excerpt provides only a one-line summary; the actual \u00a712 wording is not quoted. This is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs.*\n- **Rationale:** This directly triggers the *\"imposes uncapped or open-ended exposure\"* criterion. Liability is unlimited, meaning there is **no cap** on the damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the **most dangerous term present**. Severity is **high** because uncapped liability can exceed the total contract value without limit.\n\n### 2.  Auto-Renewal (90-day cancellation window) \u2014 Severity: **MEDIUM**\n\n- **Clause type:** Auto-renewal\n- **Quoted text:** *\"Contract auto-renews annually unless cancelled 90 days prior\"*\n- **Rationale:** This triggers the *\"creates lock-in\"* criterion. The contract renews automatically for a further one-year term unless the reviewing party **affirmatively cancels within a long 90-day advance-notice window**. Missing that window locks the party into another full year, so the entire burden of escape falls on the reviewing party (one-sided in effect). Severity is **medium** because the exposure is time-bounded (one year) and avoidable with a diary reminder \u2014 but the 90-day cutoff is aggressive.\n\n## Overall Risk Score & Recommendation\n\n**Overall Risk Score: 0.75 / 1.00 (High)**\n\n**Rationale:** A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high. The presence of only two flagged clauses keeps it from the extreme end of the scale.\n\n**Recommendation:**\n\n1. **Obtain the complete contract** \u2014 the excerpt omits parties, purpose, payment, and obligations, all of which are needed for a full assessment.\n2. **Negotiate a liability cap for \u00a712** \u2014 replace unlimited exposure with a defined ceiling (e.g., fees paid) and confirm any carve-outs by reviewing the full \u00a712 language.\n3. **Address the auto-renewal** \u2014 consider shortening the 90-day cancellation-notice period, and/or add a **renewal reminder** (diary/calendar entry) so the cancellation window is not missed.\n"
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "save_report",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "# Contract Review Report\n\n> **Scope note:** This report is based on a **fragmentary contract excerpt**, not a complete agreement. Many standard terms (parties, purpose, payment, and each side's obligations) are **not stated in the provided text** and therefore cannot be summarized. Findings below are grounded strictly in the excerpt supplied.\n\n## Executive Summary\n\nThe provided material is a partial contract excerpt rather than a full agreement, so most standard terms cannot be reported faithfully:\n\n- **Parties:** Not identified in the provided text.\n- **Purpose:** Not stated.\n- **Term / Duration:** Runs on an **annual (one-year) cycle**.\n- **Renewal:** **Automatically renews every year** ( auto-renewal risk) unless a party cancels **at least 90 days before** the renewal date. Missing that 90-day window locks the party in for another full year.\n- **Termination:** The **only exit mechanism shown** is the 90-day advance cancellation notice tied to the renewal date. No other termination rights (for cause, for convenience, etc.) appear in the excerpt.\n- **Payment / Consideration:** Not stated.\n- **Obligations of each side:** Not specified beyond the notice requirement.\n\n**Two material risks stand out:** (1) an **uncapped/unlimited-liability clause at \u00a712** \u2014 a serious, atypical exposure \u2014 and (2) an **auto-renewal** term with a **long 90-day** cancellation lead time. Because a high-severity unlimited-liability term creates severe one-sided exposure, the contract carries an elevated overall risk.\n\n## Key Terms\n\n| Term | Detail |\n|------|--------|\n| **Term** | Annual (one-year) cycle. |\n| **Auto-Renewal** | Contract renews automatically on an annual basis. |\n| **Cancellation Notice Period** | 90 days prior to renewal \u2014 cancellation must be given at least 90 days before the annual renewal date. |\n| **Unlimited Liability (\u00a712)** | Section 12 provides for uncapped liability \u2014 no limitation on damages/exposure. Flagged as high risk. |\n\n## Flagged Risky Clauses (with quoted text, severity, rationale)\n\n### 1.  Unlimited / Uncapped Liability (\u00a712) \u2014 Severity: **HIGH**\n\n- **Clause type:** Unlimited / uncapped liability\n- **Quoted text:** *\"\u00a712 has an unlimited-liability clause\"*\n  - *Note: The excerpt provides only a one-line summary; the actual \u00a712 wording is not quoted. This is a precise location reference (\u00a712) rather than verbatim text \u2014 the full clause language should be pulled from \u00a712 to confirm scope and any carve-outs.*\n- **Rationale:** This directly triggers the *\"imposes uncapped or open-ended exposure\"* criterion. Liability is unlimited, meaning there is **no cap** on the damages the reviewing party could owe, and it removes the standard protection of a liability cap. This is open-ended financial exposure and the **most dangerous term present**. Severity is **high** because uncapped liability can exceed the total contract value without limit.\n\n### 2.  Auto-Renewal (90-day cancellation window) \u2014 Severity: **MEDIUM**\n\n- **Clause type:** Auto-renewal\n- **Quoted text:** *\"Contract auto-renews annually unless cancelled 90 days prior\"*\n- **Rationale:** This triggers the *\"creates lock-in\"* criterion. The contract renews automatically for a further one-year term unless the reviewing party **affirmatively cancels within a long 90-day advance-notice window**. Missing that window locks the party into another full year, so the entire burden of escape falls on the reviewing party (one-sided in effect). Severity is **medium** because the exposure is time-bounded (one year) and avoidable with a diary reminder \u2014 but the 90-day cutoff is aggressive.\n\n## Overall Risk Score & Recommendation\n\n**Overall Risk Score: 0.75 / 1.00 (High)**\n\n**Rationale:** A high-severity uncapped/unlimited-liability clause creates severe one-sided exposure, pushing risk high. The presence of only two flagged clauses keeps it from the extreme end of the scale.\n\n**Recommendation:**\n\n1. **Obtain the complete contract** \u2014 the excerpt omits parties, purpose, payment, and obligations, all of which are needed for a full assessment.\n2. **Negotiate a liability cap for \u00a712** \u2014 replace unlimited exposure with a defined ceiling (e.g., fees paid) and confirm any carve-outs by reviewing the full \u00a712 language.\n3. **Address the auto-renewal** \u2014 consider shortening the 90-day cancellation-notice period, and/or add a **renewal reminder** (diary/calendar entry) so the cancellation window is not missed.\n",
+          "name": "contract_review.md"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/contract_review.md"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/contract_review.md"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "summarize",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "flag_clauses",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "score_risk",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "compile_report",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "item",
+      "step": "save_report",
+      "status": "gated"
+    },
+    {
+      "n": 5,
+      "item": "item",
+      "step": "save_report",
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,318 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-screen-job-applications-",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses.",
+        "topic": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses.",
+        "message": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses.",
+        "subject": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses.",
+        "body": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "detect_fraud_signals": {
+        "signals": [
+          {
+            "signal_type": "impossible timelines or overlapping full-time roles",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "Claimed 10 years of experience is incompatible with having graduated only 2 years ago; at most ~2 years of post-graduation experience is possible, leaving an 8-year discrepancy unaccounted for."
+          },
+          {
+            "signal_type": "fabricated or unverifiable employment history",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "The unsupported 10-year experience claim, which cannot be reconciled with a 2-year-old graduation date, indicates employment history that is likely fabricated or at minimum unverifiable as stated."
+          },
+          {
+            "signal_type": "identity inconsistencies",
+            "evidence": "10 years experience vs. graduated 2 years ago",
+            "flag": "Internal contradiction between the stated career length and the education timeline; the profile does not cohere into a single consistent identity/history, though no separate conflicting identity details (name/DOB) are provided in the input."
+          },
+          {
+            "signal_type": "mismatched contact details",
+            "evidence": "references are personal gmail addresses",
+            "flag": "References are reachable only via personal Gmail addresses rather than verifiable corporate/institutional email domains, making the referees difficult to authenticate and consistent with unverifiable or self-controlled contact details."
+          },
+          {
+            "signal_type": "credential/degree claims that can't be substantiated",
+            "evidence": "graduated 2 years ago",
+            "flag": "A graduation is asserted but no institution, degree, or verifiable detail is provided; the degree claim as given cannot be substantiated from the application, and it directly conflicts with the experience claim."
+          }
+        ],
+        "reasoning": "Two pieces of evidence appear in the application and each is quoted and mapped to the criteria below.\n\n1) 'Applicant claims 10 years experience but graduated 2 years ago.' This is a concrete internal contradiction: 10 years of professional experience cannot fit within the ~2 years available since graduation, an 8-year gap that cannot be explained without pre-graduation full-time work (implausible for a full 10 years). Per the criteria to note internal contradictions and impossible timelines, this triggers 'impossible timelines or overlapping full-time roles' (the timeline is mathematically impossible as stated). The same unsupported, contradicted experience claim also triggers 'fabricated or unverifiable employment history' because the stated tenure cannot be true as written, and 'identity inconsistencies' as an internal-contradiction signal since the applicant's stated history does not cohere. Because a graduation is claimed with no verifiable institution/degree detail and it conflicts with the experience claim, it also triggers 'credential/degree claims that can't be substantiated.'\n\n2) 'References are personal gmail addresses.' Per the criteria to flag unverifiable claims, using personal Gmail addresses (rather than institutional/corporate emails tied to the reference's employer) makes the referees difficult to independently verify and easy to self-control, mapping to 'mismatched contact details' (contact channels that do not match a verifiable professional identity).\n\nSignal types requested but NOT flagged, because the input contains no supporting evidence (avoiding invented facts): 'duplicated/templated application text' and 'reused boilerplate across many applicants' \u2014 no application text or cross-applicant corpus is provided to compare; and 'suspicious referral or referrer patterns' \u2014 no referral/referrer information is provided beyond the reference email format, which is already captured under mismatched contact details. These are unsupported by the given item and therefore not flagged."
+      },
+      "classify": {
+        "label": "suspicious",
+        "confidence": 0.9,
+        "reasoning": "The irreconcilable 10-years-experience vs. graduated-2-years-ago contradiction is a clear disqualifying fabrication compounded by unverifiable employment and references."
+      },
+      "rank": {
+        "score": 0.85,
+        "reasoning": "Multiple corroborating fraud signals converge on one glaring, self-evident contradiction (10 years' experience vs. graduating 2 years ago) alongside unverifiable Gmail references, though several flagged signal types are restatements of the same discrepancy rather than independent evidence."
+      },
+      "flag_application": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/fraud_flag.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "detect_fraud_signals",
+      "status": "done",
+      "input": {
+        "item": "Applicant claims 10 years experience but graduated 2 years ago; references are personal gmail addresses."
+      },
+      "output": {
+        "signals": [
+          {
+            "signal_type": "impossible timelines or overlapping full-time roles",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "Claimed 10 years of experience is incompatible with having graduated only 2 years ago; at most ~2 years of post-graduation experience is possible, leaving an 8-year discrepancy unaccounted for."
+          },
+          {
+            "signal_type": "fabricated or unverifiable employment history",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "The unsupported 10-year experience claim, which cannot be reconciled with a 2-year-old graduation date, indicates employment history that is likely fabricated or at minimum unverifiable as stated."
+          },
+          {
+            "signal_type": "identity inconsistencies",
+            "evidence": "10 years experience vs. graduated 2 years ago",
+            "flag": "Internal contradiction between the stated career length and the education timeline; the profile does not cohere into a single consistent identity/history, though no separate conflicting identity details (name/DOB) are provided in the input."
+          },
+          {
+            "signal_type": "mismatched contact details",
+            "evidence": "references are personal gmail addresses",
+            "flag": "References are reachable only via personal Gmail addresses rather than verifiable corporate/institutional email domains, making the referees difficult to authenticate and consistent with unverifiable or self-controlled contact details."
+          },
+          {
+            "signal_type": "credential/degree claims that can't be substantiated",
+            "evidence": "graduated 2 years ago",
+            "flag": "A graduation is asserted but no institution, degree, or verifiable detail is provided; the degree claim as given cannot be substantiated from the application, and it directly conflicts with the experience claim."
+          }
+        ],
+        "reasoning": "Two pieces of evidence appear in the application and each is quoted and mapped to the criteria below.\n\n1) 'Applicant claims 10 years experience but graduated 2 years ago.' This is a concrete internal contradiction: 10 years of professional experience cannot fit within the ~2 years available since graduation, an 8-year gap that cannot be explained without pre-graduation full-time work (implausible for a full 10 years). Per the criteria to note internal contradictions and impossible timelines, this triggers 'impossible timelines or overlapping full-time roles' (the timeline is mathematically impossible as stated). The same unsupported, contradicted experience claim also triggers 'fabricated or unverifiable employment history' because the stated tenure cannot be true as written, and 'identity inconsistencies' as an internal-contradiction signal since the applicant's stated history does not cohere. Because a graduation is claimed with no verifiable institution/degree detail and it conflicts with the experience claim, it also triggers 'credential/degree claims that can't be substantiated.'\n\n2) 'References are personal gmail addresses.' Per the criteria to flag unverifiable claims, using personal Gmail addresses (rather than institutional/corporate emails tied to the reference's employer) makes the referees difficult to independently verify and easy to self-control, mapping to 'mismatched contact details' (contact channels that do not match a verifiable professional identity).\n\nSignal types requested but NOT flagged, because the input contains no supporting evidence (avoiding invented facts): 'duplicated/templated application text' and 'reused boilerplate across many applicants' \u2014 no application text or cross-applicant corpus is provided to compare; and 'suspicious referral or referrer patterns' \u2014 no referral/referrer information is provided beyond the reference email format, which is already captured under mismatched contact details. These are unsupported by the given item and therefore not flagged."
+      },
+      "attempts": [
+        {
+          "output": {
+            "signals": [
+              {
+                "signal_type": "impossible timelines or overlapping full-time roles",
+                "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+                "flag": "Claimed 10 years of experience is incompatible with having graduated only 2 years ago; at most ~2 years of post-graduation experience is possible, leaving an 8-year discrepancy unaccounted for."
+              },
+              {
+                "signal_type": "fabricated or unverifiable employment history",
+                "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+                "flag": "The unsupported 10-year experience claim, which cannot be reconciled with a 2-year-old graduation date, indicates employment history that is likely fabricated or at minimum unverifiable as stated."
+              },
+              {
+                "signal_type": "identity inconsistencies",
+                "evidence": "10 years experience vs. graduated 2 years ago",
+                "flag": "Internal contradiction between the stated career length and the education timeline; the profile does not cohere into a single consistent identity/history, though no separate conflicting identity details (name/DOB) are provided in the input."
+              },
+              {
+                "signal_type": "mismatched contact details",
+                "evidence": "references are personal gmail addresses",
+                "flag": "References are reachable only via personal Gmail addresses rather than verifiable corporate/institutional email domains, making the referees difficult to authenticate and consistent with unverifiable or self-controlled contact details."
+              },
+              {
+                "signal_type": "credential/degree claims that can't be substantiated",
+                "evidence": "graduated 2 years ago",
+                "flag": "A graduation is asserted but no institution, degree, or verifiable detail is provided; the degree claim as given cannot be substantiated from the application, and it directly conflicts with the experience claim."
+              }
+            ],
+            "reasoning": "Two pieces of evidence appear in the application and each is quoted and mapped to the criteria below.\n\n1) 'Applicant claims 10 years experience but graduated 2 years ago.' This is a concrete internal contradiction: 10 years of professional experience cannot fit within the ~2 years available since graduation, an 8-year gap that cannot be explained without pre-graduation full-time work (implausible for a full 10 years). Per the criteria to note internal contradictions and impossible timelines, this triggers 'impossible timelines or overlapping full-time roles' (the timeline is mathematically impossible as stated). The same unsupported, contradicted experience claim also triggers 'fabricated or unverifiable employment history' because the stated tenure cannot be true as written, and 'identity inconsistencies' as an internal-contradiction signal since the applicant's stated history does not cohere. Because a graduation is claimed with no verifiable institution/degree detail and it conflicts with the experience claim, it also triggers 'credential/degree claims that can't be substantiated.'\n\n2) 'References are personal gmail addresses.' Per the criteria to flag unverifiable claims, using personal Gmail addresses (rather than institutional/corporate emails tied to the reference's employer) makes the referees difficult to independently verify and easy to self-control, mapping to 'mismatched contact details' (contact channels that do not match a verifiable professional identity).\n\nSignal types requested but NOT flagged, because the input contains no supporting evidence (avoiding invented facts): 'duplicated/templated application text' and 'reused boilerplate across many applicants' \u2014 no application text or cross-applicant corpus is provided to compare; and 'suspicious referral or referrer patterns' \u2014 no referral/referrer information is provided beyond the reference email format, which is already captured under mismatched contact details. These are unsupported by the given item and therefore not flagged."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": [
+          {
+            "signal_type": "impossible timelines or overlapping full-time roles",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "Claimed 10 years of experience is incompatible with having graduated only 2 years ago; at most ~2 years of post-graduation experience is possible, leaving an 8-year discrepancy unaccounted for."
+          },
+          {
+            "signal_type": "fabricated or unverifiable employment history",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "The unsupported 10-year experience claim, which cannot be reconciled with a 2-year-old graduation date, indicates employment history that is likely fabricated or at minimum unverifiable as stated."
+          },
+          {
+            "signal_type": "identity inconsistencies",
+            "evidence": "10 years experience vs. graduated 2 years ago",
+            "flag": "Internal contradiction between the stated career length and the education timeline; the profile does not cohere into a single consistent identity/history, though no separate conflicting identity details (name/DOB) are provided in the input."
+          },
+          {
+            "signal_type": "mismatched contact details",
+            "evidence": "references are personal gmail addresses",
+            "flag": "References are reachable only via personal Gmail addresses rather than verifiable corporate/institutional email domains, making the referees difficult to authenticate and consistent with unverifiable or self-controlled contact details."
+          },
+          {
+            "signal_type": "credential/degree claims that can't be substantiated",
+            "evidence": "graduated 2 years ago",
+            "flag": "A graduation is asserted but no institution, degree, or verifiable detail is provided; the degree claim as given cannot be substantiated from the application, and it directly conflicts with the experience claim."
+          }
+        ]
+      },
+      "output": {
+        "label": "suspicious",
+        "confidence": 0.9,
+        "reasoning": "The irreconcilable 10-years-experience vs. graduated-2-years-ago contradiction is a clear disqualifying fabrication compounded by unverifiable employment and references."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "suspicious",
+            "confidence": 0.9,
+            "reasoning": "The irreconcilable 10-years-experience vs. graduated-2-years-ago contradiction is a clear disqualifying fabrication compounded by unverifiable employment and references."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": [
+          {
+            "signal_type": "impossible timelines or overlapping full-time roles",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "Claimed 10 years of experience is incompatible with having graduated only 2 years ago; at most ~2 years of post-graduation experience is possible, leaving an 8-year discrepancy unaccounted for."
+          },
+          {
+            "signal_type": "fabricated or unverifiable employment history",
+            "evidence": "Applicant claims 10 years experience but graduated 2 years ago",
+            "flag": "The unsupported 10-year experience claim, which cannot be reconciled with a 2-year-old graduation date, indicates employment history that is likely fabricated or at minimum unverifiable as stated."
+          },
+          {
+            "signal_type": "identity inconsistencies",
+            "evidence": "10 years experience vs. graduated 2 years ago",
+            "flag": "Internal contradiction between the stated career length and the education timeline; the profile does not cohere into a single consistent identity/history, though no separate conflicting identity details (name/DOB) are provided in the input."
+          },
+          {
+            "signal_type": "mismatched contact details",
+            "evidence": "references are personal gmail addresses",
+            "flag": "References are reachable only via personal Gmail addresses rather than verifiable corporate/institutional email domains, making the referees difficult to authenticate and consistent with unverifiable or self-controlled contact details."
+          },
+          {
+            "signal_type": "credential/degree claims that can't be substantiated",
+            "evidence": "graduated 2 years ago",
+            "flag": "A graduation is asserted but no institution, degree, or verifiable detail is provided; the degree claim as given cannot be substantiated from the application, and it directly conflicts with the experience claim."
+          }
+        ]
+      },
+      "output": {
+        "score": 0.85,
+        "reasoning": "Multiple corroborating fraud signals converge on one glaring, self-evident contradiction (10 years' experience vs. graduating 2 years ago) alongside unverifiable Gmail references, though several flagged signal types are restatements of the same discrepancy rather than independent evidence."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.85,
+            "reasoning": "Multiple corroborating fraud signals converge on one glaring, self-evident contradiction (10 years' experience vs. graduating 2 years ago) alongside unverifiable Gmail references, though several flagged signal types are restatements of the same discrepancy rather than independent evidence."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "flag_application",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "The irreconcilable 10-years-experience vs. graduated-2-years-ago contradiction is a clear disqualifying fabrication compounded by unverifiable employment and references.",
+          "name": "fraud_flag.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/fraud_flag.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/fraud_flag.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "record_cleared",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "detect_fraud_signals",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "record_cleared",
+      "status": "skipped"
+    },
+    {
+      "n": 4,
+      "item": "item",
+      "step": "flag_application",
+      "status": "gated"
+    },
+    {
+      "n": 5,
+      "item": "item",
+      "step": "flag_application",
+      "status": "done"
+    }
+  ]
+}

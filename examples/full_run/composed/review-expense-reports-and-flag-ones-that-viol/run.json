@@ -1,0 +1,170 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-review-expense-reports-a",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "$820 client dinner for two, entertainment category, no itemized receipt attached.",
+        "topic": "$820 client dinner for two, entertainment category, no itemized receipt attached.",
+        "message": "$820 client dinner for two, entertainment category, no itemized receipt attached.",
+        "subject": "$820 client dinner for two, entertainment category, no itemized receipt attached.",
+        "body": "$820 client dinner for two, entertainment category, no itemized receipt attached.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "check_policy": {
+        "verdict": "fail",
+        "confidence": 0.99,
+        "issues": [
+          "No itemized receipt attached (rule 1)",
+          "Entertainment/personal charges are prohibited (rule 3)",
+          "Meal exceeds $75/person/day cap: $820 for two is $410/person (rule 2)"
+        ]
+      },
+      "score_severity": {
+        "score": 0.85,
+        "reasoning": "Serious: prohibited entertainment/personal charges plus a meal at $410/person massively exceeding the $75 cap, compounded by a missing receipt."
+      },
+      "flag_report": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/flagged_expense.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "check_policy",
+      "status": "done",
+      "input": {
+        "subject": "$820 client dinner for two, entertainment category, no itemized receipt attached."
+      },
+      "output": {
+        "verdict": "fail",
+        "confidence": 0.99,
+        "issues": [
+          "No itemized receipt attached (rule 1)",
+          "Entertainment/personal charges are prohibited (rule 3)",
+          "Meal exceeds $75/person/day cap: $820 for two is $410/person (rule 2)"
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "fail",
+            "confidence": 0.99,
+            "issues": [
+              "No itemized receipt attached (rule 1)",
+              "Entertainment/personal charges are prohibited (rule 3)",
+              "Meal exceeds $75/person/day cap: $820 for two is $410/person (rule 2)"
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "score_severity",
+      "status": "done",
+      "input": {
+        "item": [
+          "No itemized receipt attached (rule 1)",
+          "Entertainment/personal charges are prohibited (rule 3)",
+          "Meal exceeds $75/person/day cap: $820 for two is $410/person (rule 2)"
+        ]
+      },
+      "output": {
+        "score": 0.85,
+        "reasoning": "Serious: prohibited entertainment/personal charges plus a meal at $410/person massively exceeding the $75 cap, compounded by a missing receipt."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.85,
+            "reasoning": "Serious: prohibited entertainment/personal charges plus a meal at $410/person massively exceeding the $75 cap, compounded by a missing receipt."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "flag_report",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": [
+            "No itemized receipt attached (rule 1)",
+            "Entertainment/personal charges are prohibited (rule 3)",
+            "Meal exceeds $75/person/day cap: $820 for two is $410/person (rule 2)"
+          ],
+          "name": "flagged_expense.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/flagged_expense.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/flagged_expense.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "clear_report",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "check_policy",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "score_severity",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "clear_report",
+      "status": "skipped"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "flag_report",
+      "status": "done"
+    }
+  ]
+}

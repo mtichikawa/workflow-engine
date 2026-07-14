@@ -1,0 +1,188 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-read-github-issues-label",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours.",
+        "topic": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours.",
+        "message": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours.",
+        "subject": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours.",
+        "body": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "label": {
+        "label": "bug",
+        "confidence": 0.98,
+        "reasoning": "Reports a memory leak causing unbounded RSS growth, which describes defective runtime behavior."
+      },
+      "prioritize": {
+        "score": 0.85,
+        "reasoning": "A memory leak causing unbounded RSS growth is a serious reliability bug that will crash production workers under sustained load, though the ~6-hour horizon allows some mitigation time."
+      },
+      "draft_reply": {
+        "reply": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+      },
+      "post": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": [
+              "bug",
+              0.85
+            ],
+            "comment": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+          },
+          "on": null
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "label",
+      "status": "done",
+      "input": {
+        "item": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours."
+      },
+      "output": {
+        "label": "bug",
+        "confidence": 0.98,
+        "reasoning": "Reports a memory leak causing unbounded RSS growth, which describes defective runtime behavior."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "bug",
+            "confidence": 0.98,
+            "reasoning": "Reports a memory leak causing unbounded RSS growth, which describes defective runtime behavior."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "prioritize",
+      "status": "done",
+      "input": {
+        "item": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours."
+      },
+      "output": {
+        "score": 0.85,
+        "reasoning": "A memory leak causing unbounded RSS growth is a serious reliability bug that will crash production workers under sustained load, though the ~6-hour horizon allows some mitigation time."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.85,
+            "reasoning": "A memory leak causing unbounded RSS growth is a serious reliability bug that will crash production workers under sustained load, though the ~6-hour horizon allows some mitigation time."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "draft_reply",
+      "status": "done",
+      "input": {
+        "item": "Memory leak in the worker pool under high load; RSS grows unbounded over ~6 hours."
+      },
+      "output": {
+        "reply": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+      },
+      "attempts": [
+        {
+          "output": {
+            "reply": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "post",
+      "status": "done",
+      "input": {
+        "payload": {
+          "labels": [
+            "bug",
+            0.85
+          ],
+          "comment": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!",
+          "url": null
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": [
+              "bug",
+              0.85
+            ],
+            "comment": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+          },
+          "on": null
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "would_post": {
+                "labels": [
+                  "bug",
+                  0.85
+                ],
+                "comment": "Thanks for the detailed report \u2014 really appreciate you flagging this, and the ~6-hour timeframe is a helpful clue.\n\nI've triaged this and we're looking into it. To help us reproduce and narrow down the cause, could you share a few more details?\n\n- **Version** of the worker pool / library you're running\n- **Repro steps** or a minimal config that triggers the growth (worker count, load pattern, request rate)\n- **Environment**: runtime version, OS, and deployment setup\n- **Logs or metrics** if available \u2014 an RSS-over-time graph, plus any relevant worker logs or a heap snapshot around the point where growth becomes noticeable\n\nThat'll give us the best shot at pinning down where the memory is being held. Thanks again for the report!"
+              },
+              "on": null
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "label",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "prioritize",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "draft_reply",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "post",
+      "status": "done"
+    }
+  ]
+}

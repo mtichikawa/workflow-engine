@@ -1,0 +1,176 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-grade-student-essays-aga",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "topic": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "message": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "subject": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "body": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "grade": {
+        "scores": {
+          "thesis_clarity": 2,
+          "evidence_support": 1,
+          "organization": 1,
+          "analysis_reasoning": 0,
+          "mechanics_style": 2
+        },
+        "rubric_breakdown": {
+          "thesis_clarity": "The essay opens with a clear, arguable central claim: 'The causes of the French Revolution were primarily economic, rooted in debt and inequality.' This is a genuine, contestable thesis (it privileges economic over political/ideological causes). However, the submitted text ends after this opening sentence ('...'), so the rubric's requirement that the claim be 'sustained throughout' cannot be verified \u2014 there is no body to sustain it. Score capped at 2: a strong claim is stated but its development is absent. To reach 3-4, carry the economic thesis explicitly into each paragraph and return to it in a conclusion.",
+          "evidence_support": "No supporting evidence appears in the submitted text. The phrase 'rooted in debt and inequality' names categories of cause but cites nothing concrete \u2014 no figures on the national debt, no reference to the tax burden on the Third Estate, harvest failures, or the fiscal crisis of 1788-89. Score 1 rather than 0 because relevant evidentiary categories are gestured at. To improve: back each claim with specific, accurate evidence (e.g., the cost of French involvement in the American War, the inequity of the taille and gabelle, bread prices in 1789).",
+          "organization": "Only a single opening sentence is present, so logical structure, coherent paragraphs, and transitions cannot be demonstrated. The one sentence is well-formed as a topic statement, but there is no paragraph architecture to evaluate. Score 1. To improve: develop an introduction \u2192 body paragraphs (one per cause) \u2192 conclusion, with transitions signaling how each cause connects to the economic thesis.",
+          "analysis_reasoning": "There is no analysis in the submitted text \u2014 no explanation of *how* debt and inequality produced revolution, only an assertion that they did. Score 0. To improve: move beyond naming causes to reasoning through mechanisms \u2014 e.g., explain how state bankruptcy forced the calling of the Estates-General, which in turn opened the political opportunity that economic grievance exploited.",
+          "mechanics_style": "The single visible sentence is grammatically correct, properly punctuated, and cleanly phrased. However, the sample is far too short to assess sentence variety or sustained mechanical control. Score 2 reflects clean-but-minimal evidence. A fuller submission with varied, error-free sentences would earn 3-4."
+        },
+        "total": 0.2875
+      },
+      "write_feedback": {
+        "feedback": "Right out of the gate, you did the single hardest thing in argumentative writing: you took a real position. Your opening line \u2014 \"The causes of the French Revolution were primarily economic, rooted in debt and inequality\" \u2014 isn't a summary or a neutral observation; it's a contestable claim that privileges economic causes over political or ideological ones. That's a genuine thesis, and it gives you something to defend. Nice work.\n\nThesis clarity (2/4): Your claim is strong and arguable, which is exactly why the score sits at 2 rather than lower. What's missing is *sustaining* it: the submission ends right after that opening sentence (\"...rooted in debt and inequality...\"), so there's no evidence the argument carries through. To reach a 3 or 4, echo the economic thesis explicitly at the top of each body paragraph and return to it in your conclusion, so a reader can trace the same claim from first line to last.\n\nEvidence & support (1/4): You name the right *categories* of cause \u2014 \"debt and inequality\" \u2014 which earns you the point above zero, but you don't yet cite anything concrete. Trade the general nouns for specifics: the cost of French involvement in the American War of Independence, the tax burden the taille and gabelle placed on the Third Estate, or the bread prices and harvest failures of 1788\u201389. Every claim should be anchored to a fact a reader could check.\n\nOrganization (1/4): With only one sentence present, there's no paragraph structure to evaluate \u2014 that single line works fine as a topic statement, but there's no architecture beneath it. Build the standard frame: an introduction, one body paragraph per cause (debt, taxation, food prices), and a conclusion, with transitions that show how each cause ties back to your economic thesis.\n\nAnalysis & reasoning (0/4): This is where the biggest gain is available. Right now the essay *asserts* that debt and inequality caused revolution but never explains *how*. Push past naming causes to tracing mechanisms \u2014 for example, show how state bankruptcy forced the king to call the Estates-General, which then opened the political opening that economic grievance exploited. Reasoning through that chain is what turns a list of causes into an argument.\n\nMechanics & style (2/4): The one visible sentence is grammatically clean, well punctuated, and clearly phrased \u2014 no complaints there. The score reflects that the sample is simply too short to show sentence variety or sustained control. A fuller draft with varied, error-free sentences will lift this to a 3 or 4 on its own.\n\nThree concrete next steps for your revision:\n1. Draft the full essay \u2014 an intro, three body paragraphs (debt, taxation, bread prices), and a conclusion \u2014 so your strong thesis actually has a body to sustain it.\n2. In each body paragraph, pair a specific fact (a figure, a tax, a date) with a sentence explaining *how* that factor pushed France toward revolution \u2014 this hits evidence and analysis at once.\n3. Add transitions that link every cause back to your \"primarily economic\" claim, then reread to confirm the thesis appears in your opening, each paragraph, and your conclusion.\n\nYou've already got the foundation most students struggle to find \u2014 a clear, defensible argument. Build the evidence and reasoning underneath it and this essay will climb quickly."
+      },
+      "check_feedback": {
+        "verdict": "pass",
+        "confidence": 0.85,
+        "issues": []
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "grade",
+      "status": "done",
+      "input": {
+        "essay": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality..."
+      },
+      "output": {
+        "scores": {
+          "thesis_clarity": 2,
+          "evidence_support": 1,
+          "organization": 1,
+          "analysis_reasoning": 0,
+          "mechanics_style": 2
+        },
+        "rubric_breakdown": {
+          "thesis_clarity": "The essay opens with a clear, arguable central claim: 'The causes of the French Revolution were primarily economic, rooted in debt and inequality.' This is a genuine, contestable thesis (it privileges economic over political/ideological causes). However, the submitted text ends after this opening sentence ('...'), so the rubric's requirement that the claim be 'sustained throughout' cannot be verified \u2014 there is no body to sustain it. Score capped at 2: a strong claim is stated but its development is absent. To reach 3-4, carry the economic thesis explicitly into each paragraph and return to it in a conclusion.",
+          "evidence_support": "No supporting evidence appears in the submitted text. The phrase 'rooted in debt and inequality' names categories of cause but cites nothing concrete \u2014 no figures on the national debt, no reference to the tax burden on the Third Estate, harvest failures, or the fiscal crisis of 1788-89. Score 1 rather than 0 because relevant evidentiary categories are gestured at. To improve: back each claim with specific, accurate evidence (e.g., the cost of French involvement in the American War, the inequity of the taille and gabelle, bread prices in 1789).",
+          "organization": "Only a single opening sentence is present, so logical structure, coherent paragraphs, and transitions cannot be demonstrated. The one sentence is well-formed as a topic statement, but there is no paragraph architecture to evaluate. Score 1. To improve: develop an introduction \u2192 body paragraphs (one per cause) \u2192 conclusion, with transitions signaling how each cause connects to the economic thesis.",
+          "analysis_reasoning": "There is no analysis in the submitted text \u2014 no explanation of *how* debt and inequality produced revolution, only an assertion that they did. Score 0. To improve: move beyond naming causes to reasoning through mechanisms \u2014 e.g., explain how state bankruptcy forced the calling of the Estates-General, which in turn opened the political opportunity that economic grievance exploited.",
+          "mechanics_style": "The single visible sentence is grammatically correct, properly punctuated, and cleanly phrased. However, the sample is far too short to assess sentence variety or sustained mechanical control. Score 2 reflects clean-but-minimal evidence. A fuller submission with varied, error-free sentences would earn 3-4."
+        },
+        "total": 0.2875
+      },
+      "attempts": [
+        {
+          "output": {
+            "scores": {
+              "thesis_clarity": 2,
+              "evidence_support": 1,
+              "organization": 1,
+              "analysis_reasoning": 0,
+              "mechanics_style": 2
+            },
+            "rubric_breakdown": {
+              "thesis_clarity": "The essay opens with a clear, arguable central claim: 'The causes of the French Revolution were primarily economic, rooted in debt and inequality.' This is a genuine, contestable thesis (it privileges economic over political/ideological causes). However, the submitted text ends after this opening sentence ('...'), so the rubric's requirement that the claim be 'sustained throughout' cannot be verified \u2014 there is no body to sustain it. Score capped at 2: a strong claim is stated but its development is absent. To reach 3-4, carry the economic thesis explicitly into each paragraph and return to it in a conclusion.",
+              "evidence_support": "No supporting evidence appears in the submitted text. The phrase 'rooted in debt and inequality' names categories of cause but cites nothing concrete \u2014 no figures on the national debt, no reference to the tax burden on the Third Estate, harvest failures, or the fiscal crisis of 1788-89. Score 1 rather than 0 because relevant evidentiary categories are gestured at. To improve: back each claim with specific, accurate evidence (e.g., the cost of French involvement in the American War, the inequity of the taille and gabelle, bread prices in 1789).",
+              "organization": "Only a single opening sentence is present, so logical structure, coherent paragraphs, and transitions cannot be demonstrated. The one sentence is well-formed as a topic statement, but there is no paragraph architecture to evaluate. Score 1. To improve: develop an introduction \u2192 body paragraphs (one per cause) \u2192 conclusion, with transitions signaling how each cause connects to the economic thesis.",
+              "analysis_reasoning": "There is no analysis in the submitted text \u2014 no explanation of *how* debt and inequality produced revolution, only an assertion that they did. Score 0. To improve: move beyond naming causes to reasoning through mechanisms \u2014 e.g., explain how state bankruptcy forced the calling of the Estates-General, which in turn opened the political opportunity that economic grievance exploited.",
+              "mechanics_style": "The single visible sentence is grammatically correct, properly punctuated, and cleanly phrased. However, the sample is far too short to assess sentence variety or sustained mechanical control. Score 2 reflects clean-but-minimal evidence. A fuller submission with varied, error-free sentences would earn 3-4."
+            },
+            "total": 0.2875
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "write_feedback",
+      "status": "done",
+      "input": {
+        "essay": "Essay: The causes of the French Revolution were primarily economic, rooted in debt and inequality...",
+        "scores": {
+          "thesis_clarity": 2,
+          "evidence_support": 1,
+          "organization": 1,
+          "analysis_reasoning": 0,
+          "mechanics_style": 2
+        },
+        "rubric_breakdown": {
+          "thesis_clarity": "The essay opens with a clear, arguable central claim: 'The causes of the French Revolution were primarily economic, rooted in debt and inequality.' This is a genuine, contestable thesis (it privileges economic over political/ideological causes). However, the submitted text ends after this opening sentence ('...'), so the rubric's requirement that the claim be 'sustained throughout' cannot be verified \u2014 there is no body to sustain it. Score capped at 2: a strong claim is stated but its development is absent. To reach 3-4, carry the economic thesis explicitly into each paragraph and return to it in a conclusion.",
+          "evidence_support": "No supporting evidence appears in the submitted text. The phrase 'rooted in debt and inequality' names categories of cause but cites nothing concrete \u2014 no figures on the national debt, no reference to the tax burden on the Third Estate, harvest failures, or the fiscal crisis of 1788-89. Score 1 rather than 0 because relevant evidentiary categories are gestured at. To improve: back each claim with specific, accurate evidence (e.g., the cost of French involvement in the American War, the inequity of the taille and gabelle, bread prices in 1789).",
+          "organization": "Only a single opening sentence is present, so logical structure, coherent paragraphs, and transitions cannot be demonstrated. The one sentence is well-formed as a topic statement, but there is no paragraph architecture to evaluate. Score 1. To improve: develop an introduction \u2192 body paragraphs (one per cause) \u2192 conclusion, with transitions signaling how each cause connects to the economic thesis.",
+          "analysis_reasoning": "There is no analysis in the submitted text \u2014 no explanation of *how* debt and inequality produced revolution, only an assertion that they did. Score 0. To improve: move beyond naming causes to reasoning through mechanisms \u2014 e.g., explain how state bankruptcy forced the calling of the Estates-General, which in turn opened the political opportunity that economic grievance exploited.",
+          "mechanics_style": "The single visible sentence is grammatically correct, properly punctuated, and cleanly phrased. However, the sample is far too short to assess sentence variety or sustained mechanical control. Score 2 reflects clean-but-minimal evidence. A fuller submission with varied, error-free sentences would earn 3-4."
+        },
+        "total": 0.2875
+      },
+      "output": {
+        "feedback": "Right out of the gate, you did the single hardest thing in argumentative writing: you took a real position. Your opening line \u2014 \"The causes of the French Revolution were primarily economic, rooted in debt and inequality\" \u2014 isn't a summary or a neutral observation; it's a contestable claim that privileges economic causes over political or ideological ones. That's a genuine thesis, and it gives you something to defend. Nice work.\n\nThesis clarity (2/4): Your claim is strong and arguable, which is exactly why the score sits at 2 rather than lower. What's missing is *sustaining* it: the submission ends right after that opening sentence (\"...rooted in debt and inequality...\"), so there's no evidence the argument carries through. To reach a 3 or 4, echo the economic thesis explicitly at the top of each body paragraph and return to it in your conclusion, so a reader can trace the same claim from first line to last.\n\nEvidence & support (1/4): You name the right *categories* of cause \u2014 \"debt and inequality\" \u2014 which earns you the point above zero, but you don't yet cite anything concrete. Trade the general nouns for specifics: the cost of French involvement in the American War of Independence, the tax burden the taille and gabelle placed on the Third Estate, or the bread prices and harvest failures of 1788\u201389. Every claim should be anchored to a fact a reader could check.\n\nOrganization (1/4): With only one sentence present, there's no paragraph structure to evaluate \u2014 that single line works fine as a topic statement, but there's no architecture beneath it. Build the standard frame: an introduction, one body paragraph per cause (debt, taxation, food prices), and a conclusion, with transitions that show how each cause ties back to your economic thesis.\n\nAnalysis & reasoning (0/4): This is where the biggest gain is available. Right now the essay *asserts* that debt and inequality caused revolution but never explains *how*. Push past naming causes to tracing mechanisms \u2014 for example, show how state bankruptcy forced the king to call the Estates-General, which then opened the political opening that economic grievance exploited. Reasoning through that chain is what turns a list of causes into an argument.\n\nMechanics & style (2/4): The one visible sentence is grammatically clean, well punctuated, and clearly phrased \u2014 no complaints there. The score reflects that the sample is simply too short to show sentence variety or sustained control. A fuller draft with varied, error-free sentences will lift this to a 3 or 4 on its own.\n\nThree concrete next steps for your revision:\n1. Draft the full essay \u2014 an intro, three body paragraphs (debt, taxation, bread prices), and a conclusion \u2014 so your strong thesis actually has a body to sustain it.\n2. In each body paragraph, pair a specific fact (a figure, a tax, a date) with a sentence explaining *how* that factor pushed France toward revolution \u2014 this hits evidence and analysis at once.\n3. Add transitions that link every cause back to your \"primarily economic\" claim, then reread to confirm the thesis appears in your opening, each paragraph, and your conclusion.\n\nYou've already got the foundation most students struggle to find \u2014 a clear, defensible argument. Build the evidence and reasoning underneath it and this essay will climb quickly."
+      },
+      "attempts": [
+        {
+          "output": {
+            "feedback": "Right out of the gate, you did the single hardest thing in argumentative writing: you took a real position. Your opening line \u2014 \"The causes of the French Revolution were primarily economic, rooted in debt and inequality\" \u2014 isn't a summary or a neutral observation; it's a contestable claim that privileges economic causes over political or ideological ones. That's a genuine thesis, and it gives you something to defend. Nice work.\n\nThesis clarity (2/4): Your claim is strong and arguable, which is exactly why the score sits at 2 rather than lower. What's missing is *sustaining* it: the submission ends right after that opening sentence (\"...rooted in debt and inequality...\"), so there's no evidence the argument carries through. To reach a 3 or 4, echo the economic thesis explicitly at the top of each body paragraph and return to it in your conclusion, so a reader can trace the same claim from first line to last.\n\nEvidence & support (1/4): You name the right *categories* of cause \u2014 \"debt and inequality\" \u2014 which earns you the point above zero, but you don't yet cite anything concrete. Trade the general nouns for specifics: the cost of French involvement in the American War of Independence, the tax burden the taille and gabelle placed on the Third Estate, or the bread prices and harvest failures of 1788\u201389. Every claim should be anchored to a fact a reader could check.\n\nOrganization (1/4): With only one sentence present, there's no paragraph structure to evaluate \u2014 that single line works fine as a topic statement, but there's no architecture beneath it. Build the standard frame: an introduction, one body paragraph per cause (debt, taxation, food prices), and a conclusion, with transitions that show how each cause ties back to your economic thesis.\n\nAnalysis & reasoning (0/4): This is where the biggest gain is available. Right now the essay *asserts* that debt and inequality caused revolution but never explains *how*. Push past naming causes to tracing mechanisms \u2014 for example, show how state bankruptcy forced the king to call the Estates-General, which then opened the political opening that economic grievance exploited. Reasoning through that chain is what turns a list of causes into an argument.\n\nMechanics & style (2/4): The one visible sentence is grammatically clean, well punctuated, and clearly phrased \u2014 no complaints there. The score reflects that the sample is simply too short to show sentence variety or sustained control. A fuller draft with varied, error-free sentences will lift this to a 3 or 4 on its own.\n\nThree concrete next steps for your revision:\n1. Draft the full essay \u2014 an intro, three body paragraphs (debt, taxation, bread prices), and a conclusion \u2014 so your strong thesis actually has a body to sustain it.\n2. In each body paragraph, pair a specific fact (a figure, a tax, a date) with a sentence explaining *how* that factor pushed France toward revolution \u2014 this hits evidence and analysis at once.\n3. Add transitions that link every cause back to your \"primarily economic\" claim, then reread to confirm the thesis appears in your opening, each paragraph, and your conclusion.\n\nYou've already got the foundation most students struggle to find \u2014 a clear, defensible argument. Build the evidence and reasoning underneath it and this essay will climb quickly."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "check_feedback",
+      "status": "done",
+      "input": {
+        "subject": "Right out of the gate, you did the single hardest thing in argumentative writing: you took a real position. Your opening line \u2014 \"The causes of the French Revolution were primarily economic, rooted in debt and inequality\" \u2014 isn't a summary or a neutral observation; it's a contestable claim that privileges economic causes over political or ideological ones. That's a genuine thesis, and it gives you something to defend. Nice work.\n\nThesis clarity (2/4): Your claim is strong and arguable, which is exactly why the score sits at 2 rather than lower. What's missing is *sustaining* it: the submission ends right after that opening sentence (\"...rooted in debt and inequality...\"), so there's no evidence the argument carries through. To reach a 3 or 4, echo the economic thesis explicitly at the top of each body paragraph and return to it in your conclusion, so a reader can trace the same claim from first line to last.\n\nEvidence & support (1/4): You name the right *categories* of cause \u2014 \"debt and inequality\" \u2014 which earns you the point above zero, but you don't yet cite anything concrete. Trade the general nouns for specifics: the cost of French involvement in the American War of Independence, the tax burden the taille and gabelle placed on the Third Estate, or the bread prices and harvest failures of 1788\u201389. Every claim should be anchored to a fact a reader could check.\n\nOrganization (1/4): With only one sentence present, there's no paragraph structure to evaluate \u2014 that single line works fine as a topic statement, but there's no architecture beneath it. Build the standard frame: an introduction, one body paragraph per cause (debt, taxation, food prices), and a conclusion, with transitions that show how each cause ties back to your economic thesis.\n\nAnalysis & reasoning (0/4): This is where the biggest gain is available. Right now the essay *asserts* that debt and inequality caused revolution but never explains *how*. Push past naming causes to tracing mechanisms \u2014 for example, show how state bankruptcy forced the king to call the Estates-General, which then opened the political opening that economic grievance exploited. Reasoning through that chain is what turns a list of causes into an argument.\n\nMechanics & style (2/4): The one visible sentence is grammatically clean, well punctuated, and clearly phrased \u2014 no complaints there. The score reflects that the sample is simply too short to show sentence variety or sustained control. A fuller draft with varied, error-free sentences will lift this to a 3 or 4 on its own.\n\nThree concrete next steps for your revision:\n1. Draft the full essay \u2014 an intro, three body paragraphs (debt, taxation, bread prices), and a conclusion \u2014 so your strong thesis actually has a body to sustain it.\n2. In each body paragraph, pair a specific fact (a figure, a tax, a date) with a sentence explaining *how* that factor pushed France toward revolution \u2014 this hits evidence and analysis at once.\n3. Add transitions that link every cause back to your \"primarily economic\" claim, then reread to confirm the thesis appears in your opening, each paragraph, and your conclusion.\n\nYou've already got the foundation most students struggle to find \u2014 a clear, defensible argument. Build the evidence and reasoning underneath it and this essay will climb quickly."
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.85,
+        "issues": []
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.85,
+            "issues": []
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "grade",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "write_feedback",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "check_feedback",
+      "status": "done"
+    }
+  ]
+}

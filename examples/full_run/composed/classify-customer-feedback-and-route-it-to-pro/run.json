@@ -1,0 +1,112 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-classify-customer-feedba",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "The new dashboard is way too slow and keeps logging me out. Please fix it.",
+        "topic": "The new dashboard is way too slow and keeps logging me out. Please fix it.",
+        "message": "The new dashboard is way too slow and keeps logging me out. Please fix it.",
+        "subject": "The new dashboard is way too slow and keeps logging me out. Please fix it.",
+        "body": "The new dashboard is way too slow and keeps logging me out. Please fix it.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "categorize": {
+        "label": "engineering",
+        "confidence": 0.9,
+        "reasoning": "Slowness and forced logouts are performance/technical defects owned by engineering."
+      },
+      "route": {
+        "component": "engineering",
+        "escalate": false,
+        "reasoning": "Dashboard performance degradation and forced logouts are technical defects owned by engineering, with no security, data-loss, or outage indicators."
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "categorize",
+      "status": "done",
+      "input": {
+        "item": "The new dashboard is way too slow and keeps logging me out. Please fix it."
+      },
+      "output": {
+        "label": "engineering",
+        "confidence": 0.9,
+        "reasoning": "Slowness and forced logouts are performance/technical defects owned by engineering."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "engineering",
+            "confidence": 0.9,
+            "reasoning": "Slowness and forced logouts are performance/technical defects owned by engineering."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "route",
+      "status": "done",
+      "input": {
+        "item": "The new dashboard is way too slow and keeps logging me out. Please fix it."
+      },
+      "output": {
+        "component": "engineering",
+        "escalate": false,
+        "reasoning": "Dashboard performance degradation and forced logouts are technical defects owned by engineering, with no security, data-loss, or outage indicators."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "engineering",
+            "escalate": false,
+            "reasoning": "Dashboard performance degradation and forced logouts are technical defects owned by engineering, with no security, data-loss, or outage indicators."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "human_triage",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "categorize",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "human_triage",
+      "status": "skipped"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "route",
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-review-pull-requests-sum",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "topic": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "message": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "subject": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "body": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "review_pr": {
+        "risk": "high",
+        "findings": [
+          "No actual diff or code provided \u2014 review is based solely on a one-line description, so specific issues cannot be verified",
+          "Security-sensitive area: auth middleware refactor directly affects authentication/authorization enforcement",
+          "Session handling changes risk session fixation, improper invalidation on logout, or cookie flag regressions (HttpOnly/Secure/SameSite)",
+          "Token refresh logic changes risk refresh-token reuse/replay, missing rotation, or race conditions allowing expired tokens to be accepted",
+          "No mention of tests covering the refactored auth paths (valid/expired/tampered tokens, concurrent refresh, logout invalidation)",
+          "Potential for silent breaking changes to auth behavior affecting all protected routes",
+          "No mention of backward compatibility for existing active sessions/tokens during rollout"
+        ],
+        "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+      },
+      "suggest_reviewer": {
+        "reviewer": "@sec-lead",
+        "reasoning": "This PR refactors the auth middleware\u2014session handling and token refresh\u2014which maps directly to the security/auth owner (@sec-lead), and the high risk level reinforces preferring the security owner. The riskiest findings are squarely in @sec-lead's domain: session-handling changes risking session fixation, broken logout invalidation, or cookie-flag regressions (HttpOnly/Secure/SameSite), and token-refresh changes risking refresh-token reuse/replay, missing rotation, or race conditions that let expired tokens through. With no diff or tests mentioned and potential silent breaking changes to every protected route plus rollout backward-compatibility for active sessions, this needs the security lead's scrutiny over any area owner like @be-lead."
+      },
+      "post_review": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": [],
+            "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+          },
+          "on": null,
+          "meta": {
+            "reviewer": "@sec-lead"
+          }
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "review_pr",
+      "status": "done",
+      "input": {
+        "item": "PR: refactor the auth middleware; touches session handling and token refresh logic."
+      },
+      "output": {
+        "risk": "high",
+        "findings": [
+          "No actual diff or code provided \u2014 review is based solely on a one-line description, so specific issues cannot be verified",
+          "Security-sensitive area: auth middleware refactor directly affects authentication/authorization enforcement",
+          "Session handling changes risk session fixation, improper invalidation on logout, or cookie flag regressions (HttpOnly/Secure/SameSite)",
+          "Token refresh logic changes risk refresh-token reuse/replay, missing rotation, or race conditions allowing expired tokens to be accepted",
+          "No mention of tests covering the refactored auth paths (valid/expired/tampered tokens, concurrent refresh, logout invalidation)",
+          "Potential for silent breaking changes to auth behavior affecting all protected routes",
+          "No mention of backward compatibility for existing active sessions/tokens during rollout"
+        ],
+        "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+      },
+      "attempts": [
+        {
+          "output": {
+            "risk": "high",
+            "findings": [
+              "No actual diff or code provided \u2014 review is based solely on a one-line description, so specific issues cannot be verified",
+              "Security-sensitive area: auth middleware refactor directly affects authentication/authorization enforcement",
+              "Session handling changes risk session fixation, improper invalidation on logout, or cookie flag regressions (HttpOnly/Secure/SameSite)",
+              "Token refresh logic changes risk refresh-token reuse/replay, missing rotation, or race conditions allowing expired tokens to be accepted",
+              "No mention of tests covering the refactored auth paths (valid/expired/tampered tokens, concurrent refresh, logout invalidation)",
+              "Potential for silent breaking changes to auth behavior affecting all protected routes",
+              "No mention of backward compatibility for existing active sessions/tokens during rollout"
+            ],
+            "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "suggest_reviewer",
+      "status": "done",
+      "input": {
+        "item": "PR: refactor the auth middleware; touches session handling and token refresh logic.",
+        "risk": "high",
+        "findings": [
+          "No actual diff or code provided \u2014 review is based solely on a one-line description, so specific issues cannot be verified",
+          "Security-sensitive area: auth middleware refactor directly affects authentication/authorization enforcement",
+          "Session handling changes risk session fixation, improper invalidation on logout, or cookie flag regressions (HttpOnly/Secure/SameSite)",
+          "Token refresh logic changes risk refresh-token reuse/replay, missing rotation, or race conditions allowing expired tokens to be accepted",
+          "No mention of tests covering the refactored auth paths (valid/expired/tampered tokens, concurrent refresh, logout invalidation)",
+          "Potential for silent breaking changes to auth behavior affecting all protected routes",
+          "No mention of backward compatibility for existing active sessions/tokens during rollout"
+        ]
+      },
+      "output": {
+        "reviewer": "@sec-lead",
+        "reasoning": "This PR refactors the auth middleware\u2014session handling and token refresh\u2014which maps directly to the security/auth owner (@sec-lead), and the high risk level reinforces preferring the security owner. The riskiest findings are squarely in @sec-lead's domain: session-handling changes risking session fixation, broken logout invalidation, or cookie-flag regressions (HttpOnly/Secure/SameSite), and token-refresh changes risking refresh-token reuse/replay, missing rotation, or race conditions that let expired tokens through. With no diff or tests mentioned and potential silent breaking changes to every protected route plus rollout backward-compatibility for active sessions, this needs the security lead's scrutiny over any area owner like @be-lead."
+      },
+      "attempts": [
+        {
+          "output": {
+            "reviewer": "@sec-lead",
+            "reasoning": "This PR refactors the auth middleware\u2014session handling and token refresh\u2014which maps directly to the security/auth owner (@sec-lead), and the high risk level reinforces preferring the security owner. The riskiest findings are squarely in @sec-lead's domain: session-handling changes risking session fixation, broken logout invalidation, or cookie-flag regressions (HttpOnly/Secure/SameSite), and token-refresh changes risking refresh-token reuse/replay, missing rotation, or race conditions that let expired tokens through. With no diff or tests mentioned and potential silent breaking changes to every protected route plus rollout backward-compatibility for active sessions, this needs the security lead's scrutiny over any area owner like @be-lead."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "post_review",
+      "status": "done",
+      "input": {
+        "payload": {
+          "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed.",
+          "reviewer": "@sec-lead",
+          "url": null
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": [],
+            "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+          },
+          "on": null,
+          "meta": {
+            "reviewer": "@sec-lead"
+          }
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "would_post": {
+                "labels": [],
+                "comment": "This is a security-sensitive refactor of auth middleware (session + token refresh), but no diff was provided, so I can only flag areas needing scrutiny rather than confirmed bugs. Before merge, please: (1) attach the actual diff, (2) confirm test coverage for expired/tampered/valid tokens, concurrent refresh, and session invalidation on logout, (3) verify token rotation prevents refresh-token replay, (4) check session cookie flags (HttpOnly/Secure/SameSite) are preserved, and (5) confirm existing active sessions won't be invalidated on deploy. Rating high risk until the diff and tests are reviewed."
+              },
+              "on": null,
+              "meta": {
+                "reviewer": "@sec-lead"
+              }
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "review_pr",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "suggest_reviewer",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "post_review",
+      "status": "gated"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "post_review",
+      "status": "done"
+    }
+  ]
+}

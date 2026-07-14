@@ -1,0 +1,155 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-generate-a-product-image",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light.",
+        "topic": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light.",
+        "message": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light.",
+        "subject": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light.",
+        "body": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "generate_image": {
+        "image": "unavailable \u2014 I cannot generate or render actual image pixels in this environment (no image-generation tool is available), so I cannot produce a real 1:1 product photograph. The fully composed generation prompt is provided in `prompt_used` and would produce the described image if passed to an image model.",
+        "prompt_used": "Clean studio product photography, photorealistic. A single minimalist matte-white ceramic coffee mug with a smooth, non-reflective glazed surface and a simple cylindrical form with a rounded handle, resting on a warm natural wooden table with visible grain. Soft, diffused morning light entering from a side window, casting gentle elongated shadows and a subtle warm highlight along the mug's curved edge. Neutral, softly blurred background keeping focus entirely on the product. Sharp focus on the mug, accurate ceramic material rendering, no steam unless subtle, no text or logos, undistorted geometry, balanced composition centered in frame. Square 1:1 aspect ratio, high detail, professional studio lighting."
+      },
+      "stage_image": {
+        "staged_image": "unavailable \u2014 no image-generation tool is available in this environment, so I cannot render actual photograph pixels. Passing the following fully-composed prompt to a photorealistic image model would produce the described 1:1 staged product photo:\n\nprompt_used: \"Photorealistic product photograph. A minimalist matte-white ceramic coffee mug \u2014 smooth unglazed matte finish, clean cylindrical body with a simple rounded handle, no logo or pattern \u2014 resting on the surface of a warm, natural light-oak wooden table with subtle visible grain. Soft directional morning key light rakes in from the left at a low angle, wrapping the mug's curved surface and casting a long, soft-edged shadow to the right; a gentle fill on the shadow side keeps detail without flattening the form. Muted, airy morning atmosphere with faint warm color temperature (~4800K). Composition follows the rule of thirds: the mug sits on the left vertical third as the hero with generous negative space to the right for breathing room; shallow depth of field softly blurs the background into neutral warm tones. Sharp focus on the mug rim and body, true-to-life proportions and color, no distortion or artifacts, natural film-like grain, high detail.\"",
+        "scene_notes": "Scene: The mug is staged on a warm light-oak wooden tabletop, a lifestyle context that matches the coffee/kitchenware category and lets the matte-white ceramic read cleanly against natural wood grain. Props are intentionally omitted to keep the minimalist product as the sole hero. Lighting: A soft directional key light comes from the left at a low morning angle to wrap and reveal the mug's cylindrical curvature and matte texture, with a gentle fill on the opposite side to open the shadows while preserving dimensional form; the long soft-edged shadow reinforces the 'soft morning light' brief and grounds the object. Composition: Rule-of-thirds placement sets the mug on the left vertical third with open negative space to the right, giving the product breathing room as the hero; shallow depth of field blurs the background into neutral warm tones to isolate the subject. Product integrity: The mug's true cylindrical shape, rounded handle, unglazed matte-white color, and clean logo-free surface are preserved exactly so it remains instantly recognizable. Note: actual pixels were not rendered because no image-generation tool is available here; the exact generation prompt that would produce this staged photo is included in the staged_image field as prompt_used."
+      },
+      "check": {
+        "verdict": "fail",
+        "confidence": 0.97,
+        "issues": [
+          "subject is not an image \u2014 no rendered pixels were produced, only a text prompt",
+          "cannot verify matte-white ceramic mug, wooden table, or soft morning light without an actual image to inspect",
+          "a prompt describing the scene does not satisfy a standard that requires the depicted photograph itself"
+        ]
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "generate_image",
+      "status": "done",
+      "input": {
+        "description": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light."
+      },
+      "output": {
+        "image": "unavailable \u2014 I cannot generate or render actual image pixels in this environment (no image-generation tool is available), so I cannot produce a real 1:1 product photograph. The fully composed generation prompt is provided in `prompt_used` and would produce the described image if passed to an image model.",
+        "prompt_used": "Clean studio product photography, photorealistic. A single minimalist matte-white ceramic coffee mug with a smooth, non-reflective glazed surface and a simple cylindrical form with a rounded handle, resting on a warm natural wooden table with visible grain. Soft, diffused morning light entering from a side window, casting gentle elongated shadows and a subtle warm highlight along the mug's curved edge. Neutral, softly blurred background keeping focus entirely on the product. Sharp focus on the mug, accurate ceramic material rendering, no steam unless subtle, no text or logos, undistorted geometry, balanced composition centered in frame. Square 1:1 aspect ratio, high detail, professional studio lighting."
+      },
+      "attempts": [
+        {
+          "output": {
+            "image": "unavailable \u2014 I cannot generate or render actual image pixels in this environment (no image-generation tool is available), so I cannot produce a real 1:1 product photograph. The fully composed generation prompt is provided in `prompt_used` and would produce the described image if passed to an image model.",
+            "prompt_used": "Clean studio product photography, photorealistic. A single minimalist matte-white ceramic coffee mug with a smooth, non-reflective glazed surface and a simple cylindrical form with a rounded handle, resting on a warm natural wooden table with visible grain. Soft, diffused morning light entering from a side window, casting gentle elongated shadows and a subtle warm highlight along the mug's curved edge. Neutral, softly blurred background keeping focus entirely on the product. Sharp focus on the mug, accurate ceramic material rendering, no steam unless subtle, no text or logos, undistorted geometry, balanced composition centered in frame. Square 1:1 aspect ratio, high detail, professional studio lighting."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage_image",
+      "status": "done",
+      "input": {
+        "image": "unavailable \u2014 I cannot generate or render actual image pixels in this environment (no image-generation tool is available), so I cannot produce a real 1:1 product photograph. The fully composed generation prompt is provided in `prompt_used` and would produce the described image if passed to an image model.",
+        "description": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light."
+      },
+      "output": {
+        "staged_image": "unavailable \u2014 no image-generation tool is available in this environment, so I cannot render actual photograph pixels. Passing the following fully-composed prompt to a photorealistic image model would produce the described 1:1 staged product photo:\n\nprompt_used: \"Photorealistic product photograph. A minimalist matte-white ceramic coffee mug \u2014 smooth unglazed matte finish, clean cylindrical body with a simple rounded handle, no logo or pattern \u2014 resting on the surface of a warm, natural light-oak wooden table with subtle visible grain. Soft directional morning key light rakes in from the left at a low angle, wrapping the mug's curved surface and casting a long, soft-edged shadow to the right; a gentle fill on the shadow side keeps detail without flattening the form. Muted, airy morning atmosphere with faint warm color temperature (~4800K). Composition follows the rule of thirds: the mug sits on the left vertical third as the hero with generous negative space to the right for breathing room; shallow depth of field softly blurs the background into neutral warm tones. Sharp focus on the mug rim and body, true-to-life proportions and color, no distortion or artifacts, natural film-like grain, high detail.\"",
+        "scene_notes": "Scene: The mug is staged on a warm light-oak wooden tabletop, a lifestyle context that matches the coffee/kitchenware category and lets the matte-white ceramic read cleanly against natural wood grain. Props are intentionally omitted to keep the minimalist product as the sole hero. Lighting: A soft directional key light comes from the left at a low morning angle to wrap and reveal the mug's cylindrical curvature and matte texture, with a gentle fill on the opposite side to open the shadows while preserving dimensional form; the long soft-edged shadow reinforces the 'soft morning light' brief and grounds the object. Composition: Rule-of-thirds placement sets the mug on the left vertical third with open negative space to the right, giving the product breathing room as the hero; shallow depth of field blurs the background into neutral warm tones to isolate the subject. Product integrity: The mug's true cylindrical shape, rounded handle, unglazed matte-white color, and clean logo-free surface are preserved exactly so it remains instantly recognizable. Note: actual pixels were not rendered because no image-generation tool is available here; the exact generation prompt that would produce this staged photo is included in the staged_image field as prompt_used."
+      },
+      "attempts": [
+        {
+          "output": {
+            "staged_image": "unavailable \u2014 no image-generation tool is available in this environment, so I cannot render actual photograph pixels. Passing the following fully-composed prompt to a photorealistic image model would produce the described 1:1 staged product photo:\n\nprompt_used: \"Photorealistic product photograph. A minimalist matte-white ceramic coffee mug \u2014 smooth unglazed matte finish, clean cylindrical body with a simple rounded handle, no logo or pattern \u2014 resting on the surface of a warm, natural light-oak wooden table with subtle visible grain. Soft directional morning key light rakes in from the left at a low angle, wrapping the mug's curved surface and casting a long, soft-edged shadow to the right; a gentle fill on the shadow side keeps detail without flattening the form. Muted, airy morning atmosphere with faint warm color temperature (~4800K). Composition follows the rule of thirds: the mug sits on the left vertical third as the hero with generous negative space to the right for breathing room; shallow depth of field softly blurs the background into neutral warm tones. Sharp focus on the mug rim and body, true-to-life proportions and color, no distortion or artifacts, natural film-like grain, high detail.\"",
+            "scene_notes": "Scene: The mug is staged on a warm light-oak wooden tabletop, a lifestyle context that matches the coffee/kitchenware category and lets the matte-white ceramic read cleanly against natural wood grain. Props are intentionally omitted to keep the minimalist product as the sole hero. Lighting: A soft directional key light comes from the left at a low morning angle to wrap and reveal the mug's cylindrical curvature and matte texture, with a gentle fill on the opposite side to open the shadows while preserving dimensional form; the long soft-edged shadow reinforces the 'soft morning light' brief and grounds the object. Composition: Rule-of-thirds placement sets the mug on the left vertical third with open negative space to the right, giving the product breathing room as the hero; shallow depth of field blurs the background into neutral warm tones to isolate the subject. Product integrity: The mug's true cylindrical shape, rounded handle, unglazed matte-white color, and clean logo-free surface are preserved exactly so it remains instantly recognizable. Note: actual pixels were not rendered because no image-generation tool is available here; the exact generation prompt that would produce this staged photo is included in the staged_image field as prompt_used."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "check",
+      "status": "done",
+      "input": {
+        "subject": "unavailable \u2014 no image-generation tool is available in this environment, so I cannot render actual photograph pixels. Passing the following fully-composed prompt to a photorealistic image model would produce the described 1:1 staged product photo:\n\nprompt_used: \"Photorealistic product photograph. A minimalist matte-white ceramic coffee mug \u2014 smooth unglazed matte finish, clean cylindrical body with a simple rounded handle, no logo or pattern \u2014 resting on the surface of a warm, natural light-oak wooden table with subtle visible grain. Soft directional morning key light rakes in from the left at a low angle, wrapping the mug's curved surface and casting a long, soft-edged shadow to the right; a gentle fill on the shadow side keeps detail without flattening the form. Muted, airy morning atmosphere with faint warm color temperature (~4800K). Composition follows the rule of thirds: the mug sits on the left vertical third as the hero with generous negative space to the right for breathing room; shallow depth of field softly blurs the background into neutral warm tones. Sharp focus on the mug rim and body, true-to-life proportions and color, no distortion or artifacts, natural film-like grain, high detail.\"",
+        "standard": "A minimalist matte-white ceramic coffee mug on a wooden table in soft morning light."
+      },
+      "output": {
+        "verdict": "fail",
+        "confidence": 0.97,
+        "issues": [
+          "subject is not an image \u2014 no rendered pixels were produced, only a text prompt",
+          "cannot verify matte-white ceramic mug, wooden table, or soft morning light without an actual image to inspect",
+          "a prompt describing the scene does not satisfy a standard that requires the depicted photograph itself"
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "fail",
+            "confidence": 0.97,
+            "issues": [
+              "subject is not an image \u2014 no rendered pixels were produced, only a text prompt",
+              "cannot verify matte-white ceramic mug, wooden table, or soft morning light without an actual image to inspect",
+              "a prompt describing the scene does not satisfy a standard that requires the depicted photograph itself"
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "generate_image",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "stage_image",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "check",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "stage",
+      "status": "skipped"
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-monitor-brand-mentions-g",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going.",
+        "topic": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going.",
+        "message": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going.",
+        "subject": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going.",
+        "body": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "sentiment": {
+        "label": "negative",
+        "confidence": 0.95,
+        "reasoning": "The user complains that onboarding was rough and time-consuming, expressing dissatisfaction."
+      },
+      "draft_reply": {
+        "reply": "I'm sorry the onboarding was such a frustrating start \u2014 that's not the experience we want you to have, and I appreciate you flagging it.\n\nI'd like to understand exactly where things got stuck so I can help. Could you share:\n\n- Which onboarding step(s) cost you the most time\n- The Acme version (or web/desktop) you're on\n- Any error messages or logs you saw along the way\n\nWith those details I can dig in and point you toward a fix. Thanks for your patience, and welcome aboard."
+      },
+      "stage_reply": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/negative_mention_reply.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "sentiment",
+      "status": "done",
+      "input": {
+        "item": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going."
+      },
+      "output": {
+        "label": "negative",
+        "confidence": 0.95,
+        "reasoning": "The user complains that onboarding was rough and time-consuming, expressing dissatisfaction."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "negative",
+            "confidence": 0.95,
+            "reasoning": "The user complains that onboarding was rough and time-consuming, expressing dissatisfaction."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "draft_reply",
+      "status": "done",
+      "input": {
+        "item": "Just switched to Acme and honestly the onboarding was rough, took me hours to get going."
+      },
+      "output": {
+        "reply": "I'm sorry the onboarding was such a frustrating start \u2014 that's not the experience we want you to have, and I appreciate you flagging it.\n\nI'd like to understand exactly where things got stuck so I can help. Could you share:\n\n- Which onboarding step(s) cost you the most time\n- The Acme version (or web/desktop) you're on\n- Any error messages or logs you saw along the way\n\nWith those details I can dig in and point you toward a fix. Thanks for your patience, and welcome aboard."
+      },
+      "attempts": [
+        {
+          "output": {
+            "reply": "I'm sorry the onboarding was such a frustrating start \u2014 that's not the experience we want you to have, and I appreciate you flagging it.\n\nI'd like to understand exactly where things got stuck so I can help. Could you share:\n\n- Which onboarding step(s) cost you the most time\n- The Acme version (or web/desktop) you're on\n- Any error messages or logs you saw along the way\n\nWith those details I can dig in and point you toward a fix. Thanks for your patience, and welcome aboard."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage_reply",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "I'm sorry the onboarding was such a frustrating start \u2014 that's not the experience we want you to have, and I appreciate you flagging it.\n\nI'd like to understand exactly where things got stuck so I can help. Could you share:\n\n- Which onboarding step(s) cost you the most time\n- The Acme version (or web/desktop) you're on\n- Any error messages or logs you saw along the way\n\nWith those details I can dig in and point you toward a fix. Thanks for your patience, and welcome aboard.",
+          "name": "negative_mention_reply.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/negative_mention_reply.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/negative_mention_reply.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "log_mention",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "sentiment",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "log_mention",
+      "status": "skipped"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "draft_reply",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "stage_reply",
+      "status": "done"
+    }
+  ]
+}

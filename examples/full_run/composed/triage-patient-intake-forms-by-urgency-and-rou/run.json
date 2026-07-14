@@ -1,0 +1,175 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-triage-patient-intake-fo",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58.",
+        "topic": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58.",
+        "message": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58.",
+        "subject": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58.",
+        "body": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "triage_urgency": {
+        "label": "emergency",
+        "confidence": 0.9,
+        "reasoning": "Chest tightness and shortness of breath for 2 hours in a 58-year-old is a red-flag cardiac presentation requiring immediate evaluation."
+      },
+      "score_urgency": {
+        "score": 0.85,
+        "reasoning": "Chest tightness and shortness of breath in a 58-year-old suggests possible acute coronary syndrome, a potentially life-threatening emergency requiring immediate evaluation."
+      },
+      "route_department": {
+        "component": "emergency_department",
+        "escalate": true,
+        "reasoning": "Acute chest tightness and shortness of breath in a 58-year-old is a possible cardiac emergency requiring immediate evaluation."
+      },
+      "stage_triage_card": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/triage_card.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "triage_urgency",
+      "status": "done",
+      "input": {
+        "item": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58."
+      },
+      "output": {
+        "label": "emergency",
+        "confidence": 0.9,
+        "reasoning": "Chest tightness and shortness of breath for 2 hours in a 58-year-old is a red-flag cardiac presentation requiring immediate evaluation."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "emergency",
+            "confidence": 0.9,
+            "reasoning": "Chest tightness and shortness of breath for 2 hours in a 58-year-old is a red-flag cardiac presentation requiring immediate evaluation."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "score_urgency",
+      "status": "done",
+      "input": {
+        "item": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58."
+      },
+      "output": {
+        "score": 0.85,
+        "reasoning": "Chest tightness and shortness of breath in a 58-year-old suggests possible acute coronary syndrome, a potentially life-threatening emergency requiring immediate evaluation."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.85,
+            "reasoning": "Chest tightness and shortness of breath in a 58-year-old suggests possible acute coronary syndrome, a potentially life-threatening emergency requiring immediate evaluation."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "route_department",
+      "status": "done",
+      "input": {
+        "item": "Patient: chest tightness and shortness of breath for the past 2 hours, age 58."
+      },
+      "output": {
+        "component": "emergency_department",
+        "escalate": true,
+        "reasoning": "Acute chest tightness and shortness of breath in a 58-year-old is a possible cardiac emergency requiring immediate evaluation."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "emergency_department",
+            "escalate": true,
+            "reasoning": "Acute chest tightness and shortness of breath in a 58-year-old is a possible cardiac emergency requiring immediate evaluation."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage_triage_card",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": null,
+          "name": "triage_card.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/triage_card.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/triage_card.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "triage_urgency",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "score_urgency",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "route_department",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "stage_triage_card",
+      "status": "gated"
+    },
+    {
+      "n": 4,
+      "item": "item",
+      "step": "stage_triage_card",
+      "status": "done"
+    }
+  ]
+}

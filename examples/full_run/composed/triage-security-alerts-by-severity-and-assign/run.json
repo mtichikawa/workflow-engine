@@ -1,0 +1,164 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-triage-security-alerts-b",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "topic": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "message": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "subject": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "body": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "triage": {
+        "label": "high",
+        "confidence": 0.72,
+        "reasoning": "Likely active data exfiltration from a production database given the large, fast outbound transfer to an unknown IP, but severity depends on confirming it is malicious rather than a legitimate backup or replication job."
+      },
+      "assign_oncall": {
+        "assignee": "infra-oncall",
+        "rotation": "infra-oncall",
+        "escalate": true,
+        "assignment_note": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise.",
+        "reasoning": "The alert concerns a production database host with anomalous outbound network traffic, placing it in the cloud/network/host domain owned by infra-oncall. Per the severity-to-pager rules, a high-severity alert pages the domain rotation (not security-primary/secondary, which are for critical), so infra-oncall is the correct assignee. The escalation_policy requires paging immediately for critical or high severity; this alert is high, so escalate=true rather than queuing."
+      },
+      "assign": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": "high",
+            "comment": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise."
+          },
+          "on": null
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "triage",
+      "status": "done",
+      "input": {
+        "item": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes."
+      },
+      "output": {
+        "label": "high",
+        "confidence": 0.72,
+        "reasoning": "Likely active data exfiltration from a production database given the large, fast outbound transfer to an unknown IP, but severity depends on confirming it is malicious rather than a legitimate backup or replication job."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "high",
+            "confidence": 0.72,
+            "reasoning": "Likely active data exfiltration from a production database given the large, fast outbound transfer to an unknown IP, but severity depends on confirming it is malicious rather than a legitimate backup or replication job."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "assign_oncall",
+      "status": "done",
+      "input": {
+        "item": "Alert: unusual outbound traffic from prod-db-03 to an unknown IP \u2014 2GB in 10 minutes.",
+        "severity": "high",
+        "severity_reasoning": "Likely active data exfiltration from a production database given the large, fast outbound transfer to an unknown IP, but severity depends on confirming it is malicious rather than a legitimate backup or replication job."
+      },
+      "output": {
+        "assignee": "infra-oncall",
+        "rotation": "infra-oncall",
+        "escalate": true,
+        "assignment_note": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise.",
+        "reasoning": "The alert concerns a production database host with anomalous outbound network traffic, placing it in the cloud/network/host domain owned by infra-oncall. Per the severity-to-pager rules, a high-severity alert pages the domain rotation (not security-primary/secondary, which are for critical), so infra-oncall is the correct assignee. The escalation_policy requires paging immediately for critical or high severity; this alert is high, so escalate=true rather than queuing."
+      },
+      "attempts": [
+        {
+          "output": {
+            "assignee": "infra-oncall",
+            "rotation": "infra-oncall",
+            "escalate": true,
+            "assignment_note": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise.",
+            "reasoning": "The alert concerns a production database host with anomalous outbound network traffic, placing it in the cloud/network/host domain owned by infra-oncall. Per the severity-to-pager rules, a high-severity alert pages the domain rotation (not security-primary/secondary, which are for critical), so infra-oncall is the correct assignee. The escalation_policy requires paging immediately for critical or high severity; this alert is high, so escalate=true rather than queuing."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "assign",
+      "status": "done",
+      "input": {
+        "payload": {
+          "labels": "high",
+          "comment": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise.",
+          "url": null
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "would_post": {
+            "labels": "high",
+            "comment": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise."
+          },
+          "on": null
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "would_post": {
+                "labels": "high",
+                "comment": "Investigate suspected data exfiltration from prod-db-03: 2GB outbound to an unknown IP in 10 minutes. Confirm whether the transfer is malicious or a legitimate backup/replication job; if malicious, isolate the host and cut the outbound flow. Treat as active until proven otherwise."
+              },
+              "on": null
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "triage",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "assign_oncall",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "assign",
+      "status": "gated"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "assign",
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-transcribe-support-calls",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning.",
+        "topic": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning.",
+        "message": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning.",
+        "subject": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning.",
+        "body": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "transcribe": {
+        "transcript": "[Agent] Thank you for calling support, my name is Dana. How can I help you today?\n[Customer] Hi, I'm calling about a problem with my bill this month.\n[Agent] I'm sorry to hear that. Can you tell me a little more about the issue?\n[Customer] Yes, I was charged twice for my subscription, and one of the charges shouldn't be there.\n[Agent] I understand. I can look into that duplicate charge for you and get it sorted out.\n[Customer] Thank you. I don't have time to go through it all right now, though.\n[Agent] No problem at all. Would you like us to call you back at a better time?\n[Customer] Yes, please. Could someone call me back Tuesday morning?\n[Agent] Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue.\n[Customer] Great, thank you so much.\n[Agent] You're welcome. Have a good day.",
+        "segments": [
+          {
+            "start": 0.0,
+            "end": 4.2,
+            "speaker": "Agent",
+            "text": "Thank you for calling support, my name is Dana. How can I help you today?"
+          },
+          {
+            "start": 4.2,
+            "end": 8.1,
+            "speaker": "Customer",
+            "text": "Hi, I'm calling about a problem with my bill this month."
+          },
+          {
+            "start": 8.1,
+            "end": 12.0,
+            "speaker": "Agent",
+            "text": "I'm sorry to hear that. Can you tell me a little more about the issue?"
+          },
+          {
+            "start": 12.0,
+            "end": 17.5,
+            "speaker": "Customer",
+            "text": "Yes, I was charged twice for my subscription, and one of the charges shouldn't be there."
+          },
+          {
+            "start": 17.5,
+            "end": 22.0,
+            "speaker": "Agent",
+            "text": "I understand. I can look into that duplicate charge for you and get it sorted out."
+          },
+          {
+            "start": 22.0,
+            "end": 26.3,
+            "speaker": "Customer",
+            "text": "Thank you. I don't have time to go through it all right now, though."
+          },
+          {
+            "start": 26.3,
+            "end": 30.4,
+            "speaker": "Agent",
+            "text": "No problem at all. Would you like us to call you back at a better time?"
+          },
+          {
+            "start": 30.4,
+            "end": 34.8,
+            "speaker": "Customer",
+            "text": "Yes, please. Could someone call me back Tuesday morning?"
+          },
+          {
+            "start": 34.8,
+            "end": 41.0,
+            "speaker": "Agent",
+            "text": "Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue."
+          },
+          {
+            "start": 41.0,
+            "end": 43.5,
+            "speaker": "Customer",
+            "text": "Great, thank you so much."
+          },
+          {
+            "start": 43.5,
+            "end": 46.0,
+            "speaker": "Agent",
+            "text": "You're welcome. Have a good day."
+          }
+        ]
+      },
+      "extract_actions": {
+        "summary": "The customer called about a billing problem: they were charged twice for their subscription and one of the two charges is a duplicate that should not be there. The agent (Dana) acknowledged the issue and offered to investigate the duplicate charge. Because the customer did not have time to resolve it during the call, they requested a callback for Tuesday morning. The agent confirmed and noted a Tuesday-morning callback to resolve the billing issue.",
+        "action_items": [
+          "Agent (Dana): Investigate and resolve the duplicate subscription charge on the customer's bill. Due: Tuesday morning.",
+          "Agent (Dana): Call the customer back Tuesday morning to resolve the billing issue."
+        ]
+      },
+      "save": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/call_action_items.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "transcribe",
+      "status": "done",
+      "input": {
+        "audio": "Customer reports a billing issue on the recorded call and asks for a callback Tuesday morning."
+      },
+      "output": {
+        "transcript": "[Agent] Thank you for calling support, my name is Dana. How can I help you today?\n[Customer] Hi, I'm calling about a problem with my bill this month.\n[Agent] I'm sorry to hear that. Can you tell me a little more about the issue?\n[Customer] Yes, I was charged twice for my subscription, and one of the charges shouldn't be there.\n[Agent] I understand. I can look into that duplicate charge for you and get it sorted out.\n[Customer] Thank you. I don't have time to go through it all right now, though.\n[Agent] No problem at all. Would you like us to call you back at a better time?\n[Customer] Yes, please. Could someone call me back Tuesday morning?\n[Agent] Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue.\n[Customer] Great, thank you so much.\n[Agent] You're welcome. Have a good day.",
+        "segments": [
+          {
+            "start": 0.0,
+            "end": 4.2,
+            "speaker": "Agent",
+            "text": "Thank you for calling support, my name is Dana. How can I help you today?"
+          },
+          {
+            "start": 4.2,
+            "end": 8.1,
+            "speaker": "Customer",
+            "text": "Hi, I'm calling about a problem with my bill this month."
+          },
+          {
+            "start": 8.1,
+            "end": 12.0,
+            "speaker": "Agent",
+            "text": "I'm sorry to hear that. Can you tell me a little more about the issue?"
+          },
+          {
+            "start": 12.0,
+            "end": 17.5,
+            "speaker": "Customer",
+            "text": "Yes, I was charged twice for my subscription, and one of the charges shouldn't be there."
+          },
+          {
+            "start": 17.5,
+            "end": 22.0,
+            "speaker": "Agent",
+            "text": "I understand. I can look into that duplicate charge for you and get it sorted out."
+          },
+          {
+            "start": 22.0,
+            "end": 26.3,
+            "speaker": "Customer",
+            "text": "Thank you. I don't have time to go through it all right now, though."
+          },
+          {
+            "start": 26.3,
+            "end": 30.4,
+            "speaker": "Agent",
+            "text": "No problem at all. Would you like us to call you back at a better time?"
+          },
+          {
+            "start": 30.4,
+            "end": 34.8,
+            "speaker": "Customer",
+            "text": "Yes, please. Could someone call me back Tuesday morning?"
+          },
+          {
+            "start": 34.8,
+            "end": 41.0,
+            "speaker": "Agent",
+            "text": "Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue."
+          },
+          {
+            "start": 41.0,
+            "end": 43.5,
+            "speaker": "Customer",
+            "text": "Great, thank you so much."
+          },
+          {
+            "start": 43.5,
+            "end": 46.0,
+            "speaker": "Agent",
+            "text": "You're welcome. Have a good day."
+          }
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "transcript": "[Agent] Thank you for calling support, my name is Dana. How can I help you today?\n[Customer] Hi, I'm calling about a problem with my bill this month.\n[Agent] I'm sorry to hear that. Can you tell me a little more about the issue?\n[Customer] Yes, I was charged twice for my subscription, and one of the charges shouldn't be there.\n[Agent] I understand. I can look into that duplicate charge for you and get it sorted out.\n[Customer] Thank you. I don't have time to go through it all right now, though.\n[Agent] No problem at all. Would you like us to call you back at a better time?\n[Customer] Yes, please. Could someone call me back Tuesday morning?\n[Agent] Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue.\n[Customer] Great, thank you so much.\n[Agent] You're welcome. Have a good day.",
+            "segments": [
+              {
+                "start": 0.0,
+                "end": 4.2,
+                "speaker": "Agent",
+                "text": "Thank you for calling support, my name is Dana. How can I help you today?"
+              },
+              {
+                "start": 4.2,
+                "end": 8.1,
+                "speaker": "Customer",
+                "text": "Hi, I'm calling about a problem with my bill this month."
+              },
+              {
+                "start": 8.1,
+                "end": 12.0,
+                "speaker": "Agent",
+                "text": "I'm sorry to hear that. Can you tell me a little more about the issue?"
+              },
+              {
+                "start": 12.0,
+                "end": 17.5,
+                "speaker": "Customer",
+                "text": "Yes, I was charged twice for my subscription, and one of the charges shouldn't be there."
+              },
+              {
+                "start": 17.5,
+                "end": 22.0,
+                "speaker": "Agent",
+                "text": "I understand. I can look into that duplicate charge for you and get it sorted out."
+              },
+              {
+                "start": 22.0,
+                "end": 26.3,
+                "speaker": "Customer",
+                "text": "Thank you. I don't have time to go through it all right now, though."
+              },
+              {
+                "start": 26.3,
+                "end": 30.4,
+                "speaker": "Agent",
+                "text": "No problem at all. Would you like us to call you back at a better time?"
+              },
+              {
+                "start": 30.4,
+                "end": 34.8,
+                "speaker": "Customer",
+                "text": "Yes, please. Could someone call me back Tuesday morning?"
+              },
+              {
+                "start": 34.8,
+                "end": 41.0,
+                "speaker": "Agent",
+                "text": "Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue."
+              },
+              {
+                "start": 41.0,
+                "end": 43.5,
+                "speaker": "Customer",
+                "text": "Great, thank you so much."
+              },
+              {
+                "start": 43.5,
+                "end": 46.0,
+                "speaker": "Agent",
+                "text": "You're welcome. Have a good day."
+              }
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "extract_actions",
+      "status": "done",
+      "input": {
+        "transcript": "[Agent] Thank you for calling support, my name is Dana. How can I help you today?\n[Customer] Hi, I'm calling about a problem with my bill this month.\n[Agent] I'm sorry to hear that. Can you tell me a little more about the issue?\n[Customer] Yes, I was charged twice for my subscription, and one of the charges shouldn't be there.\n[Agent] I understand. I can look into that duplicate charge for you and get it sorted out.\n[Customer] Thank you. I don't have time to go through it all right now, though.\n[Agent] No problem at all. Would you like us to call you back at a better time?\n[Customer] Yes, please. Could someone call me back Tuesday morning?\n[Agent] Absolutely. I've noted a callback for Tuesday morning. We'll reach out then to resolve the billing issue.\n[Customer] Great, thank you so much.\n[Agent] You're welcome. Have a good day."
+      },
+      "output": {
+        "summary": "The customer called about a billing problem: they were charged twice for their subscription and one of the two charges is a duplicate that should not be there. The agent (Dana) acknowledged the issue and offered to investigate the duplicate charge. Because the customer did not have time to resolve it during the call, they requested a callback for Tuesday morning. The agent confirmed and noted a Tuesday-morning callback to resolve the billing issue.",
+        "action_items": [
+          "Agent (Dana): Investigate and resolve the duplicate subscription charge on the customer's bill. Due: Tuesday morning.",
+          "Agent (Dana): Call the customer back Tuesday morning to resolve the billing issue."
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "summary": "The customer called about a billing problem: they were charged twice for their subscription and one of the two charges is a duplicate that should not be there. The agent (Dana) acknowledged the issue and offered to investigate the duplicate charge. Because the customer did not have time to resolve it during the call, they requested a callback for Tuesday morning. The agent confirmed and noted a Tuesday-morning callback to resolve the billing issue.",
+            "action_items": [
+              "Agent (Dana): Investigate and resolve the duplicate subscription charge on the customer's bill. Due: Tuesday morning.",
+              "Agent (Dana): Call the customer back Tuesday morning to resolve the billing issue."
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "save",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": [
+            "Agent (Dana): Investigate and resolve the duplicate subscription charge on the customer's bill. Due: Tuesday morning.",
+            "Agent (Dana): Call the customer back Tuesday morning to resolve the billing issue."
+          ],
+          "name": "call_action_items.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/call_action_items.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/call_action_items.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "transcribe",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "extract_actions",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "save",
+      "status": "done"
+    }
+  ]
+}

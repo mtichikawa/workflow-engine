@@ -1,0 +1,125 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-detect-duplicate-bug-rep",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "App crashes on startup right after the latest update on iOS 17.",
+        "topic": "App crashes on startup right after the latest update on iOS 17.",
+        "message": "App crashes on startup right after the latest update on iOS 17.",
+        "subject": "App crashes on startup right after the latest update on iOS 17.",
+        "body": "App crashes on startup right after the latest update on iOS 17.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {}
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "fetch_existing",
+      "status": "failed",
+      "input": {},
+      "output": null,
+      "attempts": [
+        {
+          "error": "'repo'"
+        }
+      ],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "find_dupes",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "verify_match",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "draft_merge",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage_merge",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "stage_review",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "fetch_existing",
+      "status": "failed"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "find_dupes",
+      "status": "skipped"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "verify_match",
+      "status": "skipped"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "draft_merge",
+      "status": "skipped"
+    },
+    {
+      "n": 4,
+      "item": "item",
+      "step": "stage_merge",
+      "status": "skipped"
+    },
+    {
+      "n": 5,
+      "item": "item",
+      "step": "stage_review",
+      "status": "skipped"
+    }
+  ]
+}

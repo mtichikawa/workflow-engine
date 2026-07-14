@@ -1,0 +1,134 @@
+{
+  "recipe": "composed",
+  "run_id": "composed-moderate-incoming-forum-",
+  "items": {
+    "item": {
+      "payload": {
+        "text": "You're all idiots if you use tabs over spaces, this whole thread is garbage.",
+        "topic": "You're all idiots if you use tabs over spaces, this whole thread is garbage.",
+        "message": "You're all idiots if you use tabs over spaces, this whole thread is garbage.",
+        "subject": "You're all idiots if you use tabs over spaces, this whole thread is garbage.",
+        "body": "You're all idiots if you use tabs over spaces, this whole thread is garbage.",
+        "source": "hn",
+        "limit": 5
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "item": {
+      "flag_toxicity": {
+        "label": "toxic",
+        "confidence": 0.9,
+        "reasoning": "Calls other users idiots, which is targeted abuse rather than mere criticism."
+      },
+      "flag_post": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/flagged_for_moderation.txt"
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "item",
+      "step_id": "flag_toxicity",
+      "status": "done",
+      "input": {
+        "item": "You're all idiots if you use tabs over spaces, this whole thread is garbage."
+      },
+      "output": {
+        "label": "toxic",
+        "confidence": 0.9,
+        "reasoning": "Calls other users idiots, which is targeted abuse rather than mere criticism."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "toxic",
+            "confidence": 0.9,
+            "reasoning": "Calls other users idiots, which is targeted abuse rather than mere criticism."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "route_subforum",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "flag_post",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "Calls other users idiots, which is targeted abuse rather than mere criticism.",
+          "name": "flagged_for_moderation.txt"
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/flagged_for_moderation.txt"
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/flagged_for_moderation.txt"
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "item",
+      "step_id": "file_post",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "item",
+      "step": "flag_toxicity",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "item",
+      "step": "route_subforum",
+      "status": "skipped"
+    },
+    {
+      "n": 2,
+      "item": "item",
+      "step": "file_post",
+      "status": "skipped"
+    },
+    {
+      "n": 3,
+      "item": "item",
+      "step": "flag_post",
+      "status": "done"
+    }
+  ]
+}
