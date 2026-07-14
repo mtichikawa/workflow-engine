@@ -20,7 +20,9 @@
  h1{font-family:var(--mono);font-size:clamp(20px,2.9vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
  .subh{color:var(--mut);font-size:clamp(13px,1.7vh,16px);margin:9px 0 0}
  .subh b{color:var(--ink);font-weight:600}
- .stage{flex:1 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;
+ .hero-row{flex:1;min-height:0;display:flex;gap:clamp(16px,1.8vw,26px);align-items:stretch}
+ @media(max-width:900px){.hero-row{flex-direction:column}}
+ .stage{flex:1 1 auto;min-height:0;min-width:0;display:flex;flex-direction:column;
    background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
    box-shadow:0 40px 90px -50px #000;overflow:hidden}
  .stage-top{flex:none;display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);
@@ -31,25 +33,18 @@
    border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap} .libbtn:hover{background:rgba(208,175,98,.16)}
  .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.4vh,18px)}
  #hero{width:100%;height:100%;display:block}
- /* two big buttons, compact + collapsed by default, below the full-width animation */
- .btnstack{flex:none;width:100%;max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
- .acc{background:var(--panel);border:1px solid var(--line2);border-radius:15px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
- .acc.open{border-color:var(--brass);box-shadow:0 0 0 1px rgba(208,175,98,.15),0 30px 60px -40px #000}
- .accbtn{width:100%;display:flex;align-items:center;gap:14px;padding:19px 20px;background:none;border:0;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit}
- .accbtn:hover{background:var(--panel2)}
- .an{font-family:var(--mono);font-size:12px;color:var(--brass);border:1px solid #4a3f22;border-radius:8px;padding:5px 10px;flex:none}
- .acctxt{display:flex;flex-direction:column;gap:3px}
- .acctxt b{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:-.01em}
- .acctxt em{font-style:normal;color:var(--mut);font-size:12.5px}
- .chev{margin-left:auto;color:var(--brass);font-size:20px;transition:transform .25s;flex:none} .acc.open .chev{transform:rotate(90deg)}
- .accbody{max-height:0;opacity:0;overflow:hidden;transition:max-height .32s,opacity .25s,padding .32s;padding:0 13px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
- @media(max-width:620px){.accbody{grid-template-columns:1fr}}
- .acc.open .accbody{max-height:120px;opacity:1;padding:0 13px 14px}
- .opt{display:flex;align-items:center;gap:13px;padding:14px 15px;background:var(--card);border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
- .opt:hover{border-color:var(--brass);transform:translateX(3px);background:var(--panel2)}
- .opt .ico{width:10px;height:10px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
- .opt .ot{display:flex;flex-direction:column} .opt .ot b{font-family:var(--mono);font-size:14.5px} .opt .ot em{font-style:normal;color:var(--mut);font-size:11.5px}
- .opt .oarr{margin-left:auto;color:var(--brass);font-family:var(--mono);font-size:15px}
+ /* right column: two labelled groups, each with two small cards (never resizes the animation) */
+ .side{flex:0 0 clamp(300px,25%,344px);min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,34px)}
+ @media(max-width:900px){.side{flex:none;justify-content:flex-start}}
+ .grplbl{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin:0 0 12px}
+ .cardrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+ @media(max-width:480px){.cardrow{grid-template-columns:1fr}}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;cursor:pointer;display:flex;flex-direction:column;transition:border-color .15s,transform .15s,background .15s}
+ .card:hover{border-color:var(--brass);transform:translateY(-3px);background:var(--panel2)}
+ .card .ct{font-family:var(--mono);font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0 0 6px}
+ .card .cd{color:var(--mut);font-size:11.5px;line-height:1.45;margin:0 0 11px;flex:1}
+ .card .cg{font-family:var(--mono);font-size:11px;color:var(--brass)}
+ .ico{width:9px;height:9px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
  /* overlays */
  .ov{position:fixed;inset:0;background:rgba(6,8,12,.9);backdrop-filter:blur(4px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
  .ov.show{display:block}
@@ -144,27 +139,27 @@
     <h1>Describe a job in plain English.</h1>
     <p class="subh">It <b>builds the workflow</b>, <b>runs it</b>, and hands you the result &mdash; staged for a human.</p>
   </div>
-  <div class="stage">
-    <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
-      <button class="libbtn" onclick="open_('library',this)">&#9638; the library</button>
-      <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
-    <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
-  </div>
-  <div class="btnstack">
-    <div class="acc" id="a-see">
-      <button class="accbtn" onclick="acc('a-see')"><span class="an">01</span>
-        <span class="acctxt"><b>See our examples</b><em>Real, unedited outputs. Nothing to install.</em></span><span class="chev">&rsaquo;</span></button>
-      <div class="accbody">
-        <div class="opt" onclick="open_('ex_comp',this)"><span class="ico i-comp"></span><span class="ot"><b>The Composer</b><em>plain-English jobs &rarr; workflows</em></span><span class="oarr">&rarr;</span></div>
-        <div class="opt" onclick="open_('ex_run',this)"><span class="ico i-run"></span><span class="ot"><b>A full run</b><em>run on real input, staged</em></span><span class="oarr">&rarr;</span></div>
-      </div>
+  <div class="hero-row">
+    <div class="stage">
+      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
+        <button class="libbtn" onclick="open_('library',this)">&#9638; the library</button>
+        <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
+      <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
     </div>
-    <div class="acc" id="a-do">
-      <button class="accbtn" onclick="acc('a-do')"><span class="an">02</span>
-        <span class="acctxt"><b>Do it yourself</b><em>Clone the repo, then follow the steps.</em></span><span class="chev">&rsaquo;</span></button>
-      <div class="accbody">
-        <div class="opt" onclick="open_('diy_comp',this)"><span class="ico i-comp"></span><span class="ot"><b>Compose your own</b><em>build a workflow from your words</em></span><span class="oarr">&rarr;</span></div>
-        <div class="opt" onclick="open_('diy_run',this)"><span class="ico i-run"></span><span class="ot"><b>Run your own</b><em>point a recipe at your data</em></span><span class="oarr">&rarr;</span></div>
+    <div class="side">
+      <div class="grp">
+        <p class="grplbl">See our examples</p>
+        <div class="cardrow">
+          <div class="card" onclick="open_('ex_comp',this)"><p class="ct"><span class="ico i-comp"></span>The Composer</p><p class="cd">Plain-English jobs turned into workflows.</p><span class="cg">Browse &rarr;</span></div>
+          <div class="card" onclick="open_('ex_run',this)"><p class="ct"><span class="ico i-run"></span>A full run</p><p class="cd">Real recipes run on real input, staged.</p><span class="cg">Browse &rarr;</span></div>
+        </div>
+      </div>
+      <div class="grp">
+        <p class="grplbl">Do it yourself</p>
+        <div class="cardrow">
+          <div class="card" onclick="open_('diy_comp',this)"><p class="ct"><span class="ico i-comp"></span>Compose your own</p><p class="cd">Build a workflow from your own words.</p><span class="cg">Get the steps &rarr;</span></div>
+          <div class="card" onclick="open_('diy_run',this)"><p class="ct"><span class="ico i-run"></span>Run your own</p><p class="cd">Point a recipe at your repo or topic.</p><span class="cg">Get the steps &rarr;</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -593,23 +588,30 @@ renderComp();renderRuns();
 function acc(id){var el=document.getElementById(id),was=el.classList.contains("open");
   document.querySelectorAll(".acc").forEach(function(x){x.classList.remove("open");});
   if(!was)el.classList.add("open");}
-var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches, lastSrc=null;
 function resetSheet(sh){if(sh){sh.style.transition="none";sh.style.transform="none";sh.style.opacity="1";}}
+function flipTo(sh,src){var s=src.getBoundingClientRect(),f=sh.getBoundingClientRect();
+  var dx=(s.left+s.width/2)-(f.left+f.width/2), dy=(s.top+s.height/2)-(f.top+f.height/2);
+  var sc=Math.min(0.72,Math.max(0.18,s.width/f.width));
+  return "translate("+dx+"px,"+dy+"px) scale("+sc+")";}
 function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=ov.querySelector(".sheet");
-  ov.classList.add("show");document.body.style.overflow="hidden";ov.scrollTop=0;
+  lastSrc=src||null; ov.classList.add("show");document.body.style.overflow="hidden";ov.scrollTop=0;
   if(sh){ sh.scrollTop=0; resetSheet(sh);
-    if(src && !RM){ var s=src.getBoundingClientRect(); var f=sh.getBoundingClientRect();
-      var dx=(s.left+s.width/2)-(f.left+f.width/2), dy=(s.top+s.height/2)-(f.top+f.height/2);
-      var sc=Math.min(0.72,Math.max(0.22,s.width/f.width));
-      sh.style.transformOrigin="center center";
-      sh.style.transform="translate("+dx+"px,"+dy+"px) scale("+sc+")"; sh.style.opacity="0.25";
-      sh.getBoundingClientRect();
-      requestAnimationFrame(function(){ sh.style.transition="transform .38s cubic-bezier(.22,.68,.24,1),opacity .3s ease";
+    if(src && !RM){ sh.style.transformOrigin="center center";
+      sh.style.transform=flipTo(sh,src); sh.style.opacity="0.12"; sh.getBoundingClientRect();
+      requestAnimationFrame(function(){ sh.style.transition="transform .42s cubic-bezier(.22,.7,.24,1),opacity .32s ease";
         sh.style.transform="none"; sh.style.opacity="1"; });
     }
   }
 }
-function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");resetSheet(o.querySelector(".sheet"));});document.body.style.overflow="";}
+function close_(){var ov=null;document.querySelectorAll(".ov").forEach(function(o){if(o.classList.contains("show"))ov=o;});
+  if(!ov){document.body.style.overflow="";return;} var sh=ov.querySelector(".sheet");
+  var finish=function(){ov.classList.remove("show");resetSheet(sh);document.body.style.overflow="";};
+  if(sh && lastSrc && !RM){ var ran=false, go=function(){if(ran)return;ran=true;finish();};
+    sh.style.transition="transform .34s cubic-bezier(.4,0,.2,1),opacity .3s ease";
+    sh.style.transform=flipTo(sh,lastSrc); sh.style.opacity="0";
+    sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,430);
+  } else finish();}
 document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
 // a clear Back control on every panel (in addition to the corner close)
