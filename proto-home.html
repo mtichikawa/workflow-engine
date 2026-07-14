@@ -9,6 +9,7 @@
  *{box-sizing:border-box} html,body{margin:0}
  body{background:radial-gradient(1100px 640px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
    font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+ @media(max-width:900px){body{height:auto;overflow:auto}}
  .tabs{flex:none;display:flex;gap:6px;max-width:1300px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
  .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
  .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
@@ -19,9 +20,7 @@
  h1{font-family:var(--mono);font-size:clamp(20px,2.9vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
  .subh{color:var(--mut);font-size:clamp(13px,1.7vh,16px);margin:9px 0 0}
  .subh b{color:var(--ink);font-weight:600}
- .hero-row{flex:1;min-height:0;display:flex;gap:clamp(14px,1.6vw,22px);align-items:stretch}
- @media(max-width:900px){.hero-row{flex-direction:column}body{height:auto;overflow:auto}}
- .stage{flex:1 1 60%;min-width:0;display:flex;flex-direction:column;
+ .stage{flex:1 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;
    background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
    box-shadow:0 40px 90px -50px #000;overflow:hidden}
  .stage-top{flex:none;display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);
@@ -32,8 +31,8 @@
    border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap} .libbtn:hover{background:rgba(208,175,98,.16)}
  .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.4vh,18px)}
  #hero{width:100%;height:100%;display:block}
- /* right side: two big buttons */
- .side{flex:0 0 clamp(310px,31%,384px);min-width:0;display:flex;flex-direction:column;gap:14px;justify-content:center}
+ /* two big buttons, compact + collapsed by default, below the full-width animation */
+ .btnstack{flex:none;width:100%;max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
  .acc{background:var(--panel);border:1px solid var(--line2);border-radius:15px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
  .acc.open{border-color:var(--brass);box-shadow:0 0 0 1px rgba(208,175,98,.15),0 30px 60px -40px #000}
  .accbtn{width:100%;display:flex;align-items:center;gap:14px;padding:19px 20px;background:none;border:0;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit}
@@ -43,9 +42,10 @@
  .acctxt b{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:-.01em}
  .acctxt em{font-style:normal;color:var(--mut);font-size:12.5px}
  .chev{margin-left:auto;color:var(--brass);font-size:20px;transition:transform .25s;flex:none} .acc.open .chev{transform:rotate(90deg)}
- .accbody{max-height:0;opacity:0;overflow:hidden;transition:max-height .3s,opacity .25s,padding .3s;padding:0 13px}
- .acc.open .accbody{max-height:240px;opacity:1;padding:0 13px 13px}
- .opt{display:flex;align-items:center;gap:13px;padding:14px 15px;margin-top:9px;background:var(--card);border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
+ .accbody{max-height:0;opacity:0;overflow:hidden;transition:max-height .32s,opacity .25s,padding .32s;padding:0 13px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+ @media(max-width:620px){.accbody{grid-template-columns:1fr}}
+ .acc.open .accbody{max-height:120px;opacity:1;padding:0 13px 14px}
+ .opt{display:flex;align-items:center;gap:13px;padding:14px 15px;background:var(--card);border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
  .opt:hover{border-color:var(--brass);transform:translateX(3px);background:var(--panel2)}
  .opt .ico{width:10px;height:10px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
  .opt .ot{display:flex;flex-direction:column} .opt .ot b{font-family:var(--mono);font-size:14.5px} .opt .ot em{font-style:normal;color:var(--mut);font-size:11.5px}
@@ -53,11 +53,13 @@
  /* overlays */
  .ov{position:fixed;inset:0;background:rgba(6,8,12,.9);backdrop-filter:blur(4px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
  .ov.show{display:block}
- .sheet{max-width:920px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:clamp(24px,3.5vw,42px);position:relative}
+ .sheet{max-width:920px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:62px clamp(24px,3.5vw,42px) clamp(24px,3.5vw,42px);position:relative;will-change:transform,opacity}
  .sheet.wide{max-width:1060px}
  .x{position:absolute;top:16px;right:16px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:2}
  .x:hover{color:var(--ink);border-color:var(--brass)}
+ .back{position:absolute;top:16px;left:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;cursor:pointer;z-index:2}
+ .back:hover{color:var(--ink);border-color:var(--brass)}
  .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:48px}
  .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 22px;max-width:70ch} .ov .lead b{color:var(--ink)}
  .ov .lead .rz{color:var(--blue)} .ov .lead .az{color:var(--amber)}
@@ -142,29 +144,27 @@
     <h1>Describe a job in plain English.</h1>
     <p class="subh">It <b>builds the workflow</b>, <b>runs it</b>, and hands you the result &mdash; staged for a human.</p>
   </div>
-  <div class="hero-row">
-    <div class="stage">
-      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
-        <button class="libbtn" onclick="open_('library')">&#9638; the library</button>
-        <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
-      <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
-    </div>
-    <div class="side">
-      <div class="acc open" id="a-see">
-        <button class="accbtn" onclick="acc('a-see')"><span class="an">01</span>
-          <span class="acctxt"><b>See our examples</b><em>Real, unedited outputs. Nothing to install.</em></span><span class="chev">&rsaquo;</span></button>
-        <div class="accbody">
-          <div class="opt" onclick="open_('ex_comp')"><span class="ico i-comp"></span><span class="ot"><b>The Composer</b><em>plain-English jobs &rarr; workflows</em></span><span class="oarr">&rarr;</span></div>
-          <div class="opt" onclick="open_('ex_run')"><span class="ico i-run"></span><span class="ot"><b>A full run</b><em>run on real input, staged</em></span><span class="oarr">&rarr;</span></div>
-        </div>
+  <div class="stage">
+    <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
+      <button class="libbtn" onclick="open_('library',this)">&#9638; the library</button>
+      <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
+    <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
+  </div>
+  <div class="btnstack">
+    <div class="acc" id="a-see">
+      <button class="accbtn" onclick="acc('a-see')"><span class="an">01</span>
+        <span class="acctxt"><b>See our examples</b><em>Real, unedited outputs. Nothing to install.</em></span><span class="chev">&rsaquo;</span></button>
+      <div class="accbody">
+        <div class="opt" onclick="open_('ex_comp',this)"><span class="ico i-comp"></span><span class="ot"><b>The Composer</b><em>plain-English jobs &rarr; workflows</em></span><span class="oarr">&rarr;</span></div>
+        <div class="opt" onclick="open_('ex_run',this)"><span class="ico i-run"></span><span class="ot"><b>A full run</b><em>run on real input, staged</em></span><span class="oarr">&rarr;</span></div>
       </div>
-      <div class="acc" id="a-do">
-        <button class="accbtn" onclick="acc('a-do')"><span class="an">02</span>
-          <span class="acctxt"><b>Do it yourself</b><em>Clone the repo, then follow the steps.</em></span><span class="chev">&rsaquo;</span></button>
-        <div class="accbody">
-          <div class="opt" onclick="open_('diy_comp')"><span class="ico i-comp"></span><span class="ot"><b>Compose your own</b><em>build a workflow from your words</em></span><span class="oarr">&rarr;</span></div>
-          <div class="opt" onclick="open_('diy_run')"><span class="ico i-run"></span><span class="ot"><b>Run your own</b><em>point a recipe at your data</em></span><span class="oarr">&rarr;</span></div>
-        </div>
+    </div>
+    <div class="acc" id="a-do">
+      <button class="accbtn" onclick="acc('a-do')"><span class="an">02</span>
+        <span class="acctxt"><b>Do it yourself</b><em>Clone the repo, then follow the steps.</em></span><span class="chev">&rsaquo;</span></button>
+      <div class="accbody">
+        <div class="opt" onclick="open_('diy_comp',this)"><span class="ico i-comp"></span><span class="ot"><b>Compose your own</b><em>build a workflow from your words</em></span><span class="oarr">&rarr;</span></div>
+        <div class="opt" onclick="open_('diy_run',this)"><span class="ico i-run"></span><span class="ot"><b>Run your own</b><em>point a recipe at your data</em></span><span class="oarr">&rarr;</span></div>
       </div>
     </div>
   </div>
@@ -583,7 +583,7 @@ function renderRuns(){var h="";RUNS.forEach(function(e){
   if(e.trail){var ts={draft:"&#9998; draft",fail:"&#10007; verify: fail &rarr; rewrite",pass:"&#10003; verify: pass"};
     body="<div class='trail'>"+e.trail.map(function(t,i){return (i?"<span class='tarr'>&rarr;</span>":"")+"<span class='tstep "+t+"'>"+ts[t]+"</span>";}).join(" ")+"</div>";}
   else{body="<div class='outcome'>"+e.out.map(function(o){return "<span class='oc'>"+o[0]+" <b>"+o[1]+"</b></span>";}).join("")+"</div>";}
-  h+="<div class='run'><div class='runhead'><span class='rn'>"+e.r+"</span><a class='lnk' href='"+e.href+"'>step through it &rarr;</a></div>"
+  h+="<div class='run'><div class='runhead'><span class='rn'>"+e.r+"</span><a class='lnk' href='"+e.href+"' target='_blank' rel='noopener'>step through it &#8599;</a></div>"
     +"<div class='rmeta'><span class='rk'>input</span><span class='rv'>"+e.input+"</span></div>"
     +"<div class='pipe'>"+pipe+"</div>"+body
     +"<p class='qlabel'>"+e.qlabel+"</p><div class='quote'>"+e.quote+"</div></div>";});
@@ -593,10 +593,27 @@ renderComp();renderRuns();
 function acc(id){var el=document.getElementById(id),was=el.classList.contains("open");
   document.querySelectorAll(".acc").forEach(function(x){x.classList.remove("open");});
   if(!was)el.classList.add("open");}
-function open_(id){document.getElementById(id).classList.add("show");document.body.style.overflow="hidden";}
-function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");});document.body.style.overflow="";}
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function resetSheet(sh){if(sh){sh.style.transition="none";sh.style.transform="none";sh.style.opacity="1";}}
+function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=ov.querySelector(".sheet");
+  ov.classList.add("show");document.body.style.overflow="hidden";ov.scrollTop=0;
+  if(sh){ sh.scrollTop=0; resetSheet(sh);
+    if(src && !RM){ var s=src.getBoundingClientRect(); var f=sh.getBoundingClientRect();
+      var dx=(s.left+s.width/2)-(f.left+f.width/2), dy=(s.top+s.height/2)-(f.top+f.height/2);
+      var sc=Math.min(0.72,Math.max(0.22,s.width/f.width));
+      sh.style.transformOrigin="center center";
+      sh.style.transform="translate("+dx+"px,"+dy+"px) scale("+sc+")"; sh.style.opacity="0.25";
+      sh.getBoundingClientRect();
+      requestAnimationFrame(function(){ sh.style.transition="transform .38s cubic-bezier(.22,.68,.24,1),opacity .3s ease";
+        sh.style.transform="none"; sh.style.opacity="1"; });
+    }
+  }
+}
+function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");resetSheet(o.querySelector(".sheet"));});document.body.style.overflow="";}
 document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
+// a clear Back control on every panel (in addition to the corner close)
+document.querySelectorAll(".ov .sheet").forEach(function(sh){var b=document.createElement("div");b.className="back";b.innerHTML="&larr; Back";b.onclick=close_;sh.insertBefore(b,sh.firstChild);});
 
 </script>
 </body></html>
