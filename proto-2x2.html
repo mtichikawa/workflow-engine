@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Try it — proto 2×2</title>
+<style>
+ :root{--bg:#0b0d12;--panel:#12151c;--panel2:#171b23;--card:#161a21;--line:#272d37;--line2:#333b47;
+   --ink:#eef1f6;--mut:#9aa3b1;--dim:#6d7482;--brass:#d0af62;--green:#57b083;--blue:#7b9bc4;--amber:#d8944a;
+   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+ *{box-sizing:border-box} html,body{margin:0}
+ body{background:radial-gradient(1100px 640px at 50% -8%,#161a22 0%,var(--bg) 60%);color:var(--ink);
+   font-family:var(--sans);min-height:100dvh;padding:clamp(28px,5vh,60px) clamp(20px,4vw,40px)}
+ .wrap{max-width:940px;margin:0 auto}
+ .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);text-align:center;margin:0 0 10px}
+ h1{font-family:var(--mono);font-size:clamp(22px,3vw,30px);font-weight:700;text-align:center;margin:0 0 8px}
+ .sub{color:var(--mut);text-align:center;font-size:15px;margin:0 0 clamp(24px,4vh,40px);line-height:1.55}
+ /* the two big buttons */
+ .band{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-bottom:16px;overflow:hidden;transition:border-color .2s}
+ .band.open{border-color:var(--line2)}
+ .bandhead{display:flex;align-items:center;gap:16px;padding:22px 26px;cursor:pointer;user-select:none}
+ .bandhead:hover{background:var(--panel2)}
+ .bnum{font-family:var(--mono);font-size:12px;color:var(--dim);border:1px solid var(--line2);border-radius:7px;padding:4px 9px;flex:none}
+ .btitle{font-family:var(--mono);font-size:19px;font-weight:700;margin:0}
+ .bdesc{color:var(--mut);font-size:13.5px;margin:3px 0 0}
+ .chev{margin-left:auto;color:var(--dim);font-size:20px;transition:transform .25s;flex:none}
+ .band.open .chev{transform:rotate(90deg)}
+ .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px 20px;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s,opacity .25s,padding .3s}
+ .band.open .cards{max-height:340px;opacity:1}
+ @media(max-width:620px){.cards{grid-template-columns:1fr}.band.open .cards{max-height:640px}}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;cursor:pointer;transition:border-color .15s,transform .15s}
+ .card:hover{border-color:var(--brass);transform:translateY(-2px)}
+ .card .ct{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:9px}
+ .card .cd{color:var(--mut);font-size:13px;line-height:1.5;margin:0}
+ .card .go{font-family:var(--mono);font-size:12px;color:var(--brass);margin-top:14px;display:block}
+ .ico{width:9px;height:9px;border-radius:2px;flex:none}
+ .i-comp{background:var(--brass)} .i-run{background:var(--green)}
+ /* overlay */
+ .ov{position:fixed;inset:0;background:rgba(6,8,12,.86);backdrop-filter:blur(3px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
+ .ov.show{display:block}
+ .sheet{max-width:900px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:clamp(24px,3.5vw,40px);position:relative}
+ .x{position:absolute;top:16px;right:16px;width:34px;height:34px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
+    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px}
+ .x:hover{color:var(--ink);border-color:var(--brass)}
+ .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:44px}
+ .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 26px;max-width:66ch}
+ .ov .lead b{color:var(--ink)}
+ .steplbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:26px 0 12px}
+ pre{background:#0c0f15;border:1px solid var(--line);border-radius:10px;padding:15px 17px;overflow-x:auto;margin:0 0 14px}
+ code{font-family:var(--mono);font-size:13px;color:#cfe0f5;white-space:pre;line-height:1.65}
+ code .c{color:var(--dim)} code .k{color:var(--brass)} code .s{color:var(--green)}
+ .try{background:linear-gradient(180deg,#171b23,#12151c);border:1px solid var(--brass);border-radius:11px;padding:16px 18px;margin:8px 0 4px}
+ .try .tl{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px}
+ .try p{margin:0;color:var(--mut);font-size:13.5px;line-height:1.55} .try code{color:#e0c078}
+ /* example rows */
+ .ex{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px;margin-bottom:11px}
+ .ex .euc{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500}
+ .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+ .sp{font-family:var(--mono);font-size:11.5px;padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
+ .sp.reuse{color:var(--blue);border-color:#3a4a5e;background:rgba(123,155,196,.08)}
+ .sp.new{color:var(--amber);border-color:#5a4326;background:rgba(216,148,74,.09)}
+ .sp .gt{color:var(--brass)}
+ .arr{color:var(--dim);font-family:var(--mono);font-size:11px}
+ .badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:20px;margin-left:8px;white-space:nowrap}
+ .badge.ok{color:var(--green);background:rgba(87,176,131,.12)} .badge.gap{color:var(--amber);background:rgba(216,148,74,.12)}
+ .exhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;flex-wrap:wrap;gap:6px}
+ .runrow{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px;margin:0 0 8px}
+ .runrow .rk{font-family:var(--mono);color:var(--dim);font-size:12px;white-space:nowrap}
+ .runrow .rv{color:var(--ink)} .runrow .rv b{color:var(--green)}
+ .lnk{font-family:var(--mono);font-size:12.5px;color:var(--brass);text-decoration:none} .lnk:hover{text-decoration:underline}
+ .note{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:6px}
+</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Try it</p>
+  <h1>See it, then do it</h1>
+  <p class="sub">All we ship is a backend of code. Below: real premade runs to look at, and the exact,
+    clear steps to run the same thing yourself.</p>
+
+  <!-- BAND 1: SEE EXAMPLES -->
+  <div class="band" id="b1">
+    <div class="bandhead" onclick="tog('b1')">
+      <span class="bnum">01</span>
+      <div><p class="btitle">See our examples</p><p class="bdesc">Real, unedited outputs. Nothing to install.</p></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="cards">
+      <div class="card" onclick="open_('ex_comp')"><p class="ct"><span class="ico i-comp"></span>The Composer</p>
+        <p class="cd">Plain-English jobs it turned into workflows — reusing the library, flagging what it lacks.</p>
+        <span class="go">Browse compositions →</span></div>
+      <div class="card" onclick="open_('ex_run')"><p class="ct"><span class="ico i-run"></span>A full run</p>
+        <p class="cd">Real recipes run on real input, each step staged for a human. Actual logged runs.</p>
+        <span class="go">Browse runs →</span></div>
+    </div>
+  </div>
+
+  <!-- BAND 2: DO IT YOURSELF -->
+  <div class="band" id="b2">
+    <div class="bandhead" onclick="tog('b2')">
+      <span class="bnum">02</span>
+      <div><p class="btitle">Do it yourself</p><p class="bdesc">Clone the repo, then follow the steps — no guessing.</p></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="cards">
+      <div class="card" onclick="open_('diy_comp')"><p class="ct"><span class="ico i-comp"></span>Compose your own</p>
+        <p class="cd">Run our example prompts, then describe your own job and watch it build the workflow.</p>
+        <span class="go">Get the steps →</span></div>
+      <div class="card" onclick="open_('diy_run')"><p class="ct"><span class="ico i-run"></span>Run your own</p>
+        <p class="cd">Run a recipe on our input, then point it at your own repo or topic.</p>
+        <span class="go">Get the steps →</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAYS ===== -->
+<div class="ov" id="ex_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>The Composer, on real jobs</h2>
+  <p class="lead">Describe a job in plain English; it composes a workflow from the <b>shared library</b> —
+    <span style="color:var(--blue)">reusing</span> what fits and honestly <span style="color:var(--amber)">flagging</span>
+    what it doesn't have (it drafts a stub, never fakes the capability). These are unedited outputs. <b>18 in the repo</b>; a spread:</p>
+  <div id="complist"></div>
+</div></div>
+
+<div class="ov" id="ex_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>A full run, end to end</h2>
+  <p class="lead">Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human —
+    nothing is ever sent. These are actual logged runs; click through any of them step by step.</p>
+  <div id="runlist"></div>
+</div></div>
+
+<div class="ov" id="diy_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>Compose your own workflow</h2>
+  <p class="lead">Four commands from clone to a workflow built out of your own words.</p>
+  <p class="steplbl">1 · Clone &amp; install (no third-party deps)</p>
+  <pre><code><span class="c"># the engine is pure standard library</span>
+git clone https://github.com/mtichikawa/workflow-engine.git
+cd workflow-engine && pip install -e .</code></pre>
+  <p class="steplbl">2 · Give it a brain (pick one)</p>
+  <pre><code><span class="c"># Claude CLI — free on a Max plan, the default. Just install + sign in.</span>
+<span class="c"># or the billed API:</span>  pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-…
+export ENGINE_BRAIN=api</code></pre>
+  <p class="steplbl">3 · Compose one of ours</p>
+  <pre><code>python -m engine.cli compose <span class="s">"read GitHub issues, label and prioritize them, and draft a first response"</span></code></pre>
+  <p class="lead" style="margin:0 0 8px">It prints the recipe — every step tagged <code style="color:var(--blue)">reuse</code> (from the library),
+    <code style="color:var(--amber)">NEW!</code> (a gap it flags, not fakes), <code style="color:var(--brass)">[GATE]</code> (a human pause) — and whether it's runnable.</p>
+  <div class="try"><p class="tl">Now your turn</p>
+    <p>Describe any judgment-heavy, multi-step job:</p>
+    <pre style="margin:10px 0 0"><code>python -m engine.cli compose <span class="s">"&lt;your workflow in plain English&gt;"</span></code></pre></div>
+  <p class="steplbl">4 · Run what it composed</p>
+  <pre><code>python -m engine.cli compose <span class="s">"screen support tickets and draft replies"</span> \
+    <span class="k">--run</span> --input <span class="s">"API returns 500 on every POST since this morning"</span> --auto</code></pre>
+  <p class="note">— stages a result to <code>state/composed-&lt;run_id&gt;.json</code>. Add <code>--draft</code> to fill gaps with provisional specialists (untrusted — check at the gate).</p>
+</div></div>
+
+<div class="ov" id="diy_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>Run a workflow yourself</h2>
+  <p class="lead">Same clone + brain as the Composer steps. Then run any of the three recipes — and point them at your own input.</p>
+  <p class="steplbl">Run a recipe</p>
+  <pre><code>python -m engine.cli run triage --repo vercel/next.js --limit 5</code></pre>
+  <div class="runrow">
+    <span class="rk">input</span><span class="rv">real open issues pulled from the repo</span>
+    <span class="rk">does</span><span class="rv">classify · rank urgency · route · draft reply · verify · stage</span>
+    <span class="rk">you get</span><span class="rv">a board summary in your terminal + a <b>run id</b></span>
+    <span class="rk">where</span><span class="rv">full log → <code>state/&lt;run_id&gt;.json</code> · staged actions → <code>output/staged.jsonl</code></span>
+  </div>
+  <p class="steplbl">The other two</p>
+  <pre><code>python -m engine.cli run content --topic <span class="s">"why flaky tests erode trust"</span> --brief <span class="s">"sharp technical founder"</span> --auto
+python -m engine.cli run refine  --topic <span class="s">"why on-call rotations burn people out"</span> --auto  <span class="c"># draft→grade→rewrite until it passes</span></code></pre>
+  <div class="try"><p class="tl">Now your turn</p>
+    <p>Point it at <i>any</i> public repo or <i>any</i> topic:</p>
+    <pre style="margin:10px 0 0"><code>python -m engine.cli run triage --repo <span class="s">psf/requests</span> --limit 8</code></pre></div>
+  <p class="note">Nothing is ever sent — <code>act</code> is gated and only stages. Re-inspect any run: <code>engine board &lt;run_id&gt;</code>.</p>
+</div></div>
+
+<script>
+var COMP=[
+ {uc:"classify customer feedback and route it to product, engineering, or sales",
+  steps:[["classify","reuse"],["route","reuse"],["act","reuse"]],run:true,gaps:0},
+ {uc:"monitor brand mentions, gauge sentiment, and draft a response to the negative ones",
+  steps:[["classify","reuse"],["respond","reuse"],["verify","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
+ {uc:"moderate incoming forum posts: flag toxic ones and route the rest",
+  steps:[["classify","reuse"],["route","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
+ {uc:"detect duplicate bug reports, group them, and draft a merge note",
+  steps:[["fetch","reuse"],["detect_duplicates","new"],["verify","reuse"],["draft_merge_note","new"],["act","reuse"]],run:false,gaps:2},
+ {uc:"grade student essays against a rubric and write feedback",
+  steps:[["rank","reuse"],["grade_essay","new"],["verify","reuse",1],["act","reuse"]],run:false,gaps:1},
+ {uc:"generate a product image from a text description and stage it",
+  steps:[["generate_image","new"],["stage_scene","new"],["verify","reuse"],["act","reuse"]],run:false,gaps:2}
+];
+var RUNS=[
+ {r:"triage",inp:"a real GitHub issue (vercel/next.js #95698 — a Turbopack tree-shaking bug)",
+  does:"classify · rank urgency · route to a component · draft a reply · verify · stage",
+  out:"labels + priority + a drafted reply, staged for a human",href:"usecases/triage/"},
+ {r:"content",inp:"a topic — “why flaky tests erode trust” — in a founder’s voice",
+  does:"pull sources · pick an angle · write the post · check it’s on-brand · stage",
+  out:"a short drafted post under output/, staged",href:"usecases/content/"},
+ {r:"refine",inp:"a topic, held to a strict bar",
+  does:"draft · self-grade · rewrite &amp; re-check until it passes (the loop)",
+  out:"the final post + the pass-by-pass trail (fail→fail→pass)",href:"usecases/refine/"}
+];
+function chip(s){var cls=s[1]==="new"?"new":"reuse", g=s[2]?" <span class='gt'>⚡gate</span>":"";
+  var lbl=s[1]==="new"?"NEW":"reuse";
+  return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
+function renderComp(){var h="";COMP.forEach(function(e){
+  var flow=e.steps.map(chip).join(" <span class='arr'>→</span> ");
+  var badge=e.run?"<span class='badge ok'>✓ runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
+  h+="<div class='ex'><div class='exhead'><span class='euc'>“"+e.uc+"”</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";});
+  document.getElementById("complist").innerHTML=h;}
+function renderRuns(){var h="";RUNS.forEach(function(e){
+  h+="<div class='ex'><div class='exhead'><span class='euc' style='font-family:var(--mono);font-weight:700;color:#e0c078'>"+e.r+"</span>"
+    +"<a class='lnk' href='"+e.href+"'>watch it step by step →</a></div>"
+    +"<div class='runrow'><span class='rk'>input</span><span class='rv'>"+e.inp+"</span>"
+    +"<span class='rk'>does</span><span class='rv'>"+e.does+"</span>"
+    +"<span class='rk'>you get</span><span class='rv'><b>"+e.out+"</b></span></div></div>";});
+  document.getElementById("runlist").innerHTML=h;}
+renderComp();renderRuns();
+function tog(id){var b=document.getElementById(id);var was=b.classList.contains("open");
+  document.querySelectorAll(".band").forEach(function(x){x.classList.remove("open");});
+  if(!was)b.classList.add("open");}
+function open_(id){document.getElementById(id).classList.add("show");document.body.style.overflow="hidden";}
+function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");});document.body.style.overflow="";}
+document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
+document.getElementById("b1").classList.add("open");
+</script>
+</body></html>
