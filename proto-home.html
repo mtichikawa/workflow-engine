@@ -65,6 +65,17 @@
  .scue{position:absolute;left:0;right:0;bottom:20px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim);opacity:.75;animation:bob 1.8s ease-in-out infinite}
  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
  @media(prefers-reduced-motion:reduce){.scue{animation:none}}
+ .sp.clk,.pc.clk{cursor:pointer} .sp.clk:hover,.pc.clk:hover{filter:brightness(1.25)}
+ .sp.on,.pc.on{outline:2px solid var(--brass);outline-offset:1px}
+ .chint{font-family:var(--mono);font-size:11px;color:var(--dim);margin:11px 0 0}
+ .spec-detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .28s ease,opacity .22s ease,margin .28s ease;border-left:2px solid var(--brass)}
+ .spec-detail.show{max-height:160px;opacity:1;margin:14px 0 2px;padding:12px 0 12px 16px;background:rgba(208,175,98,.05)}
+ .sd-name{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:14px}
+ .sd-io{font-family:var(--mono);font-size:12px;color:var(--blue);margin-left:9px}
+ .sd-out{font-family:var(--mono);font-size:12px;color:var(--green);margin-left:9px}
+ .sd-job{color:var(--mut);font-size:13.5px;margin-top:7px;line-height:1.55}
+ .exlist{margin:8px 0 0;padding-left:0;list-style:none;font-family:var(--mono);font-size:13.5px;color:var(--mut);line-height:2}
+ .exlist li:before{content:"\203a  ";color:var(--brass)} .exlist code{color:#cfe0f5}
  .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
@@ -215,6 +226,12 @@ runnable:  True</div>
     <p class="s-what" style="margin:18px 0 10px">When it's runnable, run it on your own input:</p>
     <pre><code>python -m engine.cli compose <span class="s">"screen support tickets and draft replies"</span> \
     <span class="k">--run</span> --input <span class="s">"API returns 500 on every POST since this morning"</span> --auto</code></pre>
+    <p class="s-what" style="margin:18px 0 4px"><b>More jobs to try:</b></p>
+    <ul class="exlist">
+      <li>"read pull requests, summarize the change, and flag risky ones"</li>
+      <li>"screen inbound sales leads and route the hot ones to a rep"</li>
+      <li>"moderate forum posts, flag the toxic ones, file the rest"</li>
+    </ul>
     <p class="note">Stages to <code>state/composed-&lt;run_id&gt;.json</code>. Add <code>--draft</code> to stub any gaps (untrusted &mdash; check at the gate).</p>
   </div></section>
 </div></div>
@@ -243,6 +260,12 @@ python -m engine.cli run refine  --topic <span class="s">"why on-call rotations 
     <h2 class="s-title">Point it at your own data</h2>
     <div class="try"><p class="tl">Any public repo, or any topic</p>
       <pre style="margin:10px 0 0"><code>python -m engine.cli run triage --repo <span class="s">psf/requests</span> --limit 8</code></pre></div>
+    <p class="s-what" style="margin:18px 0 4px"><b>More to try:</b></p>
+    <ul class="exlist">
+      <li><code>run triage --repo pallets/flask --limit 6</code></li>
+      <li><code>run content --topic "what a compiler actually does" --auto</code></li>
+      <li><code>run refine --topic "why code review culture matters" --auto</code></li>
+    </ul>
     <p class="note">Nothing is ever sent &mdash; <code>act</code> is gated and only stages. Re-inspect any run: <code>python -m engine.cli board &lt;run_id&gt;</code>.</p>
   </div></section>
 </div></div>
@@ -557,7 +580,31 @@ var COMP=[
   steps:[["rank","reuse"],["grade_essay","new"],["verify","reuse",1],["act","reuse"]],gaps:1,
   what:"Reused <b>rank</b>, <b>verify</b> (gated) and <b>act</b>; flagged the essay-grader as the one capability it doesn't have yet."}
 ];
-function chip(s){var cls=s[1]==="new"?"new":"reuse",g=s[2]?" <span class='gt'>&#9889;gate</span>":"";return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
+var SPECS={
+ classify:{io:"item &rarr; label",job:"Sorts an item into one of a fixed set of categories."},
+ rank:{io:"item &rarr; score",job:"Scores an item for urgency or quality."},
+ verify:{io:"subject &rarr; verdict",job:"Judges whether an output meets a stated standard — the same judge in every recipe."},
+ route:{io:"item &rarr; component",job:"Assigns an item to the right component or owner."},
+ respond:{io:"item &rarr; reply",job:"Drafts a reply in a given tone."},
+ review:{io:"draft &rarr; critique",job:"Critiques a draft against criteria."},
+ write:{io:"brief &rarr; draft",job:"Produces a piece of writing to a brief."},
+ fetch:{io:"query &rarr; sources",job:"Pulls source material for a topic."},
+ act:{io:"payload &rarr; staged",job:"Stages the final action behind a human gate — never sends anything itself."},
+ detect_duplicates:{io:"report &rarr; match?",job:"Would compare a report against existing ones. Not in the library — flagged as a gap and stubbed.",gap:1},
+ draft_merge_note:{io:"group &rarr; note",job:"Would write a note merging duplicates. Not in the library — flagged as a gap and stubbed.",gap:1},
+ grade_essay:{io:"essay &rarr; grade",job:"Would score an essay against a rubric. Not in the library — flagged as a gap and stubbed.",gap:1},
+ generate_image:{io:"prompt &rarr; image",job:"Would synthesize an image from text. Not in the library — flagged as a gap and stubbed.",gap:1},
+ stage_scene:{io:"image &rarr; staged",job:"Would composite an image for staging. Not in the library — flagged as a gap and stubbed.",gap:1}
+};
+function specClick(el,name,out){
+ var slide=el.closest(".slide"); var box=slide.querySelector(".spec-detail"); if(!box)return;
+ slide.querySelectorAll(".sp,.pc").forEach(function(c){c.classList.remove("on");}); el.classList.add("on");
+ var d=SPECS[name]||{io:"",job:""};
+ box.innerHTML="<span class='sd-name'>"+name+"</span><span class='sd-io'>"+(d.io||"")+"</span>"+(out?"<span class='sd-out'>&#8594; "+out+" (this run)</span>":"")+"<div class='sd-job'>"+(d.job||"")+"</div>";
+ box.classList.add("show");
+}
+function chip(s){var cls=s[1]==="new"?"new":"reuse",g=s[2]?" <span class='gt'>&#9889;gate</span>":"";
+ return "<span class='sp "+cls+" clk' onclick=\"specClick(this,'"+s[0]+"')\">"+s[0]+g+"</span>";}
 function exRow(e){var flow=e.steps.map(chip).join(" <span class='arr'>&rarr;</span> ");
   var badge=e.grp==="ok"?"<span class='badge ok'>&#10003; runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
   return "<div class='ex'><div class='exhead'><span class='euc'>&ldquo;"+e.uc+"&rdquo;</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";}
@@ -566,7 +613,7 @@ function renderComp(){
   var intro="<section class='slide'><div class='slide-in'>"
     +"<p class='s-eyebrow' style='color:var(--brass)'>The Composer</p>"
     +"<h2 class='s-title'>Describe a job. It builds the workflow.</h2>"
-    +"<p class='s-what' style='margin:0'>Give it a plain-English task and it composes a workflow from the <b>shared library</b> — reusing what fits, and honestly flagging what it doesn't have (it stubs a placeholder, it never fakes a capability). Real, unedited compositions follow.</p>"
+    +"<p class='s-what' style='margin:0'>Give it a plain-English task and it composes a workflow from the <b>shared library</b> — reusing what fits, and honestly flagging what it doesn't have (it stubs a placeholder, it never fakes a capability). Real, unedited compositions follow — <b>click any step</b> to see what it does.</p>"
     +"<div class='legend' style='margin-top:26px'><span><i style='background:var(--blue)'></i>reuse — existing specialist</span><span><i style='background:var(--amber)'></i>NEW — a gap it flags</span><span><i style='background:var(--brass)'></i>&#9889; gate — human pause</span></div>"
     +"<p class='scue'>scroll &darr;</p></div></section>";
   var slides=COMP.map(function(e,i){
@@ -576,7 +623,9 @@ function renderComp(){
     return "<section class='slide'><div class='slide-in'>"
       +"<p class='s-eyebrow' style='"+(ok?"color:var(--green)":"color:var(--amber)")+"'>Composition "+(i+1)+" / "+n+" &nbsp;&middot;&nbsp; "+(ok?"runnable":"flagged a gap")+"</p>"
       +"<h2 class='s-title'>&ldquo;"+e.uc+"&rdquo;</h2>"
-      +"<div style='display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:4px'><div class='flow'>"+flow+"</div>"+badge+"</div>"
+      +"<div style='display:flex;align-items:center;gap:14px;flex-wrap:wrap'><div class='flow'>"+flow+"</div>"+badge+"</div>"
+      +"<p class='chint'>&#9755; click a step to see what it does</p>"
+      +"<div class='spec-detail'></div>"
       +"<p class='s-what'>"+e.what+"</p>"
       +(i<n-1?"<p class='scue'>scroll &darr;</p>":"")
       +"</div></section>";
@@ -585,28 +634,28 @@ function renderComp(){
 
 var RUNS=[
  {r:"triage",href:"usecases/triage/",input:"GitHub issue vercel/next.js#95698 &mdash; Turbopack won't tree-shake a barrel re-export (712 chain modules kept)",
-  pipe:[["classify"],["rank"],["route"],["respond"],["verify"],["act",1]],
+  pipe:[["classify","bug"],["rank","0.30"],["route","build"],["respond","reply drafted"],["verify","pass"],["act",null,1]],
   out:[["classified","bug"],["priority","0.30"],["routed","build"],["verified","pass"]],
   qlabel:"the reply it drafted &middot; staged, not sent",
-  quote:"Thanks for the thorough repro &mdash; the Viem chains case isolates the behavior cleanly. What you're seeing is almost certainly a side-effect question rather than pure dead-code: Turbopack can't prove the barrel's chain definitions are side-effect-free, so it keeps them all. Our reexport tree-shaking through barrel files doesn't handle this case as aggressively yet."},
+  quote:"Thanks for the thorough repro &mdash; the Viem chains case isolates the behavior cleanly. Turbopack can't prove the barrel's chain definitions are side-effect-free, so it keeps all 712. Our reexport tree-shaking through barrel files doesn't handle this case aggressively yet."},
  {r:"content",href:"usecases/content/",input:"topic &ldquo;why flaky tests erode trust&rdquo;, brief &ldquo;sharp technical founder&rdquo;",
-  pipe:[["fetch"],["classify"],["rank"],["write"],["verify"],["act",1]],
+  pipe:[["fetch"],["classify"],["rank"],["write"],["verify","on-brand"],["act",null,1]],
   out:[["verified","on-brand"]],
   qlabel:"the post it wrote",
-  quote:"Skipping a flaky test doesn't cost you one build &mdash; it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero."},
+  quote:"Skipping a flaky test doesn't cost you one build &mdash; it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading results and start hitting rerun on reflex. Now a real failure ships, because the signal has a known false-positive rate and everyone rounds it to zero."},
  {r:"refine",href:"usecases/refine/",input:"topic &ldquo;why flaky tests erode trust&rdquo;, held to a strict bar",
-  pipe:[["write"],["verify"],["act",1]],
+  pipe:[["write"],["verify"],["act",null,1]],
   trail:["draft","fail","fail","pass"],
   qlabel:"the final post, after the loop passed",
-  quote:"A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax."}
+  quote:"A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has become a tax."}
 ];
-function pchip(p){return "<span class='pc"+(p[1]?" gate":"")+"'>"+p[0]+(p[1]?" &#9889;":"")+"</span>";}
+function pchip(p){return "<span class='pc"+(p[2]?" gate":"")+" clk' onclick=\"specClick(this,'"+p[0]+"',"+(p[1]?"'"+p[1]+"'":"null")+")\">"+p[0]+(p[2]?" &#9889;":"")+"</span>";}
 function renderRuns(){
   var n=RUNS.length;
   var intro="<section class='slide'><div class='slide-in'>"
     +"<p class='s-eyebrow' style='color:var(--brass)'>A full run</p>"
     +"<h2 class='s-title'>Real input in, a staged result out.</h2>"
-    +"<p class='s-what' style='margin:0'>Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human — nothing is ever sent. These are actual logged runs; scroll through them, or open any one to step through it.</p>"
+    +"<p class='s-what' style='margin:0'>Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human — nothing is ever sent. These are actual logged runs; <b>click any step</b> to see what it did, or open one to step through it.</p>"
     +"<p class='scue'>scroll &darr;</p></div></section>";
   var slides=RUNS.map(function(e,i){
     var pipe=e.pipe.map(pchip).join(" <span class='tarr'>&rsaquo;</span> ");
@@ -617,7 +666,9 @@ function renderRuns(){
     return "<section class='slide'><div class='slide-in'>"
       +"<p class='s-eyebrow' style='color:#e0c078'>Run "+(i+1)+" / "+n+" &nbsp;&middot;&nbsp; "+e.r+"</p>"
       +"<p class='s-what' style='margin:0 0 14px'><span style='font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim)'>INPUT</span> &nbsp;"+e.input+"</p>"
-      +"<div class='pipe' style='margin-bottom:14px'>"+pipe+"</div>"+body
+      +"<div class='pipe' style='margin-bottom:0'>"+pipe+"</div>"
+      +"<p class='chint'>&#9755; click a step to see what it does</p><div class='spec-detail'></div>"
+      +"<div style='margin-top:14px'>"+body+"</div>"
       +"<p class='qlabel' style='margin-top:18px'>"+e.qlabel+"</p><div class='quote'>"+e.quote+"</div>"
       +"<a class='lnk' href='"+e.href+"' target='_blank' rel='noopener' style='display:inline-block;margin-top:16px'>step through it &#8599;</a>"
       +(i<n-1?"<p class='scue'>scroll &darr;</p>":"")
@@ -655,14 +706,14 @@ function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=o
     if(sc){sc.style.transition="none";sc.style.opacity="0";} sh.getBoundingClientRect();
     requestAnimationFrame(function(){ ov.classList.add("vis"); sh.style.transition=GEO();
       sh.style.background="var(--panel)"; sh.style.borderColor="var(--line2)"; setRect(sh,t,16);
-      if(sc) setTimeout(function(){ sc.style.transition="opacity .28s ease"; sc.style.opacity="1"; }, DUR*0.52); });
+      if(sc) setTimeout(function(){ sc.style.transition="opacity .16s ease"; sc.style.opacity="1"; }, DUR*0.74); });
   } else { if(src)src.style.visibility="hidden"; sh.style.transition="none"; sh.style.opacity="1"; sh.style.background="var(--panel)"; sh.style.borderColor="var(--line2)"; setRect(sh,t,16); if(sc)sc.style.opacity="1"; ov.classList.add("vis"); }
 }
 function close_(){var ov=null;document.querySelectorAll(".ov.show").forEach(function(o){ov=o;});
   if(!ov){document.body.style.overflow="";return;} var sh=ov.querySelector(".sheet"),sc=sh.querySelector(".sheet-scroll"),src=lastSrc;
   var finish=function(){ ov.classList.remove("show","vis"); if(sh)sh.removeAttribute("style"); if(sc)sc.removeAttribute("style"); if(src)src.style.visibility=""; document.body.style.overflow=""; };
   if(sh && src && !RM){ var r=src.getBoundingClientRect(), ran=false, go=function(){if(ran)return;ran=true;finish();};
-    if(sc){sc.style.transition="opacity .16s ease";sc.style.opacity="0";}
+    if(sc){sc.style.transition="none";sc.style.opacity="0";}
     ov.classList.remove("vis"); sh.style.transition=GEO(); sh.style.background="var(--card)"; sh.style.borderColor="var(--line)";
     setRect(sh,{l:r.left,t:r.top,w:r.width,h:r.height},12);
     sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,DUR+160);
