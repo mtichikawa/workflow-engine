@@ -236,7 +236,7 @@ function makeGraphCore(NODES, WIRES, cfg){
   SHELF.forEach(function(c){var cg=el("g",{});
     var rect=el("rect",{x:c.x,y:shelfY,width:chipW,height:chipH,rx:6,fill:"#161a20",stroke:"#333b47","stroke-width":1.2});
     var tx=el("text",{x:c.cx,y:shelfY+chipH*0.68,"text-anchor":"middle","font-family":mono,"font-size":11,fill:"#6d7482"});
-    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx};});
+    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});
   var conEls={};
   SHELF.filter(function(c){return c.n;}).forEach(function(c){var b=g[c.n],nx=b.x+b.w/2,ny=b.y,my=(shelfBot+ny)/2;
     var d="M "+c.cx+" "+shelfBot+" L "+c.cx+" "+my+" L "+nx+" "+my+" L "+nx+" "+ny;
@@ -266,8 +266,11 @@ function makeGraphCore(NODES, WIRES, cfg){
   var start=0, raf=0, stat=document.getElementById("hstat");
   function frame(ts){ if(!start)start=ts; var t=((ts-start)/1000)%CYCLE;
     var composing=t<CA+HOLD, trun=t-(CA+HOLD);
-    gShelf.setAttribute("opacity", composing?1:0.22);
-    gCon.setAttribute("opacity", composing?1:0.1);
+    gShelf.setAttribute("opacity", 1);
+    gCon.setAttribute("opacity", composing?1:0);
+    // used specialists stay lit on the shelf through the run; unused just dim back
+    SHELF.forEach(function(c){var ch=chipEls[c.l];
+      ch.g.setAttribute("opacity", ch.used?1:(composing?1:0.3));});
     GRAPH.nodes.forEach(function(n){var a=ARR[n.id]!=null?ARR[n.id]:0, e=nodeEls[n.id];
       var app=composing?ease(c01((t-(a-0.4))/0.4)):1; e.g.setAttribute("opacity",app);
       var cl=nodeChip[n.id]; if(cl){var ch=chipEls[cl], lit=composing?ease(c01((t-(a-0.4))/0.4)):1, on=lit>0.5;
@@ -290,7 +293,10 @@ function makeGraphCore(NODES, WIRES, cfg){
     raf=requestAnimationFrame(frame);
   }
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){
-    gShelf.setAttribute("opacity",0.22); gCon.setAttribute("opacity",0.1);
+    gShelf.setAttribute("opacity",1); gCon.setAttribute("opacity",0);
+    SHELF.forEach(function(c){var ch=chipEls[c.l];
+      if(ch.used){ch.rect.setAttribute("stroke","#d0af62");ch.rect.setAttribute("fill","#241f14");ch.tx.setAttribute("fill","#e0c078");ch.g.setAttribute("opacity",1);}
+      else ch.g.setAttribute("opacity",0.3);});
     GRAPH.nodes.forEach(function(n){nodeEls[n.id].g.setAttribute("opacity",1);nodeEls[n.id].out.setAttribute("opacity",1);});
     paths.forEach(function(p){p.setAttribute("opacity",p._b);});
     juncEls.forEach(function(je){je[0].setAttribute("opacity",0.8);je[1].setAttribute("opacity",1);});
