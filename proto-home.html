@@ -98,11 +98,9 @@
  .cd-chip.nw{color:var(--amber);border-color:#5a4326;background:rgba(216,148,74,.12)}
  .cd-chip.hidden{opacity:0;transform:scale(.5)}
  .cd-arrow{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;margin:13px 0}
- .cd-flow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;min-height:32px}
- .cd-flow .fc{font-family:var(--mono);font-size:12.5px;padding:5px 12px;border-radius:6px;border:1px solid #3a4a5e;background:rgba(123,155,196,.1);color:var(--blue);opacity:0;transform:translateY(5px);transition:opacity .35s,transform .35s}
- .cd-flow .fc.nw{border-color:#5a4326;background:rgba(216,148,74,.1);color:var(--amber)}
- .cd-flow .fc.show{opacity:1;transform:none}
- .cd-flow .fa{color:var(--dim);font-family:var(--mono);opacity:.5;font-size:12px}
+ .cd-graph{width:100%;height:auto;display:block;margin-top:8px;max-height:46vh}
+ .cd-graph .gnode{transition:opacity .4s ease}
+ .cd-graph .gwire{transition:opacity .4s ease}
  .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
@@ -669,15 +667,14 @@ function renderComp(){
     var newSteps=e.steps.filter(function(st){return st[1]==="new";});
     var shelf=LIB.map(function(nm){return "<span class='cd-chip' data-name='"+nm+"'>"+nm+"</span>";}).join("")
       +newSteps.map(function(st){return "<span class='cd-chip nw hidden' data-name='"+st[0]+"'>"+st[0]+" &middot; NEW</span>";}).join("");
-    var flow=e.steps.map(function(st,k){return (k?"<span class='fa'>&rarr;</span>":"")+"<span class='fc"+(st[1]==="new"?" nw":"")+"' data-k='"+k+"'>"+st[0]+(st[2]?" &#9889;":"")+"</span>";}).join("");
     return "<section class='slide'><div class='slide-in'>"
       +"<p class='s-eyebrow' style='"+(ok?"color:var(--green)":"color:var(--amber)")+"'>Composition "+(i+1)+" / "+COMP.length+" &nbsp;&middot;&nbsp; "+(ok?"runnable":"flagged a gap")+"</p>"
       +"<h2 class='s-title'>&ldquo;"+e.uc+"&rdquo;</h2>"
       +"<div class='compose-demo' data-comp='"+i+"'>"
-        +"<div class='cd-lbl'>the composer scans the library and picks what it needs"+(newSteps.length?", <span style='color:var(--amber)'>spinning up new specialists for the gaps</span>":"")+"</div>"
+        +"<div class='cd-lbl'>the composer picks from the library"+(newSteps.length?", <span style='color:var(--amber)'>spinning up new specialists for the gaps</span>":"")+", then wires the workflow &nbsp; "+badge+"</div>"
         +"<div class='cd-shelf'>"+shelf+"</div>"
-        +"<div class='cd-arrow'>&darr;&nbsp; composes into a workflow</div>"
-        +"<div class='cd-flow'>"+flow+" &nbsp; "+badge+"</div>"
+        +"<div class='cd-arrow'>&darr;&nbsp; composes into</div>"
+        +"<svg class='cd-graph' data-comp='"+i+"' preserveAspectRatio='xMidYMid meet'></svg>"
       +"</div>"
       +"<p class='s-what'>"+e.what+"</p>"
       +(i<COMP.length-1?"<p class='scue'>scroll &darr;</p>":"")
@@ -732,27 +729,60 @@ function renderRuns(){
 
 renderComp();renderRuns();
 (function(){
+  var mono="ui-monospace,Menlo,monospace", LOOPS={1:[2,1],3:[2,1]};
+  function comp2graph(steps,loop){
+    var nodes=[{id:"IN",kind:"in",col:0,outs:["job"],ins:[],title:"the job",_k:-1}], wires=[], wk=[], prev="IN", ps="job", ids=[];
+    steps.forEach(function(st,i){var id=st[0]+"_"+i, gate=!!st[2], isnew=st[1]==="new"; ids.push(id);
+      nodes.push({id:id,kind:isnew?"domain":(gate?"gate":"shared"),col:i+1,outs:["out"],ins:(loop&&loop[1]===i)?["in","again"]:["in"],title:st[0],_new:isnew,_gate:gate,_k:i});
+      wires.push([prev,ps,id,"in"]); wk.push(i); prev=id; ps="out";});
+    nodes.push({id:"OUT",kind:"out",col:steps.length+1,outs:[],ins:["result"],title:"staged",_k:steps.length});
+    wires.push([prev,ps,"OUT","result"]); wk.push(steps.length);
+    if(loop){ wires.push([ids[loop[0]],"out",ids[loop[1]],"again","loop"]); wk.push(steps.length); }
+    return {nodes:nodes,wires:wires,wk:wk};
+  }
+  function buildGraph(svg,steps,loop){
+    var g=comp2graph(steps,loop);
+    var G=makeGraphCore(g.nodes,g.wires,{W:110,COLGAP:52,ROW:19,VGAP:26,axisY:function(){return 0;}});
+    G.computeRouting(); var geom=G.computeGeom(null);
+    var routes=g.wires.map(function(_,i){return G.route(i,geom);});
+    var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+    g.nodes.forEach(function(n){var b=geom[n.id];x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.w);y1=Math.max(y1,b.y+b.h);});
+    routes.forEach(function(p){p.forEach(function(q){x0=Math.min(x0,q.x);y0=Math.min(y0,q.y);x1=Math.max(x1,q.x);y1=Math.max(y1,q.y);});});
+    var P=16; svg.setAttribute("viewBox",(x0-P)+" "+(y0-P)+" "+(x1-x0+2*P)+" "+(y1-y0+2*P));
+    svg.style.aspectRatio=(x1-x0+2*P)+"/"+(y1-y0+2*P);
+    var NS="http://www.w3.org/2000/svg";
+    function E(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+    var KC={in:"#5b8fd6",shared:"#7b9bc4",domain:"#d8944a",gate:"#d8944a",out:"#57b083"};
+    var gw=E("g",{}),gn=E("g",{}); svg.appendChild(gw); svg.appendChild(gn);
+    routes.forEach(function(pts,i){var lp=g.wires[i][4]==="loop";
+      var p=E("path",{d:G.roundedPath(pts),fill:"none",stroke:lp?"#cf7a68":"#8a93a3","stroke-width":2,opacity:0,"class":"gwire"});
+      if(lp)p.setAttribute("stroke-dasharray","5 4"); p.setAttribute("data-k",g.wk[i]); gw.appendChild(p);});
+    g.nodes.forEach(function(n){var b=geom[n.id],c=KC[n.kind]||"#7b9bc4";
+      var grp=E("g",{"class":"gnode",opacity:0}); grp.setAttribute("data-k",n._k);
+      var r=E("rect",{x:b.x,y:b.y,width:b.w,height:b.h,rx:8,fill:"#20252e",stroke:c,"stroke-width":1.7});
+      if(n._gate)r.setAttribute("stroke-dasharray","5 3"); grp.appendChild(r);
+      var tx=E("text",{x:b.x+b.w/2,y:b.y+b.h/2+4,"text-anchor":"middle","font-family":mono,"font-size":12,"font-weight":n._new?700:400,fill:(n._new?"#e0c078":"#e6ecf5")});tx.textContent=n.title;grp.appendChild(tx);
+      if(n._new){var nb=E("text",{x:b.x+b.w/2,y:b.y-5,"text-anchor":"middle","font-family":mono,"font-size":8.5,"letter-spacing":"0.08em",fill:"#d8944a"});nb.textContent="NEW";grp.appendChild(nb);}
+      gn.appendChild(grp);});
+  }
+  document.querySelectorAll(".cd-graph").forEach(function(svg){var i=+svg.dataset.comp; buildGraph(svg, COMP[i].steps, LOOPS[i]);});
   var demos=[]; document.querySelectorAll(".compose-demo").forEach(function(d){demos.push({d:d,order:COMP[+d.dataset.comp].steps,active:false,t0:0});});
   if(!demos.length)return;
-  function paint(dm,final){ var n=dm.order.length;
-    dm.order.forEach(function(st,k){ var sc=dm.d.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");
-      var fc=dm.d.querySelector(".cd-flow .fc[data-k='"+k+"']");
-      if(final){ if(sc){ if(st[1]==="new")sc.classList.remove("hidden"); else sc.classList.add("lit"); } if(fc)fc.classList.add("show"); } }); }
-  demos.forEach(function(dm){paint(dm,true);});  // baseline: fully-composed, in case the loop never runs
+  function setK(dm,mk){
+    dm.order.forEach(function(st,k){var on=k<=mk;var sc=dm.d.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");
+      if(sc){ if(st[1]==="new")sc.classList.toggle("hidden",!on); else sc.classList.toggle("lit",on);} });
+    dm.d.querySelectorAll(".cd-graph .gnode").forEach(function(g){g.setAttribute("opacity",(+g.getAttribute("data-k")<=mk)?1:0);});
+    dm.d.querySelectorAll(".cd-graph .gwire").forEach(function(w){var lp=w.getAttribute("stroke-dasharray");w.setAttribute("opacity",(+w.getAttribute("data-k")<=mk)?(lp?0.75:0.5):0);});
+  }
+  demos.forEach(function(dm){setK(dm, dm.order.length);});
   if(RM) return;
   var io=new IntersectionObserver(function(es){es.forEach(function(en){var dm=demos.filter(function(x){return x.d===en.target;})[0];
-    if(dm){ dm.active=en.isIntersecting; if(!en.isIntersecting){dm.t0=0;
-      dm.order.forEach(function(st,k){var sc=dm.d.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");var fc=dm.d.querySelector(".cd-flow .fc[data-k='"+k+"']");
-        if(sc){sc.classList.remove("lit");if(st[1]==="new")sc.classList.add("hidden");} if(fc)fc.classList.remove("show");}); } }});},{threshold:0.55});
+    if(dm){ dm.active=en.isIntersecting; if(!en.isIntersecting){dm.t0=0; setK(dm,-1);} }});},{threshold:0.5});
   demos.forEach(function(dm){io.observe(dm.d);});
-  var GAP=0.6, ASM=0.55, HOLD=2.0;
+  var GAP=0.62, HOLD=2.4;
   function loop(ts){ demos.forEach(function(dm){ if(!dm.active)return; if(!dm.t0)dm.t0=ts;
-    var n=dm.order.length, CYC=n*GAP+ASM+HOLD, t=((ts-dm.t0)/1000)%CYC, done=n*GAP;
-    dm.order.forEach(function(st,k){ var picked=t>=k*GAP;
-      var sc=dm.d.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");
-      if(sc){ if(st[1]==="new")sc.classList.toggle("hidden",!picked); else sc.classList.toggle("lit",picked); }
-      var fc=dm.d.querySelector(".cd-flow .fc[data-k='"+k+"']"); if(fc)fc.classList.toggle("show", t>=done+k*0.1); });
-  }); requestAnimationFrame(loop); }
+    var n=dm.order.length, CYC=(n+1)*GAP+HOLD, t=((ts-dm.t0)/1000)%CYC; setK(dm, Math.min(n, Math.floor(t/GAP))); });
+    requestAnimationFrame(loop); }
   requestAnimationFrame(loop);
 })();
 function acc(id){var el=document.getElementById(id),was=el.classList.contains("open");
