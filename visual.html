@@ -7,49 +7,52 @@
    --ink:#eef1f6;--mut:#9aa3b1;--dim:#6d7482;--brass:#d0af62;--green:#57b083;--red:#cf6b5c;--blue:#5b8fd6;
    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
  *{box-sizing:border-box} html,body{margin:0}
- body{background:radial-gradient(1200px 700px at 50% -5%,#161a22 0%,var(--bg) 60%);color:var(--ink);font-family:var(--sans);line-height:1.6;min-height:100vh}
- .tabs{display:flex;gap:6px;max-width:1120px;margin:0 auto;padding:16px 24px 0;font-family:var(--mono)}
+ body{background:radial-gradient(1000px 620px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
+   font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+ .tabs{flex:none;display:flex;gap:6px;max-width:1160px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
  .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
  .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
- .wrap{max-width:1120px;margin:0 auto;padding:34px 24px 60px;text-align:center}
- .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 16px}
- h1{font-family:var(--mono);font-size:clamp(26px,4.4vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:0 auto;max-width:20ch}
+ .wrap{flex:1;min-height:0;max-width:1160px;width:100%;margin:0 auto;text-align:center;
+   padding:clamp(8px,2vh,24px) 26px clamp(14px,3vh,32px);
+   display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.8vh,30px)}
+ .head{flex:none}
+ .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 12px}
+ h1{font-family:var(--mono);font-size:clamp(24px,3.6vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:0 auto;max-width:22ch}
  h1 .b{color:var(--brass)}
- .stage{margin:30px auto 0;background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;box-shadow:0 40px 90px -40px #000;overflow:hidden}
- .stage-top{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12.5px;color:var(--mut);text-align:left}
+ .stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;
+   background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
+   box-shadow:0 40px 90px -50px #000;overflow:hidden}
+ .stage-top{flex:none;display:flex;align-items:center;gap:9px;padding:11px 18px;border-bottom:1px solid var(--line);
+   font-family:var(--mono);font-size:12.5px;color:var(--mut);text-align:left}
  .stage-top .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
  .stage-top .grow{flex:1}
- #hero{display:block;width:100%;height:auto}
- .cap{color:var(--mut);font-size:15px;margin:22px auto 0;max-width:62ch} .cap b{color:var(--ink)}
- .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
- .btn{font-family:var(--mono);font-size:14px;text-decoration:none;padding:12px 22px;border-radius:9px;border:1px solid var(--brass);color:var(--brass)}
+ .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.6vh,22px)}
+ #hero{width:100%;height:100%;display:block}
+ .foot{flex:none}
+ .cap{color:var(--mut);font-size:clamp(13px,1.7vh,15px);margin:0 auto;max-width:78ch;line-height:1.55} .cap b{color:var(--ink)}
+ .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:clamp(12px,1.8vh,18px)}
+ .btn{font-family:var(--mono);font-size:14px;text-decoration:none;padding:11px 22px;border-radius:9px;border:1px solid var(--brass);color:var(--brass)}
  .btn.p{background:var(--brass);color:#0b0d12} .btn:hover{background:rgba(208,175,98,.12)} .btn.p:hover{background:#e0c078}
- .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px;font-family:var(--mono);font-size:12px;color:var(--mut)}
- .chip{border:1px solid var(--line2);border-radius:100px;padding:6px 14px} .chip b{color:var(--green)}
- .more{margin-top:34px;font-family:var(--mono);font-size:13px} .more a{color:var(--mut)} .more a:hover{color:var(--ink)}
+ @media(max-height:560px){.eyebrow{display:none}.stage-top{padding:8px 14px}}
 </style></head><body>
 <nav class="tabs"><a class="on" href="./visual.html">Home</a><a href="usecases/">Use cases</a><a href="index.html">Writeup</a></nav>
-<div class="wrap">
-  <p class="eyebrow">A from-scratch workflow-automation engine</p>
-  <h1>A job in. <span class="b">A workflow out.</span> Watch it run.</h1>
+<main class="wrap">
+  <div class="head">
+    <p class="eyebrow">A from-scratch workflow-automation engine</p>
+    <h1>A job in. <span class="b">A workflow out.</span> Watch it run.</h1>
+  </div>
   <div class="stage">
     <div class="stage-top"><span class="dot"></span><span>triage · vercel/next.js #95698 · a real logged run</span><span class="grow"></span><span id="hstat">running…</span></div>
-    <svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="the triage recipe graph replaying a real run"></svg>
+    <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="the triage recipe graph replaying a real run"></svg></div>
   </div>
-  <p class="cap">A real, public GitHub issue enters on the left. The engine <b>composed</b> this graph of
-    single-purpose specialists, then <b>ran</b> it — each node here fires in order and shows <b>what it
-    actually returned</b>, ending <b>staged for a human</b>, never sent.</p>
-  <div class="cta">
-    <a class="btn p" href="usecases/triage/">Open this run, step by step →</a>
-    <a class="btn" href="index.html#run">Clone &amp; run your own →</a>
+  <div class="foot">
+    <p class="cap">A real, public GitHub issue in → the workflow the engine composed → <b>each step's actual output</b> → staged for a human, never sent.</p>
+    <div class="cta">
+      <a class="btn p" href="usecases/triage/">Open this run, step by step →</a>
+      <a class="btn" href="index.html#run">Clone &amp; run your own →</a>
+    </div>
   </div>
-  <div class="chips">
-    <span class="chip">the composer <b>matched</b> my hand-built specialists</span>
-    <span class="chip">a weak specialist <b>50% → 100%</b> from 6 examples</span>
-    <span class="chip">runs on <b>real, public</b> data</span>
-  </div>
-  <p class="more"><a href="index.html">the full writeup — how it works, honestly →</a></p>
-</div>
+</main>
 <script>
 
 var GRAPH={"nodes": [{"id": "IN", "kind": "in", "col": 0, "outs": ["issue", "title", "url"], "ins": [], "title": "the issue"}, {"id": "classify", "kind": "shared", "col": 1, "outs": ["label"], "ins": ["issue"], "title": "classify"}, {"id": "rank", "kind": "shared", "col": 1, "outs": ["score"], "ins": ["issue"], "title": "rank"}, {"id": "route", "kind": "domain", "col": 1, "outs": ["component"], "ins": ["issue"], "title": "route"}, {"id": "respond", "kind": "domain", "col": 1, "outs": ["reply"], "ins": ["issue"], "title": "respond"}, {"id": "verify", "kind": "shared", "col": 2, "outs": ["verdict"], "ins": ["issue_title", "classified_as", "routed_to", "draft_reply"], "title": "verify"}, {"id": "act", "kind": "gate", "col": 3, "outs": ["result"], "ins": ["when fail", "when pass", "labels", "comment", "url", "priority"], "title": "act"}, {"id": "OUT", "kind": "out", "col": 4, "outs": [], "ins": ["result"], "title": "staged"}], "wires": [["IN", "issue", "classify", "issue"], ["IN", "issue", "rank", "issue"], ["IN", "issue", "route", "issue"], ["IN", "issue", "respond", "issue"], ["IN", "title", "verify", "issue_title"], ["classify", "label", "verify", "classified_as"], ["route", "component", "verify", "routed_to"], ["respond", "reply", "verify", "draft_reply"], ["classify", "label", "act", "labels"], ["route", "component", "act", "labels"], ["respond", "reply", "act", "comment"], ["IN", "url", "act", "url"], ["rank", "score", "act", "priority"], ["verify", "verdict", "act", "when pass", "gate"], ["verify", "verdict", "act", "when fail", "gate"], ["act", "result", "OUT", "result"]]};
