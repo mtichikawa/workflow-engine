@@ -4,16 +4,16 @@
 <title>Workflow engine — describe a job, get a workflow that runs</title>
 <style>
  :root{--bg:#0b0d12;--panel:#12151c;--panel2:#171b23;--card:#161a21;--line:#272d37;--line2:#333b47;
-   --ink:#eef1f6;--mut:#9aa3b1;--dim:#6d7482;--brass:#d0af62;--green:#57b083;--blue:#7b9bc4;--amber:#d8944a;
+   --ink:#eef1f6;--mut:#9aa3b1;--dim:#6d7482;--brass:#d0af62;--green:#57b083;--blue:#7b9bc4;--amber:#d8944a;--coral:#cf7a68;
    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
  *{box-sizing:border-box} html,body{margin:0}
  body{background:radial-gradient(1100px 640px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
    font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
- .tabs{flex:none;display:flex;gap:6px;max-width:1280px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
+ .tabs{flex:none;display:flex;gap:6px;max-width:1300px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
  .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
  .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
- .wrap{flex:1;min-height:0;max-width:1280px;width:100%;margin:0 auto;
-   padding:clamp(8px,1.6vh,20px) 26px clamp(14px,2.4vh,28px);display:flex;flex-direction:column;gap:clamp(10px,2vh,22px)}
+ .wrap{flex:1;min-height:0;max-width:1300px;width:100%;margin:0 auto;
+   padding:clamp(8px,1.6vh,20px) 26px clamp(14px,2.4vh,26px);display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)}
  .head{flex:none;text-align:center}
  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 9px}
  h1{font-family:var(--mono);font-size:clamp(20px,2.9vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
@@ -24,138 +24,269 @@
  .stage{flex:1 1 60%;min-width:0;display:flex;flex-direction:column;
    background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
    box-shadow:0 40px 90px -50px #000;overflow:hidden}
- .stage-top{flex:none;display:flex;align-items:center;gap:9px;padding:11px 18px;border-bottom:1px solid var(--line);
-   font-family:var(--mono);font-size:12px;color:var(--mut);text-align:left}
- .stage-top .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+ .stage-top{flex:none;display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);
+   font-family:var(--mono);font-size:12px;color:var(--mut)}
+ .stage-top .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex:none}
  .stage-top .grow{flex:1}
+ .libbtn{font-family:var(--mono);font-size:11.5px;color:var(--brass);background:rgba(208,175,98,.08);border:1px solid #4a3f22;
+   border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap} .libbtn:hover{background:rgba(208,175,98,.16)}
  .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.4vh,18px)}
  #hero{width:100%;height:100%;display:block}
- .grid{flex:0 0 clamp(300px,31%,380px);min-width:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px}
- @media(max-width:900px){.grid{flex:none;grid-template-rows:1fr 1fr;min-height:340px}}
- .qcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;cursor:pointer;
-   display:flex;flex-direction:column;transition:border-color .15s,transform .15s,background .15s}
- .qcard:hover{border-color:var(--brass);transform:translateY(-3px);background:var(--panel2)}
- .qtag{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
- .qtitle{font-family:var(--mono);font-weight:700;font-size:15px;display:flex;gap:8px;align-items:center;margin:auto 0 5px}
- .qdesc{color:var(--mut);font-size:12px;line-height:1.45}
- .qgo{font-family:var(--mono);font-size:11.5px;color:var(--brass);margin-top:11px}
- .ico{width:9px;height:9px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
+ /* right side: two big buttons */
+ .side{flex:0 0 clamp(310px,31%,384px);min-width:0;display:flex;flex-direction:column;gap:14px;justify-content:center}
+ .acc{background:var(--panel);border:1px solid var(--line2);border-radius:15px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+ .acc.open{border-color:var(--brass);box-shadow:0 0 0 1px rgba(208,175,98,.15),0 30px 60px -40px #000}
+ .accbtn{width:100%;display:flex;align-items:center;gap:14px;padding:19px 20px;background:none;border:0;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit}
+ .accbtn:hover{background:var(--panel2)}
+ .an{font-family:var(--mono);font-size:12px;color:var(--brass);border:1px solid #4a3f22;border-radius:8px;padding:5px 10px;flex:none}
+ .acctxt{display:flex;flex-direction:column;gap:3px}
+ .acctxt b{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:-.01em}
+ .acctxt em{font-style:normal;color:var(--mut);font-size:12.5px}
+ .chev{margin-left:auto;color:var(--brass);font-size:20px;transition:transform .25s;flex:none} .acc.open .chev{transform:rotate(90deg)}
+ .accbody{max-height:0;opacity:0;overflow:hidden;transition:max-height .3s,opacity .25s,padding .3s;padding:0 13px}
+ .acc.open .accbody{max-height:240px;opacity:1;padding:0 13px 13px}
+ .opt{display:flex;align-items:center;gap:13px;padding:14px 15px;margin-top:9px;background:var(--card);border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
+ .opt:hover{border-color:var(--brass);transform:translateX(3px);background:var(--panel2)}
+ .opt .ico{width:10px;height:10px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
+ .opt .ot{display:flex;flex-direction:column} .opt .ot b{font-family:var(--mono);font-size:14.5px} .opt .ot em{font-style:normal;color:var(--mut);font-size:11.5px}
+ .opt .oarr{margin-left:auto;color:var(--brass);font-family:var(--mono);font-size:15px}
  /* overlays */
- .ov{position:fixed;inset:0;background:rgba(6,8,12,.88);backdrop-filter:blur(3px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
+ .ov{position:fixed;inset:0;background:rgba(6,8,12,.9);backdrop-filter:blur(4px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
  .ov.show{display:block}
- .sheet{max-width:900px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:clamp(24px,3.5vw,40px);position:relative}
- .x{position:absolute;top:16px;right:16px;width:34px;height:34px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
-    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px}
+ .sheet{max-width:920px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:clamp(24px,3.5vw,42px);position:relative}
+ .sheet.wide{max-width:1060px}
+ .x{position:absolute;top:16px;right:16px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
+    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:2}
  .x:hover{color:var(--ink);border-color:var(--brass)}
- .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:44px}
- .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 26px;max-width:66ch} .ov .lead b{color:var(--ink)}
+ .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:48px}
+ .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 22px;max-width:70ch} .ov .lead b{color:var(--ink)}
+ .ov .lead .rz{color:var(--blue)} .ov .lead .az{color:var(--amber)}
+ .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--mut);margin:0 0 22px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+ .legend span{display:inline-flex;align-items:center;gap:7px} .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+ .grphdr{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink);margin:22px 0 12px;display:flex;align-items:center;gap:9px}
+ .grphdr .gd{width:7px;height:7px;border-radius:50%;flex:none} .grphdr em{font-style:normal;color:var(--dim);font-weight:400}
  .steplbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:26px 0 12px}
  pre{background:#0c0f15;border:1px solid var(--line);border-radius:10px;padding:15px 17px;overflow-x:auto;margin:0 0 14px}
- code{font-family:var(--mono);font-size:13px;color:#cfe0f5;white-space:pre;line-height:1.65}
+ code{font-family:var(--mono);font-size:12.5px;color:#cfe0f5;white-space:pre;line-height:1.65}
  code .c{color:var(--dim)} code .k{color:var(--brass)} code .s{color:var(--green)}
- .try{background:linear-gradient(180deg,#171b23,#12151c);border:1px solid var(--brass);border-radius:11px;padding:16px 18px;margin:8px 0 4px}
+ .out{background:#0c0f15;border:1px solid var(--line);border-left:2px solid var(--line2);border-radius:8px;padding:13px 15px;margin:0 0 14px;font-family:var(--mono);font-size:12.5px;color:var(--mut);line-height:1.6;white-space:pre-wrap}
+ .out .rz{color:var(--blue)} .out .az{color:var(--amber)} .out .gz{color:var(--brass)}
+ .try{background:linear-gradient(180deg,#1a1f28,#12151c);border:1px solid var(--brass);border-radius:11px;padding:16px 18px;margin:12px 0 4px}
  .try .tl{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px}
  .try p{margin:0;color:var(--mut);font-size:13.5px;line-height:1.55} .try code{color:#e0c078}
+ .note{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:8px;line-height:1.6}
+ .note a,.ilink{color:var(--brass);text-decoration:none} .note a:hover,.ilink:hover{text-decoration:underline}
+ /* composer example rows */
  .ex{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px;margin-bottom:11px}
- .ex .euc{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500}
+ .exhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;flex-wrap:wrap;gap:6px}
+ .ex .euc{font-size:14px;color:var(--ink);margin:0;font-weight:500}
  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
  .sp{font-family:var(--mono);font-size:11.5px;padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
  .sp.reuse{color:var(--blue);border-color:#3a4a5e;background:rgba(123,155,196,.08)}
  .sp.new{color:var(--amber);border-color:#5a4326;background:rgba(216,148,74,.09)} .sp .gt{color:var(--brass)}
  .arr{color:var(--dim);font-family:var(--mono);font-size:11px}
- .badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:20px;margin-left:8px;white-space:nowrap}
+ .badge{font-family:var(--mono);font-size:11px;padding:3px 10px;border-radius:20px;white-space:nowrap}
  .badge.ok{color:var(--green);background:rgba(87,176,131,.12)} .badge.gap{color:var(--amber);background:rgba(216,148,74,.12)}
- .exhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;flex-wrap:wrap;gap:6px}
- .runrow{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px;margin:0 0 8px}
- .runrow .rk{font-family:var(--mono);color:var(--dim);font-size:12px;white-space:nowrap}
- .runrow .rv{color:var(--ink)} .runrow .rv b{color:var(--green)}
- .lnk{font-family:var(--mono);font-size:12.5px;color:var(--brass);text-decoration:none} .lnk:hover{text-decoration:underline}
- .note{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:6px}
+ /* full-run cards */
+ .run{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px;margin-bottom:14px}
+ .runhead{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+ .runhead .rn{font-family:var(--mono);font-size:16px;font-weight:700;color:#e0c078}
+ .runhead .lnk{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--brass);text-decoration:none} .runhead .lnk:hover{text-decoration:underline}
+ .rmeta{display:grid;grid-template-columns:auto 1fr;gap:7px 15px;font-size:13.5px;margin-bottom:12px}
+ .rmeta .rk{font-family:var(--mono);color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;padding-top:2px}
+ .rmeta .rv{color:var(--ink);line-height:1.5}
+ .pipe{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:13px}
+ .pc{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;background:rgba(123,155,196,.09);border:1px solid #33414f;color:#a9bdd6}
+ .pc.gate{background:rgba(216,148,74,.1);border-color:#5a4326;color:var(--amber)}
+ .outcome{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}
+ .oc{font-family:var(--mono);font-size:11.5px;color:var(--mut)} .oc b{color:var(--green)}
+ .quote{border-left:2px solid var(--brass);background:rgba(208,175,98,.04);border-radius:0 8px 8px 0;padding:12px 16px;color:var(--ink);font-size:13.5px;line-height:1.62}
+ .qlabel{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+ .trail{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:13px}
+ .tstep{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid}
+ .tstep.draft{color:var(--mut);border-color:var(--line2);background:var(--panel2)}
+ .tstep.fail{color:var(--coral);border-color:#5a3730;background:rgba(207,122,104,.1)}
+ .tstep.pass{color:var(--green);border-color:#2f5a45;background:rgba(87,176,131,.12)}
+ .tarr{color:var(--dim);font-family:var(--mono);font-size:11px}
+ /* library grid */
+ .cols{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:clamp(24px,3vw,44px);align-items:start}
+ @media(max-width:820px){.cols{grid-template-columns:1fr}}
+ .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0 0 14px}
+ table{border-collapse:collapse;width:100%;font-family:var(--mono)}
+ thead th{font-size:11px;color:var(--mut);font-weight:500;padding:0 0 12px}
+ tbody th{text-align:left;font-size:13px;color:var(--ink);font-weight:600;padding:7px 12px 7px 0;white-space:nowrap}
+ tbody td{padding:6px 4px;text-align:center}
+ .gdot{width:14px;height:14px;border-radius:50%;display:inline-block;background:var(--brass);box-shadow:0 0 9px -2px var(--brass)}
+ .gdot.g{background:var(--green);box-shadow:0 0 11px -1px var(--green)}
+ .gno{width:14px;height:2px;border-radius:2px;display:inline-block;background:var(--line2);vertical-align:middle}
+ .cnt{font-family:var(--mono);font-size:12px;color:var(--mut);padding-left:16px;white-space:nowrap;text-align:left!important} .cnt b{color:var(--green)}
+ tr.top th,tr.top td{background:rgba(87,176,131,.05)}
+ .gridcap{font-family:var(--mono);font-size:12px;color:var(--dim);margin:16px 2px 0;line-height:1.65} .gridcap b{color:var(--green)}
+ .roster{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+ @media(max-width:560px){.roster{grid-template-columns:repeat(2,1fr)}}
+ .spec{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+ .spec .nm{font-family:var(--mono);font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:6px}
+ .spec .kd{width:7px;height:7px;border-radius:50%;flex:none}
+ .k-shared{background:var(--blue)} .k-domain{background:var(--brass)} .k-gate{background:var(--amber)}
+ .spec .job{font-size:12px;color:var(--mut);line-height:1.45;margin-bottom:9px;min-height:34px}
+ .spec .io{font-family:var(--mono);font-size:11px;color:var(--dim)} .spec .io b{color:var(--blue);font-weight:600}
+ .drafts{margin-top:22px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:11px;font-size:13px;color:var(--mut);line-height:1.6}
+ .drafts b{color:var(--ink)} .drafts .az{color:var(--amber)}
+ .leg2{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--mut);margin-top:14px}
+ .leg2 span{display:inline-flex;align-items:center;gap:6px} .leg2 i{width:8px;height:8px;border-radius:50%;display:inline-block}
 </style></head><body>
 <nav class="tabs"><a class="on" href="./proto-home.html">Home</a><a href="usecases/">Use cases</a><a href="index.html">Writeup</a></nav>
 <main class="wrap">
   <div class="head">
     <p class="eyebrow">A from-scratch workflow-automation engine</p>
     <h1>Describe a job in plain English.</h1>
-    <p class="subh">It <b>builds the workflow</b>, <b>runs it</b>, and hands you the result — staged for a human.</p>
+    <p class="subh">It <b>builds the workflow</b>, <b>runs it</b>, and hands you the result &mdash; staged for a human.</p>
   </div>
   <div class="hero-row">
     <div class="stage">
-      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed from the shared library, then run on a real issue</span><span class="grow"></span><span id="hstat">running&hellip;</span></div>
+      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
+        <button class="libbtn" onclick="open_('library')">&#9638; the library</button>
+        <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
       <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
     </div>
-    <div class="grid">
-      <div class="qcard" onclick="open_('ex_comp')"><span class="qtag">See our examples</span>
-        <p class="qtitle"><span class="ico i-comp"></span>The Composer</p><p class="qdesc">Plain-English jobs it turned into workflows &mdash; reusing the library, flagging gaps.</p><span class="qgo">Browse compositions &rarr;</span></div>
-      <div class="qcard" onclick="open_('ex_run')"><span class="qtag">See our examples</span>
-        <p class="qtitle"><span class="ico i-run"></span>A full run</p><p class="qdesc">Real recipes run on real input, each step staged for a human. Logged runs.</p><span class="qgo">Browse runs &rarr;</span></div>
-      <div class="qcard" onclick="open_('diy_comp')"><span class="qtag">Do it yourself</span>
-        <p class="qtitle"><span class="ico i-comp"></span>Compose your own</p><p class="qdesc">Clone, then describe your own job and watch it build the workflow.</p><span class="qgo">Get the steps &rarr;</span></div>
-      <div class="qcard" onclick="open_('diy_run')"><span class="qtag">Do it yourself</span>
-        <p class="qtitle"><span class="ico i-run"></span>Run your own</p><p class="qdesc">Run a recipe on our input, then point it at your own repo or topic.</p><span class="qgo">Get the steps &rarr;</span></div>
+    <div class="side">
+      <div class="acc open" id="a-see">
+        <button class="accbtn" onclick="acc('a-see')"><span class="an">01</span>
+          <span class="acctxt"><b>See our examples</b><em>Real, unedited outputs. Nothing to install.</em></span><span class="chev">&rsaquo;</span></button>
+        <div class="accbody">
+          <div class="opt" onclick="open_('ex_comp')"><span class="ico i-comp"></span><span class="ot"><b>The Composer</b><em>plain-English jobs &rarr; workflows</em></span><span class="oarr">&rarr;</span></div>
+          <div class="opt" onclick="open_('ex_run')"><span class="ico i-run"></span><span class="ot"><b>A full run</b><em>run on real input, staged</em></span><span class="oarr">&rarr;</span></div>
+        </div>
+      </div>
+      <div class="acc" id="a-do">
+        <button class="accbtn" onclick="acc('a-do')"><span class="an">02</span>
+          <span class="acctxt"><b>Do it yourself</b><em>Clone the repo, then follow the steps.</em></span><span class="chev">&rsaquo;</span></button>
+        <div class="accbody">
+          <div class="opt" onclick="open_('diy_comp')"><span class="ico i-comp"></span><span class="ot"><b>Compose your own</b><em>build a workflow from your words</em></span><span class="oarr">&rarr;</span></div>
+          <div class="opt" onclick="open_('diy_run')"><span class="ico i-run"></span><span class="ot"><b>Run your own</b><em>point a recipe at your data</em></span><span class="oarr">&rarr;</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
-<div class="ov" id="ex_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+<div class="ov" id="ex_comp"><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <h2>The Composer, on real jobs</h2>
-  <p class="lead">Describe a job in plain English; it composes a workflow from the <b>shared library</b> —
-    <span style="color:var(--blue)">reusing</span> what fits and honestly <span style="color:var(--amber)">flagging</span>
-    what it doesn't have (it drafts a stub, never fakes the capability). These are unedited outputs. <b>18 in the repo</b>; a spread:</p>
+  <p class="lead">Describe a job in plain English; it composes a workflow from the <b>shared library</b> &mdash;
+    <span class="rz">reusing</span> what fits, and honestly <span class="az">flagging</span> what it doesn't have
+    (it drafts a provisional stub, it never fakes the capability). Every recipe below is an unedited output.</p>
+  <div class="legend">
+    <span><i style="background:var(--blue)"></i>reuse &mdash; an existing specialist</span>
+    <span><i style="background:var(--amber)"></i>NEW &mdash; a gap it flags &amp; stubs</span>
+    <span><i style="background:var(--brass)"></i>&#9889; gate &mdash; a human pause</span>
+  </div>
   <div id="complist"></div>
+  <p class="note">18 compositions ship in the repo. Want to build your own? &rarr; <a class="ilink" onclick="close_();open_('diy_comp')">Do it yourself &middot; Compose</a></p>
 </div></div>
 
-<div class="ov" id="ex_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+<div class="ov" id="ex_run"><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <h2>A full run, end to end</h2>
-  <p class="lead">Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human —
-    nothing is ever sent. These are actual logged runs; click through any of them step by step.</p>
+  <p class="lead">Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human &mdash;
+    nothing is ever sent. These are actual logged runs; open any one to step through it.</p>
   <div id="runlist"></div>
+  <p class="note">Every value above is pulled from a real run log in the repo. Run them yourself &rarr;
+    <a class="ilink" onclick="close_();open_('diy_run')">Do it yourself &middot; Run</a></p>
 </div></div>
-
-<div class="ov" id="diy_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+<div class="ov" id="diy_comp"><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <h2>Compose your own workflow</h2>
-  <p class="lead">Four commands from clone to a workflow built out of your own words.</p>
-  <p class="steplbl">1 · Clone &amp; install (no third-party deps)</p>
-  <pre><code><span class="c"># the engine is pure standard library</span>
-git clone https://github.com/mtichikawa/workflow-engine.git
+  <p class="lead">Four commands, clone to a workflow built out of your own words. The engine is pure standard library &mdash; no third-party deps to install.</p>
+  <p class="steplbl">1 &middot; Clone &amp; install</p>
+  <pre><code>git clone https://github.com/mtichikawa/workflow-engine.git
 cd workflow-engine && pip install -e .</code></pre>
-  <p class="steplbl">2 · Give it a brain (pick one)</p>
-  <pre><code><span class="c"># Claude CLI — free on a Max plan, the default. Just install + sign in.</span>
-<span class="c"># or the billed API:</span>  pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-…
-export ENGINE_BRAIN=api</code></pre>
-  <p class="steplbl">3 · Compose one of ours</p>
+  <p class="steplbl">2 &middot; Give it a brain (pick one)</p>
+  <pre><code><span class="c"># Claude CLI &mdash; free on a Max plan, and the default. Install it, sign in, done.</span>
+<span class="c"># &mdash; or the billed API (~cents/run):</span>
+pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-… && export ENGINE_BRAIN=api</code></pre>
+  <p class="steplbl">3 &middot; Compose one of ours</p>
   <pre><code>python -m engine.cli compose <span class="s">"read GitHub issues, label and prioritize them, and draft a first response"</span></code></pre>
-  <p class="lead" style="margin:0 0 8px">It prints the recipe — every step tagged <code style="color:var(--blue)">reuse</code> (from the library),
-    <code style="color:var(--amber)">NEW!</code> (a gap it flags, not fakes), <code style="color:var(--brass)">[GATE]</code> (a human pause) — and whether it's runnable.</p>
+  <p class="lead" style="margin:0 0 10px">It prints the recipe it built &mdash; each step tagged, plus whether it's runnable:</p>
+  <div class="out">Composed recipe for: 'read GitHub issues, label and prioritize them, and draft a first response'
+
+  <span class="rz">reuse</span>  classify
+  <span class="rz">reuse</span>  rank
+  <span class="rz">reuse</span>  respond
+  <span class="rz">reuse</span>  verify
+  <span class="rz">reuse</span>  act            <span class="gz">[GATE]</span>
+
+runnable:  True</div>
   <div class="try"><p class="tl">Now your turn</p>
     <p>Describe any judgment-heavy, multi-step job:</p>
     <pre style="margin:10px 0 0"><code>python -m engine.cli compose <span class="s">"&lt;your workflow in plain English&gt;"</span></code></pre></div>
-  <p class="steplbl">4 · Run what it composed</p>
+  <p class="steplbl">4 &middot; Run what it composed</p>
   <pre><code>python -m engine.cli compose <span class="s">"screen support tickets and draft replies"</span> \
     <span class="k">--run</span> --input <span class="s">"API returns 500 on every POST since this morning"</span> --auto</code></pre>
-  <p class="note">— stages a result to <code>state/composed-&lt;run_id&gt;.json</code>. Add <code>--draft</code> to fill gaps with provisional specialists (untrusted — check at the gate).</p>
+  <p class="note">Stages a result to <code>state/composed-&lt;run_id&gt;.json</code>. Hit a gap? Add <code>--draft</code> to fill it with a provisional specialist (untrusted &mdash; check it at the gate before you rely on it).</p>
 </div></div>
 
-<div class="ov" id="diy_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+<div class="ov" id="diy_run"><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <h2>Run a workflow yourself</h2>
-  <p class="lead">Same clone + brain as the Composer steps. Then run any of the three recipes — and point them at your own input.</p>
-  <p class="steplbl">Run a recipe</p>
+  <p class="lead">Same clone + brain as the Composer steps. Then run any of the three example recipes &mdash; and point them at your own input.</p>
+  <p class="steplbl">Run the triager on a real repo</p>
   <pre><code>python -m engine.cli run triage --repo vercel/next.js --limit 5</code></pre>
-  <div class="runrow">
-    <span class="rk">input</span><span class="rv">real open issues pulled from the repo</span>
-    <span class="rk">does</span><span class="rv">classify · rank urgency · route · draft reply · verify · stage</span>
-    <span class="rk">you get</span><span class="rv">a board summary in your terminal + a <b>run id</b></span>
-    <span class="rk">where</span><span class="rv">full log → <code>state/&lt;run_id&gt;.json</code> · staged actions → <code>output/staged.jsonl</code></span>
+  <div class="rmeta">
+    <span class="rk">input</span><span class="rv">real open issues pulled straight from the repo</span>
+    <span class="rk">does</span><span class="rv">classify &middot; rank urgency &middot; route to a component &middot; draft a reply &middot; verify &middot; stage</span>
+    <span class="rk">you get</span><span class="rv">a board summary in your terminal, plus a printed <b style="color:var(--green)">run id</b></span>
+    <span class="rk">where</span><span class="rv">full log &rarr; <code>state/&lt;run_id&gt;.json</code> &nbsp;&middot;&nbsp; staged actions &rarr; <code>output/staged.jsonl</code></span>
   </div>
-  <p class="steplbl">The other two</p>
-  <pre><code>python -m engine.cli run content --topic <span class="s">"why flaky tests erode trust"</span> --brief <span class="s">"sharp technical founder"</span> --auto
-python -m engine.cli run refine  --topic <span class="s">"why on-call rotations burn people out"</span> --auto  <span class="c"># draft→grade→rewrite until it passes</span></code></pre>
+  <p class="steplbl">The other two recipes</p>
+  <pre><code>python -m engine.cli run content --topic <span class="s">"why flaky tests erode trust"</span> \
+    --brief <span class="s">"sharp technical founder"</span> --auto
+python -m engine.cli run refine  --topic <span class="s">"why on-call rotations burn people out"</span> --auto</code></pre>
+  <p class="note" style="margin:-4px 0 0"><code style="color:var(--dim)">refine</code> loops draft &rarr; grade &rarr; rewrite until it clears the bar; <code style="color:var(--dim)">content</code> researches, writes, and checks it's on-brand.</p>
   <div class="try"><p class="tl">Now your turn</p>
-    <p>Point it at <i>any</i> public repo or <i>any</i> topic:</p>
+    <p>Point it at <i>any</i> public repo, or <i>any</i> topic:</p>
     <pre style="margin:10px 0 0"><code>python -m engine.cli run triage --repo <span class="s">psf/requests</span> --limit 8</code></pre></div>
-  <p class="note">Nothing is ever sent — <code>act</code> is gated and only stages. Re-inspect any run: <code>engine board &lt;run_id&gt;</code>.</p>
+  <p class="note">Nothing is ever sent &mdash; <code>act</code> is gated and only stages. Re-inspect any run with <code>python -m engine.cli board &lt;run_id&gt;</code>.</p>
 </div></div>
-
-
+<div class="ov" id="library"><div class="sheet wide"><div class="x" onclick="close_()">&#10005;</div>
+  <p class="eyebrow" style="text-align:left">The third pillar &middot; alongside the Composer &amp; the Dispatcher</p>
+  <h2>A shared library of specialists</h2>
+  <p class="lead">Every recipe is built from the same pool of <b>single-purpose specialists</b> &mdash; each does exactly one job,
+    with one input&rarr;output contract. The Composer doesn't write new code per task; it <b>reuses</b> what's already here.
+    So the library is the part that compounds: <b>the same specialist does real work across completely different jobs.</b></p>
+  <div class="cols">
+    <div>
+      <p class="lbl">Reuse across the four example recipes</p>
+      <table><thead><tr><th></th><th>triage</th><th>content</th><th>refine</th><th>review</th><th></th></tr></thead>
+      <tbody>
+        <tr class="top"><th>verify</th><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td class="cnt"><b>every recipe</b></td></tr>
+        <tr class="top"><th>act</th><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td><span class="gdot g"></span></td><td class="cnt"><b>every recipe</b></td></tr>
+        <tr><th>classify</th><td><span class="gdot"></span></td><td><span class="gdot"></span></td><td><span class="gno"></span></td><td><span class="gdot"></span></td><td class="cnt">3 recipes</td></tr>
+        <tr><th>rank</th><td><span class="gdot"></span></td><td><span class="gdot"></span></td><td><span class="gno"></span></td><td><span class="gdot"></span></td><td class="cnt">3 recipes</td></tr>
+        <tr><th>write</th><td><span class="gno"></span></td><td><span class="gdot"></span></td><td><span class="gdot"></span></td><td><span class="gno"></span></td><td class="cnt">2 recipes</td></tr>
+        <tr><th>route</th><td><span class="gdot"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td class="cnt">1 recipe</td></tr>
+        <tr><th>respond</th><td><span class="gdot"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td class="cnt">1 recipe</td></tr>
+        <tr><th>fetch</th><td><span class="gno"></span></td><td><span class="gdot"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td class="cnt">1 recipe</td></tr>
+        <tr><th>review</th><td><span class="gno"></span></td><td><span class="gno"></span></td><td><span class="gno"></span></td><td><span class="gdot"></span></td><td class="cnt">1 recipe</td></tr>
+      </tbody></table>
+      <p class="gridcap"><b>verify</b> and <b>act</b> run in all four &mdash; the same judge, the same gate, pointed at a
+        triaged issue, a drafted post, a self-graded rewrite. Build it once, reuse it everywhere.</p>
+    </div>
+    <div>
+      <p class="lbl">The pool &mdash; nine specialists, each one job</p>
+      <div class="roster">
+        <div class="spec"><div class="nm"><span class="kd k-shared"></span>classify</div><div class="job">Sort an item into one of a fixed set of categories.</div><div class="io">item &rarr; <b>label</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-shared"></span>rank</div><div class="job">Score an item for urgency or quality.</div><div class="io">item &rarr; <b>score</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-shared"></span>verify</div><div class="job">Judge whether an output meets a stated standard.</div><div class="io">subject &rarr; <b>verdict</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-domain"></span>route</div><div class="job">Assign an item to the right component or owner.</div><div class="io">item &rarr; <b>component</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-domain"></span>respond</div><div class="job">Draft a reply in a given tone.</div><div class="io">item &rarr; <b>reply</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-domain"></span>review</div><div class="job">Critique a draft against criteria.</div><div class="io">draft &rarr; <b>critique</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-domain"></span>write</div><div class="job">Produce a piece of writing to a brief.</div><div class="io">brief &rarr; <b>draft</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-domain"></span>fetch</div><div class="job">Pull source material for a topic.</div><div class="io">query &rarr; <b>sources</b></div></div>
+        <div class="spec"><div class="nm"><span class="kd k-gate"></span>act</div><div class="job">Stage the final action behind a human gate.</div><div class="io">payload &rarr; <b>staged</b></div></div>
+      </div>
+      <div class="leg2"><span><i class="k-shared"></i>shared capability</span><span><i class="k-domain"></i>domain step</span><span><i class="k-gate"></i>human gate</span></div>
+      <div class="drafts">When a job needs something the library lacks, the Composer doesn't fake it &mdash; it
+        <span class="az">flags the gap</span> and drafts a <b>provisional stub</b> (untrusted until it's trained on real
+        examples). That's how the library grows without ever pretending to a capability it doesn't have.</div>
+    </div>
+  </div>
+</div></div>
 <script>
 
 var GRAPH={"nodes": [{"id": "IN", "kind": "in", "col": 0, "outs": ["issue", "title", "url"], "ins": [], "title": "the issue"}, {"id": "classify", "kind": "shared", "col": 1, "outs": ["label"], "ins": ["issue"], "title": "classify"}, {"id": "rank", "kind": "shared", "col": 1, "outs": ["score"], "ins": ["issue"], "title": "rank"}, {"id": "route", "kind": "domain", "col": 1, "outs": ["component"], "ins": ["issue"], "title": "route"}, {"id": "respond", "kind": "domain", "col": 1, "outs": ["reply"], "ins": ["issue"], "title": "respond"}, {"id": "verify", "kind": "shared", "col": 2, "outs": ["verdict"], "ins": ["issue_title", "classified_as", "routed_to", "draft_reply"], "title": "verify"}, {"id": "act", "kind": "gate", "col": 3, "outs": ["result"], "ins": ["when fail", "when pass", "labels", "comment", "url", "priority"], "title": "act"}, {"id": "OUT", "kind": "out", "col": 4, "outs": [], "ins": ["result"], "title": "staged"}], "wires": [["IN", "issue", "classify", "issue"], ["IN", "issue", "rank", "issue"], ["IN", "issue", "route", "issue"], ["IN", "issue", "respond", "issue"], ["IN", "title", "verify", "issue_title"], ["classify", "label", "verify", "classified_as"], ["route", "component", "verify", "routed_to"], ["respond", "reply", "verify", "draft_reply"], ["classify", "label", "act", "labels"], ["route", "component", "act", "labels"], ["respond", "reply", "act", "comment"], ["IN", "url", "act", "url"], ["rank", "score", "act", "priority"], ["verify", "verdict", "act", "when pass", "gate"], ["verify", "verdict", "act", "when fail", "gate"], ["act", "result", "OUT", "result"]]};
@@ -339,7 +470,7 @@ function makeGraphCore(NODES, WIRES, cfg){
   SHELF.forEach(function(c){var cg=el("g",{});
     var rect=el("rect",{x:c.x,y:shelfY,width:chipW,height:chipH,rx:6,fill:"#161a20",stroke:"#333b47","stroke-width":1.2});
     var tx=el("text",{x:c.cx,y:shelfY+chipH*0.68,"text-anchor":"middle","font-family":mono,"font-size":11,fill:"#6d7482"});
-    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});
+    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});(function(){var hit=el("rect",{x:shelfX-14,y:shelfY-10,width:totalW+28,height:chipH+20,fill:"transparent"});hit.setAttribute("pointer-events","all");hit.style.cursor="pointer";hit.addEventListener("click",function(){if(window.open_)window.open_("library");});gShelf.appendChild(hit);})();
   var conEls={};
   SHELF.filter(function(c){return c.n;}).forEach(function(c){var b=g[c.n],nx=b.x+b.w/2,ny=b.y,my=(shelfBot+ny)/2;
     var d="M "+c.cx+" "+shelfBot+" L "+c.cx+" "+my+" L "+nx+" "+my+" L "+nx+" "+ny;
@@ -408,48 +539,60 @@ function makeGraphCore(NODES, WIRES, cfg){
 
 </script>
 <script>
-var COMP=[
- {uc:"classify customer feedback and route it to product, engineering, or sales",
-  steps:[["classify","reuse"],["route","reuse"],["act","reuse"]],run:true,gaps:0},
- {uc:"monitor brand mentions, gauge sentiment, and draft a response to the negative ones",
-  steps:[["classify","reuse"],["respond","reuse"],["verify","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
- {uc:"moderate incoming forum posts: flag toxic ones and route the rest",
-  steps:[["classify","reuse"],["route","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
- {uc:"detect duplicate bug reports, group them, and draft a merge note",
-  steps:[["fetch","reuse"],["detect_duplicates","new"],["verify","reuse"],["draft_merge_note","new"],["act","reuse"]],run:false,gaps:2},
- {uc:"grade student essays against a rubric and write feedback",
-  steps:[["rank","reuse"],["grade_essay","new"],["verify","reuse",1],["act","reuse"]],run:false,gaps:1},
- {uc:"generate a product image from a text description and stage it",
-  steps:[["generate_image","new"],["stage_scene","new"],["verify","reuse"],["act","reuse"]],run:false,gaps:2}
-];
-var RUNS=[
- {r:"triage",inp:"a real GitHub issue (vercel/next.js #95698 — a Turbopack tree-shaking bug)",
-  does:"classify · rank urgency · route to a component · draft a reply · verify · stage",
-  out:"labels + priority + a drafted reply, staged for a human",href:"usecases/triage/"},
- {r:"content",inp:"a topic — “why flaky tests erode trust” — in a founder’s voice",
-  does:"pull sources · pick an angle · write the post · check it’s on-brand · stage",
-  out:"a short drafted post under output/, staged",href:"usecases/content/"},
- {r:"refine",inp:"a topic, held to a strict bar",
-  does:"draft · self-grade · rewrite &amp; re-check until it passes (the loop)",
-  out:"the final post + the pass-by-pass trail (fail→fail→pass)",href:"usecases/refine/"}
-];
-function chip(s){var cls=s[1]==="new"?"new":"reuse", g=s[2]?" <span class='gt'>⚡gate</span>":"";
-  var lbl=s[1]==="new"?"NEW":"reuse";
-  return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
-function renderComp(){var h="";COMP.forEach(function(e){
-  var flow=e.steps.map(chip).join(" <span class='arr'>→</span> ");
-  var badge=e.run?"<span class='badge ok'>✓ runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
-  h+="<div class='ex'><div class='exhead'><span class='euc'>“"+e.uc+"”</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";});
-  document.getElementById("complist").innerHTML=h;}
-function renderRuns(){var h="";RUNS.forEach(function(e){
-  h+="<div class='ex'><div class='exhead'><span class='euc' style='font-family:var(--mono);font-weight:700;color:#e0c078'>"+e.r+"</span>"
-    +"<a class='lnk' href='"+e.href+"'>watch it step by step →</a></div>"
-    +"<div class='runrow'><span class='rk'>input</span><span class='rv'>"+e.inp+"</span>"
-    +"<span class='rk'>does</span><span class='rv'>"+e.does+"</span>"
-    +"<span class='rk'>you get</span><span class='rv'><b>"+e.out+"</b></span></div></div>";});
-  document.getElementById("runlist").innerHTML=h;}
-renderComp();renderRuns();
 
+var COMP=[
+ {grp:"ok",uc:"classify customer feedback and route it to product, engineering, or sales",steps:[["classify","reuse"],["route","reuse"],["act","reuse"]]},
+ {grp:"ok",uc:"monitor brand mentions, gauge sentiment, and draft a response to the negative ones",steps:[["classify","reuse"],["respond","reuse"],["verify","reuse"],["act","reuse",1],["act","reuse"]]},
+ {grp:"ok",uc:"moderate incoming forum posts: flag toxic ones and route the rest to the right subforum",steps:[["classify","reuse"],["route","reuse"],["act","reuse",1],["act","reuse"]]},
+ {grp:"gap",uc:"detect duplicate bug reports, group them, and draft a merge note",steps:[["fetch","reuse"],["detect_duplicates","new"],["verify","reuse"],["draft_merge_note","new"],["act","reuse"]],gaps:2},
+ {grp:"gap",uc:"grade student essays against a rubric and write feedback",steps:[["rank","reuse"],["grade_essay","new"],["verify","reuse",1],["act","reuse"]],gaps:1},
+ {grp:"gap",uc:"generate a product image from a text description and stage it",steps:[["generate_image","new"],["stage_scene","new"],["verify","reuse"],["act","reuse"]],gaps:2}
+];
+function chip(s){var cls=s[1]==="new"?"new":"reuse",g=s[2]?" <span class='gt'>&#9889;gate</span>":"";return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
+function exRow(e){var flow=e.steps.map(chip).join(" <span class='arr'>&rarr;</span> ");
+  var badge=e.grp==="ok"?"<span class='badge ok'>&#10003; runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
+  return "<div class='ex'><div class='exhead'><span class='euc'>&ldquo;"+e.uc+"&rdquo;</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";}
+function renderComp(){var ok=COMP.filter(function(e){return e.grp==="ok";}),gap=COMP.filter(function(e){return e.grp==="gap";});
+  var h="<p class='grphdr'><span class='gd' style='background:var(--green)'></span>Runnable<em>&mdash; composed entirely from existing specialists</em></p>";
+  h+=ok.map(exRow).join("");
+  h+="<p class='grphdr'><span class='gd' style='background:var(--amber)'></span>Flagged a gap<em>&mdash; drafted a provisional stub instead of faking it</em></p>";
+  h+=gap.map(exRow).join("");
+  document.getElementById("complist").innerHTML=h;}
+
+var RUNS=[
+ {r:"triage",href:"usecases/triage/",input:"GitHub issue vercel/next.js#95698 &mdash; Turbopack won't tree-shake a barrel re-export (712 chain modules kept)",
+  pipe:[["classify"],["rank"],["route"],["respond"],["verify"],["act",1]],
+  out:[["classified","bug"],["priority","0.30"],["routed","build"],["verified","pass"]],
+  qlabel:"the reply it drafted &middot; staged, not sent",
+  quote:"Thanks for the thorough repro &mdash; the Viem chains case isolates the behavior cleanly. What you're seeing is almost certainly a side-effect question rather than pure dead-code: Turbopack can't prove the barrel's chain definitions are side-effect-free, so it keeps them all. Our reexport tree-shaking through barrel files doesn't handle this case as aggressively yet."},
+ {r:"content",href:"usecases/content/",input:"topic &ldquo;why flaky tests erode trust&rdquo;, brief &ldquo;sharp technical founder&rdquo;",
+  pipe:[["fetch"],["classify"],["rank"],["write"],["verify"],["act",1]],
+  out:[["verified","on-brand"]],
+  qlabel:"the post it wrote",
+  quote:"Skipping a flaky test doesn't cost you one build &mdash; it costs you every green checkmark after it. Once a pass and a fail mean the same thing, people stop reading results and start hitting rerun on reflex. Now a real failure ships, because the signal you spent months building has a known false-positive rate and everyone rounds it to zero."},
+ {r:"refine",href:"usecases/refine/",input:"topic &ldquo;why flaky tests erode trust&rdquo;, held to a strict bar",
+  pipe:[["write"],["verify"],["act",1]],
+  trail:["draft","fail","fail","pass"],
+  qlabel:"the final post, after the loop passed",
+  quote:"A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has stopped being a signal and become a tax."}
+];
+function pchip(p){return "<span class='pc"+(p[1]?" gate":"")+"'>"+p[0]+(p[1]?" &#9889;":"")+"</span>";}
+function renderRuns(){var h="";RUNS.forEach(function(e){
+  var pipe=e.pipe.map(pchip).join(" <span class='tarr'>&rsaquo;</span> ");
+  var body="";
+  if(e.trail){var ts={draft:"&#9998; draft",fail:"&#10007; verify: fail &rarr; rewrite",pass:"&#10003; verify: pass"};
+    body="<div class='trail'>"+e.trail.map(function(t,i){return (i?"<span class='tarr'>&rarr;</span>":"")+"<span class='tstep "+t+"'>"+ts[t]+"</span>";}).join(" ")+"</div>";}
+  else{body="<div class='outcome'>"+e.out.map(function(o){return "<span class='oc'>"+o[0]+" <b>"+o[1]+"</b></span>";}).join("")+"</div>";}
+  h+="<div class='run'><div class='runhead'><span class='rn'>"+e.r+"</span><a class='lnk' href='"+e.href+"'>step through it &rarr;</a></div>"
+    +"<div class='rmeta'><span class='rk'>input</span><span class='rv'>"+e.input+"</span></div>"
+    +"<div class='pipe'>"+pipe+"</div>"+body
+    +"<p class='qlabel'>"+e.qlabel+"</p><div class='quote'>"+e.quote+"</div></div>";});
+  document.getElementById("runlist").innerHTML=h;}
+
+renderComp();renderRuns();
+function acc(id){var el=document.getElementById(id),was=el.classList.contains("open");
+  document.querySelectorAll(".acc").forEach(function(x){x.classList.remove("open");});
+  if(!was)el.classList.add("open");}
 function open_(id){document.getElementById(id).classList.add("show");document.body.style.overflow="hidden";}
 function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");});document.body.style.overflow="";}
 document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
