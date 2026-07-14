@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workflow engine — describe a job, get a workflow that runs</title>
+<style>
+ :root{--bg:#0b0d12;--panel:#12151c;--panel2:#171b23;--card:#161a21;--line:#272d37;--line2:#333b47;
+   --ink:#eef1f6;--mut:#9aa3b1;--dim:#6d7482;--brass:#d0af62;--green:#57b083;--blue:#7b9bc4;--amber:#d8944a;
+   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+ *{box-sizing:border-box} html,body{margin:0}
+ body{background:radial-gradient(1100px 640px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
+   font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+ .tabs{flex:none;display:flex;gap:6px;max-width:1280px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
+ .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
+ .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
+ .wrap{flex:1;min-height:0;max-width:1280px;width:100%;margin:0 auto;
+   padding:clamp(8px,1.6vh,20px) 26px clamp(14px,2.4vh,28px);display:flex;flex-direction:column;gap:clamp(10px,2vh,22px)}
+ .head{flex:none;text-align:center}
+ .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 9px}
+ h1{font-family:var(--mono);font-size:clamp(20px,2.9vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
+ .subh{color:var(--mut);font-size:clamp(13px,1.7vh,16px);margin:9px 0 0}
+ .subh b{color:var(--ink);font-weight:600}
+ .hero-row{flex:1;min-height:0;display:flex;gap:clamp(14px,1.6vw,22px);align-items:stretch}
+ @media(max-width:900px){.hero-row{flex-direction:column}body{height:auto;overflow:auto}}
+ .stage{flex:1 1 60%;min-width:0;display:flex;flex-direction:column;
+   background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
+   box-shadow:0 40px 90px -50px #000;overflow:hidden}
+ .stage-top{flex:none;display:flex;align-items:center;gap:9px;padding:11px 18px;border-bottom:1px solid var(--line);
+   font-family:var(--mono);font-size:12px;color:var(--mut);text-align:left}
+ .stage-top .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+ .stage-top .grow{flex:1}
+ .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.4vh,18px)}
+ #hero{width:100%;height:100%;display:block}
+ .grid{flex:0 0 clamp(300px,31%,380px);min-width:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px}
+ @media(max-width:900px){.grid{flex:none;grid-template-rows:1fr 1fr;min-height:340px}}
+ .qcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;cursor:pointer;
+   display:flex;flex-direction:column;transition:border-color .15s,transform .15s,background .15s}
+ .qcard:hover{border-color:var(--brass);transform:translateY(-3px);background:var(--panel2)}
+ .qtag{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+ .qtitle{font-family:var(--mono);font-weight:700;font-size:15px;display:flex;gap:8px;align-items:center;margin:auto 0 5px}
+ .qdesc{color:var(--mut);font-size:12px;line-height:1.45}
+ .qgo{font-family:var(--mono);font-size:11.5px;color:var(--brass);margin-top:11px}
+ .ico{width:9px;height:9px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
+ /* overlays */
+ .ov{position:fixed;inset:0;background:rgba(6,8,12,.88);backdrop-filter:blur(3px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
+ .ov.show{display:block}
+ .sheet{max-width:900px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:clamp(24px,3.5vw,40px);position:relative}
+ .x{position:absolute;top:16px;right:16px;width:34px;height:34px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
+    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px}
+ .x:hover{color:var(--ink);border-color:var(--brass)}
+ .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:44px}
+ .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 26px;max-width:66ch} .ov .lead b{color:var(--ink)}
+ .steplbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:26px 0 12px}
+ pre{background:#0c0f15;border:1px solid var(--line);border-radius:10px;padding:15px 17px;overflow-x:auto;margin:0 0 14px}
+ code{font-family:var(--mono);font-size:13px;color:#cfe0f5;white-space:pre;line-height:1.65}
+ code .c{color:var(--dim)} code .k{color:var(--brass)} code .s{color:var(--green)}
+ .try{background:linear-gradient(180deg,#171b23,#12151c);border:1px solid var(--brass);border-radius:11px;padding:16px 18px;margin:8px 0 4px}
+ .try .tl{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px}
+ .try p{margin:0;color:var(--mut);font-size:13.5px;line-height:1.55} .try code{color:#e0c078}
+ .ex{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px;margin-bottom:11px}
+ .ex .euc{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500}
+ .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+ .sp{font-family:var(--mono);font-size:11.5px;padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
+ .sp.reuse{color:var(--blue);border-color:#3a4a5e;background:rgba(123,155,196,.08)}
+ .sp.new{color:var(--amber);border-color:#5a4326;background:rgba(216,148,74,.09)} .sp .gt{color:var(--brass)}
+ .arr{color:var(--dim);font-family:var(--mono);font-size:11px}
+ .badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:20px;margin-left:8px;white-space:nowrap}
+ .badge.ok{color:var(--green);background:rgba(87,176,131,.12)} .badge.gap{color:var(--amber);background:rgba(216,148,74,.12)}
+ .exhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;flex-wrap:wrap;gap:6px}
+ .runrow{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px;margin:0 0 8px}
+ .runrow .rk{font-family:var(--mono);color:var(--dim);font-size:12px;white-space:nowrap}
+ .runrow .rv{color:var(--ink)} .runrow .rv b{color:var(--green)}
+ .lnk{font-family:var(--mono);font-size:12.5px;color:var(--brass);text-decoration:none} .lnk:hover{text-decoration:underline}
+ .note{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:6px}
+</style></head><body>
+<nav class="tabs"><a class="on" href="./proto-home.html">Home</a><a href="usecases/">Use cases</a><a href="index.html">Writeup</a></nav>
+<main class="wrap">
+  <div class="head">
+    <p class="eyebrow">A from-scratch workflow-automation engine</p>
+    <h1>Describe a job in plain English.</h1>
+    <p class="subh">It <b>builds the workflow</b>, <b>runs it</b>, and hands you the result — staged for a human.</p>
+  </div>
+  <div class="hero-row">
+    <div class="stage">
+      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed from the shared library, then run on a real issue</span><span class="grow"></span><span id="hstat">running&hellip;</span></div>
+      <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
+    </div>
+    <div class="grid">
+      <div class="qcard" onclick="open_('ex_comp')"><span class="qtag">See our examples</span>
+        <p class="qtitle"><span class="ico i-comp"></span>The Composer</p><p class="qdesc">Plain-English jobs it turned into workflows &mdash; reusing the library, flagging gaps.</p><span class="qgo">Browse compositions &rarr;</span></div>
+      <div class="qcard" onclick="open_('ex_run')"><span class="qtag">See our examples</span>
+        <p class="qtitle"><span class="ico i-run"></span>A full run</p><p class="qdesc">Real recipes run on real input, each step staged for a human. Logged runs.</p><span class="qgo">Browse runs &rarr;</span></div>
+      <div class="qcard" onclick="open_('diy_comp')"><span class="qtag">Do it yourself</span>
+        <p class="qtitle"><span class="ico i-comp"></span>Compose your own</p><p class="qdesc">Clone, then describe your own job and watch it build the workflow.</p><span class="qgo">Get the steps &rarr;</span></div>
+      <div class="qcard" onclick="open_('diy_run')"><span class="qtag">Do it yourself</span>
+        <p class="qtitle"><span class="ico i-run"></span>Run your own</p><p class="qdesc">Run a recipe on our input, then point it at your own repo or topic.</p><span class="qgo">Get the steps &rarr;</span></div>
+    </div>
+  </div>
+</main>
+<div class="ov" id="ex_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>The Composer, on real jobs</h2>
+  <p class="lead">Describe a job in plain English; it composes a workflow from the <b>shared library</b> —
+    <span style="color:var(--blue)">reusing</span> what fits and honestly <span style="color:var(--amber)">flagging</span>
+    what it doesn't have (it drafts a stub, never fakes the capability). These are unedited outputs. <b>18 in the repo</b>; a spread:</p>
+  <div id="complist"></div>
+</div></div>
+
+<div class="ov" id="ex_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>A full run, end to end</h2>
+  <p class="lead">Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human —
+    nothing is ever sent. These are actual logged runs; click through any of them step by step.</p>
+  <div id="runlist"></div>
+</div></div>
+
+<div class="ov" id="diy_comp"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>Compose your own workflow</h2>
+  <p class="lead">Four commands from clone to a workflow built out of your own words.</p>
+  <p class="steplbl">1 · Clone &amp; install (no third-party deps)</p>
+  <pre><code><span class="c"># the engine is pure standard library</span>
+git clone https://github.com/mtichikawa/workflow-engine.git
+cd workflow-engine && pip install -e .</code></pre>
+  <p class="steplbl">2 · Give it a brain (pick one)</p>
+  <pre><code><span class="c"># Claude CLI — free on a Max plan, the default. Just install + sign in.</span>
+<span class="c"># or the billed API:</span>  pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-…
+export ENGINE_BRAIN=api</code></pre>
+  <p class="steplbl">3 · Compose one of ours</p>
+  <pre><code>python -m engine.cli compose <span class="s">"read GitHub issues, label and prioritize them, and draft a first response"</span></code></pre>
+  <p class="lead" style="margin:0 0 8px">It prints the recipe — every step tagged <code style="color:var(--blue)">reuse</code> (from the library),
+    <code style="color:var(--amber)">NEW!</code> (a gap it flags, not fakes), <code style="color:var(--brass)">[GATE]</code> (a human pause) — and whether it's runnable.</p>
+  <div class="try"><p class="tl">Now your turn</p>
+    <p>Describe any judgment-heavy, multi-step job:</p>
+    <pre style="margin:10px 0 0"><code>python -m engine.cli compose <span class="s">"&lt;your workflow in plain English&gt;"</span></code></pre></div>
+  <p class="steplbl">4 · Run what it composed</p>
+  <pre><code>python -m engine.cli compose <span class="s">"screen support tickets and draft replies"</span> \
+    <span class="k">--run</span> --input <span class="s">"API returns 500 on every POST since this morning"</span> --auto</code></pre>
+  <p class="note">— stages a result to <code>state/composed-&lt;run_id&gt;.json</code>. Add <code>--draft</code> to fill gaps with provisional specialists (untrusted — check at the gate).</p>
+</div></div>
+
+<div class="ov" id="diy_run"><div class="sheet"><div class="x" onclick="close_()">✕</div>
+  <h2>Run a workflow yourself</h2>
+  <p class="lead">Same clone + brain as the Composer steps. Then run any of the three recipes — and point them at your own input.</p>
+  <p class="steplbl">Run a recipe</p>
+  <pre><code>python -m engine.cli run triage --repo vercel/next.js --limit 5</code></pre>
+  <div class="runrow">
+    <span class="rk">input</span><span class="rv">real open issues pulled from the repo</span>
+    <span class="rk">does</span><span class="rv">classify · rank urgency · route · draft reply · verify · stage</span>
+    <span class="rk">you get</span><span class="rv">a board summary in your terminal + a <b>run id</b></span>
+    <span class="rk">where</span><span class="rv">full log → <code>state/&lt;run_id&gt;.json</code> · staged actions → <code>output/staged.jsonl</code></span>
+  </div>
+  <p class="steplbl">The other two</p>
+  <pre><code>python -m engine.cli run content --topic <span class="s">"why flaky tests erode trust"</span> --brief <span class="s">"sharp technical founder"</span> --auto
+python -m engine.cli run refine  --topic <span class="s">"why on-call rotations burn people out"</span> --auto  <span class="c"># draft→grade→rewrite until it passes</span></code></pre>
+  <div class="try"><p class="tl">Now your turn</p>
+    <p>Point it at <i>any</i> public repo or <i>any</i> topic:</p>
+    <pre style="margin:10px 0 0"><code>python -m engine.cli run triage --repo <span class="s">psf/requests</span> --limit 8</code></pre></div>
+  <p class="note">Nothing is ever sent — <code>act</code> is gated and only stages. Re-inspect any run: <code>engine board &lt;run_id&gt;</code>.</p>
+</div></div>
+
+
+<script>
+
+var GRAPH={"nodes": [{"id": "IN", "kind": "in", "col": 0, "outs": ["issue", "title", "url"], "ins": [], "title": "the issue"}, {"id": "classify", "kind": "shared", "col": 1, "outs": ["label"], "ins": ["issue"], "title": "classify"}, {"id": "rank", "kind": "shared", "col": 1, "outs": ["score"], "ins": ["issue"], "title": "rank"}, {"id": "route", "kind": "domain", "col": 1, "outs": ["component"], "ins": ["issue"], "title": "route"}, {"id": "respond", "kind": "domain", "col": 1, "outs": ["reply"], "ins": ["issue"], "title": "respond"}, {"id": "verify", "kind": "shared", "col": 2, "outs": ["verdict"], "ins": ["issue_title", "classified_as", "routed_to", "draft_reply"], "title": "verify"}, {"id": "act", "kind": "gate", "col": 3, "outs": ["result"], "ins": ["when fail", "when pass", "labels", "comment", "url", "priority"], "title": "act"}, {"id": "OUT", "kind": "out", "col": 4, "outs": [], "ins": ["result"], "title": "staged"}], "wires": [["IN", "issue", "classify", "issue"], ["IN", "issue", "rank", "issue"], ["IN", "issue", "route", "issue"], ["IN", "issue", "respond", "issue"], ["IN", "title", "verify", "issue_title"], ["classify", "label", "verify", "classified_as"], ["route", "component", "verify", "routed_to"], ["respond", "reply", "verify", "draft_reply"], ["classify", "label", "act", "labels"], ["route", "component", "act", "labels"], ["respond", "reply", "act", "comment"], ["IN", "url", "act", "url"], ["rank", "score", "act", "priority"], ["verify", "verdict", "act", "when pass", "gate"], ["verify", "verdict", "act", "when fail", "gate"], ["act", "result", "OUT", "result"]]};
+// graph_core.js — shared layout + orthogonal routing for the recipe graph.
+//
+// Used by BOTH the full explorer (engine/explorer_engine.html) and the gallery mini
+// (tools/build_gallery.py), inlined into each at build time so both stay self-contained.
+// Pure geometry + routing: no DOM, no window references (the viewport axis comes in via cfg).
+//
+//   const G = makeGraphCore(NODES, WIRES, {axisY:()=>innerHeight/2, detailPx});
+//   G.computeRouting();                       // decide routes (needs card heights measured first)
+//   const geom = G.computeGeom(expandedId);   // laid-out boxes {x,y,w,h} per node id
+//   const d    = G.roundedPath(G.route(i, geom));   // an SVG path for wire i in that geometry
+//
+// NODES: [{id, kind, col, outs:[sock…], ins:[sock…], sub?, w0?}]
+// WIRES: [[srcId, srcSock, dstId, dstSock, type?]]   type: "gate" | "loop" | (absent = data)
+function makeGraphCore(NODES, WIRES, cfg){
+  cfg = Object.assign({
+    W:160, WEXP:360, HEAD:27, SUBH:23, ROW:23, PAD:7, R:9,
+    MX:60, COLGAP:124, HGAP:22, LANE:10, VGAP:34, FORK:22, CLEAR:16,
+    detailPx:{}, axisY:function(){ return 300; }
+  }, cfg||{});
+  const {W,WEXP,HEAD,SUBH,ROW,PAD,R,MX,COLGAP,HGAP,LANE,VGAP,FORK,CLEAR}=cfg;
+  const detailPx=cfg.detailPx;
+
+  const headH=n=>HEAD+(n.sub?SUBH:0);   // header (+ optional always-visible subtitle) before the sockets
+  const wBase=n=>n.w0||W;
+  const rowsOf=n=>n.outs.length+n.ins.length;   // gate sockets are regular ins (named "when …")
+  const socketH=n=>headH(n)+rowsOf(n)*ROW+PAD;
+  const heightOf=(n,exp)=> socketH(n) + (exp?(detailPx[n.id]||0):0);
+  function socketsOf(n){ const l=[]; let r=0; const y0=headH(n);
+    n.outs.forEach(o=>{l.push({name:o,io:"out",side:"EAST",y:y0+(r+.5)*ROW});r++;});
+    n.ins.forEach(i=>{l.push({name:i,io:"in",side:"WEST",y:y0+(r+.5)*ROW});r++;});
+    return l; }
+
+  const wtype=WIRES.map(w=>w[4]||"data");   // control type: "data" | "gate" | "loop"
+  // topology of the plain data wires: a source socket feeding >1 dest = split (fan-out); a dest socket fed by >1 = merge (fan-in)
+  const _sN={}, _dN={};
+  WIRES.forEach(w=>{ if((w[4]||"data")!=="data") return; const s=w[0]+"."+w[1], d=w[2]+"."+w[3]; _sN[s]=(_sN[s]||0)+1; _dN[d]=(_dN[d]||0)+1; });
+  const wtopo=WIRES.map(w=>{ const t=w[4]||"data"; if(t!=="data") return t;
+    if(_dN[w[2]+"."+w[3]]>1) return "merge"; if(_sN[w[0]+"."+w[1]]>1) return "split"; return "data"; });
+  const WCOL={gate:["#c9a860",".82",1], loop:["#cf7a68",".85",1], merge:["#a986d6",".62",0], split:["#54b4a2",".58",0], data:["#b7c0cf",".3",0]};
+
+  const colOf=Object.fromEntries(NODES.map(n=>[n.id,n.col]));
+  const socketRel={}; NODES.forEach(n=>{ socketRel[n.id]={}; socketsOf(n).forEach(s=>socketRel[n.id][s.name+"."+s.io]=s.y); });
+  const cols={}; NODES.forEach(n=>(cols[n.col]=cols[n.col]||[]).push(n));
+  const colIdx=Object.keys(cols).map(Number).sort((a,b)=>a-b);
+
+  // self-layout: each column centered on one axis (single cards sit dead-center, grow symmetrically)
+  function computeGeom(expId){
+    const wOf=n=> expId===n.id?WEXP:wBase(n), hOf=n=> heightOf(n,expId===n.id);
+    const colW={}; colIdx.forEach(c=> colW[c]=Math.max(...cols[c].map(wOf)));
+    const colX={}; let x=MX; colIdx.forEach(c=>{ colX[c]=x; x+=colW[c]+COLGAP; });
+    const axisY=cfg.axisY(), g={};
+    colIdx.forEach(c=>{ const list=cols[c];
+      const total=list.reduce((s,n)=>s+hOf(n),0)+VGAP*(list.length-1);
+      let y=axisY-total/2;
+      list.forEach(n=>{ g[n.id]={x:colX[c],y,w:wOf(n),h:hOf(n)}; y+=hOf(n)+VGAP; }); });
+    return g;
+  }
+  function sock(id,name,io,g){ const b=g[id]; return {x: io==="out"? b.x+b.w : b.x, y: b.y+socketRel[id][name+"."+io]}; }
+  function colRight(c,g){ let m=-1e9; NODES.forEach(n=>{if(n.col===c)m=Math.max(m,g[n.id].x+g[n.id].w);}); return m; }
+  function colLeft(c,g){ let m=1e9; NODES.forEach(n=>{if(n.col===c)m=Math.min(m,g[n.id].x);}); return m; }
+  function channelX(k,g){ return (colRight(k,g)+colLeft(k+1,g))/2; }
+  function clearH(y,x1,x2,cs,ct,g){ const lo=Math.min(x1,x2),hi=Math.max(x1,x2);
+    for(const n of NODES){ if(n.col<=cs||n.col>=ct) continue; const b=g[n.id];
+      if(y>b.y-CLEAR&&y<b.y+b.h+CLEAR&&b.x<hi&&b.x+b.w>lo) return false; } return true; }
+  function band(cs,ct,g){ let top=1e9,bot=-1e9; NODES.forEach(n=>{ if(n.col<=cs||n.col>=ct)return; const b=g[n.id]; top=Math.min(top,b.y); bot=Math.max(bot,b.y+b.h); }); return {top,bot}; }
+
+  // routing decided ONCE, but each wire's path is chosen clear across EVERY reachable state (collapsed +
+  // each single-card expansion). So decisions never change between states → no snap, no fold — never grazes
+  // a card. Must run after card heights are measured (needs the expanded geometries).
+  let DEC=[], OFF={};
+  function computeRouting(){
+    const states=[computeGeom(null)].concat(NODES.map(n=>computeGeom(n.id)));
+    const base=states[0];
+    const clearAllStates=(w,which)=> states.every(g=>{ const a=sock(w[0],w[1],"out",g),b=sock(w[2],w[3],"in",g),cs=colOf[w[0]],ct=colOf[w[2]];
+      return clearH(which==="a"?a.y:b.y,a.x,b.x,cs,ct,g); });
+    DEC=WIRES.map(w=>{ const cs=colOf[w[0]],ct=colOf[w[2]];
+      if(ct-cs<=1) return {t:"vnt"};
+      if(clearAllStates(w,"a")) return {t:"vnt"};
+      if(clearAllStates(w,"b")) return {t:"vns"};
+      const a=sock(w[0],w[1],"out",base),b=sock(w[2],w[3],"in",base),bd=band(cs,ct,base);
+      return {t:"hwy",side:(Math.min(a.y,b.y)-bd.top)<=(bd.bot-Math.max(a.y,b.y))?"above":"below"}; });
+    OFF={}; WIRES.forEach((_,i)=>OFF[i]={a:0,b:0,hy:0});
+    const vsegs=[];
+    WIRES.forEach((w,i)=>{ const cs=colOf[w[0]],ct=colOf[w[2]],d=DEC[i], a=sock(w[0],w[1],"out",base),b=sock(w[2],w[3],"in",base),mid=(a.y+b.y)/2;
+      if(d.t==="vnt") vsegs.push({i,ch:ct-1,mid,slot:"a"});
+      else if(d.t==="vns") vsegs.push({i,ch:cs,mid,slot:"a"});
+      else { vsegs.push({i,ch:cs,mid,slot:"a"}); vsegs.push({i,ch:ct-1,mid,slot:"b"}); } });
+    const byCh={}; vsegs.forEach(s=>(byCh[s.ch]=byCh[s.ch]||[]).push(s));
+    Object.values(byCh).forEach(list=>{ list.sort((p,q)=>p.mid-q.mid); const n=list.length; list.forEach((s,k)=> OFF[s.i][s.slot]=(k-(n-1)/2)*LANE); });
+    ["above","below"].forEach(side=>{ const list=WIRES.map((w,i)=>({i,d:DEC[i]})).filter(x=>x.d.t==="hwy"&&x.d.side===side);
+      list.sort((p,q)=> sock(WIRES[p.i][0],WIRES[p.i][1],"out",base).y - sock(WIRES[q.i][0],WIRES[q.i][1],"out",base).y);
+      list.forEach((x,k)=> OFF[x.i].hy=k*LANE); });
+  }
+  let _li=0; const LOOPOFF=WIRES.map(w=>w[4]==="loop"?(_li++)*15:0);   // stack multiple loops
+  function route(i,g){ const w=WIRES[i], dec=DEC[i], o=OFF[i],
+    a=sock(w[0],w[1],"out",g), b=sock(w[2],w[3],"in",g), cs=colOf[w[0]], ct=colOf[w[2]];
+    if(wtype[i]==="loop"){                                             // feedback: route up and over EVERYTHING, back into the target
+      const stub=22+LOOPOFF[i], top=Math.min(...NODES.map(n=>g[n.id].y))-44-LOOPOFF[i];
+      return [a,{x:a.x+stub,y:a.y},{x:a.x+stub,y:top},{x:b.x-stub,y:top},{x:b.x-stub,y:b.y},b]; }
+    // split source / merge dest: start/end at a fork/join junction so the branch is visible
+    const aa=(_sN[w[0]+"."+w[1]]>1)?{x:a.x+FORK,y:a.y}:a, bb=(_dN[w[2]+"."+w[3]]>1)?{x:b.x-FORK,y:b.y}:b;
+    // straight shot only when nothing forces a detour — a highway means the direct line is blocked
+    if(Math.abs(aa.y-bb.y)<0.5 && dec.t!=="hwy") return [aa,bb];
+    if(dec.t==="vnt"){ const lx=channelX(ct-1,g)+o.a; return [aa,{x:lx,y:aa.y},{x:lx,y:bb.y},bb]; }
+    if(dec.t==="vns"){ const lx=channelX(cs,g)+o.a; return [aa,{x:lx,y:aa.y},{x:lx,y:bb.y},bb]; }
+    const l1=channelX(cs,g)+o.a, l2=channelX(ct-1,g)+o.b, bd=band(cs,ct,g),
+      hY=dec.side==="above"?bd.top-HGAP-o.hy:bd.bot+HGAP+o.hy;
+    return [aa,{x:l1,y:aa.y},{x:l1,y:hY},{x:l2,y:hY},{x:l2,y:bb.y},bb]; }
+
+  function roundedPath(pts){
+    const q=[pts[0]]; for(let i=1;i<pts.length;i++){const a=q[q.length-1],b=pts[i]; if(Math.abs(a.x-b.x)>.5||Math.abs(a.y-b.y)>.5)q.push(b);}
+    if(q.length<2) return `M ${pts[0].x} ${pts[0].y}`;
+    let d=`M ${q[0].x} ${q[0].y}`;
+    for(let i=1;i<q.length-1;i++){const p0=q[i-1],p1=q[i],p2=q[i+1];
+      const d1x=Math.sign(p1.x-p0.x),d1y=Math.sign(p1.y-p0.y),d2x=Math.sign(p2.x-p1.x),d2y=Math.sign(p2.y-p1.y);
+      const r=Math.min(R,Math.hypot(p1.x-p0.x,p1.y-p0.y)/2,Math.hypot(p2.x-p1.x,p2.y-p1.y)/2);
+      d+=` L ${p1.x-d1x*r} ${p1.y-d1y*r} Q ${p1.x} ${p1.y} ${p1.x+d2x*r} ${p1.y+d2y*r}`;}
+    const l=q[q.length-1]; d+=` L ${l.x} ${l.y}`; return d; }
+
+  // fork/join junctions: where a socket fans out (split) or fans in (merge) — a dot + short trunk
+  const junctions=[]; { const _js=new Set();
+    WIRES.forEach(w=>{ if((w[4]||"data")!=="data") return; const sk=w[0]+"."+w[1], dk=w[2]+"."+w[3];
+      if(_sN[sk]>1 && !_js.has("o"+sk)){ _js.add("o"+sk); junctions.push({node:w[0],sock:w[1],io:"out",col:WCOL.split[0]}); }
+      if(_dN[dk]>1 && !_js.has("i"+dk)){ _js.add("i"+dk); junctions.push({node:w[2],sock:w[3],io:"in",col:WCOL.merge[0]}); } }); }
+  function juncPoint(j,g){ const p=sock(j.node,j.sock,j.io,g); return {x:p.x, y:p.y, jx: j.io==="out"?p.x+FORK:p.x-FORK}; }
+
+  return { NODES, WIRES, FORK, R, HEAD, ROW, WCOL,
+    socketsOf, socketRel, heightOf, socketH, sock,
+    wtype, wtopo, colOf, computeGeom, channelX, band,
+    computeRouting, route, roundedPath, junctions, juncPoint, LOOPOFF,
+    _sN, _dN, get DEC(){return DEC;}, get OFF(){return OFF;} };
+}
+(function(){
+  var svg=document.getElementById("hero"); if(!svg) return;
+  var mono="ui-monospace,Menlo,monospace";
+  var G=makeGraphCore(GRAPH.nodes, GRAPH.wires, {axisY:function(){return 0;}});
+  G.computeRouting();
+  var g=G.computeGeom(null);
+  var routes=GRAPH.wires.map(function(_,i){return G.route(i,g);});
+  var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  GRAPH.nodes.forEach(function(n){var b=g[n.id];x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.w);y1=Math.max(y1,b.y+b.h);});
+  routes.forEach(function(pts){pts.forEach(function(p){x0=Math.min(x0,p.x);y0=Math.min(y0,p.y);x1=Math.max(x1,p.x);y1=Math.max(y1,p.y);});});
+
+  // ---- the shared library (modularity): a shelf of specialists; this job reuses some, leaves the rest ----
+  var SHELF=[
+    {l:"research"},{l:"classify",n:"classify"},{l:"rank",n:"rank"},{l:"route",n:"route"},
+    {l:"write"},{l:"respond",n:"respond"},{l:"summarize"},{l:"verify",n:"verify"},
+    {l:"extract"},{l:"act",n:"act"},{l:"translate"}
+  ];
+  var chipW=74, chipH=22, gap=12, cN=SHELF.length, totalW=cN*chipW+(cN-1)*gap;
+  var midX=(x0+x1)/2, shelfX=midX-totalW/2, shelfY=y0-82, shelfBot=shelfY+chipH;
+  SHELF.forEach(function(c,i){c.x=shelfX+i*(chipW+gap);c.cx=c.x+chipW/2;});
+
+  var PX=26,PT=20,PB=26;
+  var vbX=Math.min(x0,shelfX)-PX, vbY=shelfY-PT, vbW=Math.max(x1,shelfX+totalW)-vbX+PX, vbH=y1-vbY+PB;
+  svg.setAttribute("viewBox",vbX+" "+vbY+" "+vbW+" "+vbH);
+
+  var NS="http://www.w3.org/2000/svg", el=function(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;};
+  var gCon=el("g",{}),gShelf=el("g",{}),gW=el("g",{}),gP=el("g",{}),gJ=el("g",{}),gN=el("g",{});
+  [gCon,gShelf,gW,gP,gJ,gN].forEach(function(x){svg.appendChild(x);});
+
+  var KC={in:"#5b8fd6",shared:"#7b9bc4",domain:"#d0af62",gate:"#d8944a",out:"#57b083"};
+  var HC={in:"#26384f",shared:"#2c3a49",domain:"#43391f",gate:"#432e18",out:"#213f30"};
+  var OUT={IN:"#95698",classify:"bug · 0.96",rank:"0.30",route:"build",respond:"reply drafted",verify:"pass · 0.6",act:"staged ✓",OUT:"bug, build + reply"};
+  var ARR={IN:0.3,classify:0.95,rank:1.2,route:1.45,respond:1.7,verify:2.2,act:2.65,OUT:3.0};
+  var CA=3.4, HOLD=0.55;
+
+  var paths=[], lens=[];
+  routes.forEach(function(pts,i){var wc=G.WCOL[G.wtopo[i]]||G.WCOL.data;
+    var p=el("path",{d:G.roundedPath(pts),fill:"none",stroke:wc[0],"stroke-width":2.2,opacity:0});
+    if(+wc[2])p.setAttribute("stroke-dasharray","7 5"); gW.appendChild(p); paths.push(p); lens.push(0); p._b=Math.max(+wc[1],.42);});
+  var juncEls=[];
+  G.junctions.forEach(function(j){var p=G.juncPoint(j,g);
+    var a=el("path",{d:"M "+p.x+" "+p.y+" L "+p.jx+" "+p.y,stroke:j.col,"stroke-width":2.4,fill:"none",opacity:0});
+    var c=el("circle",{cx:p.jx,cy:p.y,r:3.2,fill:j.col,opacity:0}); gJ.appendChild(a);gJ.appendChild(c); juncEls.push([a,c,j.node]);});
+
+  var chipEls={};
+  SHELF.forEach(function(c){var cg=el("g",{});
+    var rect=el("rect",{x:c.x,y:shelfY,width:chipW,height:chipH,rx:6,fill:"#161a20",stroke:"#333b47","stroke-width":1.2});
+    var tx=el("text",{x:c.cx,y:shelfY+chipH*0.68,"text-anchor":"middle","font-family":mono,"font-size":11,fill:"#6d7482"});
+    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});
+  var conEls={};
+  SHELF.filter(function(c){return c.n;}).forEach(function(c){var b=g[c.n],nx=b.x+b.w/2,ny=b.y,my=(shelfBot+ny)/2;
+    var d="M "+c.cx+" "+shelfBot+" L "+c.cx+" "+my+" L "+nx+" "+my+" L "+nx+" "+ny;
+    var p=el("path",{d:d,fill:"none",stroke:"#d0af62","stroke-width":1.3,opacity:0}); gCon.appendChild(p); conEls[c.n]=p;});
+
+  var HH=G.HEAD, nodeEls={};
+  GRAPH.nodes.forEach(function(n){var b=g[n.id],c=KC[n.kind]||"#7b9bc4",hc=HC[n.kind]||"#333a45";
+    var ng=el("g",{}); gN.appendChild(ng);
+    var r=el("rect",{x:b.x,y:b.y,width:b.w,height:b.h,rx:8,fill:"#22262e",stroke:c,"stroke-width":1.6});
+    if(n.kind==="gate")r.setAttribute("stroke-dasharray","6 4"); ng.appendChild(r);
+    ng.appendChild(el("rect",{x:b.x+1.5,y:b.y+1.5,width:b.w-3,height:HH-3,rx:6,fill:hc}));
+    var nm=el("text",{x:b.x+11,y:b.y+HH*0.64,fill:"#fff","font-family":mono,"font-size":13,"font-weight":700}); nm.textContent=n.title||n.id; ng.appendChild(nm);
+    G.socketsOf(n).forEach(function(s){var x=s.io==="out"?b.x+b.w:b.x;
+      ng.appendChild(el("circle",{cx:x,cy:b.y+s.y,r:3.8,fill:s.io==="out"?c:"#828b99",stroke:"#14171c","stroke-width":1.5}));});
+    var ot=el("text",{x:b.x+b.w/2,y:b.y+HH+(b.h-HH)/2+4,"text-anchor":"middle","font-family":mono,"font-size":11.5,fill:(n.kind==="out"?"#7fbf9c":n.kind==="gate"?"#e0c078":"#cfe0f5"),opacity:0});
+    ot.textContent=OUT[n.id]||""; ng.appendChild(ot); ng.setAttribute("opacity",0);
+    nodeEls[n.id]={g:ng,rect:r,out:ot};});
+
+  var colOf={}; GRAPH.nodes.forEach(function(n){colOf[n.id]=n.col;});
+  var GAP=1.15, T0=0.5, TRAVEL=0.85;
+  function fireT(id){return colOf[id]*GAP+T0;}
+  var maxFire=0; GRAPH.nodes.forEach(function(n){maxFire=Math.max(maxFire,fireT(n.id));});
+  var RUNCYCLE=maxFire+2.6, CYCLE=CA+HOLD+RUNCYCLE;
+  function c01(v){return v<0?0:v>1?1:v;} function ease(v){return v*v*(3-2*v);}
+  var nodeChip={}; SHELF.forEach(function(c){if(c.n)nodeChip[c.n]=c.l;});
+
+  var start=0, raf=0, stat=document.getElementById("hstat");
+  function frame(ts){ if(!start)start=ts; var t=((ts-start)/1000)%CYCLE;
+    var composing=t<CA+HOLD, trun=t-(CA+HOLD);
+    gShelf.setAttribute("opacity", 1);
+    gCon.setAttribute("opacity", composing?1:0);
+    // used specialists stay lit on the shelf through the run; unused just dim back
+    SHELF.forEach(function(c){var ch=chipEls[c.l];
+      ch.g.setAttribute("opacity", ch.used?1:(composing?1:0.3));});
+    GRAPH.nodes.forEach(function(n){var a=ARR[n.id]!=null?ARR[n.id]:0, e=nodeEls[n.id];
+      var app=composing?ease(c01((t-(a-0.4))/0.4)):1; e.g.setAttribute("opacity",app);
+      var cl=nodeChip[n.id]; if(cl){var ch=chipEls[cl], lit=composing?ease(c01((t-(a-0.4))/0.4)):1, on=lit>0.5;
+        ch.rect.setAttribute("stroke",on?"#d0af62":"#333b47"); ch.rect.setAttribute("fill",on?"#241f14":"#161a20"); ch.tx.setAttribute("fill",on?"#e0c078":"#6d7482");}
+      var con=conEls[n.id]; if(con){var dr=composing?ease(c01((t-(a-0.4))/0.4)):1; con.setAttribute("opacity",composing?dr*0.8:0.1);}
+      if(!composing){var ft=fireT(n.id),fired=trun>=ft; e.out.setAttribute("opacity",fired?Math.min(1,(trun-ft)*4):0);
+        var d=trun-ft; e.rect.setAttribute("stroke-width",(d>=0&&d<.45)?2.8:1.6);}
+      else{e.out.setAttribute("opacity",0); e.rect.setAttribute("stroke-width",1.6);}});
+    paths.forEach(function(p,i){var dst=GRAPH.wires[i][2], on=ARR[dst]!=null?ARR[dst]:CA;
+      p.setAttribute("opacity",(composing?ease(c01((t-on)/0.3)):1)*p._b);});
+    juncEls.forEach(function(je){var on=ARR[je[2]]!=null?ARR[je[2]]:0, v=composing?ease(c01((t-on)/0.3)):1;
+      je[0].setAttribute("opacity",v*0.8); je[1].setAttribute("opacity",v);});
+    while(gP.firstChild)gP.removeChild(gP.firstChild);
+    if(!composing){routes.forEach(function(pts,i){var dst=GRAPH.wires[i][2],ff=fireT(dst),w0=ff-TRAVEL;
+      if(trun>=w0&&trun<ff){if(!lens[i])lens[i]=paths[i].getTotalLength(); if(!lens[i])return;
+        var f=(trun-w0)/TRAVEL,q=paths[i].getPointAtLength(f*lens[i]);
+        gP.appendChild(el("circle",{cx:q.x.toFixed(1),cy:q.y.toFixed(1),r:4,fill:"#dbe7f7"}));}});}
+    if(stat){if(composing){stat.textContent="composing workflow…";stat.style.color="#e0c078";}
+      else{var done=trun>maxFire+.3; stat.textContent=done?"staged for a human ✓":"running…"; stat.style.color=done?"#7fbf9c":"#9aa3b1";}}
+    raf=requestAnimationFrame(frame);
+  }
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gShelf.setAttribute("opacity",1); gCon.setAttribute("opacity",0);
+    SHELF.forEach(function(c){var ch=chipEls[c.l];
+      if(ch.used){ch.rect.setAttribute("stroke","#d0af62");ch.rect.setAttribute("fill","#241f14");ch.tx.setAttribute("fill","#e0c078");ch.g.setAttribute("opacity",1);}
+      else ch.g.setAttribute("opacity",0.3);});
+    GRAPH.nodes.forEach(function(n){nodeEls[n.id].g.setAttribute("opacity",1);nodeEls[n.id].out.setAttribute("opacity",1);});
+    paths.forEach(function(p){p.setAttribute("opacity",p._b);});
+    juncEls.forEach(function(je){je[0].setAttribute("opacity",0.8);je[1].setAttribute("opacity",1);});
+  } else requestAnimationFrame(frame);
+})();
+
+</script>
+<script>
+var COMP=[
+ {uc:"classify customer feedback and route it to product, engineering, or sales",
+  steps:[["classify","reuse"],["route","reuse"],["act","reuse"]],run:true,gaps:0},
+ {uc:"monitor brand mentions, gauge sentiment, and draft a response to the negative ones",
+  steps:[["classify","reuse"],["respond","reuse"],["verify","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
+ {uc:"moderate incoming forum posts: flag toxic ones and route the rest",
+  steps:[["classify","reuse"],["route","reuse"],["act","reuse",1],["act","reuse"]],run:true,gaps:0},
+ {uc:"detect duplicate bug reports, group them, and draft a merge note",
+  steps:[["fetch","reuse"],["detect_duplicates","new"],["verify","reuse"],["draft_merge_note","new"],["act","reuse"]],run:false,gaps:2},
+ {uc:"grade student essays against a rubric and write feedback",
+  steps:[["rank","reuse"],["grade_essay","new"],["verify","reuse",1],["act","reuse"]],run:false,gaps:1},
+ {uc:"generate a product image from a text description and stage it",
+  steps:[["generate_image","new"],["stage_scene","new"],["verify","reuse"],["act","reuse"]],run:false,gaps:2}
+];
+var RUNS=[
+ {r:"triage",inp:"a real GitHub issue (vercel/next.js #95698 — a Turbopack tree-shaking bug)",
+  does:"classify · rank urgency · route to a component · draft a reply · verify · stage",
+  out:"labels + priority + a drafted reply, staged for a human",href:"usecases/triage/"},
+ {r:"content",inp:"a topic — “why flaky tests erode trust” — in a founder’s voice",
+  does:"pull sources · pick an angle · write the post · check it’s on-brand · stage",
+  out:"a short drafted post under output/, staged",href:"usecases/content/"},
+ {r:"refine",inp:"a topic, held to a strict bar",
+  does:"draft · self-grade · rewrite &amp; re-check until it passes (the loop)",
+  out:"the final post + the pass-by-pass trail (fail→fail→pass)",href:"usecases/refine/"}
+];
+function chip(s){var cls=s[1]==="new"?"new":"reuse", g=s[2]?" <span class='gt'>⚡gate</span>":"";
+  var lbl=s[1]==="new"?"NEW":"reuse";
+  return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
+function renderComp(){var h="";COMP.forEach(function(e){
+  var flow=e.steps.map(chip).join(" <span class='arr'>→</span> ");
+  var badge=e.run?"<span class='badge ok'>✓ runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
+  h+="<div class='ex'><div class='exhead'><span class='euc'>“"+e.uc+"”</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";});
+  document.getElementById("complist").innerHTML=h;}
+function renderRuns(){var h="";RUNS.forEach(function(e){
+  h+="<div class='ex'><div class='exhead'><span class='euc' style='font-family:var(--mono);font-weight:700;color:#e0c078'>"+e.r+"</span>"
+    +"<a class='lnk' href='"+e.href+"'>watch it step by step →</a></div>"
+    +"<div class='runrow'><span class='rk'>input</span><span class='rv'>"+e.inp+"</span>"
+    +"<span class='rk'>does</span><span class='rv'>"+e.does+"</span>"
+    +"<span class='rk'>you get</span><span class='rv'><b>"+e.out+"</b></span></div></div>";});
+  document.getElementById("runlist").innerHTML=h;}
+renderComp();renderRuns();
+
+function open_(id){document.getElementById(id).classList.add("show");document.body.style.overflow="hidden";}
+function close_(){document.querySelectorAll(".ov").forEach(function(o){o.classList.remove("show");});document.body.style.overflow="";}
+document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
+
+</script>
+</body></html>
