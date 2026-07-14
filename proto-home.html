@@ -92,7 +92,7 @@
  .ptag.reuse{color:var(--blue);border:1px solid #3a4a5e;background:rgba(123,155,196,.08)}
  .ptag.gate{color:var(--amber);border:1px solid #5a4326;background:rgba(216,148,74,.1)}
  .pname{font-family:var(--mono);font-size:14.5px;color:var(--ink);font-weight:700;min-width:84px;flex:none}
- .pdesc{color:var(--mut);font-size:14px}
+ .pdesc{color:var(--mut);font-size:12.5px;font-family:var(--mono)}
  .plannote{font-size:14px;color:var(--mut);line-height:1.65} .plannote .rz{color:var(--blue)} .plannote .az{color:var(--amber)} .plannote b{color:var(--ink)}
  .dcols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:stretch;margin-top:22px}
  @media(max-width:900px){.dcols{grid-template-columns:1fr}}
@@ -260,13 +260,12 @@
         <pre class="big"><code>git clone …/workflow-engine.git
 cd workflow-engine
 pip install -e .</code></pre>
-        <p class="dtxt" style="margin:14px 0 0">Give it a brain &mdash; the <b>claude CLI</b> (free on Max) is the default, or <code style="color:#cfe0f5">export ENGINE_BRAIN=api</code> for the billed API.</p>
+        <p class="dtxt" style="margin:14px 0 0">The engine uses <b>Claude</b> for the steps that need judgment. Free with the Claude CLI if you have a Max plan &mdash; or plug in an Anthropic API key (~cents/run).</p>
       </div>
       <div class="dcol">
         <p class="dnum">2 &middot; describe the job</p>
         <p class="dtxt">One plain-English sentence is the whole interface &mdash; no config, no wiring.</p>
-        <pre class="anno big"><code>engine compose
-  <u class="a2">"triage issues, draft replies"</u></code></pre>
+        <pre class="anno big"><code><span class="c">$</span> engine compose <u class="a2">"triage issues, draft replies"</u></code></pre>
         <div class="akey"><div><span class="ad a2"></span>The quotes are <b>your job</b> &mdash; swap in anything judgment-heavy and multi-step.</div></div>
         <p class="dtxt" style="margin:16px 0 6px"><b>Fresh jobs to try:</b></p>
         <ul class="exlist" style="font-size:12.5px;line-height:1.85">
@@ -825,7 +824,7 @@ function setRect(sh,r,rad){ sh.style.left=r.l+"px"; sh.style.top=r.t+"px"; sh.st
 function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=ov.querySelector(".sheet"),sc=sh.querySelector(".sheet-scroll");
   lastSrc=src||null; ov.classList.add("show"); document.body.style.overflow="hidden"; if(sc)sc.scrollTop=0; var t=panelTarget();
   if(id==="ex_run"){var fr=ov.querySelector("#runframe"); if(fr&&!fr.getAttribute("src"))fr.setAttribute("src","usecases/triage/index.html?embed=1");}
-  var sl=sh.querySelectorAll(".slide"),k; for(k=0;k<sl.length;k++)sl[k].style.minHeight=t.h+"px";
+  var sl=sh.querySelectorAll(".slide"),k; for(k=0;k<sl.length;k++)sl[k].style.minHeight=(t.h-6)+"px";
   if(src && !RM){ var r=src.getBoundingClientRect(); src.style.visibility="hidden";
     sh.style.transition="none"; sh.style.opacity="1";
     setRect(sh,{l:r.left,t:r.top,w:r.width,h:r.height},12);
