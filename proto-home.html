@@ -76,6 +76,12 @@
  .sd-job{color:var(--mut);font-size:13.5px;margin-top:7px;line-height:1.55}
  .exlist{margin:8px 0 0;padding-left:0;list-style:none;font-family:var(--mono);font-size:13.5px;color:var(--mut);line-height:2}
  .exlist li:before{content:"\203a  ";color:var(--brass)} .exlist code{color:#cfe0f5}
+ .anno code u{text-decoration:none;border-bottom:2px solid;padding-bottom:1px;font-weight:600}
+ u.a1{color:#7b9bc4;border-color:#7b9bc4} u.a2{color:#57b083;border-color:#57b083} u.a3{color:#d0af62;border-color:#d0af62}
+ .akey{display:grid;gap:8px;margin:14px 0 0;font-size:13px;color:var(--mut);line-height:1.5}
+ .akey b{font-family:var(--mono);color:var(--ink)} .akey code{color:#cfe0f5}
+ .akey .ad{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:9px;vertical-align:middle}
+ .ad.a1{background:#7b9bc4} .ad.a2{background:#57b083} .ad.a3{background:#d0af62}
  .toc{display:grid;gap:11px;margin:30px 0 0;max-width:680px}
  .toc-item{display:flex;gap:18px;align-items:baseline;padding:14px 17px;background:var(--card);border:1px solid var(--line);border-radius:11px}
  .toc-item b{font-family:var(--mono);color:#e0c078;font-size:13.5px;min-width:118px;flex:none}
@@ -182,8 +188,7 @@
   </div>
   <div class="hero-row">
     <div class="stage">
-      <div class="stage-top"><span class="dot"></span><span>triage &middot; composed, then run on a real issue</span><span class="grow"></span>
-        <button class="libbtn" onclick="open_('library',this)">&#9638; the library</button>
+      <div class="stage-top"><span class="dot"></span><span><b style="color:var(--ink)">Live demo</b> &mdash; the engine builds a workflow to <b style="color:var(--ink)">triage</b> a real GitHub issue (sort &middot; prioritize &middot; route &middot; reply), then runs it</span><span class="grow"></span>
         <span id="hstat" style="color:var(--mut)">running&hellip;</span></div>
       <div class="stage-body"><svg id="hero" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="a workflow being composed from the library, then run"></svg></div>
     </div>
@@ -228,7 +233,8 @@ pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-… && export ENGINE_BR
   <section class="slide"><div class="slide-in">
     <p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; 2 / 3</p>
     <h2 class="s-title">Compose one of ours</h2>
-    <pre><code>python -m engine.cli compose <span class="s">"read GitHub issues, label and prioritize them, and draft a first response"</span></code></pre>
+    <pre class="anno"><code>python -m engine.cli compose <u class="a2">"read GitHub issues, label and prioritize them, and draft a first response"</u></code></pre>
+    <div class="akey"><div><span class="ad a2"></span>The <b>job</b>, in plain English &mdash; swap in <b>anything</b> judgment-heavy and multi-step. That plain-English sentence <i>is</i> the whole interface.</div></div>
     <p class="s-what" style="margin:6px 0 14px">It prints the workflow it built &mdash; each step tagged, and whether it's runnable:</p>
     <div class="out">Composed recipe for: 'read GitHub issues, label and prioritize them, and draft a first response'
 
@@ -261,8 +267,13 @@ runnable:  True</div>
   <section class="slide"><div class="slide-in">
     <p class="s-eyebrow" style="color:var(--green)">Run your own &middot; 1 / 3</p>
     <h2 class="s-title">Run the triager on a real repo</h2>
-    <pre><code>python -m engine.cli run triage --repo vercel/next.js --limit 5</code></pre>
-    <div class="rmeta">
+    <pre class="anno"><code>python -m engine.cli run <u class="a1">triage</u> --repo <u class="a2">vercel/next.js</u> --limit <u class="a3">5</u></code></pre>
+    <div class="akey">
+      <div><span class="ad a1"></span><b>triage</b> &mdash; the recipe. Also try <code>content</code> or <code>refine</code>.</div>
+      <div><span class="ad a2"></span><b>vercel/next.js</b> &mdash; any public GitHub repo. Swap freely.</div>
+      <div><span class="ad a3"></span><b>5</b> &mdash; how many open issues to pull.</div>
+    </div>
+    <div class="rmeta" style="margin-top:16px">
       <span class="rk">input</span><span class="rv">real open issues pulled straight from the repo</span>
       <span class="rk">does</span><span class="rv">classify &middot; rank urgency &middot; route to a component &middot; draft a reply &middot; verify &middot; stage</span>
       <span class="rk">you get</span><span class="rv">a board summary in your terminal, plus a printed <b style="color:var(--green)">run id</b></span>
@@ -492,7 +503,7 @@ function makeGraphCore(NODES, WIRES, cfg){
   SHELF.forEach(function(c,i){c.x=shelfX+i*(chipW+gap);c.cx=c.x+chipW/2;});
 
   var PX=10,PT=8,PB=12;
-  var vbX=Math.min(x0,shelfX)-PX, vbY=shelfY-PT, vbW=Math.max(x1,shelfX+totalW)-vbX+PX, vbH=y1-vbY+PB;
+  var vbX=Math.min(x0,shelfX)-PX, vbY=shelfY-40, vbW=Math.max(x1,shelfX+totalW)-vbX+PX, vbH=y1-vbY+PB;
   svg.setAttribute("viewBox",vbX+" "+vbY+" "+vbW+" "+vbH); svg.style.aspectRatio=vbW+"/"+vbH;
 
   var NS="http://www.w3.org/2000/svg", el=function(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;};
@@ -518,7 +529,7 @@ function makeGraphCore(NODES, WIRES, cfg){
   SHELF.forEach(function(c){var cg=el("g",{});
     var rect=el("rect",{x:c.x,y:shelfY,width:chipW,height:chipH,rx:6,fill:"#161a20",stroke:"#333b47","stroke-width":1.2});
     var tx=el("text",{x:c.cx,y:shelfY+chipH*0.68,"text-anchor":"middle","font-family":mono,"font-size":11,fill:"#6d7482"});
-    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});(function(){var hit=el("rect",{x:shelfX-14,y:shelfY-10,width:totalW+28,height:chipH+20,fill:"transparent"});hit.setAttribute("pointer-events","all");hit.style.cursor="pointer";hit.addEventListener("click",function(){if(window.open_)window.open_("library");});gShelf.appendChild(hit);})();
+    tx.textContent=c.l; cg.appendChild(rect);cg.appendChild(tx); gShelf.appendChild(cg); chipEls[c.l]={rect:rect,tx:tx,g:cg,used:!!c.n};});(function(){var bx=shelfX-16, by=shelfY-40, bw=totalW+32, bh=chipH+56;var band=el("rect",{x:bx,y:by,width:bw,height:bh,rx:12,fill:"rgba(208,175,98,0.05)",stroke:"#5a4c28","stroke-width":1.2});gShelf.insertBefore(band,gShelf.firstChild);var lab=el("text",{x:bx+16,y:by+19,"font-family":mono,"font-size":12.5,fill:"#e0c078","font-weight":700});lab.textContent="The library of specialists";gShelf.appendChild(lab);var cta=el("text",{x:bx+bw-16,y:by+19,"text-anchor":"end","font-family":mono,"font-size":12.5,fill:"#d0af62"});cta.textContent="see all 9 \u2192";gShelf.appendChild(cta);var hit=el("rect",{x:bx,y:by,width:bw,height:bh,rx:12,fill:"transparent"});hit.setAttribute("pointer-events","all");hit.style.cursor="pointer";hit.addEventListener("mouseenter",function(){band.setAttribute("fill","rgba(208,175,98,0.12)");band.setAttribute("stroke","#d0af62");});hit.addEventListener("mouseleave",function(){band.setAttribute("fill","rgba(208,175,98,0.05)");band.setAttribute("stroke","#5a4c28");});hit.addEventListener("click",function(){if(window.open_)window.open_("library",hit);});gShelf.appendChild(hit);})();
   var conEls={};
   SHELF.filter(function(c){return c.n;}).forEach(function(c){var b=g[c.n],nx=b.x+b.w/2,ny=b.y,my=(shelfBot+ny)/2;
     var d="M "+c.cx+" "+shelfBot+" L "+c.cx+" "+my+" L "+nx+" "+my+" L "+nx+" "+ny;
