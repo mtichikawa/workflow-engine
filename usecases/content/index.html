@@ -344,4 +344,5 @@ addEventListener("resize",()=>{ if(!anim){ curGeom=computeGeom(expId); applyGeom
 relayout(false);
 { const p=new URLSearchParams(location.search); const q=p.get("exp"); if(q){ expId=q; relayout(true); } const h=p.get("hl"); if(h) highlight(h); }
 </script>
+<style id=embedcss>body.embed .back{display:none!important}body.embed .hdr{padding-top:6px}</style><script>if(/[?&]embed/.test(location.search))document.body.classList.add("embed");</script>
 </body></html>

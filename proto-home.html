@@ -89,6 +89,13 @@
  .x:hover{color:var(--ink);border-color:var(--brass)}
  .back{position:absolute;top:15px;left:15px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;cursor:pointer;z-index:5}
  .back:hover{color:var(--ink);border-color:var(--brass)}
+ .ov[data-embed] .sheet-scroll{padding:0;display:flex;flex-direction:column;overflow:hidden}
+ .ex-tabs{flex:none;display:flex;align-items:center;gap:8px;padding:15px 62px 14px 122px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+ .ext-lbl{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-right:6px}
+ .ext{font-family:var(--mono);font-size:13px;padding:7px 15px;border-radius:8px;border:1px solid var(--line2);background:var(--panel2);color:var(--mut);cursor:pointer}
+ .ext.on{color:#0b0d12;background:var(--brass);border-color:var(--brass)} .ext:hover:not(.on){color:var(--ink);border-color:var(--brass)}
+ .ext-open{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--brass);text-decoration:none;padding:7px 12px} .ext-open:hover{text-decoration:underline}
+ .runframe{flex:1;width:100%;border:0;display:block;background:#0b0d12}
  .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:48px}
  .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 22px;max-width:70ch} .ov .lead b{color:var(--ink)}
  .ov .lead .rz{color:var(--blue)} .ov .lead .az{color:var(--amber)}
@@ -199,7 +206,14 @@
   </div>
 </main>
 <div class="ov" id="ex_comp" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div><div id="complist"></div></div></div>
-<div class="ov" id="ex_run" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div><div id="runlist"></div></div></div>
+<div class="ov" id="ex_run" data-embed><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
+  <div class="ex-tabs"><span class="ext-lbl">A full run &mdash; the live explorer:</span>
+    <button class="ext on" onclick="loadRun(this,'triage')">triage</button>
+    <button class="ext" onclick="loadRun(this,'content')">content</button>
+    <button class="ext" onclick="loadRun(this,'refine')">refine</button>
+    <a class="ext-open" id="runopen" href="usecases/triage/" target="_blank" rel="noopener">open full &#8599;</a></div>
+  <iframe id="runframe" class="runframe" title="workflow explorer" loading="lazy"></iframe>
+</div></div>
 <div class="ov" id="diy_comp" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <section class="slide"><div class="slide-in">
     <p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; 1 / 3</p>
@@ -660,6 +674,7 @@ var RUNS=[
 ];
 function pchip(p){return "<span class='pc"+(p[2]?" gate":"")+"'>"+p[0]+(p[2]?" &#9889;":"")+"</span>";}
 function renderRuns(){
+  if(!document.getElementById("runlist"))return;
   var n=RUNS.length;
   var intro="<section class='slide'><div class='slide-in'>"
     +"<p class='s-eyebrow' style='color:var(--brass)'>A full run</p>"
@@ -708,6 +723,7 @@ function setRect(sh,r,rad){ sh.style.left=r.l+"px"; sh.style.top=r.t+"px"; sh.st
 // grow the actual frame out of the clicked card (its edges expand); content appears only once grown
 function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=ov.querySelector(".sheet"),sc=sh.querySelector(".sheet-scroll");
   lastSrc=src||null; ov.classList.add("show"); document.body.style.overflow="hidden"; if(sc)sc.scrollTop=0; var t=panelTarget();
+  if(id==="ex_run"){var fr=ov.querySelector("#runframe"); if(fr&&!fr.getAttribute("src"))fr.setAttribute("src","usecases/triage/index.html?embed=1");}
   var sl=sh.querySelectorAll(".slide"),k; for(k=0;k<sl.length;k++)sl[k].style.minHeight=t.h+"px";
   if(src && !RM){ var r=src.getBoundingClientRect(); src.style.visibility="hidden";
     sh.style.transition="none"; sh.style.opacity="1";
@@ -726,6 +742,9 @@ function close_(){var ov=null;document.querySelectorAll(".ov.show").forEach(func
     setRect(sh,{l:r.left,t:r.top,w:r.width,h:r.height},12);
     sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,DUR+160);
   } else finish();}
+function loadRun(btn,recipe){btn.parentNode.querySelectorAll(".ext").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");
+  document.getElementById("runframe").setAttribute("src","usecases/"+recipe+"/index.html?embed=1");
+  var o=document.getElementById("runopen"); if(o)o.setAttribute("href","usecases/"+recipe+"/");}
 document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
 
