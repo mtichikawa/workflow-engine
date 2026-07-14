@@ -94,8 +94,10 @@
  .pname{font-family:var(--mono);font-size:14.5px;color:var(--ink);font-weight:700;min-width:84px;flex:none}
  .pdesc{color:var(--mut);font-size:14px}
  .plannote{font-size:14px;color:var(--mut);line-height:1.65} .plannote .rz{color:var(--blue)} .plannote .az{color:var(--amber)} .plannote b{color:var(--ink)}
- .dcols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,4vw,60px);align-items:start;margin-top:22px}
- @media(max-width:860px){.dcols{grid-template-columns:1fr}}
+ .dcols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:stretch;margin-top:22px}
+ @media(max-width:900px){.dcols{grid-template-columns:1fr}}
+ .dcol{background:rgba(255,255,255,.017);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px}
+ .dcol pre code{font-size:12px} .dcol .plan{margin-top:2px}
  .dnum{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);font-weight:700;margin:0 0 11px}
  .dtxt{color:var(--mut);font-size:13.5px;line-height:1.55;margin:0 0 11px} .dtxt b{color:var(--ink)}
  .dstep{margin-bottom:22px} .dstep:last-child{margin-bottom:0}
@@ -248,47 +250,43 @@
   <iframe id="runframe" class="runframe" title="workflow explorer" loading="lazy"></iframe>
 </div></div>
 <div class="ov" id="diy_comp" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
-  <section class="slide"><div class="slide-in" style="max-width:1100px">
+  <section class="slide"><div class="slide-in" style="max-width:1240px">
     <p class="s-eyebrow" style="color:var(--brass)">Compose your own</p>
     <h2 class="s-title">Describe a job &rarr; get a workflow</h2>
     <div class="dcols">
-      <div>
-        <div class="dstep">
-          <p class="dnum">1 &middot; set up (once)</p>
-          <p class="dtxt">Pure Python standard library &mdash; nothing else to install.</p>
-          <pre class="big"><code>git clone …/mtichikawa/workflow-engine.git
-cd workflow-engine && pip install -e .
-<span class="c"># brain: the claude CLI (free on Max) is default,</span>
-<span class="c"># or  export ENGINE_BRAIN=api</span></code></pre>
-        </div>
-        <div class="dstep">
-          <p class="dnum">2 &middot; describe the job</p>
-          <p class="dtxt">One plain-English sentence is the whole interface &mdash; no config, no wiring.</p>
-          <pre class="anno big"><code>engine compose <u class="a2">"triage GitHub issues and draft replies"</u></code></pre>
-          <div class="akey"><div><span class="ad a2"></span>The quotes are <b>your job</b> &mdash; swap in anything judgment-heavy and multi-step.</div></div>
-        </div>
+      <div class="dcol">
+        <p class="dnum">1 &middot; set up (once)</p>
+        <p class="dtxt">Pure Python standard library &mdash; nothing else to install.</p>
+        <pre class="big"><code>git clone …/workflow-engine.git
+cd workflow-engine
+pip install -e .</code></pre>
+        <p class="dtxt" style="margin:14px 0 0">Give it a brain &mdash; the <b>claude CLI</b> (free on Max) is the default, or <code style="color:#cfe0f5">export ENGINE_BRAIN=api</code> for the billed API.</p>
       </div>
-      <div>
-        <div class="dstep">
-          <p class="dnum">3 &middot; what comes back: the workflow</p>
-          <p class="dtxt">It wires specialists from the library into a workflow and prints the <b>plan</b> &mdash; nothing has run yet:</p>
-          <div class="plan">
-            <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">classify</span><span class="pdesc">sort each issue</span></div>
-            <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">rank</span><span class="pdesc">score urgency</span></div>
-            <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">respond</span><span class="pdesc">draft a reply</span></div>
-            <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">verify</span><span class="pdesc">check it holds up</span></div>
-            <div class="planrow"><span class="ptag gate">gate</span><span class="pname">act</span><span class="pdesc">stage for a human</span></div>
-          </div>
-          <p class="dtxt" style="margin:11px 0 0"><span class="rz" style="color:var(--blue)">reuse</span> = from the library &middot; <span style="color:var(--amber)">NEW</span> = a flagged gap &middot; <b>gate</b> = human pause. To make it <i>run</i> &rarr; <b>Run your own</b>.</p>
+      <div class="dcol">
+        <p class="dnum">2 &middot; describe the job</p>
+        <p class="dtxt">One plain-English sentence is the whole interface &mdash; no config, no wiring.</p>
+        <pre class="anno big"><code>engine compose
+  <u class="a2">"triage issues, draft replies"</u></code></pre>
+        <div class="akey"><div><span class="ad a2"></span>The quotes are <b>your job</b> &mdash; swap in anything judgment-heavy and multi-step.</div></div>
+        <p class="dtxt" style="margin:16px 0 6px"><b>Fresh jobs to try:</b></p>
+        <ul class="exlist" style="font-size:12.5px;line-height:1.85">
+          <li>"review dependency PRs, flag risky ones"</li>
+          <li>"sort feedback into bugs / ideas / praise"</li>
+          <li>"triage security reports, draft an ack"</li>
+          <li>"screen applicants for must-have skills"</li>
+        </ul>
+      </div>
+      <div class="dcol">
+        <p class="dnum">3 &middot; what comes back: the workflow</p>
+        <p class="dtxt">It wires specialists from the library into a workflow and prints the <b>plan</b> &mdash; nothing has run yet:</p>
+        <div class="plan">
+          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">classify</span><span class="pdesc">sort it</span></div>
+          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">rank</span><span class="pdesc">score urgency</span></div>
+          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">respond</span><span class="pdesc">draft a reply</span></div>
+          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">verify</span><span class="pdesc">check it</span></div>
+          <div class="planrow"><span class="ptag gate">gate</span><span class="pname">act</span><span class="pdesc">stage it</span></div>
         </div>
-        <div class="dstep">
-          <p class="dnum">4 &middot; your turn</p>
-          <pre class="big"><code>engine compose <span class="s">"&lt;your job, in plain English&gt;"</span></code></pre>
-          <p class="dtxt" style="margin:11px 0 4px">Fresh jobs to try:</p>
-          <ul class="exlist" style="font-size:13px;margin-top:2px">
-            <li>"review dependency-update PRs, flag the risky ones"</li>
-          </ul>
-        </div>
+        <p class="dtxt" style="margin:12px 0 0"><span style="color:var(--blue)">reuse</span> = from the library &middot; <span style="color:var(--amber)">NEW</span> = a flagged gap &middot; <b>gate</b> = human pause. To make it <i>run</i> &rarr; <b>Run your own</b>.</p>
       </div>
     </div>
   </div></section>
