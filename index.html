@@ -181,6 +181,11 @@
  .cx-panel .term{margin-top:0} .cx-panel pre{min-height:230px}
  .cx-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--mut)}
  #cxout .t-reuse{color:#7b9bc4} #cxout .t-new{color:var(--red)} #cxout .t-draft{color:var(--brass)} #cxout .t-domain{color:var(--blue)}
+ /* one-specialist-three-jobs */
+ .spec3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+ @media(max-width:720px){.spec3{grid-template-columns:1fr}}
+ .spec3 .std{font-family:var(--mono);font-size:12px;color:var(--brass);margin:10px 0 0;line-height:1.5}
+ .spec3 .vd{font-size:13.5px;color:var(--mut);margin:12px 0 0;line-height:1.5}
 
 
  footer{padding:60px 0 80px}
@@ -354,6 +359,34 @@ verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> �
     }).catch(function(e){ out.textContent='(examples load when served over http — clone the repo, or view on the live site)'; });
   })();
   </script>
+</section>
+
+<section id="specialists">
+  <div class="sec-head col">
+    <p class="eyebrow">The reusable parts — one job, reused everywhere</p>
+    <h2>One specialist, three jobs</h2>
+    <p><code>verify</code> runs in all three recipes. Its job never changes — <em>does this output actually
+      hold up?</em> — only the <b>standard</b> it's checked against differs. Same code, three configs; that's
+      why a new use case mostly <b>reuses what's on the shelf</b> instead of building from scratch.</p>
+  </div>
+  <div class="spec3">
+    <div class="card">
+      <span class="k">verify · in triage</span>
+      <p class="std">“the classification and routing fit the issue, and the reply is relevant and asks for anything genuinely missing”</p>
+      <p class="vd"><b style="color:var(--green)">pass</b> · 0.60 — flagged: the reply never asks for the Turbopack / Next.js version, which actually matters here.</p>
+    </div>
+    <div class="card">
+      <span class="k">verify · in content</span>
+      <p class="std">“on-brand (no hype, no emojis, numbers over adjectives), coherent, and not making unsupported factual claims”</p>
+      <p class="vd"><b style="color:var(--green)">pass</b> · 0.82 — flagged: “numbers over adjectives” barely exercised — the piece stays conceptual.</p>
+    </div>
+    <div class="card">
+      <span class="k">verify · in refine</span>
+      <p class="std">STRICT — ≥ 2 concrete numeric stats · names a specific failure mode · no hype words · no emojis · under 4 sentences</p>
+      <p class="vd"><b style="color:var(--green)">pass</b> · 0.90 — no issues; this is the bar the draft→rewrite loop chased until it cleared.</p>
+    </div>
+  </div>
+  <p class="mut" style="font-family:var(--mono);font-size:12.5px;margin-top:16px;max-width:66ch">Same specialist, three jobs — the recipe author sets the <code>standard</code>, the specialist does the rest. Most parts across these recipes are shared exactly like this; only the recipe-specific middle is new.</p>
 </section>
 
 <section id="flow">
