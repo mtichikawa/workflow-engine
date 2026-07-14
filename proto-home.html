@@ -76,6 +76,10 @@
  .sd-job{color:var(--mut);font-size:13.5px;margin-top:7px;line-height:1.55}
  .exlist{margin:8px 0 0;padding-left:0;list-style:none;font-family:var(--mono);font-size:13.5px;color:var(--mut);line-height:2}
  .exlist li:before{content:"\203a  ";color:var(--brass)} .exlist code{color:#cfe0f5}
+ .toc{display:grid;gap:11px;margin:30px 0 0;max-width:680px}
+ .toc-item{display:flex;gap:18px;align-items:baseline;padding:14px 17px;background:var(--card);border:1px solid var(--line);border-radius:11px}
+ .toc-item b{font-family:var(--mono);color:#e0c078;font-size:13.5px;min-width:118px;flex:none}
+ .toc-item span{color:var(--mut);font-size:13px;line-height:1.45}
  .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
@@ -615,6 +619,7 @@ function renderComp(){
     +"<h2 class='s-title'>Describe a job. It builds the workflow.</h2>"
     +"<p class='s-what' style='margin:0'>Give it a plain-English task and it composes a workflow from the <b>shared library</b> — reusing what fits, and honestly flagging what it doesn't have (it stubs a placeholder, it never fakes a capability). Real, unedited compositions follow — <b>click any step</b> to see what it does.</p>"
     +"<div class='legend' style='margin-top:26px'><span><i style='background:var(--blue)'></i>reuse — existing specialist</span><span><i style='background:var(--amber)'></i>NEW — a gap it flags</span><span><i style='background:var(--brass)'></i>&#9889; gate — human pause</span></div>"
+    +"<div class='toc'><div class='toc-item'><b>reuses cleanly</b><span>customer-feedback routing &middot; brand-mention responses</span></div><div class='toc-item'><b>flags a gap</b><span>duplicate bug reports &middot; essay grading &mdash; stubbed, not faked</span></div></div>"
     +"<p class='scue'>scroll &darr;</p></div></section>";
   var slides=COMP.map(function(e,i){
     var flow=e.steps.map(chip).join(" <span class='arr'>&rarr;</span> ");
@@ -656,6 +661,7 @@ function renderRuns(){
     +"<p class='s-eyebrow' style='color:var(--brass)'>A full run</p>"
     +"<h2 class='s-title'>Real input in, a staged result out.</h2>"
     +"<p class='s-what' style='margin:0'>Each recipe takes real input, runs the specialists, and <b>stages</b> a result for a human — nothing is ever sent. These are actual logged runs; <b>click any step</b> to see what it did, or open one to step through it.</p>"
+    +"<div class='toc'><div class='toc-item'><b>triage</b><span>a real GitHub issue &rarr; labeled, ranked, routed, and a drafted reply</span></div><div class='toc-item'><b>content</b><span>a topic &rarr; a written, on-brand post</span></div><div class='toc-item'><b>refine</b><span>a topic &rarr; draft, self-grade, rewrite until it passes the bar</span></div></div>"
     +"<p class='scue'>scroll &darr;</p></div></section>";
   var slides=RUNS.map(function(e,i){
     var pipe=e.pipe.map(pchip).join(" <span class='tarr'>&rsaquo;</span> ");
