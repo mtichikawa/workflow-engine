@@ -82,6 +82,19 @@
  .akey b{font-family:var(--mono);color:var(--ink)} .akey code{color:#cfe0f5}
  .akey .ad{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:9px;vertical-align:middle}
  .ad.a1{background:#7b9bc4} .ad.a2{background:#57b083} .ad.a3{background:#d0af62}
+ .dsub{color:var(--mut);font-size:16px;line-height:1.65;margin:0 0 4px;max-width:68ch} .dsub b{color:var(--ink)}
+ .dlabel{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+ .slide pre.big{padding:18px 20px} .slide pre.big code{font-size:13.5px;line-height:1.9}
+ .plan{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+ .planrow{display:flex;align-items:center;gap:18px;padding:15px 20px;border-bottom:1px solid var(--line)}
+ .planrow:last-child{border-bottom:0}
+ .ptag{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:6px;min-width:58px;text-align:center;flex:none}
+ .ptag.reuse{color:var(--blue);border:1px solid #3a4a5e;background:rgba(123,155,196,.08)}
+ .ptag.gate{color:var(--amber);border:1px solid #5a4326;background:rgba(216,148,74,.1)}
+ .pname{font-family:var(--mono);font-size:14.5px;color:var(--ink);font-weight:700;min-width:84px;flex:none}
+ .pdesc{color:var(--mut);font-size:14px}
+ .plannote{font-size:14px;color:var(--mut);line-height:1.65} .plannote .rz{color:var(--blue)} .plannote .az{color:var(--amber)} .plannote b{color:var(--ink)}
+ .dgrid{display:flex;flex-direction:column;gap:24px;justify-content:space-between;min-height:76vh}
  .toc{display:grid;gap:11px;margin:30px 0 0;max-width:680px}
  .toc-item{display:flex;gap:18px;align-items:baseline;padding:14px 17px;background:var(--card);border:1px solid var(--line);border-radius:11px}
  .toc-item b{font-family:var(--mono);color:#e0c078;font-size:13.5px;min-width:118px;flex:none}
@@ -231,47 +244,57 @@
   <iframe id="runframe" class="runframe" title="workflow explorer" loading="lazy"></iframe>
 </div></div>
 <div class="ov" id="diy_comp" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; 1 / 3</p>
-    <h2 class="s-title">Get set up</h2>
-    <p class="s-what" style="margin:0 0 18px">The engine is pure standard library &mdash; nothing else to install.</p>
-    <pre><code>git clone https://github.com/mtichikawa/workflow-engine.git
-cd workflow-engine && pip install -e .</code></pre>
-    <p class="s-what" style="margin:16px 0 10px">Give it a brain &mdash; the Claude CLI is free on a Max plan and the default:</p>
-    <pre><code><span class="c"># install the `claude` CLI, sign in &mdash; done. Or the billed API:</span>
-pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-… && export ENGINE_BRAIN=api</code></pre>
-    <p class="scue">scroll &darr;</p></div></section>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; 2 / 3</p>
-    <h2 class="s-title">Compose one of ours</h2>
-    <pre class="anno"><code>python -m engine.cli compose <u class="a2">"read GitHub issues, label and prioritize them, and draft a first response"</u></code></pre>
-    <div class="akey"><div><span class="ad a2"></span>The <b>job</b>, in plain English &mdash; swap in <b>anything</b> judgment-heavy and multi-step. That plain-English sentence <i>is</i> the whole interface.</div></div>
-    <p class="s-what" style="margin:6px 0 14px">It prints the workflow it built &mdash; each step tagged, and whether it's runnable:</p>
-    <div class="out">Composed recipe for: 'read GitHub issues, label and prioritize them, and draft a first response'
-
-  <span class="rz">reuse</span>  classify
-  <span class="rz">reuse</span>  rank
-  <span class="rz">reuse</span>  respond
-  <span class="rz">reuse</span>  verify
-  <span class="rz">reuse</span>  act            <span class="gz">[GATE]</span>
-
-runnable:  True</div>
-    <p class="scue">scroll &darr;</p></div></section>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; 3 / 3</p>
-    <h2 class="s-title">Your turn &mdash; then run it</h2>
-    <div class="try"><p class="tl">Describe any judgment-heavy, multi-step job</p>
-      <pre style="margin:10px 0 0"><code>python -m engine.cli compose <span class="s">"&lt;your workflow in plain English&gt;"</span></code></pre></div>
-    <p class="s-what" style="margin:18px 0 10px">When it's runnable, run it on your own input:</p>
-    <pre><code>python -m engine.cli compose <span class="s">"screen support tickets and draft replies"</span> \
-    <span class="k">--run</span> --input <span class="s">"API returns 500 on every POST since this morning"</span> --auto</code></pre>
-    <p class="s-what" style="margin:18px 0 4px"><b>More jobs to try:</b></p>
+  <section class="slide"><div class="slide-in dgrid">
+    <div><p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; step 1 of 4</p>
+    <h2 class="s-title">Set up &mdash; once</h2>
+    <p class="dsub">The engine is pure Python standard library. Two lines to install, one to give it a brain &mdash; that's the whole setup.</p></div>
+    <div><p class="dlabel">1 &middot; clone &amp; install</p>
+    <pre class="big"><code>git clone https://github.com/mtichikawa/workflow-engine.git
+cd workflow-engine && pip install -e .</code></pre></div>
+    <div><p class="dlabel">2 &middot; give it a brain &mdash; pick one</p>
+    <pre class="big"><code><span class="c"># free on a Max plan and the default &mdash; install the claude CLI, sign in, done.</span>
+<span class="c"># &mdash; or the billed API (~cents per run):</span>
+pip install anthropic && export ANTHROPIC_API_KEY=sk-ant-… && export ENGINE_BRAIN=api</code></pre></div>
+  </div></section>
+  <section class="slide"><div class="slide-in dgrid">
+    <div><p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; step 2 of 4</p>
+    <h2 class="s-title">Describe the job &mdash; in plain English</h2>
+    <p class="dsub">One sentence is the entire interface. No config, no wiring, no picking specialists yourself &mdash; you describe the outcome, it figures out the workflow.</p></div>
+    <div><p class="dlabel">you type</p>
+    <pre class="anno big"><code>python -m engine.cli compose <u class="a2">"read GitHub issues, label and prioritize them, and draft a first response"</u></code></pre>
+    <div class="akey"><div><span class="ad a2"></span>Everything in quotes is <b>your job</b> &mdash; swap in anything judgment-heavy and multi-step. That sentence is all it needs.</div></div></div>
+    <div><p class="dlabel">these work just as well</p>
     <ul class="exlist">
+      <li>"screen support tickets, draft replies, and flag the urgent ones"</li>
       <li>"read pull requests, summarize the change, and flag risky ones"</li>
-      <li>"screen inbound sales leads and route the hot ones to a rep"</li>
-      <li>"moderate forum posts, flag the toxic ones, file the rest"</li>
-    </ul>
-    <p class="note">Stages to <code>state/composed-&lt;run_id&gt;.json</code>. Add <code>--draft</code> to stub any gaps (untrusted &mdash; check at the gate).</p>
+    </ul></div>
+  </div></section>
+  <section class="slide"><div class="slide-in dgrid">
+    <div><p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; step 3 of 4</p>
+    <h2 class="s-title">What comes back: the workflow</h2>
+    <p class="dsub">It picks specialists from the library, wires them into a workflow, and prints it. This is the <b>plan</b> &mdash; nothing has run yet.</p></div>
+    <div class="plan">
+      <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">classify</span><span class="pdesc">sort each issue into a category</span></div>
+      <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">rank</span><span class="pdesc">score how urgent it is</span></div>
+      <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">respond</span><span class="pdesc">draft a first reply</span></div>
+      <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">verify</span><span class="pdesc">check the reply holds up</span></div>
+      <div class="planrow"><span class="ptag gate">gate</span><span class="pname">act</span><span class="pdesc">stage it for a human &mdash; nothing is ever sent</span></div>
+    </div>
+    <p class="plannote"><span class="rz">reuse</span> = straight from the library &middot; <span class="az">NEW</span> = a gap it flags &amp; stubs, never fakes &middot; <b>gate</b> = a human pause. To make it <i>do</i> something, you run it &rarr; that's <b>Run your own</b>.</p>
+  </div></section>
+  <section class="slide"><div class="slide-in dgrid">
+    <div><p class="s-eyebrow" style="color:var(--brass)">Compose your own &middot; step 4 of 4</p>
+    <h2 class="s-title">Now &mdash; compose your own</h2>
+    <p class="dsub">Clone it, then describe a job in your own words and watch it build the workflow.</p></div>
+    <div class="try"><p class="tl">your turn</p>
+      <pre style="margin:10px 0 0"><code>python -m engine.cli compose <span class="s">"&lt;your workflow, in plain English&gt;"</span></code></pre></div>
+    <div><p class="dlabel">fresh jobs to try</p>
+    <ul class="exlist">
+      <li>"triage incoming security reports and draft an acknowledgement"</li>
+      <li>"review dependency-update PRs and flag the risky ones"</li>
+      <li>"sort user feedback into bugs, ideas, and praise &mdash; and route each"</li>
+      <li>"screen job applications for must-have skills and summarize each"</li>
+    </ul></div>
   </div></section>
 </div></div>
 <div class="ov" id="diy_run" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
