@@ -10,19 +10,19 @@
  body{background:radial-gradient(1100px 640px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
    font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
  @media(max-width:900px){body{height:auto;overflow:auto}}
- .tabs{flex:none;display:flex;gap:6px;max-width:1300px;width:100%;margin:0 auto;padding:14px 26px 0;font-family:var(--mono)}
+ .tabs{flex:none;display:flex;gap:6px;max-width:1300px;width:100%;margin:0 auto;padding:14px 30px 0;font-family:var(--mono)}
  .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
  .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
- .wrap{flex:1;min-height:0;max-width:1300px;width:100%;margin:0 auto;
-   padding:clamp(8px,1.6vh,20px) 26px clamp(14px,2.4vh,26px);display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)}
+ .wrap{flex:1;min-height:0;max-width:1460px;width:100%;margin:0 auto;
+   padding:clamp(8px,1.6vh,20px) 30px clamp(14px,2.4vh,26px);display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)}
  .head{flex:none;text-align:center}
  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 9px}
  h1{font-family:var(--mono);font-size:clamp(20px,2.9vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
  .subh{color:var(--mut);font-size:clamp(13px,1.7vh,16px);margin:9px 0 0}
  .subh b{color:var(--ink);font-weight:600}
- .hero-row{flex:1;min-height:0;display:flex;gap:clamp(16px,1.8vw,26px);align-items:stretch}
+ .hero-row{flex:1;min-height:0;display:flex;gap:clamp(16px,1.8vw,28px);align-items:center}
  @media(max-width:900px){.hero-row{flex-direction:column}}
- .stage{flex:1 1 auto;min-height:0;min-width:0;display:flex;flex-direction:column;
+ .stage{flex:1 1 auto;min-width:0;max-height:100%;display:flex;flex-direction:column;
    background:linear-gradient(180deg,#101319,#0d1015);border:1px solid var(--line);border-radius:16px;
    box-shadow:0 40px 90px -50px #000;overflow:hidden}
  .stage-top{flex:none;display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);
@@ -31,10 +31,10 @@
  .stage-top .grow{flex:1}
  .libbtn{font-family:var(--mono);font-size:11.5px;color:var(--brass);background:rgba(208,175,98,.08);border:1px solid #4a3f22;
    border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap} .libbtn:hover{background:rgba(208,175,98,.16)}
- .stage-body{flex:1;min-height:0;display:flex;padding:clamp(8px,1.4vh,18px)}
- #hero{width:100%;height:100%;display:block}
+ .stage-body{min-height:0;display:block;padding:clamp(10px,1.6vh,20px);overflow:hidden}
+ #hero{width:100%;height:auto;max-height:100%;display:block}
  /* right column: two labelled groups, each with two small cards (never resizes the animation) */
- .side{flex:0 0 clamp(300px,25%,344px);min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,34px)}
+ .side{flex:0 0 clamp(280px,22%,326px);min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,34px)}
  @media(max-width:900px){.side{flex:none;justify-content:flex-start}}
  .grplbl{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin:0 0 12px}
  .cardrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -438,9 +438,9 @@ function makeGraphCore(NODES, WIRES, cfg){
   var midX=(x0+x1)/2, shelfX=midX-totalW/2, shelfY=y0-82, shelfBot=shelfY+chipH;
   SHELF.forEach(function(c,i){c.x=shelfX+i*(chipW+gap);c.cx=c.x+chipW/2;});
 
-  var PX=26,PT=20,PB=26;
+  var PX=10,PT=8,PB=12;
   var vbX=Math.min(x0,shelfX)-PX, vbY=shelfY-PT, vbW=Math.max(x1,shelfX+totalW)-vbX+PX, vbH=y1-vbY+PB;
-  svg.setAttribute("viewBox",vbX+" "+vbY+" "+vbW+" "+vbH);
+  svg.setAttribute("viewBox",vbX+" "+vbY+" "+vbW+" "+vbH); svg.style.aspectRatio=vbW+"/"+vbH;
 
   var NS="http://www.w3.org/2000/svg", el=function(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;};
   var gCon=el("g",{}),gShelf=el("g",{}),gW=el("g",{}),gP=el("g",{}),gJ=el("g",{}),gN=el("g",{});
