@@ -186,6 +186,16 @@
  @media(max-width:720px){.spec3{grid-template-columns:1fr}}
  .spec3 .std{font-family:var(--mono);font-size:12px;color:var(--brass);margin:10px 0 0;line-height:1.5}
  .spec3 .vd{font-size:13.5px;color:var(--mut);margin:12px 0 0;line-height:1.5}
+ /* how-it-works pop-outs */
+ .how-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:26px}
+ @media(max-width:720px){.how-cards{grid-template-columns:1fr}}
+ .how-card{text-align:left;display:flex;flex-direction:column;gap:9px;padding:18px;border:1px solid var(--line);
+           border-radius:12px;background:var(--panel);cursor:pointer;transition:border-color .15s,background .15s}
+ .how-card:hover{border-color:var(--line2)} .how-card.on{border-color:var(--brass);background:var(--panel2)}
+ .how-card .hn{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink)}
+ .how-card.on .hn{color:var(--brass)}
+ .how-card .hd{font-size:13.5px;color:var(--mut);line-height:1.5;font-family:var(--sans)}
+ .how-panel{display:none} .how-panel.on{display:block} .how-panel>p{max-width:74ch;margin-top:0}
 
 
  footer{padding:60px 0 80px}
@@ -389,52 +399,34 @@ verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> �
   <p class="mut" style="font-family:var(--mono);font-size:12.5px;margin-top:16px;max-width:66ch">Same specialist, three jobs — the recipe author sets the <code>standard</code>, the specialist does the rest. Most parts across these recipes are shared exactly like this; only the recipe-specific middle is new.</p>
 </section>
 
-<section id="flow">
+<section id="how">
   <div class="sec-head col">
-    <p class="eyebrow">Under the hood — for the curious</p>
-    <h2>Compose → validate → dispatch → learn</h2>
-    <p>One plain-English use case in; a validated, running, improving workflow out. The composer
-      builds the graph, the validator checks it, the dispatcher runs it on the specialists — and a
-      learning loop feeds back to sharpen them. We zoom into each below.</p>
+    <p class="eyebrow">Under the hood — three parts, click to open</p>
+    <h2>How it works</h2>
+    <p>Describe a task → the <b>Composer</b> builds a validated workflow → the <b>Dispatcher</b> runs it on a
+      board → the <b>Specialists</b> do the work and learn. One line each; open any for the detail.</p>
   </div>
-  <div class="flowscroll">
-  <svg id="flowsvg" viewBox="0 0 900 168" role="img" aria-label="Pipeline: composer to validator to dispatcher to specialists, with a learning loop feeding back to the start">
-    <a href="#compose"><rect class="fbox" x="18" y="22" width="172" height="80" rx="10"/><text class="ft" x="104" y="52">Composer</text><text class="fs" x="104" y="72">composes the graph</text></a>
-    <a href="#validate"><rect class="fbox" x="249" y="22" width="172" height="80" rx="10"/><text class="ft" x="335" y="52">Validator</text><text class="fs" x="335" y="72">checks it's sound</text></a>
-    <a href="#board"><rect class="fbox" x="480" y="22" width="172" height="80" rx="10"/><text class="ft" x="566" y="52">Dispatcher</text><text class="fs" x="566" y="72">runs it on the board</text></a>
-    <a href="#specialist"><rect class="fbox" x="711" y="22" width="172" height="80" rx="10"/><text class="ft" x="797" y="37">Specialists</text><rect class="fmini" x="723" y="46" width="70" height="23" rx="4"/><text class="fml" x="758" y="58">classify</text><rect class="fmini" x="801" y="46" width="70" height="23" rx="4"/><text class="fml" x="836" y="58">rank</text><rect class="fmini" x="723" y="75" width="70" height="23" rx="4"/><text class="fml" x="758" y="87">verify</text><rect class="fmini" x="801" y="75" width="70" height="23" rx="4"/><text class="fml" x="836" y="87">write</text></a>
-    <text class="farr" x="219.5" y="61">&#8594;</text>
-    <text class="farr" x="450.5" y="61">&#8594;</text>
-    <text class="farr" x="681.5" y="61">&#8594;</text>
-    <path class="floop" d="M797 102 L797 150 L104 150 L104 112"/>
-    <path class="floop-head" d="M99 112 L104 102 L109 112 Z"/>
-    <text class="floop-lab" x="450" y="132">learning loop — real runs curate examples that sharpen the specialists</text>
-  </svg>
+  <div class="how-cards">
+    <button class="how-card on" data-p="composer">
+      <span class="hn">1 · Composer + Validator</span>
+      <span class="hd">Turns plain English into a workflow graph — and a static validator rejects unsound ones before they run.</span>
+    </button>
+    <button class="how-card" data-p="dispatcher">
+      <span class="hn">2 · Dispatcher</span>
+      <span class="hd">Runs the graph on a concurrency-safe board: work streams through, specialists clone per item, gates pause for a human.</span>
+    </button>
+    <button class="how-card" data-p="specialists">
+      <span class="hn">3 · Specialists</span>
+      <span class="hd">Small agents with fixed contracts, one job each — and they learn from a handful of examples.</span>
+    </button>
   </div>
-  <p class="flowhint">click any stage to jump to its detail below</p>
-</section>
 
-<section id="compose">
-  <div class="sec-head col">
-    <p class="eyebrow">Zoom 1 — compose &amp; validate</p>
-    <h2>Composing parts into a workflow</h2>
-    <p>Every specialist declares a fixed <b>contract</b> — its exact inputs and outputs — so any part
-      snaps into any <b>recipe</b> (a graph of steps, with branches and loops) without glue code. The
-      composer wires the graph, and the same shared parts get reused across very different problems.</p>
-  </div>
-  <div class="card">
-    <span class="k">modularity, shown</span>
-    <p style="margin:8px 0 2px;color:var(--ink)">Three real workflows reuse the same shelf, unchanged — and a fourth you define yourself reuses what fits and drafts the rest.</p>
-    <div class="modscroll" style="margin-top:8px"><canvas id="modcanvas" height="260"></canvas></div>
-    <p class="mut" style="font-size:13px;font-family:var(--mono);margin:6px 2px 0">A specialist glows when it's used by the recipe you hover. classify · rank · verify · act are shared; fetch · write · route · respond are recipe-specific. Hover <b style="color:var(--ink)">your use case</b> — it reuses what's on the shelf and marks the new parts (<b style="color:var(--brass)">?</b>) the composer would draft.</p>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <span class="k">the composer, benchmarked</span>
-    <p style="margin-top:2px">Given only a plain-English description, the composer re-wrote
-      specialists I'd hand-built — scored against their <b>real, human-labeled</b> evals, it matched
-      the originals. And when it <em>can't</em> cover a use case it flags the missing specialist and
-      <b>refuses to call the recipe runnable</b> (2 of 2 coverable ran; 3 of 3 with gaps held back).
-      It doesn't fake capability.</p>
+  <div class="how-panel on" data-panel="composer">
+    <p>Given only a plain-English description, the Composer re-wrote specialists I'd hand-built — scored
+      against their <b>real, human-labeled</b> evals, it <b>matched the originals</b>. When it can't cover a
+      use case it flags the missing specialist and refuses to call the recipe runnable — it doesn't fake
+      capability. The <b>Validator</b> then statically checks the graph (entry/exit, reachability, loop
+      termination, contract compatibility) and rejects invalid ones up front, not halfway through a run.</p>
     <div class="tblwrap"><table class="tbl">
       <tr><th>specialist</th><th>auto-written</th><th>hand-built</th></tr>
       <tr><td>classify</td><td class="match">6/6 · 100%</td><td class="orig">6/6</td></tr>
@@ -442,142 +434,65 @@ verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> �
       <tr><td>route</td><td class="match">3/3 · 100%</td><td class="orig">3/3</td></tr>
     </table></div>
   </div>
-  <div class="card" id="validate" style="margin-top:18px">
-    <span class="k">the validator — checked before it runs</span>
-    <p style="margin-top:2px">A composed graph isn't trusted blindly. A static <b>validator</b> checks
-      it first — entry/exit, reachability, <b>loop termination</b> (a backward edge must have a guard),
-      dangling outputs, and contract compatibility. It's a little type-checker for the workflow:
-      invalid graphs are <b>rejected up front</b>, not discovered halfway through a run.</p>
-  </div>
-</section>
 
-<section id="board">
-  <div class="sec-head col">
-    <p class="eyebrow">Zoom 2 — the dispatcher, live</p>
-    <h2>Controlled chaos</h2>
-    <p>The <b>board</b> is the shared surface the dispatcher writes onto. Work <em>streams in</em> and
-      flows through the graph <em>concurrently</em>, each item advancing on its own; a specialist
-      <em>clones per item</em> (the stacked chips); when <b>verify</b> flags a draft it <em>loops
-      back</em> to rewrite (the red curve); the rest wait at the <b>gate</b> for a human, then flow
-      out. Deliberately dumb, single-writer, concurrency-safe by construction — the piece I'm most
-      proud of. The flow here is <em>illustrative</em>.</p>
-  </div>
-  <div class="instrument">
-    <div class="inst-top"><span class="dot"></span><span>content · board</span><span class="grow"></span><span id="bstat" style="font-family:var(--mono)">—</span></div>
-    <div class="boardscroll">
-    <svg id="boardsvg" viewBox="0 0 900 220" role="img" aria-label="work-items flowing through the content recipe (fetch, classify, rank, write, verify, act), with a verify-to-rewrite loop and a human gate">
-      <g id="bedges"></g>
-      <g id="bnodes"></g>
-      <g id="bitems"></g>
-    </svg>
-    </div>
-    <div class="inst-bar" style="justify-content:space-between">
-      <span style="font-family:var(--mono);font-size:12px;color:var(--mut)">items flow in continuously · specialists clone under load · all pause at the gate</span>
-      <button id="bpause">❚❚ pause</button>
-    </div>
-  </div>
-  <div class="legend">
-    <span><span class="sw" style="background:var(--blue)"></span>in flight</span>
-    <span><span class="sw" style="background:var(--red);box-shadow:0 0 5px var(--red)"></span>flagged → loops back to rewrite</span>
-    <span><span class="sw" style="background:var(--brass)"></span>held at the gate</span>
-    <span><span class="sw" style="background:var(--green)"></span>approved → output</span>
-  </div>
-</section>
-
-<section id="specialist">
-  <div class="sec-head col">
-    <p class="eyebrow">Zoom 3 — down to one specialist</p>
-    <h2>The atom, and how it learns</h2>
-    <p>Each specialist is a tiny agent with one job and that fixed contract — small enough to test,
-      improve, and trust on its own. Here's a real one, nothing hidden:</p>
-  </div>
-  <div class="specimen">
-    <span class="k">classify — a real specialist</span>
-<pre><span class="kw">classify</span> — capability specialist        <span class="c"># one job: item → one category</span>
-
-  contract   in   { item, categories, criteria }
-             out  { label, confidence, reasoning }
-
-  role       <span class="str">"You are a precise classification specialist. You assign
-              an item to exactly one category and never invent
-              categories outside the given list."</span>
-
-  <span class="c"># config-driven: the SAME instance labels bug types for triage</span>
-  <span class="c"># and content angles for content — only the categories change.</span></pre>
-  </div>
-  <div class="grid" style="margin-top:18px">
-    <div class="card">
-      <span class="k">it learns — measured</span>
-      <div class="bars" id="llbars">
-        <div class="bar cold"><span class="val" id="v1">—</span><div class="track"><div class="fill" id="f1" style="height:0"></div></div><span class="lab">cold</span></div>
-        <div class="bar warm"><span class="val" id="v2">—</span><div class="track"><div class="fill" id="f2" style="height:0"></div></div><span class="lab">+6 examples</span></div>
+  <div class="how-panel" data-panel="dispatcher">
+    <p>The board is the shared surface the dispatcher writes onto. Work streams in and flows through the
+      graph concurrently; a specialist <b>clones per item</b> (the stacked chips); when <b>verify</b> flags a
+      draft it <b>loops back</b> to rewrite (the red curve); the rest wait at the <b>gate</b> for a human.
+      Deliberately dumb, single-writer, concurrency-safe by construction — the piece I'm most proud of.
+      <em>Flow is illustrative.</em></p>
+    <div class="instrument">
+      <div class="inst-top"><span class="dot"></span><span>content · board</span><span class="grow"></span><span id="bstat" style="font-family:var(--mono)">—</span></div>
+      <div class="boardscroll">
+      <svg id="boardsvg" viewBox="0 0 900 220" role="img" aria-label="work-items flowing through the content recipe, with a verify-to-rewrite loop and a human gate">
+        <g id="bedges"></g><g id="bnodes"></g><g id="bitems"></g>
+      </svg>
       </div>
-      <p>A deliberately weak specialist, cold, follows a wrong instinct. Six curated examples → <b style="color:var(--green)">50% → 100%</b> on an <b>independent</b> eval, then <b style="color:var(--brass)">promoted to trusted</b> — the real terminal output is below.</p>
+      <div class="inst-bar" style="justify-content:space-between">
+        <span style="font-family:var(--mono);font-size:12px;color:var(--mut)">items flow in continuously · specialists clone under load · all pause at the gate</span>
+        <button id="bpause">❚❚ pause</button>
+      </div>
     </div>
-    <div class="card">
-      <span class="k">how the learning works</span>
-      <p style="margin-top:2px">Retrieval-injected few-shot from curated examples — no fine-tuning. A drafted specialist is <b>provisional</b> until its eval clears a bar, then trusted. Examples are isolated <b>per tenant</b> by path — and building that seam surfaced a real bug: <b>ThreadPoolExecutor doesn't propagate context</b>, silently breaking tenancy under concurrency. Found and fixed. A finding fell out too: few-shot helps “mapper” specialists but <b>hurts</b> the checker.</p>
-    </div>
-  </div>
-  <div class="term">
-    <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span><span style="margin-left:6px">actual output · python examples/learning_loop_demo.py</span></div>
-<pre><span class="cmd">$ python examples/learning_loop_demo.py</span>
-
-drafted 'escalate_policy' (provisional, no examples).
-<span class="dim"># the escalate rule is a churn signal — ORTHOGONAL to severity — and the base instruction hides it</span>
-
-COLD (no examples — follows its severity prior): <span class="no">4/8 = 50%</span>
-  <span class="no">✗</span> want standard  got escalate   URGENT: total outage, the entire app is down…
-  <span class="no">✗</span> want escalate  got standard   Loving it so far! Quick question — how do I cancel…
-  <span class="ok">✓</span> want escalate  got escalate   Cancelling today — fed up with the constant bugs.
-  <span class="dim">… 5 more rows</span>
-
-curating 6 golds (the human's corrections)…
-
-WARM (few-shot: the curated golds injected): <span class="ok">8/8 = 100%</span>
-  <span class="ok">✓</span> want standard  got standard   URGENT: total outage, the entire app is down…
-  <span class="ok">✓</span> want escalate  got escalate   Loving it so far! Quick question — how do I cancel…
-  <span class="dim">… 6 more, all ✓</span>
-
-CLIMB: 4/8 → 8/8   <span class="ok">(+50%)</span>
-provisional: True → after promote(): <span class="cmd">TRUSTED</span>   <span class="dim">(bar: eval ≥ 0.8 on ≥ 4 examples)</span></pre>
-  </div>
-  <p class="mut" style="font-size:13.5px;font-family:var(--mono);margin-top:20px;max-width:none">
-    Honest caveats: the evals are small (a coarse filter); on the free dev brain the scores are
-    single-pass (temperature isn't wired to the CLI); a genuinely novel specialist's domain
-    judgments still require the human gate.</p>
-</section>
-
-<section id="cases">
-  <div class="sec-head col">
-    <p class="eyebrow">It generalizes — three distinct domains</p>
-    <h2>One engine, real data</h2>
-    <p>The same specialists compose into different recipes. Reuse between the first two is the
-      compounding library; the third adds a control-flow loop.</p>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <span class="k">technical support</span>
-      <h3 style="margin-top:8px">Triage — a support inbox that reads itself</h3>
-      <p style="margin-top:4px">A raw bug report comes in. The engine works out <em>what</em> it is, <em>how urgent</em>, and <em>who owns it</em>, drafts a first reply, checks that reply is any good — then stops and waits for a person to hit send.</p>
-      <div class="flow"><span class="step">classify</span><span class="arr">→</span><span class="step">rank</span><span class="arr">→</span><span class="step">route</span><span class="arr">→</span><span class="step">respond</span><span class="arr">→</span><span class="step">verify</span><span class="arr">→</span><span class="step gate">act ⏸</span></div>
-    </div>
-    <div class="card">
-      <span class="k">creative</span>
-      <h3 style="margin-top:8px">Content — a writer that does its own research</h3>
-      <p style="margin-top:4px">Give it a topic. It pulls real sources, picks an angle, writes a short post in a set voice, and checks it's on-brand before staging. <b>Same classify / rank / verify / act as triage</b> — only the writing step is new.</p>
-      <div class="flow"><span class="step">fetch</span><span class="arr">→</span><span class="step">classify</span><span class="arr">→</span><span class="step">rank</span><span class="arr">→</span><span class="step">write</span><span class="arr">→</span><span class="step">verify</span><span class="arr">→</span><span class="step gate">act ⏸</span></div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--blue)"></span>in flight</span>
+      <span><span class="sw" style="background:var(--red);box-shadow:0 0 5px var(--red)"></span>flagged → loops back to rewrite</span>
+      <span><span class="sw" style="background:var(--brass)"></span>held at the gate</span>
+      <span><span class="sw" style="background:var(--green)"></span>approved → output</span>
     </div>
   </div>
-  <div class="card" style="margin-top:18px">
-    <span class="k">quality control · with a loop</span>
-    <h3 style="margin-top:8px">Refine — an editor that won't ship slop</h3>
-    <p style="margin-top:4px">It writes a draft, grades it against a strict bar (real specifics, no hype), and — if it falls short — <span class="loopnote">rewrites and re-checks until it passes</span>. On a real run it failed twice, revised, and passed on the third — the same loop-back mechanism the board animates — then waited for a human to publish.</p>
-    <div class="flow"><span class="step">write</span><span class="arr">→</span><span class="step">verify</span><span class="loopnote">⟲ fail → revise</span><span class="arr">→</span><span class="step gate">act ⏸ (on pass)</span></div>
+
+  <div class="how-panel" data-panel="specialists">
+    <p>Each specialist is a tiny agent with one fixed <b>contract</b>, one job — small enough to test and
+      trust on its own. And it learns: a deliberately weak one went <b style="color:var(--green)">4/8 → 8/8</b>
+      from six curated examples on an <b>independent</b> eval (retrieval few-shot, no fine-tuning), then was
+      promoted to trusted. <a href="https://github.com/mtichikawa/workflow-engine/tree/main/examples/scripts">the real run →</a></p>
+    <div class="grid">
+      <div class="card">
+        <span class="k">it learns — measured</span>
+        <div class="bars" id="llbars">
+          <div class="bar cold"><span class="val" id="v1">—</span><div class="track"><div class="fill" id="f1" style="height:0"></div></div><span class="lab">cold</span></div>
+          <div class="bar warm"><span class="val" id="v2">—</span><div class="track"><div class="fill" id="f2" style="height:0"></div></div><span class="lab">+6 examples</span></div>
+        </div>
+        <p>Cold, it follows a wrong instinct. Six curated examples → <b style="color:var(--green)">50% → 100%</b>, then <b style="color:var(--brass)">trusted</b>. Retrieval-injected few-shot, no fine-tuning.</p>
+      </div>
+      <div class="card">
+        <span class="k">the contract — one job, config-driven</span>
+<pre style="font-family:var(--mono);font-size:12.5px;color:var(--ink);margin:10px 0 0;white-space:pre-wrap;line-height:1.6"><span style="color:var(--brass)">classify</span>  <span style="color:var(--dim)"># item → one category</span>
+  in   { item, categories, criteria }
+  out  { label, confidence, reasoning }</pre>
+        <p style="margin-top:10px">The same instance labels bug types for triage and content angles for content — only the <code>categories</code> change. That's why parts are reusable.</p>
+      </div>
+    </div>
   </div>
-  <div style="margin-top:28px;display:flex;justify-content:center">
-    <a class="gobtn" href="usecases/">Explore all three interactively, step by step →</a>
-  </div>
+
+  <script>
+  document.querySelectorAll('.how-card').forEach(function(c){
+    c.addEventListener('click',function(){ var p=c.dataset.p;
+      document.querySelectorAll('.how-card').forEach(function(x){x.classList.toggle('on',x===c);});
+      document.querySelectorAll('.how-panel').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-panel')===p);});
+    });
+  });
+  </script>
 </section>
 
 <footer>
