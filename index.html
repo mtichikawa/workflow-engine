@@ -168,6 +168,19 @@
  .card .lead{color:var(--ink);font-size:14.5px;margin-top:10px}
  code{font-family:var(--mono);font-size:.88em;background:var(--panel2);border:1px solid var(--line);
       padding:1px 6px;border-radius:5px;color:var(--ink)}
+ /* interactive composer picker */
+ .cx{display:grid;grid-template-columns:min(300px,40%) 1fr;gap:18px}
+ @media(max-width:680px){.cx{grid-template-columns:1fr}}
+ .cx-list{list-style:none;margin:0;padding:0;max-height:430px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+ .cx-list li{padding:9px 12px;font-size:12.5px;color:var(--mut);cursor:pointer;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;line-height:1.35}
+ .cx-list li:last-child{border-bottom:0}
+ .cx-list li:hover{color:var(--ink);background:rgba(255,255,255,.03)}
+ .cx-list li.on{color:var(--ink);background:var(--panel2);box-shadow:inset 2px 0 0 var(--brass)}
+ .cx-list .dot{width:7px;height:7px;border-radius:50%;flex:none}
+ .cx-list .dot.ok{background:var(--green)} .cx-list .dot.gap{background:var(--red)}
+ .cx-panel .term{margin-top:0} .cx-panel pre{min-height:230px}
+ .cx-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--mut)}
+ #cxout .t-reuse{color:#7b9bc4} #cxout .t-new{color:var(--red)} #cxout .t-draft{color:var(--brass)} #cxout .t-domain{color:var(--blue)}
 
 
  footer{padding:60px 0 80px}
@@ -295,41 +308,52 @@ verify <span class="ok">pass</span>   ·   act <span class="ok">staged</span> �
   <div class="sec-head col">
     <p class="eyebrow">Describe your job — it builds the workflow</p>
     <h2>The Composer</h2>
-    <p>Give it a task in plain English. It composes a workflow out of the shared library of specialists —
-      reusing what fits, and honestly flagging what it doesn't have instead of faking it.</p>
+    <p>Give it a task in plain English; it composes a workflow from the shared library — reusing what fits,
+      and flagging what it doesn't have instead of faking it. Here are <b>18 it actually built</b> —
+      <b style="color:var(--green)">8 clean</b>, <b style="color:var(--red)">10 that hit gaps</b> it won't fake.
+      Click any.</p>
   </div>
-  <div class="grid">
-    <div class="term">
-      <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span>&nbsp;compose your own</div>
-<pre><span class="cmd">python -m engine.cli compose</span> \
-  "screen support tickets, draft
-   replies, flag the urgent ones"
-
-<span class="dim">Composed recipe:</span>
-  reuse  classify
-  reuse  rank
-  reuse  respond
-  reuse  verify
-  reuse  act            [GATE]
-
-runnable:  <span class="ok">True</span></pre>
-    </div>
-    <div class="card">
-      <span class="k">reading the output</span>
-      <ul class="result">
-        <li><span class="rk">reuse</span> an existing shared specialist, as-is</li>
-        <li><span class="rk">NEW!</span> a capability it lacks — flagged, never faked</li>
-        <li><span class="rk">DRFT</span> a provisional specialist it drafted for you</li>
-        <li><span class="rk">[GATE]</span> a human-approval pause</li>
-        <li><span class="rk">runnable</span> composable from the library right now</li>
-      </ul>
-      <p style="margin-top:12px">Hit a gap it can't cover and it says so — with the missing specialist's
-        input→output contract — rather than pretend. <code>--run --input "…"</code> then runs it on your data.</p>
+  <div class="cx">
+    <ul class="cx-list" id="cxlist"></ul>
+    <div class="cx-panel">
+      <div class="term">
+        <div class="term-top"><span class="d"></span><span class="d"></span><span class="d"></span>&nbsp;<span id="cxcmd">compose</span></div>
+<pre id="cxout">loading real examples…</pre>
+      </div>
+      <div class="cx-legend">
+        <span><b class="ok" style="color:#7b9bc4">reuse</b> shared, as-is</span>
+        <span><b style="color:var(--red)">NEW!</b> flagged gap, not faked</span>
+        <span><b style="color:var(--brass)">DRFT</b> drafted provisional</span>
+        <span>[GATE] human pause</span>
+      </div>
     </div>
   </div>
   <div class="ctarow">
-    <a class="gobtn" href="https://github.com/mtichikawa/workflow-engine#try-the-composer--describe-your-job-watch-it-build-the-workflow">Try the Composer on your own task →</a>
+    <a class="gobtn" href="https://github.com/mtichikawa/workflow-engine#try-the-composer--describe-your-job-watch-it-build-the-workflow">Run any of these — or your own — from the repo →</a>
   </div>
+  <script>
+  (function(){
+    var out=document.getElementById('cxout'), list=document.getElementById('cxlist'), cmd=document.getElementById('cxcmd');
+    var LBL={reuse:'reuse', new:'NEW! ', draft:'DRFT ', domain:'domn '}, CLS={reuse:'t-reuse',new:'t-new',draft:'t-draft',domain:'t-domain'};
+    function esc(s){return (s+'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+    function render(r){
+      cmd.textContent='engine compose "'+r.use_case.slice(0,34)+(r.use_case.length>34?'…':'')+'"';
+      var h='<span class="dim">$ engine compose</span> "'+esc(r.use_case)+'"\n\n';
+      r.steps.forEach(function(s){ h+='  <span class="'+(CLS[s.tag]||'')+'">'+LBL[s.tag]+'</span> '+esc(s.specialist)+(s.gate?'   <span class="dim">[GATE]</span>':'')+'\n'; });
+      if(r.gaps&&r.gaps.length){ h+='\n<span class="dim"># gaps it flagged — with the contract it would need:</span>\n';
+        r.gaps.forEach(function(g){ h+='  <span class="t-new">'+esc(g.name)+'</span>  <span class="dim">'+esc((g.input||[]).join(', '))+' → '+esc((g.output||[]).join(', '))+'</span>\n'; }); }
+      h+='\nrunnable: <span class="'+(r.runnable?'ok':'no')+'">'+r.runnable+'</span>';
+      out.innerHTML=h;
+    }
+    fetch('examples/composer/index.json').then(function(r){return r.json();}).then(function(data){
+      list.innerHTML='';
+      data.forEach(function(r,i){ var li=document.createElement('li');
+        li.innerHTML='<span class="dot '+(r.runnable?'ok':'gap')+'"></span>'+esc(r.use_case);
+        li.onclick=function(){ list.querySelectorAll('.on').forEach(function(x){x.classList.remove('on');}); li.classList.add('on'); render(r); };
+        list.appendChild(li); if(i===0){ li.classList.add('on'); render(r); } });
+    }).catch(function(e){ out.textContent='(examples load when served over http — clone the repo, or view on the live site)'; });
+  })();
+  </script>
 </section>
 
 <section id="flow">

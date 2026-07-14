@@ -1,0 +1,184 @@
+[
+  {
+    "repo": "vercel/next.js",
+    "source": {
+      "n": 88049,
+      "title": "Tailwind config cannot import local TS modules in Next.js 16.1.x",
+      "body": "### Link to the code that reproduces this issue\n\nhttps://codesandbox.io/p/devbox/tailwind-config-cannot-import-local-ts-modules-in-next-js-16-1-x-forked-tng34x\n\n### To Reproduce\n\n- Start app in dev mode (next dev)\n- Open console to check bug\n\n### Current vs. Expected behavior\n\n**Actual behavior**:\n- Error is reported as Module not found\n- Project still runs\n\n**Expected behavior**:\n\nNot error\n\n### Provide environment information\n\n```bash\nOperating System:\n  Platform: win32\n  Arch: x64\n  Version: Windows 10 Pro\n  Available memory (MB): 16192\n  Available CPU cores: 20\nBinaries:\n  Node: 24.12.0\n  "
+    },
+    "dup_of": {
+      "n": 87898,
+      "title": "Tailwind config throws `Module not found` on Next.js 16.1.1 (works on 16.0)",
+      "body": "Hello! I have some custom Tailwind v3 plugins that I import in my `tailwind.config.ts` file. After upgrading to version 16.1, I began encountering `Module not found` errors. I have created a reproduction below.\n\n### Link to the code that reproduces this issue\n\nhttps://github.com/carloitaben/test-repro-next-16-tw\n\n### To Reproduce\n\n1. `pnpm i`\n2. `pnpm dev`\n3. Open http://localhost:3000\n\n### Current vs. Expected behavior\n\nWith Next.js 16.1.1:\n```\n\u26a0 ./tailwind.config.ts:2:1\nModule not found: Can't resolve './src/lib/tailwind'\n  1 | import type { Config } from \"tailwindcss\";\n> 2 | import { someCu"
+    },
+    "merge_note": "duplicate of #87898"
+  },
+  {
+    "repo": "vercel/next.js",
+    "source": {
+      "n": 87304,
+      "title": "use cache: private not working",
+      "body": "### Link to the code that reproduces this issue\n\nhttps://github.com/ajaykarthikr/next-16-use-cache-private-bug\n\n### To Reproduce\n\nI created a new issue because the previous one isn't being assigned and I haven't seen an update since the original issue was uploaded. (Issue #85672)\n\nLink to the code that reproduces this issue\nhttps://github.com/ajaykarthikr/next-16-use-cache-private-bug\n\nTo Reproduce\n\n1. Create a cached function with \"use cache: private\" that uses cookies():\n```tsx\n// lib/user.ts\nimport { cookies } from \"next/headers\";\nimport { cacheTag, cacheLife } from \"next/cache\";\n\nexport as"
+    },
+    "dup_of": {
+      "n": 85672,
+      "title": "`use cache: private` not working during client-side navigation",
+      "body": "### Link to the code that reproduces this issue\n\nhttps://github.com/ajaykarthikr/next-16-use-cache-private-bug\n\n### To Reproduce\n\n1. Create a cached function with \"use cache: private\" that uses cookies():\n    ```tsx\n    // lib/user.ts\n    import { cookies } from \"next/headers\";\n    import { cacheTag, cacheLife } from \"next/cache\";\n\n    export async function getUser() {\n        \"use cache: private\";\n        cacheTag(`userdata`);\n        cacheLife({ stale: 30 });\n        \n        const sessionId = (await cookies()).get('session-id')?.value || 'guest'\n        \n        console.log(\"Fetching user d"
+    },
+    "merge_note": "Closing as a duplicate of #85672.\n\nI opened this to add a reproduction, but the original issue already contains the same report.\nThanks!\n"
+  },
+  {
+    "repo": "microsoft/vscode",
+    "source": {
+      "n": 325215,
+      "title": "Empty chat widget when opening an archived worktree agent session",
+      "body": "Opening a recently-archived, worktree-isolated Copilot agent session shows an **empty chat widget** with no transcript.\n\n### Cause\nArchiving a worktree-isolated session deletes its on-disk worktree (keeping the branch). On resume, the Copilot SDK requires the session's working directory to exist to bring the session up \u2014 the only path to reading the transcript. Both `resumeSession` and its `createSession` fallback pass the deleted worktree path and fail with `Directory does not exist or cannot be accessed`, so the session is restored with `0 turns` \u2192 empty model. The failure was also swallowed"
+    },
+    "dup_of": {
+      "n": 319244,
+      "title": "Agents window: corrupted session file silently loads as empty instead of surfacing error",
+      "body": "## Bug Description\n\nWhen opening an old session in the Agents window, if the Copilot SDK rejects `session.resume` due to a validation error in the session file, the agent host silently falls back to `createSession` with the same ID. This results in the session appearing to load successfully but showing **0 turns** \u2014 all conversation history is lost without any user-facing error.\n\n## Steps to Reproduce\n\n1. Have an existing agent session with conversation history\n2. The session file becomes corrupted (in this case, a compaction metadata field fails validation)\n3. Open the session in the Agents w"
+    },
+    "merge_note": "Closing as a duplicate of #319244, which covers the same \"silently loads as empty instead of surfacing an error\" bug. Tracking the fix there. (Written by Copilot)"
+  },
+  {
+    "repo": "pytorch/pytorch",
+    "source": {
+      "n": 187460,
+      "title": "torch.ldexp backward returns zero gradient w.r.t. mantissa for negative integer exponents",
+      "body": "### \ud83d\udc1b Describe the bug\n\n`torch.ldexp(input, other)` computes `input * 2**other`, so the gradient w.r.t. `input` is `2**other`. When `other` is an integer tensor with a negative value, the backward pass returns **0** instead, while the forward pass is correct:\n\n```python\nimport torch\nm = torch.tensor([0.5], requires_grad=True)\ne = torch.tensor([-1], dtype=torch.int32)\ntorch.ldexp(m, e).backward()\nprint(m.grad)   # tensor([0.])  \u2014 should be 0.5\n\n# float exponent is correct:\nm = torch.tensor([0.5], requires_grad=True)\ntorch.ldexp(m, torch.tensor([-1.0])).backward()\nprint(m.grad)   # tensor([0.500"
+    },
+    "dup_of": {
+      "n": 186556,
+      "title": "torch.ldexp returns incorrect gradient w.r.t. mantissa for negative exponents",
+      "body": "## Bug\n\n`torch.ldexp(x, exponent)` appears to return an incorrect gradient with respect to `x` when `exponent` contains negative values.\n\nMathematically:\n\n```python\ntorch.ldexp(x, e) == x * 2**e\n```\n\nSo the derivative with respect to `x` should be:\n\n```python\n2**e\n```\n\nHowever, for `e = -1`, PyTorch returns a gradient of `0.0` instead of `0.5`.\n\n## Minimal Reproducer\n\n```python\nimport torch\n\nm = torch.zeros(4, dtype=torch.float32)\ne = torch.tensor([-1, -1, -1, -1], dtype=torch.int32)\ncot = torch.ones(4, dtype=torch.float32)\n\nresult = torch.func.grad(\n    lambda x: (torch.ldexp(x, e) * cot).sum"
+    },
+    "merge_note": "Closing as a duplicate of #186556, which reported this same `torch.ldexp` negative-exponent gradient bug on 2026-06-07. Apologies for the duplicate \u2014 my search used narrower terms and missed it. #186556 is the canonical report."
+  },
+  {
+    "repo": "pytorch/pytorch",
+    "source": {
+      "n": 186090,
+      "title": "[vllm] [2.12 regression][Inductor] assert_size_stride \"expected size 8192==512\" in AOT-compiled graph during Nomic bert_with_rope pooling warmup",
+      "body": "## Summary\n\nOn the vLLM torch-2.12 upgrade branch, the vLLM CI job **\"Language Models Test (Extended Pooling)\"** fails deterministically on `test_nomic_max_model_len.py::test_use_rope_scaling_legal[model_info1]` (Nomic `bert_with_rope` pooling model). During `torch.compile` warmup the AOT-compiled graph trips a stride assertion:\n\n```\ntorch._inductor ... assert_size_stride(arg9_1, (512, 64), (64, 1))\nAssertionError: expected size 8192==512, stride 64==64 at dim=0\nThis error most often comes from a incorrect fake (aka meta) kernel for a custom op.\nRuntimeError: Engine core initialization failed."
+    },
+    "dup_of": {
+      "n": 184549,
+      "title": "[vllm] [2.12 regression][Inductor] assert_size_stride (8192 vs 512) in BERT-with-rope AOT-compiled path for Nomic v2 MoE pooling model",
+      "body": "## Summary\n\nOn `torch==2.12.0` + `triton==3.7.0`, the Extended-Pooling pytest job for the `nomic-ai/nomic-embed-text-v2-moe` model fails inside an Inductor AOT-compiled forward with a runtime stride/shape assertion:\n\n```\nFile \"/root/.cache/vllm/torch_compile_cache/torch_aot_compile/<hash>/inductor_cache/ra/cra7eslwqvpfcdh65siik6ag5goi4wdpxi6ivjnoyjbr4zci2oje.py\", line 664\n    assert_size_stride(arg9_1, (512, 64), (64, 1))\nAssertionError: expected size 8192==512, stride 64==64 at dim=0\nThis error most often comes from a incorrect fake (aka meta) kernel for a custom op.\n```\n\nThe compiled functio"
+    },
+    "merge_note": "Duplicate of #184549, which already tracks this exact failure. Bisect details (vLLM #41277) posted there. Closing."
+  },
+  {
+    "repo": "nodejs/node",
+    "source": {
+      "n": 64428,
+      "title": "Node.js dns.getServers() returns 127.0.0.1 on Windows 11 while Windows DNS is configured correctly, causing dns.resolveSrv() and MongoDB Atlas (mongodb+srv://) to fail",
+      "body": "### Version\n\nv24.18.0 ,  v22.22.0  Issue reproduced on both versions.\n\n### Platform\n\n```text\nWindows 11 24H2 (Build 10.0.26200) x64\n```\n\n### Subsystem\n\n_No response_\n\n### What steps will reproduce the bug?\n\n1. Install Node.js (tested with v22.22.0 and v24.18.0) on Windows 11 (Build 10.0.26200).\n\n2. Save the following as `repro.js`:\n\n```js\nconst dns = require(\"node:dns\");\n\nconsole.log(\"Node:\", process.version);\nconsole.log(\"Servers:\", dns.getServers());\n\ndns.lookup(\"google.com\", (err, address) => {\n  console.log(\"lookup:\", err, address);\n});\n\ndns.resolve4(\"google.com\", (err, addresses) => {\n  c"
+    },
+    "dup_of": {
+      "n": 62347,
+      "title": "dns.getServers() incorrectly returns 127.0.0.1 when OS DNS is configured to 8.8.8.8",
+      "body": "### Version\n\nCurrent Version: 24.14.0, Same Issue on Every version of nodejs\n\n### Platform\n\n```text\nWindows, x64\n```\n\n### Subsystem\n\n_No response_\n\n### What steps will reproduce the bug?\n\n1. Set system DNS to a public resolver (e.g., 8.8.8.8) on Windows.\n2. Verify 'ipconfig /all' shows 8.8.8.8 as the only DNS server.\n3. Run the following command in a clean terminal:\n   node -e \"console.log(require('node:dns').getServers())\"\n4. Observe that it returns ['127.0.0.1'] despite system settings.\n\n\n### How often does it reproduce? Is there a required condition?\n\nAlways (100% of the time) on this speci"
+    },
+    "merge_note": "Duplicate of #62347. The fix should land in the next releases."
+  },
+  {
+    "repo": "nodejs/node",
+    "source": {
+      "n": 64361,
+      "title": "Look at potential automation to help PR non-collaborators acquire PR test results",
+      "body": "I wonder if we could better surface these with automation back to the PR\r\n\r\n_Originally posted by @jasnell in https://github.com/nodejs/node/pull/64321#discussion_r3540496848_\r\n            "
+    },
+    "dup_of": {
+      "n": 64333,
+      "title": "Show CI failure details to non-collaborator PR authors",
+      "body": "### What is the problem this feature will solve?\n\nCI is now only visible to collaborators. External contributors can see that CI failed, but not why, so they have to ask a collaborator to learn about the CI status. \n\n### What is the feature you are proposing to solve the problem?\n\nIf CI fails on a PR from a non-collaborator, have `nodejs-github-bot` post a short comment with the failure summary, failing test names etc.\n\n*[Original idea](https://openjs-foundation.slack.com/archives/C019Y2T6STH/p1782994917772279?thread_ts=1782991063.018469&cid=C019Y2T6STH) by @RafaelGSS*\n\nThis is also similar in"
+    },
+    "merge_note": "Duplicate of #64333"
+  },
+  {
+    "repo": "nodejs/node",
+    "source": {
+      "n": 64176,
+      "title": "Temporal: Month names are missing",
+      "body": "### Version\n\n26.4.0\n\n### Platform\n\nFedora 44, with Node.js installed using moonrepo proto.\n\n```text\nLinux danielpc 7.0.9-205.fc44.x86_64 #1 SMP PREEMPT_DYNAMIC Thu May 21 16:31:48 UTC 2026 x86_64 GNU/Linux\n```\n\n### Subsystem\n\n_No response_\n\n### What steps will reproduce the bug?\n\nCall `toLocaleString` on a `Temporal.PlainYearMonth` using one of the string `month` options (`long` or `short`):\n\n```js\nnew Temporal.PlainYearMonth(2026, 6).toLocaleString('en-US', {calendar: 'iso8601', month: 'long'})\nnew Temporal.PlainYearMonth(2026, 6).toLocaleString('en-US', {calendar: 'iso8601', month: 'short', "
+    },
+    "dup_of": {
+      "n": 63041,
+      "title": "Missing month in `Intl.DateTimeFormat` output when using `calendar: 'iso8601'` in Node v24.13.0 and later",
+      "body": "### Version\n\nv24.15.0, v25.9.0\n\n### Platform\n\n```text\nDarwin Jasons-MacBook-Pro-2.local 25.4.0 Darwin Kernel Version 25.4.0: Thu Mar 19 19:30:44 PDT 2026; root:xnu-12377.101.15~1/RELEASE_ARM64_T6000 arm64\n```\n\n### Subsystem\n\n_No response_\n\n### What steps will reproduce the bug?\n\nRun the following code using Node.js **24.13.0 or later**:\n\n```js\nconst dtfWithIsoCalendar = new Intl.DateTimeFormat('en-US', {\n    dateStyle: 'full',\n    timeStyle: 'long',\n    timeZone: 'UTC',\n    calendar: 'iso8601'\n});\n\nconst date = new Date('2024-09-09T08:00:00Z');\n\nconsole.log(dtfWithIsoCalendar.format(date));\n``"
+    },
+    "merge_note": "Technically a duplicate of #63041.\n\nThere is standards discussion ongoing regarding what the behaviour should be here, as the DateTimeFormat operation is being run with the PlainYearMonth default calendar `iso8601`, and it's unclear what that means from a DateTimeFormat perspective."
+  },
+  {
+    "repo": "golang/go",
+    "source": {
+      "n": 80107,
+      "title": "plugin: concrete assertion from non-empty interface can fail with equivalent itabs",
+      "body": "### Go version\n\ngo version go1.24.6 linux/amd64\n\n### Output of `go env` in your module/workspace:\n\n```shell\nGOARCH='amd64'\n  GOOS='linux'\n  GOROOT='/usr/local/go1.24.6'\n  GOVERSION='go1.24.6'\n  CGO_ENABLED='1'\n  GOTOOLDIR='/usr/local/go1.24.6/pkg/tool/linux_amd64'\n```\n\n### What did you do?\n\nI built and ran a program using two plugins. The first plugin creates a non-empty interface value through an empty-interface to non-empty-interface\n  assertion. The second plugin receives that value and performs a concrete type assertion.\n\n  ```go\n  // go.mod\n  module example.com/itabrepro\n\n  go 1.24\n  ```\n"
+    },
+    "dup_of": {
+      "n": 48532,
+      "title": "plugin: convert iface to type failed with \"types from different scopes\"",
+      "body": "<!--\r\nPlease answer these questions before submitting your issue. Thanks!\r\nFor questions please use one of our forums: https://github.com/golang/go/wiki/Questions\r\n-->\r\n\r\n### What version of Go are you using (`go version`)?\r\n\r\n<pre>\r\n$ go version\r\ngo version devel go1.18-14e812bfc5 Fri Sep 17 00:31:49 2021 +0000 linux/amd64\r\n</pre>\r\n\r\n### Does this issue reproduce with the latest release?\r\nyes\r\n\r\n\r\n### What operating system and processor architecture are you using (`go env`)?\r\n\r\n<details><summary><code>go env</code> Output</summary><br><pre>\r\n$ go env\r\nGO111MODULE=\"\"\r\nGOARCH=\"amd64\"\r\nGOBIN=\"\"\r"
+    },
+    "merge_note": "I suspect this is a duplicate of #48532. We need to do a better job of deduplicating itabs when plugins are present.\n\nI think we definitely want to do that, but it is hard, and unfortunately not very high priority.\n"
+  },
+  {
+    "repo": "golang/go",
+    "source": {
+      "n": 79819,
+      "title": "cmd/compile: does not inline slices.Backwards's yield",
+      "body": "### Go version\n\ngo version go1.26.3 darwin/arm64\n\ngolang.org/x/tools/go/analysis/passes/modernize v0.45.0\n\n### Output of go env in your module/workspace:\n\n```\nAR='ar'\nCC='clang'\nCGO_CFLAGS='-O2 -g'\nCGO_CPPFLAGS=''\nCGO_CXXFLAGS='-O2 -g'\nCGO_ENABLED='1'\nCGO_FFLAGS='-O2 -g'\nCGO_LDFLAGS='-O2 -g'\nCXX='clang++'\nGCCGO='gccgo'\nGO111MODULE=''\nGOARCH='arm64'\nGOARM64='v8.0'\nGOAUTH='netrc'\nGOBIN=''\nGOCACHE='/Users/karelbilek/Library/Caches/go-build'\nGOCACHEPROG=''\nGODEBUG=''\nGOENV='/Users/karelbilek/Library/Application Support/go/env'\nGOEXE=''\nGOEXPERIMENT=''\nGOFIPS140='off'\nGOFLAGS=''\nGOGCCFLAGS='-fPIC -"
+    },
+    "dup_of": {
+      "n": 65495,
+      "title": "cmd/compile: unnecessary temporary variable on stack",
+      "body": "### Go version\r\n\r\ngo version go1.21.6 linux/amd64\r\n\r\n### Output of `go env` in your module/workspace:\r\n\r\n```shell\r\nGO111MODULE=''\r\nGOARCH='amd64'\r\nGOBIN=''\r\nGOCACHE='/root/.cache/go-build'\r\nGOENV='/root/.config/go/env'\r\nGOEXE=''\r\nGOEXPERIMENT=''\r\nGOFLAGS=''\r\nGOHOSTARCH='amd64'\r\nGOHOSTOS='linux'\r\nGOINSECURE=''\r\nGOMODCACHE='/root/go/pkg/mod'\r\nGONOPROXY=''\r\nGONOSUMDB=''\r\nGOOS='linux'\r\nGOPATH='/root/go'\r\nGOPRIVATE=''\r\nGOPROXY='https://goproxy.cn'\r\nGOROOT='/usr/local/go'\r\nGOSUMDB='sum.golang.org'\r\nGOTMPDIR=''\r\nGOTOOLCHAIN='auto'\r\nGOTOOLDIR='/usr/local/go/pkg/tool/linux_amd64'\r\nGOVCS=''\r\nGOVERSION='"
+    },
+    "merge_note": "I first thought this was a duplicate of #65495 but after looking at the assembly I don't think so.\nI can't find an extra copy however I can find spilling when calling the `yield` closure.\n\nHowever when I try with `go version go1.27-devel_d1d68c2dd0 Wed Jun 3 14:52:16 2026 -0700 linux/amd64` it doesn't repro.\n`slices.Backward` ***and `yield`*** are inlined."
+  },
+  {
+    "repo": "golang/go",
+    "source": {
+      "n": 79770,
+      "title": "encoding/json: changes in gotip(1.27) without any changes",
+      "body": "### Go version\n\ngo version go1.27-devel_7bd80727 Sat May 30 03:38:04 2026 -0700 linux/amd64\n\n### Output of `go env` in your module/workspace:\n\n```shell\nAR='ar'\nCC='gcc'\nCGO_CFLAGS='-O2 -g'\nCGO_CPPFLAGS=''\nCGO_CXXFLAGS='-O2 -g'\nCGO_ENABLED='1'\nCGO_FFLAGS='-O2 -g'\nCGO_LDFLAGS='-O2 -g'\nCXX='g++'\nGCCGO='gccgo'\nGO111MODULE=''\nGOAMD64='v1'\nGOARCH='amd64'\nGOAUTH='netrc'\nGOBIN=''\nGOCACHE='/home/mstoykov/.cache/go-build'\nGOCACHEPROG=''\nGODEBUG=''\nGOENV='/home/mstoykov/.config/go/env'\nGOEXE=''\nGOEXPERIMENT=''\nGOFIPS140='off'\nGOFLAGS=''\nGOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-lengt"
+    },
+    "dup_of": {
+      "n": 79659,
+      "title": "encoding/json: JSONv2 baseline changes SyntaxError and UnmarshalTypeError offsets",
+      "body": "Hi \ud83d\udc4b\ud83c\udffb \n\nWhile testing [k6](https://github.com/grafana/k6) against Go tip, we noticed failures that appear to be caused by changed `encoding/json` error offsets after JSONv2 became the baseline implementation.\n\nWe are not sure whether this offset change is intended behavior with JSONv2, or whether this is an unexpected compatibility issue in the v1 `encoding/json` API.\n\nThe first Go commit where we observe the behavior is: https://github.com/golang/go/commit/e62d3e6e897175a07aa44a7b2c7f99700072f22f\n\nThat commit says:\n\n> By JSONv2 becoming baseline, the v1 \"encoding/json\" will be implemented und"
+    },
+    "merge_note": "Hi, thanks for the report.\n\nThere are 3 reported differences.\n\n> Difference 1: the element type name in the error.\n\nThis is due to v1 `json.RawMessage` now being a type alias to `jsontext.Value`. The Go stdlib has historically moved types before and not considered it a breaking change. For example, `os.FileInfo` has been moved to `fs.FileInfo`. This means that the string name can change, but code properly checking the exact type will correctly work (even if they still reference the old type decl"
+  },
+  {
+    "repo": "rust-lang/rust",
+    "source": {
+      "n": 158625,
+      "title": "Could not compile `cranelift-codegen` (lib)",
+      "body": "I tried this code (x86_64 host, aarch64 host too):\n\n```shell\ndocker run --rm -it termux/termux-docker\n\ntermux-change-repo\nyes | pkg upgrade\npkg install --yes git rust\n\ngit clone --depth 1 https://github.com/bytecodealliance/wasmtime.git\ncd wasmtime\ncd cranelift/codegen\ncargo build --release\n```\n\nI expected to see this happen: *it works without problems*\n\nInstead, this happened: *error: rustc interrupted by SIGSEGV, printing backtrace*\n\n### Meta\n\nhttps://github.com/termux/termux-packages/tree/master/packages/rust\n\n`rustc --version --verbose`:\n```\nrustc 1.96.0 (ac68faa20 2026-05-25) (built from "
+    },
+    "dup_of": {
+      "n": 138889,
+      "title": "Crash when compiling `cranelift-codegen` on Termux",
+      "body": "<!--\nThank you for finding an Internal Compiler Error! \ud83e\uddca  If possible, try to provide\na minimal verifiable example. You can read \"Rust Bug Minimization Patterns\" for\nhow to create smaller examples.\nhttp://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/\n-->\n\n### Code\n\n```\ncargo new hello_world --bin\ncd hello_world/\ncargo add wasmtime\ncargo build\n```\n\n### Meta\n<!--\nIf you're using the stable version of the compiler, you should also check if the\nbug also exists in the beta or nightly versions.\n-->\n\nIt is originally reported on `aarch64-linux-android`, but it is also reproducible on"
+    },
+    "merge_note": "mb duplicate of #138889?"
+  },
+  {
+    "repo": "rust-lang/rust",
+    "source": {
+      "n": 158557,
+      "title": "tests/ui/codegen/huge-stacks.rs fails in a constrained QEMU environment where the guest has 1 GB of RAM",
+      "body": "The failure is:\n```\nthread 'main' panicked at tests/ui/codegen/huge-stacks.rs:20:10:\ncalled `Result::unwrap()` on an `Err` value:\nOs { code: 11, kind: WouldBlock, message: \"Resource temporarily unavailable\" }\n```\n\nThe failure occurs while creating the test thread:\n```\nstd::thread::Builder::new()\n    .stack_size(5 * 1024 * 1024 * 1024)\n    .spawn(func)\n    .unwrap();\n```\n\nspawn() returns Err(EAGAIN) because the kernel refuses to create a thread with the requested 5 GB stack under the available resources.\n\n**Environment**\nRust: 1.98.0-nightly\nLinux\nQEMU guest\nGuest RAM: 1024 MB\n\n**Reproduction**"
+    },
+    "dup_of": {
+      "n": 156231,
+      "title": "[ICE]: `failed to spawn work thread: Os { code: 11, kind: WouldBlock, message: \"Resource temporarily unavailable\" }`",
+      "body": "<!--\nThank you for finding an Internal Compiler Error! \ud83e\uddca  If possible, try to provide\na minimal verifiable example. You can read \"Rust Bug Minimization Patterns\" for\nhow to create smaller examples.\nhttp://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/\n-->\n\n### Code\n\nThis issue doesnt seems to be code-related, as the compiler failed to spawn a new thread.\n\n\n### Meta\n<!--\nIf you're using the stable version of the compiler, you should also check if the\nbug also exists in the beta or nightly versions.\n-->\n\n`rustc --version --verbose`:\n```\nrustc 1.97.0-nightly (e95e73209 2026-05-05)"
+    },
+    "merge_note": "Looks like a duplicate of #156231 (possibly also others)"
+  }
+]

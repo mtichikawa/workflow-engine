@@ -1,0 +1,987 @@
+[
+ {
+  "use_case": "classify customer feedback and route it to product, engineering, or sales",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "route",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "triage",
+    "to": "assign",
+    "when": ""
+   },
+   {
+    "from": "assign",
+    "to": "stage_routing",
+    "when": ""
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "classify-customer-feedback-and-route-it-to-pro"
+ },
+ {
+  "use_case": "moderate incoming forum posts: flag toxic ones and route the rest to the right subforum",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "route",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "moderate",
+    "to": "flag",
+    "when": "moderate.label == 'toxic'"
+   },
+   {
+    "from": "moderate",
+    "to": "route_post",
+    "when": "moderate.label == 'clean'"
+   },
+   {
+    "from": "route_post",
+    "to": "place",
+    "when": ""
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "moderate-incoming-forum-posts-flag-toxic-ones"
+ },
+ {
+  "use_case": "monitor brand mentions, gauge sentiment, and draft a response to the negative ones",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "respond",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "sentiment",
+    "to": "draft",
+    "when": "sentiment.label == 'negative'"
+   },
+   {
+    "from": "sentiment",
+    "to": "log_mention",
+    "when": "sentiment.label != 'negative'"
+   },
+   {
+    "from": "draft",
+    "to": "check",
+    "when": ""
+   },
+   {
+    "from": "check",
+    "to": "stage_reply",
+    "when": "check.verdict == 'pass'"
+   },
+   {
+    "from": "check",
+    "to": "draft",
+    "when": "check.verdict != 'pass'"
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "monitor-brand-mentions-gauge-sentiment-and-dra"
+ },
+ {
+  "use_case": "read GitHub issues, label and prioritize them, and draft a first response",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "respond",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   }
+  ],
+  "edges": [],
+  "gaps": [],
+  "runnable": true,
+  "slug": "read-github-issues-label-and-prioritize-them-a"
+ },
+ {
+  "use_case": "review expense reports and flag ones that violate policy",
+  "steps": [
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "check_policy",
+    "to": "classify_violation",
+    "when": "check_policy.verdict != 'pass'"
+   },
+   {
+    "from": "classify_violation",
+    "to": "flag",
+    "when": ""
+   },
+   {
+    "from": "check_policy",
+    "to": "record_clean",
+    "when": "check_policy.verdict == 'pass'"
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "review-expense-reports-and-flag-ones-that-viol"
+ },
+ {
+  "use_case": "review pull requests: summarize the diff, flag risky changes, and suggest a reviewer",
+  "steps": [
+   {
+    "specialist": "review",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [],
+  "gaps": [],
+  "runnable": true,
+  "slug": "review-pull-requests-summarize-the-diff-flag-r"
+ },
+ {
+  "use_case": "triage patient intake forms by urgency and route to the right department",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "route",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "triage",
+    "to": "acuity",
+    "when": ""
+   },
+   {
+    "from": "acuity",
+    "to": "assign",
+    "when": ""
+   },
+   {
+    "from": "assign",
+    "to": "stage_emergent",
+    "when": "triage.label == 'emergent'"
+   },
+   {
+    "from": "assign",
+    "to": "stage_routine",
+    "when": "triage.label != 'emergent'"
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "triage-patient-intake-forms-by-urgency-and-rou"
+ },
+ {
+  "use_case": "triage security alerts by severity and assign them to the right on-call",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "route",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "classify_severity",
+    "to": "assign_oncall",
+    "when": ""
+   },
+   {
+    "from": "assign_oncall",
+    "to": "stage_critical",
+    "when": "classify_severity.label == 'critical'"
+   },
+   {
+    "from": "assign_oncall",
+    "to": "stage_routine",
+    "when": "classify_severity.label != 'critical'"
+   }
+  ],
+  "gaps": [],
+  "runnable": true,
+  "slug": "triage-security-alerts-by-severity-and-assign"
+ },
+ {
+  "use_case": "detect duplicate bug reports, group them, and draft a merge note",
+  "steps": [
+   {
+    "specialist": "fetch",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "detect_duplicates",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "draft_merge_note",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "fetch_existing",
+    "to": "find_duplicates",
+    "when": ""
+   },
+   {
+    "from": "find_duplicates",
+    "to": "confirm_duplicate",
+    "when": ""
+   },
+   {
+    "from": "confirm_duplicate",
+    "to": "draft_merge_note",
+    "when": "confirm_duplicate.verdict == 'pass'"
+   },
+   {
+    "from": "confirm_duplicate",
+    "to": "stage_new",
+    "when": "confirm_duplicate.verdict != 'pass'"
+   },
+   {
+    "from": "draft_merge_note",
+    "to": "stage_merge",
+    "when": ""
+   }
+  ],
+  "gaps": [
+   {
+    "name": "detect_duplicates",
+    "why": "No library specialist compares an incoming report against a candidate set to find and group duplicates; classify/rank operate on a single item against static categories, not cross-item similarity.",
+    "input": [
+     "item",
+     "candidates",
+     "criteria"
+    ],
+    "output": [
+     "is_duplicate",
+     "group",
+     "reasoning"
+    ]
+   },
+   {
+    "name": "draft_merge_note",
+    "why": "No library specialist writes a merge/dedup note from a duplicate group; 'write' drafts posts from a topic+sources and 'respond' drafts a first reply, neither produces a maintainer merge note tying a group of issues to a canonical target.",
+    "input": [
+     "item",
+     "group",
+     "tone"
+    ],
+    "output": [
+     "merge_note"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "detect-duplicate-bug-reports-group-them-and-dr"
+ },
+ {
+  "use_case": "generate a product image from a text description and stage it",
+  "steps": [
+   {
+    "specialist": "generate_image",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "stage_scene",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "generate_image",
+    "to": "stage_scene",
+    "when": ""
+   },
+   {
+    "from": "stage_scene",
+    "to": "check_fidelity",
+    "when": ""
+   },
+   {
+    "from": "check_fidelity",
+    "to": "generate_image",
+    "when": "check_fidelity.verdict == 'fail'"
+   },
+   {
+    "from": "check_fidelity",
+    "to": "stage_result",
+    "when": "check_fidelity.verdict == 'pass'"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "generate_image",
+    "why": "No specialist in the library can synthesize an image from a text description; this is the core generation step.",
+    "input": [
+     "description",
+     "style",
+     "aspect_ratio"
+    ],
+    "output": [
+     "image"
+    ]
+   },
+   {
+    "name": "stage_scene",
+    "why": "No specialist composes/stages a generated product image into a realistic scene (backgrounds, props, lighting) as the use case requires.",
+    "input": [
+     "product_image",
+     "scene",
+     "lighting",
+     "description"
+    ],
+    "output": [
+     "staged_image"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "generate-a-product-image-from-a-text-descripti"
+ },
+ {
+  "use_case": "grade student essays against a rubric and write feedback",
+  "steps": [
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "grade_essay",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "score",
+    "to": "grade",
+    "when": ""
+   },
+   {
+    "from": "grade",
+    "to": "check",
+    "when": ""
+   },
+   {
+    "from": "check",
+    "to": "save",
+    "when": "check.verdict == 'pass'"
+   },
+   {
+    "from": "check",
+    "to": "grade",
+    "when": "check.verdict != 'pass'"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "grade_essay",
+    "why": "No specialist grades a student essay against a multi-dimension rubric and writes rubric-anchored feedback; rank only yields a single 0..1 score and review is diff/PR-specific.",
+    "input": [
+     "essay",
+     "rubric",
+     "grade_scale",
+     "overall_score"
+    ],
+    "output": [
+     "grade",
+     "dimension_scores",
+     "feedback"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "grade-student-essays-against-a-rubric-and-writ"
+ },
+ {
+  "use_case": "process refund requests: decide approve or deny, and draft the customer reply",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "draft_refund_reply",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "decide",
+    "to": "draft_reply",
+    "when": ""
+   },
+   {
+    "from": "draft_reply",
+    "to": "check_reply",
+    "when": ""
+   },
+   {
+    "from": "check_reply",
+    "to": "stage_reply",
+    "when": "check_reply.verdict == 'pass'"
+   },
+   {
+    "from": "check_reply",
+    "to": "draft_reply",
+    "when": "check_reply.verdict != 'pass'"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "draft_refund_reply",
+    "why": "The reply must reflect the approve/deny decision and its reason \u2014 the generic 'respond' specialist only takes item+tone and cannot condition the wording on the decision, so a refund-specific drafter is needed.",
+    "input": [
+     "item",
+     "decision",
+     "reasoning",
+     "tone"
+    ],
+    "output": [
+     "reply"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "process-refund-requests-decide-approve-or-deny"
+ },
+ {
+  "use_case": "screen inbound sales leads, score them, and draft a tailored intro email",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "draft_sales_intro",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "verify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   }
+  ],
+  "edges": [
+   {
+    "from": "screen",
+    "to": "score",
+    "when": "screen.label == 'qualified_lead'"
+   },
+   {
+    "from": "screen",
+    "to": "stage_disqualified",
+    "when": "screen.label != 'qualified_lead'"
+   },
+   {
+    "from": "score",
+    "to": "draft",
+    "when": ""
+   },
+   {
+    "from": "draft",
+    "to": "check",
+    "when": ""
+   },
+   {
+    "from": "check",
+    "to": "send",
+    "when": "check.verdict == 'pass'"
+   },
+   {
+    "from": "check",
+    "to": "draft",
+    "when": "check.verdict != 'pass'"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "draft_sales_intro",
+    "why": "Library 'respond' only drafts a generic first reply from item+tone; a sales intro must be tailored to the lead's qualification score and context, and emit a subject line \u2014 needs a sales-specific drafting specialist.",
+    "input": [
+     "item",
+     "score",
+     "context",
+     "tone"
+    ],
+    "output": [
+     "email",
+     "subject"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "screen-inbound-sales-leads-score-them-and-draf"
+ },
+ {
+  "use_case": "screen job applications for fraud signals and flag suspicious ones",
+  "steps": [
+   {
+    "specialist": "detect_fraud_signals",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": true
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "detect_fraud_signals",
+    "to": "score_fraud_risk",
+    "when": ""
+   },
+   {
+    "from": "score_fraud_risk",
+    "to": "triage",
+    "when": ""
+   },
+   {
+    "from": "triage",
+    "to": "stage_flagged",
+    "when": "triage.label == 'flag_for_review'"
+   },
+   {
+    "from": "triage",
+    "to": "stage_cleared",
+    "when": "triage.label == 'clear'"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "detect_fraud_signals",
+    "why": "Extracting concrete, domain-specific fraud indicators from a job application (identity/date inconsistencies, fabricated employers, degree mills, AI-generated text) is a specialized analysis not covered by the generic classify/rank/verify capabilities; those downstream steps consume its structured signals.",
+    "input": [
+     "application",
+     "signal_catalog"
+    ],
+    "output": [
+     "signals",
+     "explanation"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "screen-job-applications-for-fraud-signals-and"
+ },
+ {
+  "use_case": "sort incoming resumes, score fit against a role, and shortlist candidates",
+  "steps": [
+   {
+    "specialist": "classify",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "shortlist_candidate",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [
+   {
+    "from": "sort",
+    "to": "fit",
+    "when": ""
+   },
+   {
+    "from": "fit",
+    "to": "decide",
+    "when": ""
+   },
+   {
+    "from": "decide",
+    "to": "stage_shortlist",
+    "when": "decide.shortlist == true"
+   },
+   {
+    "from": "decide",
+    "to": "stage_pass",
+    "when": "decide.shortlist == false"
+   }
+  ],
+  "gaps": [
+   {
+    "name": "shortlist_candidate",
+    "why": "The middle decision \u2014 combining track fit and role-specific fit score into a shortlist/no-shortlist call with a defensible rationale \u2014 is a hiring-domain judgment not covered by the generic capability specialists.",
+    "input": [
+     "resume",
+     "category",
+     "score"
+    ],
+    "output": [
+     "shortlist",
+     "rationale"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "sort-incoming-resumes-score-fit-against-a-role"
+ },
+ {
+  "use_case": "summarize legal contracts and flag risky clauses",
+  "steps": [
+   {
+    "specialist": "summarize_contract",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "flag_risky_clauses",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "rank",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [],
+  "gaps": [
+   {
+    "name": "summarize_contract",
+    "why": "No library specialist produces a plain-language summary of a legal contract's key terms; needed to give the reader a concise overview before diving into risks.",
+    "input": [
+     "item",
+     "focus",
+     "length"
+    ],
+    "output": [
+     "summary"
+    ]
+   },
+   {
+    "name": "flag_risky_clauses",
+    "why": "No library specialist extracts and flags individual risky clauses from contract text with an explanation and per-clause severity; this is the core legal-review task.",
+    "input": [
+     "contract",
+     "risk_criteria"
+    ],
+    "output": [
+     "flagged_clauses",
+     "risk_notes"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "summarize-legal-contracts-and-flag-risky-claus"
+ },
+ {
+  "use_case": "transcribe support calls and summarize the action items",
+  "steps": [
+   {
+    "specialist": "transcribe",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "summarize_action_items",
+    "tag": "new",
+    "gate": false
+   }
+  ],
+  "edges": [],
+  "gaps": [
+   {
+    "name": "transcribe",
+    "why": "No library specialist can turn a support-call recording into text; the pipeline needs a speech-to-text step before anything can be summarized.",
+    "input": [
+     "audio"
+    ],
+    "output": [
+     "transcript"
+    ]
+   },
+   {
+    "name": "summarize_action_items",
+    "why": "No library specialist extracts and summarizes action items from a conversation transcript; write/respond are for drafting outbound messages, not distilling owners/tasks/next-steps from a call.",
+    "input": [
+     "transcript"
+    ],
+    "output": [
+     "action_items",
+     "summary"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "transcribe-support-calls-and-summarize-the-act"
+ },
+ {
+  "use_case": "translate multilingual support emails and route them to the right team",
+  "steps": [
+   {
+    "specialist": "translate",
+    "tag": "new",
+    "gate": false
+   },
+   {
+    "specialist": "route",
+    "tag": "domain",
+    "gate": false
+   },
+   {
+    "specialist": "act",
+    "tag": "reuse",
+    "gate": false
+   }
+  ],
+  "edges": [],
+  "gaps": [
+   {
+    "name": "translate",
+    "why": "Support emails arrive in many languages; the routing specialist needs consistent English text (and the detected language is useful metadata for the receiving team). No library specialist detects language or translates.",
+    "input": [
+     "text",
+     "target_language"
+    ],
+    "output": [
+     "translated_text",
+     "detected_language"
+    ]
+   }
+  ],
+  "runnable": false,
+  "slug": "translate-multilingual-support-emails-and-rout"
+ }
+]
