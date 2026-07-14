@@ -10,10 +10,10 @@
  body{background:radial-gradient(1100px 640px at 50% 0%,#161a22 0%,var(--bg) 62%);color:var(--ink);
    font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
  @media(max-width:900px){body{height:auto;overflow:auto}}
- .tabs{flex:none;display:flex;gap:6px;max-width:1300px;width:100%;margin:0 auto;padding:14px 30px 0;font-family:var(--mono)}
+ .tabs{flex:none;display:flex;gap:6px;max-width:1680px;width:100%;margin:0 auto;padding:14px 30px 0;font-family:var(--mono)}
  .tabs a{font-size:13px;padding:8px 16px;border-radius:8px;text-decoration:none;color:var(--mut);border:1px solid transparent}
  .tabs a.on{color:var(--ink);background:var(--panel);border-color:var(--brass)} .tabs a:hover{color:var(--ink)}
- .wrap{flex:1;min-height:0;max-width:1460px;width:100%;margin:0 auto;
+ .wrap{flex:1;min-height:0;max-width:1680px;width:100%;margin:0 auto;
    padding:clamp(8px,1.6vh,20px) 30px clamp(14px,2.4vh,26px);display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)}
  .head{flex:none;text-align:center}
  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin:0 0 9px}
@@ -46,14 +46,16 @@
  .card .cg{font-family:var(--mono);font-size:11px;color:var(--brass)}
  .ico{width:9px;height:9px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
  /* overlays */
- .ov{position:fixed;inset:0;background:rgba(6,8,12,.9);backdrop-filter:blur(4px);z-index:50;display:none;overflow-y:auto;padding:clamp(18px,4vh,44px) clamp(16px,4vw,40px)}
+ .ov{position:fixed;inset:0;z-index:50;display:none;background:rgba(6,8,12,0);transition:background .34s ease}
  .ov.show{display:block}
- .sheet{max-width:920px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:62px clamp(24px,3.5vw,42px) clamp(24px,3.5vw,42px);position:relative;will-change:transform,opacity}
- .sheet.wide{max-width:1060px}
- .x{position:absolute;top:16px;right:16px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
-    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:2}
+ .ov.vis{background:rgba(6,8,12,.9);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+ .sheet{position:absolute;overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line2);
+   border-radius:16px;box-shadow:0 40px 110px -40px #000;will-change:left,top,width,height}
+ .sheet-scroll{flex:1;min-height:0;overflow-y:auto;padding:60px clamp(24px,3vw,46px) clamp(24px,3vw,46px)}
+ .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
+    display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
- .back{position:absolute;top:16px;left:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;cursor:pointer;z-index:2}
+ .back{position:absolute;top:15px;left:15px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;cursor:pointer;z-index:5}
  .back:hover{color:var(--ink);border-color:var(--brass)}
  .ov h2{font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);margin:0 0 8px;padding-right:48px}
  .ov .lead{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0 0 22px;max-width:70ch} .ov .lead b{color:var(--ink)}
@@ -589,33 +591,38 @@ function acc(id){var el=document.getElementById(id),was=el.classList.contains("o
   document.querySelectorAll(".acc").forEach(function(x){x.classList.remove("open");});
   if(!was)el.classList.add("open");}
 var RM=matchMedia("(prefers-reduced-motion: reduce)").matches, lastSrc=null;
-function resetSheet(sh){if(sh){sh.style.transition="none";sh.style.transform="none";sh.style.opacity="1";}}
-function flipTo(sh,src){var s=src.getBoundingClientRect(),f=sh.getBoundingClientRect();
-  var dx=(s.left+s.width/2)-(f.left+f.width/2), dy=(s.top+s.height/2)-(f.top+f.height/2);
-  var sc=Math.min(0.72,Math.max(0.18,s.width/f.width));
-  return "translate("+dx+"px,"+dy+"px) scale("+sc+")";}
+// Build each panel into a fixed frame: corner Back + close that never scroll, and an internal
+// scroll area for the content, so an expanded panel always fits the screen and scrolls inside.
+document.querySelectorAll(".ov .sheet").forEach(function(sh){
+  var x=sh.querySelector(".x");
+  var scroll=document.createElement("div"); scroll.className="sheet-scroll";
+  while(sh.firstChild) scroll.appendChild(sh.firstChild);   // move all content (incl. the .x) in
+  if(x) sh.appendChild(x);                                   // ...then lift the close back onto the frame
+  var b=document.createElement("div"); b.className="back"; b.innerHTML="&larr; Back"; b.onclick=close_; sh.appendChild(b);
+  sh.appendChild(scroll);
+});
+function panelTarget(){ var px=Math.max(18,Math.min(52,innerWidth*0.03)), py=Math.max(16,Math.min(44,innerHeight*0.045));
+  var w=Math.min(1680, innerWidth-2*px), h=innerHeight-2*py; return {l:(innerWidth-w)/2, t:py, w:w, h:h}; }
+function setRect(sh,r,rad){ sh.style.left=r.l+"px"; sh.style.top=r.t+"px"; sh.style.width=r.w+"px"; sh.style.height=r.h+"px"; if(rad!=null)sh.style.borderRadius=rad+"px"; }
+var GEO="left .44s cubic-bezier(.22,.7,.24,1),top .44s cubic-bezier(.22,.7,.24,1),width .44s cubic-bezier(.22,.7,.24,1),height .44s cubic-bezier(.22,.7,.24,1),border-radius .32s ease,opacity .3s ease";
 function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=ov.querySelector(".sheet");
-  lastSrc=src||null; ov.classList.add("show");document.body.style.overflow="hidden";ov.scrollTop=0;
-  if(sh){ sh.scrollTop=0; resetSheet(sh);
-    if(src && !RM){ sh.style.transformOrigin="center center";
-      sh.style.transform=flipTo(sh,src); sh.style.opacity="0.12"; sh.getBoundingClientRect();
-      requestAnimationFrame(function(){ sh.style.transition="transform .42s cubic-bezier(.22,.7,.24,1),opacity .32s ease";
-        sh.style.transform="none"; sh.style.opacity="1"; });
-    }
-  }
+  lastSrc=src||null; ov.classList.add("show"); document.body.style.overflow="hidden";
+  var sc=sh.querySelector(".sheet-scroll"); if(sc)sc.scrollTop=0; var t=panelTarget();
+  if(src && !RM){ var s=src.getBoundingClientRect();
+    sh.style.transition="none"; sh.style.opacity="1"; setRect(sh,{l:s.left,t:s.top,w:s.width,h:s.height},12); sh.getBoundingClientRect();
+    requestAnimationFrame(function(){ ov.classList.add("vis"); sh.style.transition=GEO; setRect(sh,t,16); });
+  } else { sh.style.transition="none"; sh.style.opacity="1"; setRect(sh,t,16); ov.classList.add("vis"); }
 }
-function close_(){var ov=null;document.querySelectorAll(".ov").forEach(function(o){if(o.classList.contains("show"))ov=o;});
+function close_(){var ov=null;document.querySelectorAll(".ov.show").forEach(function(o){ov=o;});
   if(!ov){document.body.style.overflow="";return;} var sh=ov.querySelector(".sheet");
-  var finish=function(){ov.classList.remove("show");resetSheet(sh);document.body.style.overflow="";};
-  if(sh && lastSrc && !RM){ var ran=false, go=function(){if(ran)return;ran=true;finish();};
-    sh.style.transition="transform .34s cubic-bezier(.4,0,.2,1),opacity .3s ease";
-    sh.style.transform=flipTo(sh,lastSrc); sh.style.opacity="0";
-    sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,430);
+  var finish=function(){ov.classList.remove("show","vis"); if(sh){sh.style.transition="none";sh.style.opacity="";sh.style.left=sh.style.top=sh.style.width=sh.style.height="";} document.body.style.overflow="";};
+  if(sh && lastSrc && !RM){ var s=lastSrc.getBoundingClientRect(), ran=false, go=function(){if(ran)return;ran=true;finish();};
+    ov.classList.remove("vis"); sh.style.transition=GEO; setRect(sh,{l:s.left,t:s.top,w:s.width,h:s.height},12); sh.style.opacity="0";
+    sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,520);
   } else finish();}
+// click anywhere outside the frame, or Esc, shrinks it back
 document.querySelectorAll(".ov").forEach(function(o){o.addEventListener("click",function(e){if(e.target===o)close_();});});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close_();});
-// a clear Back control on every panel (in addition to the corner close)
-document.querySelectorAll(".ov .sheet").forEach(function(sh){var b=document.createElement("div");b.className="back";b.innerHTML="&larr; Back";b.onclick=close_;sh.insertBefore(b,sh.firstChild);});
 
 </script>
 </body></html>
