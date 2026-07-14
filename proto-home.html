@@ -49,8 +49,8 @@
  .ov{position:fixed;inset:0;z-index:50;display:none;background:rgba(6,8,12,0);transition:background .34s ease}
  .ov.show{display:block}
  .ov.vis{background:rgba(6,8,12,.9);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
- .sheet{position:absolute;overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line2);
-   border-radius:16px;box-shadow:0 40px 110px -40px #000;will-change:left,top,width,height}
+ .sheet{position:absolute;overflow:hidden;display:flex;flex-direction:column;background:#1a1f2a;border:1px solid #47515f;
+   border-radius:16px;box-shadow:0 0 0 1px rgba(255,255,255,.04),0 50px 130px -30px #000;will-change:left,top,width,height}
  .sheet-scroll{flex:1;min-height:0;overflow-y:auto;padding:60px clamp(24px,3vw,46px) clamp(24px,3vw,46px)}
  .sheet-scroll.snap{scroll-snap-type:y mandatory;padding:0;scroll-behavior:smooth}
  .slide{min-height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;
@@ -80,6 +80,10 @@
  .toc-item{display:flex;gap:18px;align-items:baseline;padding:14px 17px;background:var(--card);border:1px solid var(--line);border-radius:11px}
  .toc-item b{font-family:var(--mono);color:#e0c078;font-size:13.5px;min-width:118px;flex:none}
  .toc-item span{color:var(--mut);font-size:13px;line-height:1.45}
+ .steps{display:grid;gap:9px;margin:20px 0 6px;max-width:840px}
+ .step{display:grid;grid-template-columns:136px 1fr;gap:16px;align-items:baseline}
+ .step>.sp,.step>.pc{justify-self:start}
+ .step .sj{color:var(--mut);font-size:13.5px;line-height:1.5} .step .sj b{color:var(--green)}
  .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
@@ -607,8 +611,7 @@ function specClick(el,name,out){
  box.innerHTML="<span class='sd-name'>"+name+"</span><span class='sd-io'>"+(d.io||"")+"</span>"+(out?"<span class='sd-out'>&#8594; "+out+" (this run)</span>":"")+"<div class='sd-job'>"+(d.job||"")+"</div>";
  box.classList.add("show");
 }
-function chip(s){var cls=s[1]==="new"?"new":"reuse",g=s[2]?" <span class='gt'>&#9889;gate</span>":"";
- return "<span class='sp "+cls+" clk' onclick=\"specClick(this,'"+s[0]+"')\">"+s[0]+g+"</span>";}
+function chip(s){var cls=s[1]==="new"?"new":"reuse",g=s[2]?" <span class='gt'>&#9889;gate</span>":"";return "<span class='sp "+cls+"'>"+s[0]+g+"</span>";}
 function exRow(e){var flow=e.steps.map(chip).join(" <span class='arr'>&rarr;</span> ");
   var badge=e.grp==="ok"?"<span class='badge ok'>&#10003; runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
   return "<div class='ex'><div class='exhead'><span class='euc'>&ldquo;"+e.uc+"&rdquo;</span>"+badge+"</div><div class='flow'>"+flow+"</div></div>";}
@@ -625,12 +628,13 @@ function renderComp(){
     var flow=e.steps.map(chip).join(" <span class='arr'>&rarr;</span> ");
     var ok=e.grp==="ok";
     var badge=ok?"<span class='badge ok'>&#10003; runnable</span>":"<span class='badge gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+" flagged</span>";
+    var steps="<div class='steps'>"+e.steps.map(function(st){var d=SPECS[st[0]]||{job:"",io:""};var cls=st[1]==="new"?"new":"reuse";
+      return "<div class='step'><span class='sp "+cls+"'>"+st[0]+(st[2]?" <span class='gt'>&#9889;</span>":"")+"</span><span class='sj'>"+(d.job||"")+" <span style='color:var(--dim)'>&middot; "+(d.io||"")+"</span></span></div>";}).join("")+"</div>";
     return "<section class='slide'><div class='slide-in'>"
       +"<p class='s-eyebrow' style='"+(ok?"color:var(--green)":"color:var(--amber)")+"'>Composition "+(i+1)+" / "+n+" &nbsp;&middot;&nbsp; "+(ok?"runnable":"flagged a gap")+"</p>"
       +"<h2 class='s-title'>&ldquo;"+e.uc+"&rdquo;</h2>"
       +"<div style='display:flex;align-items:center;gap:14px;flex-wrap:wrap'><div class='flow'>"+flow+"</div>"+badge+"</div>"
-      +"<p class='chint'>&#9755; click a step to see what it does</p>"
-      +"<div class='spec-detail'></div>"
+      +steps
       +"<p class='s-what'>"+e.what+"</p>"
       +(i<n-1?"<p class='scue'>scroll &darr;</p>":"")
       +"</div></section>";
@@ -654,7 +658,7 @@ var RUNS=[
   qlabel:"the final post, after the loop passed",
   quote:"A test that fails 1 in 20 runs isn't a 5% problem, it's a 100% problem: every red build now needs a human to decide if it's real. After the third false alarm, people stop reading failures and start hitting rerun. Once a team ignores 30% of its red builds, the suite has become a tax."}
 ];
-function pchip(p){return "<span class='pc"+(p[2]?" gate":"")+" clk' onclick=\"specClick(this,'"+p[0]+"',"+(p[1]?"'"+p[1]+"'":"null")+")\">"+p[0]+(p[2]?" &#9889;":"")+"</span>";}
+function pchip(p){return "<span class='pc"+(p[2]?" gate":"")+"'>"+p[0]+(p[2]?" &#9889;":"")+"</span>";}
 function renderRuns(){
   var n=RUNS.length;
   var intro="<section class='slide'><div class='slide-in'>"
@@ -664,17 +668,16 @@ function renderRuns(){
     +"<div class='toc'><div class='toc-item'><b>triage</b><span>a real GitHub issue &rarr; labeled, ranked, routed, and a drafted reply</span></div><div class='toc-item'><b>content</b><span>a topic &rarr; a written, on-brand post</span></div><div class='toc-item'><b>refine</b><span>a topic &rarr; draft, self-grade, rewrite until it passes the bar</span></div></div>"
     +"<p class='scue'>scroll &darr;</p></div></section>";
   var slides=RUNS.map(function(e,i){
-    var pipe=e.pipe.map(pchip).join(" <span class='tarr'>&rsaquo;</span> ");
-    var body;
+    var steps="<div class='steps'>"+e.pipe.map(function(st){var d=SPECS[st[0]]||{job:"",io:""};var out=st[1],gate=st[2];
+      var role=(out?"Returned <b>"+out+"</b>. ":"")+(d.job||"");
+      return "<div class='step'><span class='pc"+(gate?" gate":"")+"'>"+st[0]+(gate?" &#9889;":"")+"</span><span class='sj'>"+role+"</span></div>";}).join("")+"</div>";
+    var trail="";
     if(e.trail){var ts={draft:"&#9998; draft",fail:"&#10007; verify: fail &rarr; rewrite",pass:"&#10003; verify: pass"};
-      body="<div class='trail'>"+e.trail.map(function(t,j){return (j?"<span class='tarr'>&rarr;</span>":"")+"<span class='tstep "+t+"'>"+ts[t]+"</span>";}).join(" ")+"</div>";}
-    else{body="<div class='outcome'>"+e.out.map(function(o){return "<span class='oc'>"+o[0]+" <b>"+o[1]+"</b></span>";}).join("")+"</div>";}
+      trail="<p class='qlabel' style='margin-top:16px'>the loop</p><div class='trail'>"+e.trail.map(function(t,j){return (j?"<span class='tarr'>&rarr;</span>":"")+"<span class='tstep "+t+"'>"+ts[t]+"</span>";}).join(" ")+"</div>";}
     return "<section class='slide'><div class='slide-in'>"
       +"<p class='s-eyebrow' style='color:#e0c078'>Run "+(i+1)+" / "+n+" &nbsp;&middot;&nbsp; "+e.r+"</p>"
-      +"<p class='s-what' style='margin:0 0 14px'><span style='font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim)'>INPUT</span> &nbsp;"+e.input+"</p>"
-      +"<div class='pipe' style='margin-bottom:0'>"+pipe+"</div>"
-      +"<p class='chint'>&#9755; click a step to see what it does</p><div class='spec-detail'></div>"
-      +"<div style='margin-top:14px'>"+body+"</div>"
+      +"<p class='s-what' style='margin:0 0 8px'><span style='font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim)'>INPUT</span> &nbsp;"+e.input+"</p>"
+      +steps+trail
       +"<p class='qlabel' style='margin-top:18px'>"+e.qlabel+"</p><div class='quote'>"+e.quote+"</div>"
       +"<a class='lnk' href='"+e.href+"' target='_blank' rel='noopener' style='display:inline-block;margin-top:16px'>step through it &#8599;</a>"
       +(i<n-1?"<p class='scue'>scroll &darr;</p>":"")
@@ -688,7 +691,7 @@ function acc(id){var el=document.getElementById(id),was=el.classList.contains("o
   if(!was)el.classList.add("open");}
 var RM=matchMedia("(prefers-reduced-motion: reduce)").matches, lastSrc=null;
 var DUR=600, EASE="cubic-bezier(.4,0,.15,1)";
-function GEO(){var g=DUR+"ms "+EASE;return "left "+g+",top "+g+",width "+g+",height "+g+",border-radius "+g+",background "+g+",border-color "+g;}
+function GEO(){var g=DUR+"ms "+EASE;return "left "+g+",top "+g+",width "+g+",height "+g+",border-radius "+g;}
 // Build each panel: fixed frame + non-scrolling corner controls + internal scroll area.
 document.querySelectorAll(".ov .sheet").forEach(function(sh){
   var x=sh.querySelector(".x");
@@ -707,20 +710,19 @@ function open_(id,src){var ov=document.getElementById(id);if(!ov)return;var sh=o
   lastSrc=src||null; ov.classList.add("show"); document.body.style.overflow="hidden"; if(sc)sc.scrollTop=0; var t=panelTarget();
   var sl=sh.querySelectorAll(".slide"),k; for(k=0;k<sl.length;k++)sl[k].style.minHeight=t.h+"px";
   if(src && !RM){ var r=src.getBoundingClientRect(); src.style.visibility="hidden";
-    sh.style.transition="none"; sh.style.opacity="1"; sh.style.background="var(--card)"; sh.style.borderColor="var(--line)";
+    sh.style.transition="none"; sh.style.opacity="1";
     setRect(sh,{l:r.left,t:r.top,w:r.width,h:r.height},12);
     if(sc){sc.style.transition="none";sc.style.opacity="0";} sh.getBoundingClientRect();
-    requestAnimationFrame(function(){ ov.classList.add("vis"); sh.style.transition=GEO();
-      sh.style.background="var(--panel)"; sh.style.borderColor="var(--line2)"; setRect(sh,t,16);
-      if(sc) setTimeout(function(){ sc.style.transition="opacity .16s ease"; sc.style.opacity="1"; }, DUR*0.74); });
-  } else { if(src)src.style.visibility="hidden"; sh.style.transition="none"; sh.style.opacity="1"; sh.style.background="var(--panel)"; sh.style.borderColor="var(--line2)"; setRect(sh,t,16); if(sc)sc.style.opacity="1"; ov.classList.add("vis"); }
+    requestAnimationFrame(function(){ ov.classList.add("vis"); sh.style.transition=GEO(); setRect(sh,t,16);
+      if(sc) setTimeout(function(){ sc.style.transition="opacity .2s ease"; sc.style.opacity="1"; }, DUR*0.58); });
+  } else { if(src)src.style.visibility="hidden"; sh.style.transition="none"; sh.style.opacity="1"; setRect(sh,t,16); if(sc)sc.style.opacity="1"; ov.classList.add("vis"); }
 }
 function close_(){var ov=null;document.querySelectorAll(".ov.show").forEach(function(o){ov=o;});
   if(!ov){document.body.style.overflow="";return;} var sh=ov.querySelector(".sheet"),sc=sh.querySelector(".sheet-scroll"),src=lastSrc;
   var finish=function(){ ov.classList.remove("show","vis"); if(sh)sh.removeAttribute("style"); if(sc)sc.removeAttribute("style"); if(src)src.style.visibility=""; document.body.style.overflow=""; };
   if(sh && src && !RM){ var r=src.getBoundingClientRect(), ran=false, go=function(){if(ran)return;ran=true;finish();};
     if(sc){sc.style.transition="none";sc.style.opacity="0";}
-    ov.classList.remove("vis"); sh.style.transition=GEO(); sh.style.background="var(--card)"; sh.style.borderColor="var(--line)";
+    ov.classList.remove("vis"); sh.style.transition=GEO();
     setRect(sh,{l:r.left,t:r.top,w:r.width,h:r.height},12);
     sh.addEventListener("transitionend",go,{once:true}); setTimeout(go,DUR+160);
   } else finish();}
