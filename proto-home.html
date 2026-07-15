@@ -34,14 +34,14 @@
  .stage-body{min-height:0;display:block;padding:clamp(10px,1.6vh,20px);overflow:hidden}
  #hero{width:100%;height:auto;max-height:100%;display:block}
  /* right column: two labelled groups, each with two small cards (never resizes the animation) */
- .side{flex:0 0 clamp(280px,22%,326px);min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,34px)}
+.side{flex:0 0 clamp(300px,24%,360px);min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,34px)}
  @media(max-width:900px){.side{flex:none;justify-content:flex-start}}
  .grplbl{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin:0 0 12px}
  .cardrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
  @media(max-width:480px){.cardrow{grid-template-columns:1fr}}
  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;cursor:pointer;display:flex;flex-direction:column;transition:border-color .15s,transform .15s,background .15s}
  .card:hover{border-color:var(--brass);transform:translateY(-3px);background:var(--panel2)}
- .card .ct{font-family:var(--mono);font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0 0 6px}
+ .card .ct{font-family:var(--mono);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin:0 0 6px;line-height:1.25}
  .card .cd{color:var(--mut);font-size:11.5px;line-height:1.45;margin:0 0 11px;flex:1}
  .card .cg{font-family:var(--mono);font-size:11px;color:var(--brass)}
  .ico{width:9px;height:9px;border-radius:2px;flex:none} .i-comp{background:var(--brass)} .i-run{background:var(--green)}
