@@ -33,11 +33,9 @@ fi
 
 echo "→ regenerating explorers + gallery"
 python3 tools/build_explorer.py            # triage / content / refine  → usecases/<slug>/index.html
-python3 tools/build_gallery.py             # gallery                    → usecases/index.html
 
 echo "→ copying static files into $SITE"
 mkdir -p "$SITE/triage" "$SITE/content" "$SITE/refine"
-cp usecases/index.html "$SITE/index.html"
 for s in triage content refine; do
   cp "usecases/$s/index.html" "$SITE/$s/index.html"
 done

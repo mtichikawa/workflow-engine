@@ -30,9 +30,6 @@ mini of that recipe's graph. Both are self-contained HTML (no server, no CDN).
   from the run log; per-pass trail for looped steps), `build_html` (inject into the engine template).
 - **`tools/build_explorer.py`** — CLI: `python tools/build_explorer.py <slug>` → `usecases/<slug>/index.html`.
   Run logs live in `usecases/_runs/` (committed) so generation is reproducible from a clean clone.
-- **`tools/build_gallery.py`** — the gallery (`usecases/index.html`) from `usecases/usecases.json`. Each card's
-  mini is the **same core** fed the recipe graph, rendered small (card silhouettes + dots flowing along the
-  real `route()` paths), scaled by viewBox. Uses the explorer's exact proportions so the wires are identical.
 - **Portfolio teaser** — `mtichikawa.github.io/index.html` `#mbsvg` inlines the same core + the triage graph,
   stripped to card silhouettes + flowing dots, fit into a fixed box. One router, three surfaces.
 
