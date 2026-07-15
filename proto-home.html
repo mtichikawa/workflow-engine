@@ -120,6 +120,22 @@
  .cd-graph{width:100%;height:auto;display:block;margin-top:8px;max-height:46vh}
  .cd-graph .gnode{transition:opacity .4s ease}
  .cd-graph .gwire{transition:opacity .4s ease}
+ .cxwrap{display:flex;flex-direction:column;height:100%}
+ .cxhead{flex:none} .cxhead .s-title{margin:6px 0 10px}
+ .cxintro{color:var(--mut);font-size:14.5px;line-height:1.6;margin:0;max-width:76ch} .cxintro b{color:var(--ink)}
+ .cxbody{flex:1;min-height:0;display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px}
+ @media(max-width:860px){.cxbody{grid-template-columns:1fr}}
+ .cxlist{display:flex;flex-direction:column;gap:10px;min-height:0;overflow:auto}
+ .cxjob{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+ .cxjob:hover{border-color:var(--line2)} .cxjob.on{border-color:var(--brass);background:var(--panel2)}
+ .cxjob .cxq{font-size:12.5px;color:var(--ink);line-height:1.4;margin:0 0 8px}
+ .cxb{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px}
+ .cxb.ok{color:var(--green);background:rgba(87,176,131,.12)} .cxb.gap{color:var(--amber);background:rgba(216,148,74,.12)}
+ .cxdemo{min-width:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;padding:16px 20px;background:rgba(255,255,255,.012)}
+ .cxdemo .cd-lbl{margin:0 0 12px} .cxdemo .cd-shelf{flex:none}
+ .cxgraphwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;margin:6px 0}
+ .cxdemo .cd-graph{width:100%;height:auto;max-height:100%;margin-top:0}
+ .cxnote{flex:none;color:var(--mut);font-size:13.5px;line-height:1.6;margin:0} .cxnote b{color:var(--ink)}
  .x{position:absolute;top:15px;right:15px;width:36px;height:36px;border:1px solid var(--line2);border-radius:9px;background:var(--panel2);
     display:flex;align-items:center;justify-content:center;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:15px;z-index:5}
  .x:hover{color:var(--ink);border-color:var(--brass)}
@@ -240,7 +256,16 @@
     </div>
   </div>
 </main>
-<div class="ov" id="ex_comp" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div><div id="complist"></div></div></div>
+<div class="ov" id="ex_comp"><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
+  <div class="cxwrap">
+    <div class="cxhead">
+      <p class="s-eyebrow" style="color:var(--brass)">The Composer</p>
+      <h2 class="s-title">Describe a job &rarr; it builds the workflow</h2>
+      <p class="cxintro">Give it a plain-English task; it composes a workflow from the <b>shared library</b> &mdash; reusing what fits, and <span style="color:var(--amber)">spinning up (flagged) new specialists</span> for what it lacks. Pick a real one &mdash; watch it compose:</p>
+    </div>
+    <div class="cxbody"><div class="cxlist" id="cxlist"></div><div class="cxdemo" id="cxdemo"></div></div>
+  </div>
+</div></div>
 <div class="ov" id="ex_run" data-embed><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
   <div class="ex-tabs"><span class="ext-lbl">A full run &mdash; the live explorer:</span>
     <button class="ext on" onclick="loadRun(this,'triage')">triage</button>
@@ -755,9 +780,10 @@ function renderRuns(){
   }).join("");
   document.getElementById("runlist").innerHTML=intro+slides;}
 
-renderComp();renderRuns();
+renderRuns();
 (function(){
   var mono="ui-monospace,Menlo,monospace", LOOPS={1:[2,1],3:[2,1]};
+  var LIB=["fetch","classify","rank","route","respond","review","write","verify","act"];
   function comp2graph(steps,loop){
     var nodes=[{id:"IN",kind:"in",col:0,outs:["job"],ins:[],title:"the job",_k:-1}], wires=[], wk=[], prev="IN", ps="job", ids=[];
     steps.forEach(function(st,i){var id=st[0]+"_"+i, gate=!!st[2], isnew=st[1]==="new"; ids.push(id);
@@ -793,25 +819,35 @@ renderComp();renderRuns();
       if(n._new){var nb=E("text",{x:b.x+b.w/2,y:b.y-5,"text-anchor":"middle","font-family":mono,"font-size":8.5,"letter-spacing":"0.08em",fill:"#d8944a"});nb.textContent="NEW";grp.appendChild(nb);}
       gn.appendChild(grp);});
   }
-  document.querySelectorAll(".cd-graph").forEach(function(svg){var i=+svg.dataset.comp; buildGraph(svg, COMP[i].steps, LOOPS[i]);});
-  var demos=[]; document.querySelectorAll(".compose-demo").forEach(function(d){demos.push({d:d,order:COMP[+d.dataset.comp].steps,active:false,t0:0});});
-  if(!demos.length)return;
-  function setK(dm,mk){
-    dm.order.forEach(function(st,k){var on=k<=mk;var sc=dm.d.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");
+  function renderCxList(){var el=document.getElementById("cxlist"); if(!el)return;
+    el.innerHTML=COMP.map(function(e,i){var ok=e.grp==="ok";
+      var badge=ok?"<span class='cxb ok'>&#10003; runnable</span>":"<span class='cxb gap'>"+e.gaps+" gap"+(e.gaps>1?"s":"")+"</span>";
+      return "<div class='cxjob"+(i===0?" on":"")+"' data-i='"+i+"' onclick='selectComp("+i+")'><p class='cxq'>&ldquo;"+e.uc+"&rdquo;</p>"+badge+"</div>";}).join("");}
+  var cur=0, t0=0;
+  function cxSetK(mk){var demo=document.getElementById("cxdemo"); if(!demo)return; var steps=COMP[cur].steps;
+    steps.forEach(function(st,k){var on=k<=mk;var sc=demo.querySelector(".cd-shelf .cd-chip[data-name='"+st[0]+"']");
       if(sc){ if(st[1]==="new")sc.classList.toggle("hidden",!on); else sc.classList.toggle("lit",on);} });
-    dm.d.querySelectorAll(".cd-graph .gnode").forEach(function(g){g.setAttribute("opacity",(+g.getAttribute("data-k")<=mk)?1:0);});
-    dm.d.querySelectorAll(".cd-graph .gwire").forEach(function(w){var lp=w.getAttribute("stroke-dasharray");w.setAttribute("opacity",(+w.getAttribute("data-k")<=mk)?(lp?0.75:0.5):0);});
+    demo.querySelectorAll(".cd-graph .gnode").forEach(function(g){g.setAttribute("opacity",(+g.getAttribute("data-k")<=mk)?1:0);});
+    demo.querySelectorAll(".cd-graph .gwire").forEach(function(w){var lp=w.getAttribute("stroke-dasharray");w.setAttribute("opacity",(+w.getAttribute("data-k")<=mk)?(lp?0.75:0.5):0);});
   }
-  demos.forEach(function(dm){setK(dm, dm.order.length);});
-  if(RM) return;
-  var io=new IntersectionObserver(function(es){es.forEach(function(en){var dm=demos.filter(function(x){return x.d===en.target;})[0];
-    if(dm){ dm.active=en.isIntersecting; if(!en.isIntersecting){dm.t0=0; setK(dm,-1);} }});},{threshold:0.5});
-  demos.forEach(function(dm){io.observe(dm.d);});
-  var GAP=0.62, HOLD=2.4;
-  function loop(ts){ demos.forEach(function(dm){ if(!dm.active)return; if(!dm.t0)dm.t0=ts;
-    var n=dm.order.length, CYC=(n+1)*GAP+HOLD, t=((ts-dm.t0)/1000)%CYC; setK(dm, Math.min(n, Math.floor(t/GAP))); });
-    requestAnimationFrame(loop); }
-  requestAnimationFrame(loop);
+  window.selectComp=function(i){ cur=i; t0=0;
+    var list=document.getElementById("cxlist"); if(list)list.querySelectorAll(".cxjob").forEach(function(j){j.classList.toggle("on",+j.dataset.i===i);});
+    var e=COMP[i], ns=e.steps.filter(function(st){return st[1]==="new";});
+    var shelf=LIB.map(function(nm){return "<span class='cd-chip' data-name='"+nm+"'>"+nm+"</span>";}).join("")
+      +ns.map(function(st){return "<span class='cd-chip nw hidden' data-name='"+st[0]+"'>"+st[0]+" &middot; NEW</span>";}).join("");
+    var demo=document.getElementById("cxdemo"); if(!demo)return;
+    demo.innerHTML="<div class='cd-lbl'>picks from the library"+(ns.length?", <span style=\"color:var(--amber)\">spins up new ones for the gaps</span>":"")+", then wires the workflow</div>"
+      +"<div class='cd-shelf'>"+shelf+"</div>"
+      +"<div class='cxgraphwrap'><svg class='cd-graph' preserveAspectRatio='xMidYMid meet'></svg></div>"
+      +"<p class='cxnote'>"+e.what+"</p>";
+    buildGraph(demo.querySelector(".cd-graph"), e.steps, LOOPS[i]);
+    if(RM) cxSetK(e.steps.length); else cxSetK(-1);
+  };
+  renderCxList(); selectComp(0);
+  if(!RM){ (function loop(ts){ var ov=document.getElementById("ex_comp");
+    if(ov&&ov.classList.contains("show")){ if(!t0)t0=ts; var n=COMP[cur].steps.length, CYC=(n+1)*0.6+2.4, t=((ts-t0)/1000)%CYC; cxSetK(Math.min(n,Math.floor(t/0.6))); }
+    else t0=0;
+    requestAnimationFrame(loop); })(); }
 })();
 function acc(id){var el=document.getElementById(id),was=el.classList.contains("open");
   document.querySelectorAll(".acc").forEach(function(x){x.classList.remove("open");});
