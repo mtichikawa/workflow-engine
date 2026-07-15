@@ -295,42 +295,50 @@ runnable:  True</div>
   </div></section>
 </div></div>
 <div class="ov" id="diy_run" data-snap><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--green)">Run your own &middot; 1 / 3</p>
-    <h2 class="s-title">Run the triager on a real repo</h2>
-    <pre class="anno"><code>python -m engine.cli run <u class="a1">triage</u> --repo <u class="a2">vercel/next.js</u> --limit <u class="a3">5</u></code></pre>
-    <div class="akey">
-      <div><span class="ad a1"></span><b>triage</b> &mdash; the recipe. Also try <code>content</code> or <code>refine</code>.</div>
-      <div><span class="ad a2"></span><b>vercel/next.js</b> &mdash; any public GitHub repo. Swap freely.</div>
-      <div><span class="ad a3"></span><b>5</b> &mdash; how many open issues to pull.</div>
+  <section class="slide"><div class="slide-in" style="max-width:1240px">
+    <p class="s-eyebrow" style="color:var(--green)">Run your own</p>
+    <h2 class="s-title">Point a recipe at real input &rarr; get a staged result</h2>
+    <div class="dcols">
+      <div class="dcol">
+        <p class="dnum">1 &middot; set up (once)</p>
+        <p class="dtxt">Pure Python standard library &mdash; nothing else to install.</p>
+        <pre class="big"><code>git clone …/workflow-engine.git
+cd workflow-engine
+pip install -e .</code></pre>
+        <p class="dtxt" style="margin:14px 0 0">The engine uses <b>Claude</b> for the steps that need judgment. Free with the Claude CLI if you have a Max plan &mdash; or plug in an Anthropic API key (~cents/run).</p>
+      </div>
+      <div class="dcol">
+        <p class="dnum">2 &middot; run a recipe</p>
+        <p class="dtxt">Point a recipe at real input &mdash; it runs the whole workflow on every item.</p>
+        <pre class="anno big"><code><span class="c">$</span> engine run <u class="a1">triage</u>
+    --repo <u class="a2">vercel/next.js</u> --limit <u class="a3">5</u></code></pre>
+        <div class="akey">
+          <div><span class="ad a1"></span><b>triage</b> &mdash; the recipe. Also <code>content</code>, <code>refine</code>.</div>
+          <div><span class="ad a2"></span><b>vercel/next.js</b> &mdash; any public GitHub repo. Swap freely.</div>
+          <div><span class="ad a3"></span><b>5</b> &mdash; how many open issues to pull.</div>
+        </div>
+        <p class="dtxt" style="margin:14px 0 6px"><b>More to try:</b></p>
+        <ul class="exlist" style="font-size:12.5px;line-height:1.85">
+          <li>run triage --repo psf/requests</li>
+          <li>run content --topic "why flaky tests erode trust"</li>
+          <li>run refine --topic "on-call burnout"</li>
+        </ul>
+      </div>
+      <div class="dcol">
+        <p class="dnum">3 &middot; what you get</p>
+        <p class="dtxt">It runs, then <b>stages</b> a result for each item &mdash; <b>nothing is sent</b>. It prints:</p>
+        <div class="out">=== board &middot; triage ===
+  staged   5   #95698, #95685 …
+
+staged, awaiting approval:
+  #95698 <span class="gz">&rarr;</span> labels [<span class="rz">bug</span>, <span class="rz">build</span>]
+    reply: "Thanks for the thorough
+    repro — the Viem chains case…"
+
+saved <span class="gz">&rarr;</span> state/&lt;run_id&gt;.json</div>
+        <p class="dtxt" style="margin:11px 0 0"><code style="color:#cfe0f5">act</code> is gated &mdash; it only stages; you review, edit &amp; approve. See one step-by-step in <a class="ilink" onclick="close_();open_('ex_run')">A full run &rarr;</a></p>
+      </div>
     </div>
-    <div class="rmeta" style="margin-top:16px">
-      <span class="rk">input</span><span class="rv">real open issues pulled straight from the repo</span>
-      <span class="rk">does</span><span class="rv">classify &middot; rank urgency &middot; route to a component &middot; draft a reply &middot; verify &middot; stage</span>
-      <span class="rk">you get</span><span class="rv">a board summary in your terminal, plus a printed <b style="color:var(--green)">run id</b></span>
-      <span class="rk">where</span><span class="rv">full log &rarr; <code>state/&lt;run_id&gt;.json</code> &nbsp;&middot;&nbsp; staged &rarr; <code>output/staged.jsonl</code></span>
-    </div>
-    <p class="scue">scroll &darr;</p></div></section>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--green)">Run your own &middot; 2 / 3</p>
-    <h2 class="s-title">The other two recipes</h2>
-    <pre><code>python -m engine.cli run content --topic <span class="s">"why flaky tests erode trust"</span> \
-    --brief <span class="s">"sharp technical founder"</span> --auto
-python -m engine.cli run refine  --topic <span class="s">"why on-call rotations burn people out"</span> --auto</code></pre>
-    <p class="s-what"><code style="color:var(--dim)">refine</code> loops draft &rarr; grade &rarr; rewrite until it clears the bar; <code style="color:var(--dim)">content</code> researches, writes, and checks it's on-brand.</p>
-    <p class="scue">scroll &darr;</p></div></section>
-  <section class="slide"><div class="slide-in">
-    <p class="s-eyebrow" style="color:var(--green)">Run your own &middot; 3 / 3</p>
-    <h2 class="s-title">Point it at your own data</h2>
-    <div class="try"><p class="tl">Any public repo, or any topic</p>
-      <pre style="margin:10px 0 0"><code>python -m engine.cli run triage --repo <span class="s">psf/requests</span> --limit 8</code></pre></div>
-    <p class="s-what" style="margin:18px 0 4px"><b>More to try:</b></p>
-    <ul class="exlist">
-      <li><code>run triage --repo pallets/flask --limit 6</code></li>
-      <li><code>run content --topic "what a compiler actually does" --auto</code></li>
-      <li><code>run refine --topic "why code review culture matters" --auto</code></li>
-    </ul>
-    <p class="note">Nothing is ever sent &mdash; <code>act</code> is gated and only stages. Re-inspect any run: <code>python -m engine.cli board &lt;run_id&gt;</code>.</p>
   </div></section>
 </div></div>
 <div class="ov" id="library"><div class="sheet wide"><div class="x" onclick="close_()">&#10005;</div>
