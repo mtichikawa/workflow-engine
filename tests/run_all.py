@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tests"))
 import test_concurrency  # noqa: E402
 import test_control_flow  # noqa: E402
 import test_core  # noqa: E402
+import test_examples_smoke  # noqa: E402
 import test_pipelining  # noqa: E402
 import test_validator  # noqa: E402
 
@@ -37,6 +38,7 @@ def main():
     ok = run_functions(test_core)
     ok = run_functions(test_control_flow) and ok
     ok = run_functions(test_validator) and ok
+    ok = run_functions(test_examples_smoke) and ok
     for mod, label in ((test_concurrency, "test_concurrency"), (test_pipelining, "test_pipelining")):
         print(f"\n{label}")
         try:
