@@ -267,10 +267,13 @@
   </div>
 </div></div>
 <div class="ov" id="ex_run" data-embed><div class="sheet"><div class="x" onclick="close_()">&#10005;</div>
-  <div class="ex-tabs"><span class="ext-lbl">A full run &mdash; the live explorer:</span>
-    <button class="ext on" onclick="loadRun(this,'triage')">triage</button>
-    <button class="ext" onclick="loadRun(this,'content')">content</button>
-    <button class="ext" onclick="loadRun(this,'refine')">refine</button>
+  <div class="ex-tabs"><span class="ext-lbl">A full run &mdash; pick one, it's the live explorer:</span>
+    <button class="ext on" onclick="loadRun(this,'triage')">triage &middot; next.js</button>
+    <button class="ext" onclick="loadRun(this,'triage-requests')">triage &middot; requests</button>
+    <button class="ext" onclick="loadRun(this,'content')">content &middot; flaky tests</button>
+    <button class="ext" onclick="loadRun(this,'content-oncall')">content &middot; on-call</button>
+    <button class="ext" onclick="loadRun(this,'refine')">refine &middot; flaky tests</button>
+    <button class="ext" onclick="loadRun(this,'refine-codereview')">refine &middot; code review</button>
     <a class="ext-open" id="runopen" href="usecases/triage/" target="_blank" rel="noopener">open full &#8599;</a></div>
   <iframe id="runframe" class="runframe" title="workflow explorer" loading="lazy"></iframe>
 </div></div>

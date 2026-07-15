@@ -1,0 +1,696 @@
+{
+  "recipe": "triage",
+  "run_id": "triage-1784084345",
+  "items": {
+    "7574": {
+      "payload": {
+        "id": "7574",
+        "title": "Support for HTTP Query Method",
+        "body": "Hi,\n\nI wanted to ask the if maintainers have plans to support the newly proposed QUERY http method in the near future, as it has been awaited for more than a decade. We plan to use the method in our APIs going forward, albeit most use will be internal. I see requests is matured and in feature freeze at this time, I also understand that we can send arbitrary methods by supplying the name in the \"request\" method, tho it has a caveat [regarding redirections](https://datatracker.ietf.org/doc/html/rfc10008#name-redirection).\n\nI started some work on a fork. However before opening a PR, I wanted to make sure if you are open to contributions in this direction, as I have seen multiple recent rejections on the subject. (I have to add, rightfully so)",
+        "url": "https://github.com/psf/requests/issues/7574",
+        "labels": []
+      },
+      "status": "open"
+    },
+    "7564": {
+      "payload": {
+        "id": "7564",
+        "title": "raise FileNotFoundError for missing TLS material",
+        "body": "Would you accept a PR which changes the existing OSError for missing TLS material to FileNotFoundError?\n\ne.g.:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                raise OSError(\n                    f\"Could not find the TLS certificate file, \"\n                    f\"invalid path: {conn.cert_file}\"\n                )\n```\n\nbecomes something like:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                from errno import ENOENT\n                raise FileNotFoundError(\n                    ENOENT,\n                    \"Could not find the TLS certificate file, invalid path\",\n                    str(conn.cert_file)\n                )\n```\n\nOur use case is that there are temporary conditions where the files don't exist and it'd be nicer to handle FileNotFoundError specifically and be able to compare the .filename attribute rather than the more general OSError and test str(excp).endswith(...).  As FileNotFoundError is a subclass of OSError existing try/excepts continue to work but it would change the string representation:\n\n```\n>>> str(OSError(\"Could not find the TLS certificate file, invalid path: filename\"))\n'Could not find the TLS certificate file, invalid path: filename'\n>>> str(FileNotFoundError(errno.ENOENT, \"Could not find the TLS certificate file, invalid path\", \"filename\"))\n\"[Errno 2] Could not find the TLS certificate file, invalid path: 'filename'\"\n```",
+        "url": "https://github.com/psf/requests/issues/7564",
+        "labels": []
+      },
+      "status": "open"
+    },
+    "7547": {
+      "payload": {
+        "id": "7547",
+        "title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+        "body": "## Summary\n\nWhile using Requests, new users may encounter SSL verification errors such as:\n\n`requests.exceptions.SSLError`\n\nThese errors can be difficult to understand for users who are unfamiliar with HTTPS certificate verification.\n\n## Suggested Improvement\n\nConsider adding a small troubleshooting section to the documentation covering:\n\n- Common causes of SSL verification failures\n- Basic debugging steps\n- When `verify=False` may be appropriate for testing purposes\n- Security implications of disabling SSL verification\n\n## Motivation\n\nThis would improve the experience for beginners and reduce confusion when working with HTTPS requests in Requests.",
+        "url": "https://github.com/psf/requests/issues/7547",
+        "labels": []
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "7574": {
+      "classify": {
+        "label": "feature",
+        "confidence": 0.97,
+        "reasoning": "The item requests adding support for the newly proposed QUERY HTTP method, which is a new capability enhancement."
+      },
+      "rank": {
+        "score": 0.15,
+        "reasoning": "A nice-to-have feature request for a new HTTP method with an existing workaround, not blocking users or causing outages."
+      },
+      "route": {
+        "component": "core",
+        "escalate": false,
+        "reasoning": "Feature request to support the new QUERY HTTP method in the core request-handling library, no security or outage concern."
+      },
+      "respond": {
+        "reply": "Hi, thanks for raising this and for the thoughtful, well-researched write-up.\n\nTo make sure I point you in the right direction: could you clarify a couple of things?\n\n- Which version of `requests` you're currently working against on your fork.\n- Whether the issue you're hitting with the arbitrary-method approach is specifically the redirect method-rewriting behavior, or something else \u2014 if you have a minimal repro (a short script plus the observed vs. expected behavior), that would help us evaluate the gap concretely.\n\nOn the method itself: as you noted, `requests` does allow arbitrary method strings via `request(method, url)`, so `QUERY` can already be issued today. The main open question is redirect handling, since the current logic makes assumptions about known methods. If your fork's changes are scoped to handling `QUERY` correctly through redirects (rather than adding it as a new top-level API helper), that's the kind of detail worth spelling out in the issue before a PR \u2014 it helps clarify how this differs from the requests that were previously declined.\n\nSharing the outline of your proposed change here first is welcome, so we can discuss scope and approach before you invest more in the PR."
+      },
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.72,
+        "issues": [
+          "Reply asks for the 'requests' version, which a write-up described as thoughtful/well-researched may already contain \u2014 mild risk of asking for something not actually missing"
+        ]
+      }
+    },
+    "7564": {
+      "classify": {
+        "label": "feature",
+        "confidence": 0.9,
+        "reasoning": "Requests changing the raised exception type from OSError to FileNotFoundError, an enhancement to existing behavior."
+      },
+      "rank": {
+        "score": 0.15,
+        "reasoning": "A nice-to-have exception-type refinement for cleaner error handling, not a bug, blocker, or outage."
+      },
+      "route": {
+        "component": "core",
+        "escalate": false,
+        "reasoning": "Proposes changing TLS-material missing-file handling to raise FileNotFoundError instead of OSError, a core library behavior change with no security or outage impact."
+      },
+      "respond": {
+        "reply": "Thanks for the detailed write-up and the concrete before/after \u2014 the rationale (matching on `.filename` and errno rather than string-parsing an `OSError`) is clear.\n\nA few things that would help move this forward:\n\n- Which version of `requests` (and `urllib3`) are you seeing this on? The snippet you quoted looks like it may be from `urllib3`'s connection handling rather than `requests` itself \u2014 could you confirm the exact file/line so we're looking at the right place?\n- Are there other spots raising `OSError` for missing TLS material (e.g. key file, CA bundle) that you'd want changed for consistency, or just the cert file?\n\nSince `FileNotFoundError` subclasses `OSError`, existing handlers keep working; the only observable change is the `str()`/`repr()` output, as you noted. A PR is welcome \u2014 please include a test asserting the `errno` and `.filename` attributes so the new behavior is pinned down."
+      },
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.72,
+        "issues": []
+      }
+    },
+    "7547": {
+      "classify": {
+        "label": "feature",
+        "confidence": 0.88,
+        "reasoning": "It requests a documentation enhancement (new troubleshooting section), which is an improvement/feature rather than a defect or question."
+      },
+      "rank": {
+        "score": 0.15,
+        "reasoning": "A documentation enhancement request with no functional impact\u2014purely nice-to-have improvement for beginner onboarding."
+      },
+      "route": {
+        "component": "docs",
+        "escalate": false,
+        "reasoning": "The issue is a documentation enhancement request to add SSL troubleshooting guidance, not a security or outage incident."
+      },
+      "respond": {
+        "reply": "Hi, thanks for the thoughtful suggestion and for laying out a clear outline of what the section could cover.\n\nThis seems like a reasonable documentation improvement. A few notes to move it forward:\n\n- We'd welcome a pull request implementing this. The relevant docs live under `docs/` (the \"Advanced Usage\" page is likely the best home for an SSL troubleshooting section).\n- To keep guidance around `verify=False` safe, it would help to frame it clearly as testing-only and pair it with the security implications you mentioned.\n\nIf you'd like to open a PR, we're happy to review it. Otherwise, could you clarify whether you're proposing to write the content yourself or requesting that a maintainer draft it?"
+      },
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.68,
+        "issues": [
+          "Classification as 'feature' is arguably imprecise for a pure documentation request; a 'documentation'/'docs' label would fit better, though routing to docs is correct",
+          "The reply asks whether the user will write the content themselves, but the issue reportedly already includes a clear outline \u2014 the clarifying question is reasonable but borders on redundant"
+        ]
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "7574",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7574",
+          "title": "Support for HTTP Query Method",
+          "body": "Hi,\n\nI wanted to ask the if maintainers have plans to support the newly proposed QUERY http method in the near future, as it has been awaited for more than a decade. We plan to use the method in our APIs going forward, albeit most use will be internal. I see requests is matured and in feature freeze at this time, I also understand that we can send arbitrary methods by supplying the name in the \"request\" method, tho it has a caveat [regarding redirections](https://datatracker.ietf.org/doc/html/rfc10008#name-redirection).\n\nI started some work on a fork. However before opening a PR, I wanted to make sure if you are open to contributions in this direction, as I have seen multiple recent rejections on the subject. (I have to add, rightfully so)",
+          "url": "https://github.com/psf/requests/issues/7574",
+          "labels": []
+        }
+      },
+      "output": {
+        "label": "feature",
+        "confidence": 0.97,
+        "reasoning": "The item requests adding support for the newly proposed QUERY HTTP method, which is a new capability enhancement."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "feature",
+            "confidence": 0.97,
+            "reasoning": "The item requests adding support for the newly proposed QUERY HTTP method, which is a new capability enhancement."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7574",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7574",
+          "title": "Support for HTTP Query Method",
+          "body": "Hi,\n\nI wanted to ask the if maintainers have plans to support the newly proposed QUERY http method in the near future, as it has been awaited for more than a decade. We plan to use the method in our APIs going forward, albeit most use will be internal. I see requests is matured and in feature freeze at this time, I also understand that we can send arbitrary methods by supplying the name in the \"request\" method, tho it has a caveat [regarding redirections](https://datatracker.ietf.org/doc/html/rfc10008#name-redirection).\n\nI started some work on a fork. However before opening a PR, I wanted to make sure if you are open to contributions in this direction, as I have seen multiple recent rejections on the subject. (I have to add, rightfully so)",
+          "url": "https://github.com/psf/requests/issues/7574",
+          "labels": []
+        }
+      },
+      "output": {
+        "score": 0.15,
+        "reasoning": "A nice-to-have feature request for a new HTTP method with an existing workaround, not blocking users or causing outages."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.15,
+            "reasoning": "A nice-to-have feature request for a new HTTP method with an existing workaround, not blocking users or causing outages."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7574",
+      "step_id": "route",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7574",
+          "title": "Support for HTTP Query Method",
+          "body": "Hi,\n\nI wanted to ask the if maintainers have plans to support the newly proposed QUERY http method in the near future, as it has been awaited for more than a decade. We plan to use the method in our APIs going forward, albeit most use will be internal. I see requests is matured and in feature freeze at this time, I also understand that we can send arbitrary methods by supplying the name in the \"request\" method, tho it has a caveat [regarding redirections](https://datatracker.ietf.org/doc/html/rfc10008#name-redirection).\n\nI started some work on a fork. However before opening a PR, I wanted to make sure if you are open to contributions in this direction, as I have seen multiple recent rejections on the subject. (I have to add, rightfully so)",
+          "url": "https://github.com/psf/requests/issues/7574",
+          "labels": []
+        }
+      },
+      "output": {
+        "component": "core",
+        "escalate": false,
+        "reasoning": "Feature request to support the new QUERY HTTP method in the core request-handling library, no security or outage concern."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "core",
+            "escalate": false,
+            "reasoning": "Feature request to support the new QUERY HTTP method in the core request-handling library, no security or outage concern."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7574",
+      "step_id": "respond",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7574",
+          "title": "Support for HTTP Query Method",
+          "body": "Hi,\n\nI wanted to ask the if maintainers have plans to support the newly proposed QUERY http method in the near future, as it has been awaited for more than a decade. We plan to use the method in our APIs going forward, albeit most use will be internal. I see requests is matured and in feature freeze at this time, I also understand that we can send arbitrary methods by supplying the name in the \"request\" method, tho it has a caveat [regarding redirections](https://datatracker.ietf.org/doc/html/rfc10008#name-redirection).\n\nI started some work on a fork. However before opening a PR, I wanted to make sure if you are open to contributions in this direction, as I have seen multiple recent rejections on the subject. (I have to add, rightfully so)",
+          "url": "https://github.com/psf/requests/issues/7574",
+          "labels": []
+        }
+      },
+      "output": {
+        "reply": "Hi, thanks for raising this and for the thoughtful, well-researched write-up.\n\nTo make sure I point you in the right direction: could you clarify a couple of things?\n\n- Which version of `requests` you're currently working against on your fork.\n- Whether the issue you're hitting with the arbitrary-method approach is specifically the redirect method-rewriting behavior, or something else \u2014 if you have a minimal repro (a short script plus the observed vs. expected behavior), that would help us evaluate the gap concretely.\n\nOn the method itself: as you noted, `requests` does allow arbitrary method strings via `request(method, url)`, so `QUERY` can already be issued today. The main open question is redirect handling, since the current logic makes assumptions about known methods. If your fork's changes are scoped to handling `QUERY` correctly through redirects (rather than adding it as a new top-level API helper), that's the kind of detail worth spelling out in the issue before a PR \u2014 it helps clarify how this differs from the requests that were previously declined.\n\nSharing the outline of your proposed change here first is welcome, so we can discuss scope and approach before you invest more in the PR."
+      },
+      "attempts": [
+        {
+          "output": {
+            "reply": "Hi, thanks for raising this and for the thoughtful, well-researched write-up.\n\nTo make sure I point you in the right direction: could you clarify a couple of things?\n\n- Which version of `requests` you're currently working against on your fork.\n- Whether the issue you're hitting with the arbitrary-method approach is specifically the redirect method-rewriting behavior, or something else \u2014 if you have a minimal repro (a short script plus the observed vs. expected behavior), that would help us evaluate the gap concretely.\n\nOn the method itself: as you noted, `requests` does allow arbitrary method strings via `request(method, url)`, so `QUERY` can already be issued today. The main open question is redirect handling, since the current logic makes assumptions about known methods. If your fork's changes are scoped to handling `QUERY` correctly through redirects (rather than adding it as a new top-level API helper), that's the kind of detail worth spelling out in the issue before a PR \u2014 it helps clarify how this differs from the requests that were previously declined.\n\nSharing the outline of your proposed change here first is welcome, so we can discuss scope and approach before you invest more in the PR."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7574",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "issue_title": "Support for HTTP Query Method",
+          "classified_as": "feature",
+          "routed_to": "core",
+          "draft_reply": "Hi, thanks for raising this and for the thoughtful, well-researched write-up.\n\nTo make sure I point you in the right direction: could you clarify a couple of things?\n\n- Which version of `requests` you're currently working against on your fork.\n- Whether the issue you're hitting with the arbitrary-method approach is specifically the redirect method-rewriting behavior, or something else \u2014 if you have a minimal repro (a short script plus the observed vs. expected behavior), that would help us evaluate the gap concretely.\n\nOn the method itself: as you noted, `requests` does allow arbitrary method strings via `request(method, url)`, so `QUERY` can already be issued today. The main open question is redirect handling, since the current logic makes assumptions about known methods. If your fork's changes are scoped to handling `QUERY` correctly through redirects (rather than adding it as a new top-level API helper), that's the kind of detail worth spelling out in the issue before a PR \u2014 it helps clarify how this differs from the requests that were previously declined.\n\nSharing the outline of your proposed change here first is welcome, so we can discuss scope and approach before you invest more in the PR."
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.72,
+        "issues": [
+          "Reply asks for the 'requests' version, which a write-up described as thoughtful/well-researched may already contain \u2014 mild risk of asking for something not actually missing"
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.72,
+            "issues": [
+              "Reply asks for the 'requests' version, which a write-up described as thoughtful/well-researched may already contain \u2014 mild risk of asking for something not actually missing"
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7574",
+      "step_id": "act",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7564",
+          "title": "raise FileNotFoundError for missing TLS material",
+          "body": "Would you accept a PR which changes the existing OSError for missing TLS material to FileNotFoundError?\n\ne.g.:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                raise OSError(\n                    f\"Could not find the TLS certificate file, \"\n                    f\"invalid path: {conn.cert_file}\"\n                )\n```\n\nbecomes something like:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                from errno import ENOENT\n                raise FileNotFoundError(\n                    ENOENT,\n                    \"Could not find the TLS certificate file, invalid path\",\n                    str(conn.cert_file)\n                )\n```\n\nOur use case is that there are temporary conditions where the files don't exist and it'd be nicer to handle FileNotFoundError specifically and be able to compare the .filename attribute rather than the more general OSError and test str(excp).endswith(...).  As FileNotFoundError is a subclass of OSError existing try/excepts continue to work but it would change the string representation:\n\n```\n>>> str(OSError(\"Could not find the TLS certificate file, invalid path: filename\"))\n'Could not find the TLS certificate file, invalid path: filename'\n>>> str(FileNotFoundError(errno.ENOENT, \"Could not find the TLS certificate file, invalid path\", \"filename\"))\n\"[Errno 2] Could not find the TLS certificate file, invalid path: 'filename'\"\n```",
+          "url": "https://github.com/psf/requests/issues/7564",
+          "labels": []
+        }
+      },
+      "output": {
+        "label": "feature",
+        "confidence": 0.9,
+        "reasoning": "Requests changing the raised exception type from OSError to FileNotFoundError, an enhancement to existing behavior."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "feature",
+            "confidence": 0.9,
+            "reasoning": "Requests changing the raised exception type from OSError to FileNotFoundError, an enhancement to existing behavior."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7564",
+          "title": "raise FileNotFoundError for missing TLS material",
+          "body": "Would you accept a PR which changes the existing OSError for missing TLS material to FileNotFoundError?\n\ne.g.:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                raise OSError(\n                    f\"Could not find the TLS certificate file, \"\n                    f\"invalid path: {conn.cert_file}\"\n                )\n```\n\nbecomes something like:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                from errno import ENOENT\n                raise FileNotFoundError(\n                    ENOENT,\n                    \"Could not find the TLS certificate file, invalid path\",\n                    str(conn.cert_file)\n                )\n```\n\nOur use case is that there are temporary conditions where the files don't exist and it'd be nicer to handle FileNotFoundError specifically and be able to compare the .filename attribute rather than the more general OSError and test str(excp).endswith(...).  As FileNotFoundError is a subclass of OSError existing try/excepts continue to work but it would change the string representation:\n\n```\n>>> str(OSError(\"Could not find the TLS certificate file, invalid path: filename\"))\n'Could not find the TLS certificate file, invalid path: filename'\n>>> str(FileNotFoundError(errno.ENOENT, \"Could not find the TLS certificate file, invalid path\", \"filename\"))\n\"[Errno 2] Could not find the TLS certificate file, invalid path: 'filename'\"\n```",
+          "url": "https://github.com/psf/requests/issues/7564",
+          "labels": []
+        }
+      },
+      "output": {
+        "score": 0.15,
+        "reasoning": "A nice-to-have exception-type refinement for cleaner error handling, not a bug, blocker, or outage."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.15,
+            "reasoning": "A nice-to-have exception-type refinement for cleaner error handling, not a bug, blocker, or outage."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "route",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7564",
+          "title": "raise FileNotFoundError for missing TLS material",
+          "body": "Would you accept a PR which changes the existing OSError for missing TLS material to FileNotFoundError?\n\ne.g.:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                raise OSError(\n                    f\"Could not find the TLS certificate file, \"\n                    f\"invalid path: {conn.cert_file}\"\n                )\n```\n\nbecomes something like:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                from errno import ENOENT\n                raise FileNotFoundError(\n                    ENOENT,\n                    \"Could not find the TLS certificate file, invalid path\",\n                    str(conn.cert_file)\n                )\n```\n\nOur use case is that there are temporary conditions where the files don't exist and it'd be nicer to handle FileNotFoundError specifically and be able to compare the .filename attribute rather than the more general OSError and test str(excp).endswith(...).  As FileNotFoundError is a subclass of OSError existing try/excepts continue to work but it would change the string representation:\n\n```\n>>> str(OSError(\"Could not find the TLS certificate file, invalid path: filename\"))\n'Could not find the TLS certificate file, invalid path: filename'\n>>> str(FileNotFoundError(errno.ENOENT, \"Could not find the TLS certificate file, invalid path\", \"filename\"))\n\"[Errno 2] Could not find the TLS certificate file, invalid path: 'filename'\"\n```",
+          "url": "https://github.com/psf/requests/issues/7564",
+          "labels": []
+        }
+      },
+      "output": {
+        "component": "core",
+        "escalate": false,
+        "reasoning": "Proposes changing TLS-material missing-file handling to raise FileNotFoundError instead of OSError, a core library behavior change with no security or outage impact."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "core",
+            "escalate": false,
+            "reasoning": "Proposes changing TLS-material missing-file handling to raise FileNotFoundError instead of OSError, a core library behavior change with no security or outage impact."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "respond",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7564",
+          "title": "raise FileNotFoundError for missing TLS material",
+          "body": "Would you accept a PR which changes the existing OSError for missing TLS material to FileNotFoundError?\n\ne.g.:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                raise OSError(\n                    f\"Could not find the TLS certificate file, \"\n                    f\"invalid path: {conn.cert_file}\"\n                )\n```\n\nbecomes something like:\n\n```\n            if conn.cert_file and not os.path.exists(conn.cert_file):\n                from errno import ENOENT\n                raise FileNotFoundError(\n                    ENOENT,\n                    \"Could not find the TLS certificate file, invalid path\",\n                    str(conn.cert_file)\n                )\n```\n\nOur use case is that there are temporary conditions where the files don't exist and it'd be nicer to handle FileNotFoundError specifically and be able to compare the .filename attribute rather than the more general OSError and test str(excp).endswith(...).  As FileNotFoundError is a subclass of OSError existing try/excepts continue to work but it would change the string representation:\n\n```\n>>> str(OSError(\"Could not find the TLS certificate file, invalid path: filename\"))\n'Could not find the TLS certificate file, invalid path: filename'\n>>> str(FileNotFoundError(errno.ENOENT, \"Could not find the TLS certificate file, invalid path\", \"filename\"))\n\"[Errno 2] Could not find the TLS certificate file, invalid path: 'filename'\"\n```",
+          "url": "https://github.com/psf/requests/issues/7564",
+          "labels": []
+        }
+      },
+      "output": {
+        "reply": "Thanks for the detailed write-up and the concrete before/after \u2014 the rationale (matching on `.filename` and errno rather than string-parsing an `OSError`) is clear.\n\nA few things that would help move this forward:\n\n- Which version of `requests` (and `urllib3`) are you seeing this on? The snippet you quoted looks like it may be from `urllib3`'s connection handling rather than `requests` itself \u2014 could you confirm the exact file/line so we're looking at the right place?\n- Are there other spots raising `OSError` for missing TLS material (e.g. key file, CA bundle) that you'd want changed for consistency, or just the cert file?\n\nSince `FileNotFoundError` subclasses `OSError`, existing handlers keep working; the only observable change is the `str()`/`repr()` output, as you noted. A PR is welcome \u2014 please include a test asserting the `errno` and `.filename` attributes so the new behavior is pinned down."
+      },
+      "attempts": [
+        {
+          "output": {
+            "reply": "Thanks for the detailed write-up and the concrete before/after \u2014 the rationale (matching on `.filename` and errno rather than string-parsing an `OSError`) is clear.\n\nA few things that would help move this forward:\n\n- Which version of `requests` (and `urllib3`) are you seeing this on? The snippet you quoted looks like it may be from `urllib3`'s connection handling rather than `requests` itself \u2014 could you confirm the exact file/line so we're looking at the right place?\n- Are there other spots raising `OSError` for missing TLS material (e.g. key file, CA bundle) that you'd want changed for consistency, or just the cert file?\n\nSince `FileNotFoundError` subclasses `OSError`, existing handlers keep working; the only observable change is the `str()`/`repr()` output, as you noted. A PR is welcome \u2014 please include a test asserting the `errno` and `.filename` attributes so the new behavior is pinned down."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "issue_title": "raise FileNotFoundError for missing TLS material",
+          "classified_as": "feature",
+          "routed_to": "core",
+          "draft_reply": "Thanks for the detailed write-up and the concrete before/after \u2014 the rationale (matching on `.filename` and errno rather than string-parsing an `OSError`) is clear.\n\nA few things that would help move this forward:\n\n- Which version of `requests` (and `urllib3`) are you seeing this on? The snippet you quoted looks like it may be from `urllib3`'s connection handling rather than `requests` itself \u2014 could you confirm the exact file/line so we're looking at the right place?\n- Are there other spots raising `OSError` for missing TLS material (e.g. key file, CA bundle) that you'd want changed for consistency, or just the cert file?\n\nSince `FileNotFoundError` subclasses `OSError`, existing handlers keep working; the only observable change is the `str()`/`repr()` output, as you noted. A PR is welcome \u2014 please include a test asserting the `errno` and `.filename` attributes so the new behavior is pinned down."
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.72,
+        "issues": []
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.72,
+            "issues": []
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7564",
+      "step_id": "act",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7547",
+          "title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+          "body": "## Summary\n\nWhile using Requests, new users may encounter SSL verification errors such as:\n\n`requests.exceptions.SSLError`\n\nThese errors can be difficult to understand for users who are unfamiliar with HTTPS certificate verification.\n\n## Suggested Improvement\n\nConsider adding a small troubleshooting section to the documentation covering:\n\n- Common causes of SSL verification failures\n- Basic debugging steps\n- When `verify=False` may be appropriate for testing purposes\n- Security implications of disabling SSL verification\n\n## Motivation\n\nThis would improve the experience for beginners and reduce confusion when working with HTTPS requests in Requests.",
+          "url": "https://github.com/psf/requests/issues/7547",
+          "labels": []
+        }
+      },
+      "output": {
+        "label": "feature",
+        "confidence": 0.88,
+        "reasoning": "It requests a documentation enhancement (new troubleshooting section), which is an improvement/feature rather than a defect or question."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "feature",
+            "confidence": 0.88,
+            "reasoning": "It requests a documentation enhancement (new troubleshooting section), which is an improvement/feature rather than a defect or question."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7547",
+          "title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+          "body": "## Summary\n\nWhile using Requests, new users may encounter SSL verification errors such as:\n\n`requests.exceptions.SSLError`\n\nThese errors can be difficult to understand for users who are unfamiliar with HTTPS certificate verification.\n\n## Suggested Improvement\n\nConsider adding a small troubleshooting section to the documentation covering:\n\n- Common causes of SSL verification failures\n- Basic debugging steps\n- When `verify=False` may be appropriate for testing purposes\n- Security implications of disabling SSL verification\n\n## Motivation\n\nThis would improve the experience for beginners and reduce confusion when working with HTTPS requests in Requests.",
+          "url": "https://github.com/psf/requests/issues/7547",
+          "labels": []
+        }
+      },
+      "output": {
+        "score": 0.15,
+        "reasoning": "A documentation enhancement request with no functional impact\u2014purely nice-to-have improvement for beginner onboarding."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.15,
+            "reasoning": "A documentation enhancement request with no functional impact\u2014purely nice-to-have improvement for beginner onboarding."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "route",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7547",
+          "title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+          "body": "## Summary\n\nWhile using Requests, new users may encounter SSL verification errors such as:\n\n`requests.exceptions.SSLError`\n\nThese errors can be difficult to understand for users who are unfamiliar with HTTPS certificate verification.\n\n## Suggested Improvement\n\nConsider adding a small troubleshooting section to the documentation covering:\n\n- Common causes of SSL verification failures\n- Basic debugging steps\n- When `verify=False` may be appropriate for testing purposes\n- Security implications of disabling SSL verification\n\n## Motivation\n\nThis would improve the experience for beginners and reduce confusion when working with HTTPS requests in Requests.",
+          "url": "https://github.com/psf/requests/issues/7547",
+          "labels": []
+        }
+      },
+      "output": {
+        "component": "docs",
+        "escalate": false,
+        "reasoning": "The issue is a documentation enhancement request to add SSL troubleshooting guidance, not a security or outage incident."
+      },
+      "attempts": [
+        {
+          "output": {
+            "component": "docs",
+            "escalate": false,
+            "reasoning": "The issue is a documentation enhancement request to add SSL troubleshooting guidance, not a security or outage incident."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "respond",
+      "status": "done",
+      "input": {
+        "item": {
+          "id": "7547",
+          "title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+          "body": "## Summary\n\nWhile using Requests, new users may encounter SSL verification errors such as:\n\n`requests.exceptions.SSLError`\n\nThese errors can be difficult to understand for users who are unfamiliar with HTTPS certificate verification.\n\n## Suggested Improvement\n\nConsider adding a small troubleshooting section to the documentation covering:\n\n- Common causes of SSL verification failures\n- Basic debugging steps\n- When `verify=False` may be appropriate for testing purposes\n- Security implications of disabling SSL verification\n\n## Motivation\n\nThis would improve the experience for beginners and reduce confusion when working with HTTPS requests in Requests.",
+          "url": "https://github.com/psf/requests/issues/7547",
+          "labels": []
+        }
+      },
+      "output": {
+        "reply": "Hi, thanks for the thoughtful suggestion and for laying out a clear outline of what the section could cover.\n\nThis seems like a reasonable documentation improvement. A few notes to move it forward:\n\n- We'd welcome a pull request implementing this. The relevant docs live under `docs/` (the \"Advanced Usage\" page is likely the best home for an SSL troubleshooting section).\n- To keep guidance around `verify=False` safe, it would help to frame it clearly as testing-only and pair it with the security implications you mentioned.\n\nIf you'd like to open a PR, we're happy to review it. Otherwise, could you clarify whether you're proposing to write the content yourself or requesting that a maintainer draft it?"
+      },
+      "attempts": [
+        {
+          "output": {
+            "reply": "Hi, thanks for the thoughtful suggestion and for laying out a clear outline of what the section could cover.\n\nThis seems like a reasonable documentation improvement. A few notes to move it forward:\n\n- We'd welcome a pull request implementing this. The relevant docs live under `docs/` (the \"Advanced Usage\" page is likely the best home for an SSL troubleshooting section).\n- To keep guidance around `verify=False` safe, it would help to frame it clearly as testing-only and pair it with the security implications you mentioned.\n\nIf you'd like to open a PR, we're happy to review it. Otherwise, could you clarify whether you're proposing to write the content yourself or requesting that a maintainer draft it?"
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "issue_title": "Documentation suggestion: Add troubleshooting guidance for common SSL verification errors",
+          "classified_as": "feature",
+          "routed_to": "docs",
+          "draft_reply": "Hi, thanks for the thoughtful suggestion and for laying out a clear outline of what the section could cover.\n\nThis seems like a reasonable documentation improvement. A few notes to move it forward:\n\n- We'd welcome a pull request implementing this. The relevant docs live under `docs/` (the \"Advanced Usage\" page is likely the best home for an SSL troubleshooting section).\n- To keep guidance around `verify=False` safe, it would help to frame it clearly as testing-only and pair it with the security implications you mentioned.\n\nIf you'd like to open a PR, we're happy to review it. Otherwise, could you clarify whether you're proposing to write the content yourself or requesting that a maintainer draft it?"
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.68,
+        "issues": [
+          "Classification as 'feature' is arguably imprecise for a pure documentation request; a 'documentation'/'docs' label would fit better, though routing to docs is correct",
+          "The reply asks whether the user will write the content themselves, but the issue reportedly already includes a clear outline \u2014 the clarifying question is reasonable but borders on redundant"
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.68,
+            "issues": [
+              "Classification as 'feature' is arguably imprecise for a pure documentation request; a 'documentation'/'docs' label would fit better, though routing to docs is correct",
+              "The reply asks whether the user will write the content themselves, but the issue reportedly already includes a clear outline \u2014 the clarifying question is reasonable but borders on redundant"
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "7547",
+      "step_id": "act",
+      "status": "skipped",
+      "input": null,
+      "output": null,
+      "attempts": [],
+      "visits": 0,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "7574",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "7574",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "7574",
+      "step": "route",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "7574",
+      "step": "respond",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "7574",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 5,
+      "item": "7574",
+      "step": "act",
+      "status": "skipped"
+    },
+    {
+      "n": 6,
+      "item": "7564",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 7,
+      "item": "7564",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 8,
+      "item": "7564",
+      "step": "route",
+      "status": "done"
+    },
+    {
+      "n": 9,
+      "item": "7564",
+      "step": "respond",
+      "status": "done"
+    },
+    {
+      "n": 10,
+      "item": "7564",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 11,
+      "item": "7564",
+      "step": "act",
+      "status": "skipped"
+    },
+    {
+      "n": 12,
+      "item": "7547",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 13,
+      "item": "7547",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 14,
+      "item": "7547",
+      "step": "route",
+      "status": "done"
+    },
+    {
+      "n": 15,
+      "item": "7547",
+      "step": "respond",
+      "status": "done"
+    },
+    {
+      "n": 16,
+      "item": "7547",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 17,
+      "item": "7547",
+      "step": "act",
+      "status": "skipped"
+    }
+  ]
+}

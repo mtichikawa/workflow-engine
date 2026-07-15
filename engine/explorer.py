@@ -260,7 +260,7 @@ def build_data(recipe, run, work_item, title, desc, item_id=None):
             term = [w["src"] for w in g["wires"] if w["dst"] == "OUT"]
             wp = {}
             for t in term:
-                res = _raw(run, item_id, t).get("result", {})
+                res = (_raw(run, item_id, t) or {}).get("result", {})
                 cand = res.get("would_post", res)
                 if isinstance(cand, dict) and cand:
                     wp = cand

@@ -45,6 +45,24 @@ SPECS = {
         "desc": "Drafts, grades itself against a strict bar, and rewrites until it passes — then waits for a "
                 "human. The <em>loop</em> is the point — data flows back through write ↔ verify.",
     },
+    "triage-requests": {
+        "recipe": "engine.recipes.triage:TRIAGE",
+        "run": "examples/full_run/triage-requests/run.json",
+        "item": "7574", "work_item": "issue", "title": "Triage \u00b7 psf/requests",
+        "desc": "The same triage workflow on a <em>different repo entirely</em> \u2014 real open issues from psf/requests, sorted, prioritized, routed, answered, staged.",
+    },
+    "content-oncall": {
+        "recipe": "engine.recipes.content:CONTENT",
+        "run": "examples/full_run/content-oncall/run.json",
+        "item": "topic", "work_item": "topic", "title": "Content \u00b7 on-call",
+        "desc": "A different topic \u2014 <em>why on-call rotations burn people out</em>: pulls sources, picks an angle, writes it in-voice, checks it's on-brand, stages it.",
+    },
+    "refine-codereview": {
+        "recipe": "engine.recipes.refine:REFINE",
+        "run": "examples/full_run/refine-codereview/run.json",
+        "item": "topic", "work_item": "brief", "title": "Refine \u00b7 code review",
+        "desc": "A different topic through the loop \u2014 <em>why code review culture matters</em>: draft, self-grade, rewrite until it clears the bar.",
+    },
 }
 
 

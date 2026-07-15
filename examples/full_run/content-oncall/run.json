@@ -1,0 +1,453 @@
+{
+  "recipe": "content",
+  "run_id": "content-1784084221",
+  "items": {
+    "topic": {
+      "payload": {
+        "topic": "why on-call rotations burn people out",
+        "brief": "sharp, no-hype technical founder",
+        "source": "hn",
+        "limit": 8,
+        "slug": "why-on-call-rotations-burn-people-out.txt"
+      },
+      "status": "open"
+    }
+  },
+  "context": {
+    "topic": {
+      "fetch": {
+        "items": [
+          {
+            "id": "48914644",
+            "title": "Vancouver PD website features Quick Escape button that wipes itself from history",
+            "url": "https://vpd.ca/",
+            "score": 129
+          },
+          {
+            "id": "48915004",
+            "title": "TS-2026-009: Insecure argument handling in Tailscale SSH permitted root access",
+            "url": "https://tailscale.com/security-bulletins",
+            "score": 48
+          },
+          {
+            "id": "48910545",
+            "title": "Bonsai 27B: A 27B-Class model that runs on a phone",
+            "url": "https://prismml.com/news/bonsai-27b",
+            "score": 461
+          },
+          {
+            "id": "48915244",
+            "title": "Global Warming at 3 \u00b0C by 2050? What's Behind the New German Climate Warning",
+            "url": "https://worldcrunch.com/focus/green-or-gone/global-warming-at-3c-by-2050-what-s-behind-the-new-german-climate-warning/",
+            "score": 22
+          },
+          {
+            "id": "48913050",
+            "title": "Dependabot version updates introduce default package cooldown",
+            "url": "https://github.blog/changelog/2026-07-14-dependabot-version-updates-introduce-default-package-cooldown/",
+            "score": 110
+          },
+          {
+            "id": "48914646",
+            "title": "Solving 20 Erd\u0151s Problems with 20 Codex Accounts Running in Parallel",
+            "url": "https://www.starfleetmath.com/",
+            "score": 40
+          },
+          {
+            "id": "48909785",
+            "title": "The Tower Keeps Rising",
+            "url": "https://lucumr.pocoo.org/2026/7/13/the-tower-keeps-rising/",
+            "score": 365
+          },
+          {
+            "id": "48913443",
+            "title": "Financing the AI boom: from cash flows to debt [pdf]",
+            "url": "https://www.bis.org/publ/bisbull120.pdf",
+            "score": 102
+          }
+        ]
+      },
+      "classify": {
+        "label": "analysis",
+        "confidence": 0.72,
+        "reasoning": "The topic explains underlying causes of a phenomenon, best suited to an explanatory analysis angle."
+      },
+      "rank": {
+        "score": 0.35,
+        "reasoning": "A relatable evergreen SRE/DevOps topic, but the framing is generic and well-trodden, limiting standout shareability among technical readers."
+      },
+      "write": {
+        "post": "On-call doesn't burn people out because of the pages. It burns them out because you can't plan a dinner, a run, or a full night's sleep for a week straight \u2014 the tax is on the 167 hours you weren't paged, not the one you were. Fix the alert quality first: if more than half your pages aren't actionable, you don't have an on-call problem, you have a monitoring problem you're paying for in people."
+      },
+      "verify": {
+        "verdict": "pass",
+        "confidence": 0.82,
+        "issues": []
+      },
+      "act": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-on-call-rotations-burn-people-out.txt",
+          "meta": {
+            "angle": "analysis",
+            "priority": 0.35
+          }
+        }
+      }
+    }
+  },
+  "cards": [
+    {
+      "item_id": "topic",
+      "step_id": "fetch",
+      "status": "done",
+      "input": {
+        "source": "hn",
+        "params": {
+          "topic": "why on-call rotations burn people out",
+          "brief": "sharp, no-hype technical founder",
+          "source": "hn",
+          "limit": 8,
+          "slug": "why-on-call-rotations-burn-people-out.txt"
+        }
+      },
+      "output": {
+        "items": [
+          {
+            "id": "48914644",
+            "title": "Vancouver PD website features Quick Escape button that wipes itself from history",
+            "url": "https://vpd.ca/",
+            "score": 129
+          },
+          {
+            "id": "48915004",
+            "title": "TS-2026-009: Insecure argument handling in Tailscale SSH permitted root access",
+            "url": "https://tailscale.com/security-bulletins",
+            "score": 48
+          },
+          {
+            "id": "48910545",
+            "title": "Bonsai 27B: A 27B-Class model that runs on a phone",
+            "url": "https://prismml.com/news/bonsai-27b",
+            "score": 461
+          },
+          {
+            "id": "48915244",
+            "title": "Global Warming at 3 \u00b0C by 2050? What's Behind the New German Climate Warning",
+            "url": "https://worldcrunch.com/focus/green-or-gone/global-warming-at-3c-by-2050-what-s-behind-the-new-german-climate-warning/",
+            "score": 22
+          },
+          {
+            "id": "48913050",
+            "title": "Dependabot version updates introduce default package cooldown",
+            "url": "https://github.blog/changelog/2026-07-14-dependabot-version-updates-introduce-default-package-cooldown/",
+            "score": 110
+          },
+          {
+            "id": "48914646",
+            "title": "Solving 20 Erd\u0151s Problems with 20 Codex Accounts Running in Parallel",
+            "url": "https://www.starfleetmath.com/",
+            "score": 40
+          },
+          {
+            "id": "48909785",
+            "title": "The Tower Keeps Rising",
+            "url": "https://lucumr.pocoo.org/2026/7/13/the-tower-keeps-rising/",
+            "score": 365
+          },
+          {
+            "id": "48913443",
+            "title": "Financing the AI boom: from cash flows to debt [pdf]",
+            "url": "https://www.bis.org/publ/bisbull120.pdf",
+            "score": 102
+          }
+        ]
+      },
+      "attempts": [
+        {
+          "output": {
+            "items": [
+              {
+                "id": "48914644",
+                "title": "Vancouver PD website features Quick Escape button that wipes itself from history",
+                "url": "https://vpd.ca/",
+                "score": 129
+              },
+              {
+                "id": "48915004",
+                "title": "TS-2026-009: Insecure argument handling in Tailscale SSH permitted root access",
+                "url": "https://tailscale.com/security-bulletins",
+                "score": 48
+              },
+              {
+                "id": "48910545",
+                "title": "Bonsai 27B: A 27B-Class model that runs on a phone",
+                "url": "https://prismml.com/news/bonsai-27b",
+                "score": 461
+              },
+              {
+                "id": "48915244",
+                "title": "Global Warming at 3 \u00b0C by 2050? What's Behind the New German Climate Warning",
+                "url": "https://worldcrunch.com/focus/green-or-gone/global-warming-at-3c-by-2050-what-s-behind-the-new-german-climate-warning/",
+                "score": 22
+              },
+              {
+                "id": "48913050",
+                "title": "Dependabot version updates introduce default package cooldown",
+                "url": "https://github.blog/changelog/2026-07-14-dependabot-version-updates-introduce-default-package-cooldown/",
+                "score": 110
+              },
+              {
+                "id": "48914646",
+                "title": "Solving 20 Erd\u0151s Problems with 20 Codex Accounts Running in Parallel",
+                "url": "https://www.starfleetmath.com/",
+                "score": 40
+              },
+              {
+                "id": "48909785",
+                "title": "The Tower Keeps Rising",
+                "url": "https://lucumr.pocoo.org/2026/7/13/the-tower-keeps-rising/",
+                "score": 365
+              },
+              {
+                "id": "48913443",
+                "title": "Financing the AI boom: from cash flows to debt [pdf]",
+                "url": "https://www.bis.org/publ/bisbull120.pdf",
+                "score": 102
+              }
+            ]
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "classify",
+      "status": "done",
+      "input": {
+        "item": "why on-call rotations burn people out"
+      },
+      "output": {
+        "label": "analysis",
+        "confidence": 0.72,
+        "reasoning": "The topic explains underlying causes of a phenomenon, best suited to an explanatory analysis angle."
+      },
+      "attempts": [
+        {
+          "output": {
+            "label": "analysis",
+            "confidence": 0.72,
+            "reasoning": "The topic explains underlying causes of a phenomenon, best suited to an explanatory analysis angle."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "rank",
+      "status": "done",
+      "input": {
+        "item": "why on-call rotations burn people out"
+      },
+      "output": {
+        "score": 0.35,
+        "reasoning": "A relatable evergreen SRE/DevOps topic, but the framing is generic and well-trodden, limiting standout shareability among technical readers."
+      },
+      "attempts": [
+        {
+          "output": {
+            "score": 0.35,
+            "reasoning": "A relatable evergreen SRE/DevOps topic, but the framing is generic and well-trodden, limiting standout shareability among technical readers."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "write",
+      "status": "done",
+      "input": {
+        "topic": "why on-call rotations burn people out",
+        "sources": [
+          {
+            "id": "48914644",
+            "title": "Vancouver PD website features Quick Escape button that wipes itself from history",
+            "url": "https://vpd.ca/",
+            "score": 129
+          },
+          {
+            "id": "48915004",
+            "title": "TS-2026-009: Insecure argument handling in Tailscale SSH permitted root access",
+            "url": "https://tailscale.com/security-bulletins",
+            "score": 48
+          },
+          {
+            "id": "48910545",
+            "title": "Bonsai 27B: A 27B-Class model that runs on a phone",
+            "url": "https://prismml.com/news/bonsai-27b",
+            "score": 461
+          },
+          {
+            "id": "48915244",
+            "title": "Global Warming at 3 \u00b0C by 2050? What's Behind the New German Climate Warning",
+            "url": "https://worldcrunch.com/focus/green-or-gone/global-warming-at-3c-by-2050-what-s-behind-the-new-german-climate-warning/",
+            "score": 22
+          },
+          {
+            "id": "48913050",
+            "title": "Dependabot version updates introduce default package cooldown",
+            "url": "https://github.blog/changelog/2026-07-14-dependabot-version-updates-introduce-default-package-cooldown/",
+            "score": 110
+          },
+          {
+            "id": "48914646",
+            "title": "Solving 20 Erd\u0151s Problems with 20 Codex Accounts Running in Parallel",
+            "url": "https://www.starfleetmath.com/",
+            "score": 40
+          },
+          {
+            "id": "48909785",
+            "title": "The Tower Keeps Rising",
+            "url": "https://lucumr.pocoo.org/2026/7/13/the-tower-keeps-rising/",
+            "score": 365
+          },
+          {
+            "id": "48913443",
+            "title": "Financing the AI boom: from cash flows to debt [pdf]",
+            "url": "https://www.bis.org/publ/bisbull120.pdf",
+            "score": 102
+          }
+        ],
+        "brief": "sharp, no-hype technical founder"
+      },
+      "output": {
+        "post": "On-call doesn't burn people out because of the pages. It burns them out because you can't plan a dinner, a run, or a full night's sleep for a week straight \u2014 the tax is on the 167 hours you weren't paged, not the one you were. Fix the alert quality first: if more than half your pages aren't actionable, you don't have an on-call problem, you have a monitoring problem you're paying for in people."
+      },
+      "attempts": [
+        {
+          "output": {
+            "post": "On-call doesn't burn people out because of the pages. It burns them out because you can't plan a dinner, a run, or a full night's sleep for a week straight \u2014 the tax is on the 167 hours you weren't paged, not the one you were. Fix the alert quality first: if more than half your pages aren't actionable, you don't have an on-call problem, you have a monitoring problem you're paying for in people."
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "verify",
+      "status": "done",
+      "input": {
+        "subject": {
+          "draft": "On-call doesn't burn people out because of the pages. It burns them out because you can't plan a dinner, a run, or a full night's sleep for a week straight \u2014 the tax is on the 167 hours you weren't paged, not the one you were. Fix the alert quality first: if more than half your pages aren't actionable, you don't have an on-call problem, you have a monitoring problem you're paying for in people.",
+          "topic": "why on-call rotations burn people out"
+        }
+      },
+      "output": {
+        "verdict": "pass",
+        "confidence": 0.82,
+        "issues": []
+      },
+      "attempts": [
+        {
+          "output": {
+            "verdict": "pass",
+            "confidence": 0.82,
+            "issues": []
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    },
+    {
+      "item_id": "topic",
+      "step_id": "act",
+      "status": "done",
+      "input": {
+        "payload": {
+          "content": "On-call doesn't burn people out because of the pages. It burns them out because you can't plan a dinner, a run, or a full night's sleep for a week straight \u2014 the tax is on the 167 hours you weren't paged, not the one you were. Fix the alert quality first: if more than half your pages aren't actionable, you don't have an on-call problem, you have a monitoring problem you're paying for in people.",
+          "name": "why-on-call-rotations-burn-people-out.txt",
+          "angle": "analysis",
+          "priority": 0.35
+        }
+      },
+      "output": {
+        "status": "staged",
+        "result": {
+          "wrote": "output/why-on-call-rotations-burn-people-out.txt",
+          "meta": {
+            "angle": "analysis",
+            "priority": 0.35
+          }
+        }
+      },
+      "attempts": [
+        {
+          "output": {
+            "status": "staged",
+            "result": {
+              "wrote": "output/why-on-call-rotations-burn-people-out.txt",
+              "meta": {
+                "angle": "analysis",
+                "priority": 0.35
+              }
+            }
+          }
+        }
+      ],
+      "visits": 1,
+      "coverage": null
+    }
+  ],
+  "events": [
+    {
+      "n": 0,
+      "item": "topic",
+      "step": "fetch",
+      "status": "done"
+    },
+    {
+      "n": 1,
+      "item": "topic",
+      "step": "classify",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "item": "topic",
+      "step": "rank",
+      "status": "done"
+    },
+    {
+      "n": 3,
+      "item": "topic",
+      "step": "write",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "item": "topic",
+      "step": "verify",
+      "status": "done"
+    },
+    {
+      "n": 5,
+      "item": "topic",
+      "step": "act",
+      "status": "gated"
+    },
+    {
+      "n": 6,
+      "item": "topic",
+      "step": "act",
+      "status": "done"
+    }
+  ]
+}
