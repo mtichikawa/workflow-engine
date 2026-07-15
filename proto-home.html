@@ -265,7 +265,8 @@ pip install -e .</code></pre>
       <div class="dcol">
         <p class="dnum">2 &middot; describe the job</p>
         <p class="dtxt">One plain-English sentence is the whole interface &mdash; no config, no wiring.</p>
-        <pre class="anno big"><code><span class="c">$</span> engine compose <u class="a2">"triage issues, draft replies"</u></code></pre>
+        <pre class="anno big"><code><span class="c">$</span> engine compose
+    <u class="a2">"read GitHub issues, prioritize them, draft replies"</u></code></pre>
         <div class="akey"><div><span class="ad a2"></span>The quotes are <b>your job</b> &mdash; swap in anything judgment-heavy and multi-step.</div></div>
         <p class="dtxt" style="margin:16px 0 6px"><b>Fresh jobs to try:</b></p>
         <ul class="exlist" style="font-size:12.5px;line-height:1.85">
@@ -274,18 +275,21 @@ pip install -e .</code></pre>
           <li>"triage security reports, draft an ack"</li>
           <li>"screen applicants for must-have skills"</li>
         </ul>
+        <p class="dtxt" style="margin:14px 0 0">Want to see real ones? <a class="ilink" onclick="close_();open_('ex_comp')">18 worked compositions &rarr;</a></p>
       </div>
       <div class="dcol">
-        <p class="dnum">3 &middot; what comes back: the workflow</p>
-        <p class="dtxt">It wires specialists from the library into a workflow and prints the <b>plan</b> &mdash; nothing has run yet:</p>
-        <div class="plan">
-          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">classify</span><span class="pdesc">sort it</span></div>
-          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">rank</span><span class="pdesc">score urgency</span></div>
-          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">respond</span><span class="pdesc">draft a reply</span></div>
-          <div class="planrow"><span class="ptag reuse">reuse</span><span class="pname">verify</span><span class="pdesc">check it</span></div>
-          <div class="planrow"><span class="ptag gate">gate</span><span class="pname">act</span><span class="pdesc">stage it</span></div>
-        </div>
-        <p class="dtxt" style="margin:12px 0 0"><span style="color:var(--blue)">reuse</span> = from the library &middot; <span style="color:var(--amber)">NEW</span> = a flagged gap &middot; <b>gate</b> = human pause. To make it <i>run</i> &rarr; <b>Run your own</b>.</p>
+        <p class="dnum">3 &middot; what it prints: the workflow</p>
+        <p class="dtxt">It wires specialists into a workflow and prints the <b>plan</b> &mdash; exactly this, nothing has run yet:</p>
+        <div class="out">Composed recipe:
+
+  <span class="rz">reuse</span>  classify
+  <span class="rz">reuse</span>  rank
+  <span class="rz">reuse</span>  respond
+  <span class="rz">reuse</span>  verify
+  <span class="rz">reuse</span>  act        <span class="gz">[GATE]</span>
+
+runnable:  True</div>
+        <p class="dtxt" style="margin:11px 0 0"><span style="color:var(--blue)">reuse</span> = from the library &middot; <span style="color:var(--amber)">NEW!</span> = a flagged gap &middot; <span style="color:var(--brass)">[GATE]</span> = human pause. To make it <i>run</i> &rarr; <b>Run your own</b>.</p>
       </div>
     </div>
   </div></section>
