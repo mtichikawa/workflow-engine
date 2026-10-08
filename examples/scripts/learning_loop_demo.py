@@ -16,7 +16,7 @@ policy. We score cold (no examples), inject the golds (few-shot), score warm, an
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from engine import registry
 from engine.core import get, register

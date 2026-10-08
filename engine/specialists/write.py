@@ -10,6 +10,12 @@ from ._util import text_of
 class Write(Specialist):
     name = "write"
     kind = "domain"
+    description = (
+        "[domain] Draft a short post from a topic + sources. "
+        "USE WHEN producing standalone social/marketing copy. "
+        "NOT a reply to a specific message (->respond). "
+        "CONFIG brief; TAILORED to a voice via examples. IN topic,sources,brief -> OUT post."
+    )
     contract = Contract(
         input={"topic": object, "sources": object, "brief": str},
         output={"post": str},

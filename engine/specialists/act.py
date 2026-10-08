@@ -22,6 +22,12 @@ _WRITE_LOCK = threading.Lock()
 class Act(Specialist):
     name = "act"
     kind = "capability"
+    description = (
+        "Stage an external side-effect (post/label/comment/save) BEHIND A HUMAN GATE -- never sends "
+        "without approval. USE WHEN a recipe must DO something outside itself. "
+        "NOT when the deliverable is the output itself (a ranking/verdict/summary) -- end there. "
+        "CONFIG-DRIVEN via {target (github|file), mode (staged)}. IN target,payload,mode -> OUT status,result."
+    )
     contract = Contract(
         input={"target": str, "payload": object, "mode": str},
         output={"status": str, "result": dict},

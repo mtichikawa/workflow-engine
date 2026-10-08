@@ -7,7 +7,7 @@ Run:  python tests/proof_shared.py
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import engine.specialists as S  # noqa: F401  (registers)
 from engine.core import get

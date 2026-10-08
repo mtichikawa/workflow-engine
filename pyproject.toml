@@ -13,5 +13,10 @@ dependencies = [
     # swappable port: dev = Claude CLI (free on Max), product = Claude API (billed).
 ]
 
+[project.optional-dependencies]
+# MCP interop lives at the edges (engine/mcp/ + the mcp_call specialist) and is OPTIONAL. Core install
+# and every non-MCP workflow run without it. From a clone:  pip install -e '.[mcp]'
+mcp = ["mcp>=1.0"]
+
 [tool.setuptools.packages.find]
 include = ["engine*"]

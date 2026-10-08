@@ -2,7 +2,7 @@
 
 > Status: **BUILT (Phase 14, 2026-07-09).** Recipes are `steps + edges`; the dispatcher is edge-driven
 > (branches, loops, joins); a static Validator checks graphs before they run; the Composer draws the edges
-> and repairs against the Validator. This note is the spec for the shipped behavior. Companion to `DESIGN.md`.
+> and repairs against the Validator. This note is the spec for the shipped behavior. Companion to `SPEC.md`.
 
 ## The principle
 

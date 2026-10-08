@@ -10,6 +10,13 @@ from ._util import one_sentence, text_of
 class Route(Specialist):
     name = "route"
     kind = "domain"
+    description = (
+        "[domain] Route an issue/request to exactly one component and decide escalation. "
+        "USE WHEN triaging to owners WITH an escalate decision. "
+        "NOT general categorization without ownership/escalation (->classify). "
+        "CONFIG components list; TAILORED to your routing convention via examples. "
+        "IN item,components -> OUT component,escalate,reasoning."
+    )
     contract = Contract(
         input={"item": object, "components": list},
         output={"component": str, "escalate": bool, "reasoning": str},

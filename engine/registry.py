@@ -15,19 +15,11 @@ from .core import all_specialists
 
 _PATH = Path("state/registry.json")
 
-# Descriptions live here as the catalog's source of truth; a specialist may override
-# via its own `description` class attribute (first-class metadata on the specialist).
-DESCRIPTIONS = {
-    "fetch": "pull items from an external source (github/github_pr/hn). config: source, params.",
-    "classify": "assign an item to one of N categories. config: categories (list), criteria.",
-    "rank": "score an item 0..1 on a dimension. config: scoring.",
-    "verify": "check a subject/claim against a standard. config: standard.",
-    "act": "stage an action to a target (github/file), behind a gate. config: target, mode.",
-    "route": "[domain] route an issue to a component and decide escalation. config: components.",
-    "respond": "[domain] draft a first reply to an issue or message. config: tone.",
-    "write": "[domain] draft a short post from a topic + sources.",
-    "review": "[domain] review a PR/diff: findings, risk, a reviewer comment. config: checklist.",
-}
+# The catalog's source of truth is each specialist's OWN `description` class attribute -- the
+# first-class "capability card" (purpose · USE WHEN · NOT/sibling redirects · CONFIG reuse-don't-clone ·
+# IN->OUT). Co-located on the specialist so it can't drift from the code, and REQUIRED
+# (tests/test_capability_cards.py). This dict is only a legacy fallback for any specialist missing a card.
+DESCRIPTIONS: dict[str, str] = {}
 
 
 # ---- track-record (persisted) ------------------------------------------

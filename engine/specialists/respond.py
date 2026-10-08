@@ -10,6 +10,12 @@ from ._util import text_of
 class Respond(Specialist):
     name = "respond"
     kind = "domain"
+    description = (
+        "[domain] Draft a first reply to an issue or message in a given tone. "
+        "USE WHEN the deliverable is a written REPLY to a specific message. "
+        "NOT a standalone social post (->write), a code review (->review). "
+        "CONFIG tone; TAILORED to a voice per tenant via examples. IN item,tone -> OUT reply."
+    )
     contract = Contract(input={"item": object, "tone": str}, output={"reply": str})
 
     def _run(self, input, config):

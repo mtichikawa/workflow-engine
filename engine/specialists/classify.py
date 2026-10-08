@@ -17,6 +17,13 @@ SYSTEM = ("You are a precise classification specialist. You assign an item to ex
 class Classify(Specialist):
     name = "classify"
     kind = "capability"
+    description = (
+        "Assign one item to exactly one of N caller-supplied categories. "
+        "USE WHEN a fixed category set needs a single label. "
+        "NOT continuous scores (->rank), routing+escalation (->route), pass/fail vs a standard (->verify). "
+        "CONFIG-DRIVEN via {categories, criteria} -- works for ANY domain; reuse with a new config, "
+        "do NOT clone per domain. IN item,categories,criteria -> OUT label,confidence,reasoning."
+    )
     contract = Contract(
         input={"item": object, "categories": list, "criteria": str},
         output={"label": str, "confidence": float, "reasoning": str},

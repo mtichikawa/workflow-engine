@@ -17,6 +17,7 @@ NameError, AttributeError, or a TypeError from our own code — is real drift an
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,11 +39,14 @@ def _run(script: Path):
     env = dict(os.environ)
     env["ENGINE_BRAIN"] = "api"           # force the API backend...
     env.pop("ANTHROPIC_API_KEY", None)    # ...with no credentials -> fails fast, offline, free
-    env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
-    p = subprocess.run(
-        [sys.executable, str(script)],
-        cwd=str(ROOT), env=env, capture_output=True, text=True, timeout=180,
-    )
+    env.pop("PYTHONPATH", None)           # run exactly as a user would: the script finds the repo itself
+    # Run in a throwaway dir: the engine's stores (state/, output/) are cwd-relative, so demos that
+    # seed or relabel golds can't touch the tracked corpus in state/examples/.
+    with tempfile.TemporaryDirectory() as cwd:
+        p = subprocess.run(
+            [sys.executable, str(script)],
+            cwd=cwd, env=env, capture_output=True, text=True, timeout=180,
+        )
     return p.returncode, (p.stdout + p.stderr)
 
 

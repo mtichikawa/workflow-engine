@@ -12,8 +12,17 @@ venv/
 .env
 .env.*
 
-# Runtime state + generated artifacts — not source
-state/
+# Runtime state + generated artifacts — not source.
+# Curated example corpora (baseline + per-domain/tenant scopes) ARE source -> tracked.
+# Transient test scopes are churn -> ignored explicitly.
+state/*
+!state/examples/
+state/examples/t1/
+state/examples/t2/
+
+# Private companion repo (working notes + golds that can't be redistributed). Its own git repo,
+# never tracked here — tests/test_private_boundary.py fails if anything under it is.
+/private/
 logs/
 output/
 scratch/

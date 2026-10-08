@@ -1,6 +1,6 @@
 # Engine Core Spec — primitives, contracts, and the two recipes
 
-> The paper foundation before Phase 1 code. Everything snaps onto these. Companion to `DESIGN.md`.
+> The paper foundation before Phase 1 code. Everything snaps onto these.
 
 ## 1. Primitives
 
@@ -114,14 +114,14 @@ and **API** (`anthropic`, billed — product). Config flag selects; recipes neve
 - **Logs / run trace** — dispatcher emits every state transition; near-free (the board records everything).
   This is also the minimal presentation layer. (2A/2C)
 - **Tiny eval per capability-specialist** — 5–10 labeled cases each, to confront early whether the specialists
-  are actually good (the thing everything rests on). (2A/5A)
+  are actually good (the thing everything rests on). (EVAL-a/INFRA-a)
 - **Low temperature** on judgment specialists (classify/verify); accept residual non-determinism. (4C)
 - **Gate captures corrections as examples** — when the human corrects an output at a gate, save
   `{input, corrected output}` as a labeled example (Mike corrects, for now). (3C)
 
 **Deliverable added:**
 - **Presentation layer** — the live kanban-board view / a 60-second demo. Minimal = the logs; fancy = an HTML
-  board later. (4A)
+  board later. (TENANT-a)
 
 **Deferred (NOT in the two-recipe proof):**
 - The **Composer** + **library-registry** — spec'd AFTER the two recipes are built + validated. (3A)

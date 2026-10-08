@@ -21,19 +21,31 @@ from . import scope
 # The single owner of the example-store layout. Everyone (fewshot, trainer, eval, harvest)
 # reads/writes examples through here — one chokepoint where scoping is enforced.
 # Layout: state/examples/<scope>/<specialist>.jsonl  (scope = "baseline" or a tenant).
+# Two roots, same layout: the PUBLIC corpus (tracked in this repo) and an optional PRIVATE one
+# (private/examples/, its own repo, never tracked here) for golds that can't be redistributed.
+# Reads merge both — public first — so a clone without private/ still runs, on the public golds.
+# Writes go public unless asked; private-source harvesters live in private/ and pass private=True.
 EX_ROOT = Path("state/examples")
+PRIVATE_ROOT = Path("private/examples")
 REVIEW_DIR = Path("output")
 SKIP = {"fetch", "act"}
 
 
-def path(specialist: str, scope_name: str) -> Path:
-    return EX_ROOT / scope_name / f"{specialist}.jsonl"
+def path(specialist: str, scope_name: str, private: bool = False) -> Path:
+    return (PRIVATE_ROOT if private else EX_ROOT) / scope_name / f"{specialist}.jsonl"
 
 
-def save_example(specialist: str, inp, out, scope_name: str | None = None) -> None:
+def _paths(specialist: str, scope_name: str) -> list[Path]:
+    """Every existing file for one scope, public root first."""
+    return [p for p in (path(specialist, scope_name), path(specialist, scope_name, private=True))
+            if p.exists()]
+
+
+def save_example(specialist: str, inp, out, scope_name: str | None = None,
+                 private: bool = False) -> None:
     """Append a gold to one scope (default: the active write scope — tenant if set, else baseline)."""
     target = scope_name or scope.write_scope()
-    p = path(specialist, target)
+    p = path(specialist, target, private)
     p.parent.mkdir(parents=True, exist_ok=True)
     with p.open("a") as fh:
         fh.write(json.dumps({"input": inp, "output": out}, default=str) + "\n")
@@ -44,8 +56,7 @@ def load_layered(specialist: str, layers: list[str] | None = None) -> list[tuple
     only (never written to the record / the prompt) — it lets retrieval report the layer split."""
     out = []
     for layer in (layers if layers is not None else scope.read_layers()):
-        p = path(specialist, layer)
-        if p.exists():
+        for p in _paths(specialist, layer):
             out.extend((json.loads(line), layer)
                        for line in p.read_text().splitlines() if line.strip())
     return out
@@ -77,8 +88,7 @@ def move_examples(specialist: str, from_scope: str, to_scope: str) -> int:
 
 def count_examples(specialist: str, scope_name: str | None = None) -> int:
     if scope_name is not None:
-        p = path(specialist, scope_name)
-        return sum(1 for _ in p.open()) if p.exists() else 0
+        return sum(1 for p in _paths(specialist, scope_name) for _ in p.open())
     return len(load_examples(specialist))
 
 

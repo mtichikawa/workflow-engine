@@ -18,6 +18,13 @@ from ..core import Contract, Specialist
 class Fetch(Specialist):
     name = "fetch"
     kind = "capability"
+    description = (
+        "Pull items from an external source into the pipeline. "
+        "USE WHEN a recipe must START from live external data. "
+        "NOT for transforming or judging items already in hand. "
+        "CONFIG-DRIVEN via {source (github|github_pr|hn), params} -- reuse for any supported source, "
+        "don't clone. IN source,params -> OUT items."
+    )
     contract = Contract(input={"source": str, "params": dict}, output={"items": list})
 
     def _run(self, input, config):

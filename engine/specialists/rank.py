@@ -19,6 +19,13 @@ SYSTEM = ("You are a scoring specialist. You rate a single item from 0 to 1 on a
 class Rank(Specialist):
     name = "rank"
     kind = "capability"
+    description = (
+        "Score one item 0..1 on a single named dimension. "
+        "USE WHEN you need a continuous score, ordering, or prioritization. "
+        "NOT single-label buckets (->classify), pass/fail vs a bar (->verify). "
+        "CONFIG-DRIVEN via {scoring} (the dimension + what high/low mean) -- reuse for any dimension, "
+        "don't clone. IN item,scoring -> OUT score,reasoning."
+    )
     contract = Contract(
         input={"item": object, "scoring": str},
         output={"score": float, "reasoning": str},

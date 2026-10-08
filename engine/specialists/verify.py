@@ -17,6 +17,13 @@ SYSTEM = ("You are a skeptical verification specialist. You check whether a subj
 class Verify(Specialist):
     name = "verify"
     kind = "capability"
+    description = (
+        "Check a subject/claim against a standard and return a pass/fail verdict. "
+        "USE WHEN there's an explicit bar to meet and you need a gate or decision (often the loop-back "
+        "check in a refine loop). NOT open-ended scoring (->rank), bucketing (->classify). "
+        "CONFIG-DRIVEN via {standard} (the bar) -- reuse for any standard, don't clone. "
+        "IN subject,standard -> OUT verdict,confidence,issues."
+    )
     contract = Contract(
         input={"subject": object, "standard": str},
         output={"verdict": str, "confidence": float, "issues": list},

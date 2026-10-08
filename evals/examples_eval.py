@@ -21,8 +21,68 @@ def _num(x, d=0.0) -> float:
 
 
 # how a specialist's output is judged against a gold output
+def _words(s) -> set:
+    return {w for w in str(s).lower().replace(",", " ").replace("-", " ").split() if len(w) > 2}
+
+
+def _fuzzy_hit(item: str, pool: list) -> bool:
+    """An item counts as present in the pool if a pool entry shares its text (substring either way)
+    or a significant word — tolerant of phrasing (a gold 'flour' vs an extracted 'plain flour')."""
+    iw = _words(item)
+    return any(item in p or p in item or (iw and iw & _words(p)) for p in pool)
+
+
+def _extract_match(o, g, thresh: float = 0.5) -> bool:
+    """Fuzzy set-F1 between extracted items and the real structured list; pass at F1 >= thresh."""
+    gold = [str(x).lower().strip() for x in g.get("items", []) if str(x).strip()]
+    pred = [str(x).lower().strip() for x in o.get("items", []) if str(x).strip()]
+    if not gold:
+        return not pred
+    recall = sum(1 for gi in gold if _fuzzy_hit(gi, pred)) / len(gold)
+    precision = (sum(1 for pi in pred if _fuzzy_hit(pi, gold)) / len(pred)) if pred else 0.0
+    if precision + recall == 0:
+        return False
+    return (2 * precision * recall / (precision + recall)) >= thresh
+
+
+def _summarize_match(o, g, thresh: float = 0.4) -> bool:
+    """Lexical-recall proxy for a generated summary vs the real short form: fraction of the reference's
+    significant words captured (substring-tolerant). Honest, deterministic, no tuned decimals to Goodhart
+    beyond one recall bar. A semantic judge would be stronger but non-deterministic."""
+    gold = list(_words(g.get("summary", "")))
+    got = _words(o.get("summary", ""))
+    if not gold:
+        return not str(o.get("summary", "")).strip()
+    hit = sum(1 for w in gold if w in got or any(w in s or s in w for s in got))
+    return hit / len(gold) >= thresh
+
+
+def _sequence_match(o, g, thresh: float = 0.75) -> bool:
+    """Normalized Kendall tau between predicted and true order (both are id lists); pass at >= thresh
+    (0.75 == tau 0.5 == substantially more concordant than discordant). Partial-credit ordering metric."""
+    order = [str(x) for x in o.get("order", [])]
+    gold = [str(x) for x in g.get("order", [])]
+    if len(gold) < 2:
+        return order == gold
+    pos = {x: i for i, x in enumerate(gold)}
+    seq = [pos[x] for x in order if x in pos]
+    if len(seq) < 2:
+        return False
+    conc = disc = 0
+    for i in range(len(seq)):
+        for j in range(i + 1, len(seq)):
+            conc, disc = (conc + 1, disc) if seq[i] < seq[j] else (conc, disc + 1)
+    tau = (conc - disc) / (conc + disc) if (conc + disc) else 1.0
+    return (tau + 1) / 2 >= thresh
+
+
 MATCH = {
     "classify": lambda o, g: o.get("label") == g.get("label"),
+    "forecast": lambda o, g: o.get("prediction") == g.get("prediction"),
+    "extract": _extract_match,
+    "summarize": _summarize_match,
+    "sequence": _sequence_match,
+    "match": lambda o, g: bool(o.get("same")) == bool(g.get("same")),
     "route": lambda o, g: o.get("component") == g.get("component"),
     "verify": lambda o, g: o.get("verdict") == g.get("verdict"),
     "rank": lambda o, g: abs(_num(o.get("score")) - _num(g.get("score"))) <= 0.25,

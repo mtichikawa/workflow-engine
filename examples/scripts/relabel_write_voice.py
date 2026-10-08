@@ -14,7 +14,7 @@ re-runs are no-ops. Reversible: `move_examples("write", VOICE_SCOPE, "baseline")
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from engine.examples import count_examples, move_examples
 

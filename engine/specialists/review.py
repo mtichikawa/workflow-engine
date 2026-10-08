@@ -16,6 +16,12 @@ SYSTEM = ("You are a careful senior code reviewer. You flag concrete, actionable
 class Review(Specialist):
     name = "review"
     kind = "domain"
+    description = (
+        "[domain] Review a PR/diff: surface findings, a risk level, and a reviewer comment. "
+        "USE WHEN assessing a code change. "
+        "NOT a plain pass/fail (->verify), general categorization (->classify). "
+        "CONFIG checklist. IN item,checklist -> OUT risk,findings,comment."
+    )
     contract = Contract(
         input={"item": object, "checklist": str},
         output={"risk": str, "findings": list, "comment": str},

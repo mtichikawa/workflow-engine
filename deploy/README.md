@@ -22,8 +22,6 @@ sharing one process/filesystem is not stopped by a string. **Real** cross-tenant
   deployment (or a shared key with per-tenant accounting). "Deployment isolation" and "API brain" are
   one decision. Held for cost.
 
-Full reasoning + trade-offs (kernel-sharing vs VM-per-customer, ops cost): `DESIGN.md` → *Deployment model*.
-
 ## Files
 - `Dockerfile` — base-image skeleton (code + baseline exemplars; API-brain entrypoint).
 - `docker-compose.yml` — two customers, each its own service + own volume, demonstrating the

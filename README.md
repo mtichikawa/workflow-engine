@@ -16,7 +16,7 @@ swappable port — Claude CLI (free on a Max plan) or the Anthropic API.
 
 ```bash
 git clone https://github.com/mtichikawa/workflow-engine.git && cd workflow-engine
-pip install -e .
+pip install -e .            # or  pip install -e '.[mcp]'  for MCP interop (optional)
 ```
 
 **2 · Give it a brain** — pick one:
@@ -70,11 +70,20 @@ python examples/scripts/learning_loop_demo.py    # a weak specialist learns from
 python -m engine.cli registry                    # every specialist, run count, and trust state
 ```
 
-**Honest about what's what:** nine shared specialists are built and curated with evals
-(`act · classify · fetch · rank · respond · review · route · verify · write`). Anything the composer
-drafts on the fly is marked `[PROVISIONAL]` — untrusted until it earns an eval; validate it at the
-gate before you rely on it. This is a portfolio engine, not a shipped product — a coherent, working
-synthesis, not a novel one.
+**Honest about what's what:** fifteen library specialists are built — eight judgment capabilities
+(`classify · rank · verify · forecast · extract · summarize · sequence · match`), I/O adapters
+(`fetch · act · mcp_call`) and domain specialists (`respond · review · route · write`). Judgment
+capabilities are graded leave-one-out on real, externally labeled public data; the standard is
+≥ 3 unrelated domains each (`docs/standards.md`). Today `classify` clears it on 10 public domains; the
+others sit at 1–2 *public* domains while data that couldn't be redistributed is replaced — run
+`python tools/check_generality.py` for the live standing, and see `DATA-NOTICE.md` for what was
+withheld and why. Anything the composer drafts on the fly is marked `[PROVISIONAL]` — untrusted until
+it earns an eval; validate it at the gate before you rely on it. This is a portfolio engine, not a
+shipped product — a coherent, working synthesis, not a novel one.
+
+**Speaks MCP, both directions:** any external MCP tool can be a step (`mcp_call`), and every
+specialist is exported as an MCP tool (`python -m engine.mcp.server`) — so Claude Desktop or any MCP
+client can drive it. Runnable demos in `examples/`; walkthrough in [`docs/mcp.md`](docs/mcp.md).
 
 ## Layout
 
@@ -83,8 +92,11 @@ synthesis, not a novel one.
 | `engine/` | domain · ports · dispatcher · composer · validator · specialists · fewshot · registry · scope |
 | `engine/recipes/` | `triage · content · refine · review` |
 | `usecases/` | the interactive step-by-step explorers embedded in the site (triage · content · refine) |
+| `engine/mcp/` | MCP client + server (optional extra) |
 | `examples/` · `evals/` · `tests/` | real runs & runnable demos · grading harness · tests |
-| `docs/` | [`SPEC`](docs/SPEC.md) · [`control-flow`](docs/control-flow.md) · [`learning-loop`](docs/learning-loop.md) · [`RESULTS`](docs/RESULTS.md) · [`depth`](docs/depth.md) (the hard parts, honestly) |
+| `state/examples/` | the gold examples (few-shot + eval), one folder per domain — sources + licenses in [`DATA-NOTICE.md`](DATA-NOTICE.md) |
+| `tools/` | public-data harvesters, per-domain eval, generality check, explorer builder |
+| `docs/` | [`SPEC`](docs/SPEC.md) · [`execution-walkthrough`](docs/execution-walkthrough.md) (one run, line by line) · [`control-flow`](docs/control-flow.md) · [`learning-loop`](docs/learning-loop.md) · [`standards`](docs/standards.md) · [`mcp`](docs/mcp.md) · [`provenance/`](docs/provenance/) · [`RESULTS`](docs/RESULTS.md) · [`depth`](docs/depth.md) (the hard parts, honestly) |
 
 Full CLI: `run · compose · board · view · replay · eval · fit · benchmark · train · review · capture · registry · costs`.
 

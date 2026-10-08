@@ -34,8 +34,13 @@ Rules:
     "config":{{"categories":["billing","technical","account","other"],"criteria":"the topic"}},
     "inputs":{{"item":"payload.text"}}}}
 - REUSE the shared capability-specialists (fetch, classify, rank, verify, act) for the bookends.
-- If the domain MIDDLE needs a specialist NOT in the library, still add the step (clear snake_case name)
-  AND list it under "gaps" with a proposed input/output.
+- REUSE-FIRST: read each specialist's "does" card (it states USE WHEN / NOT / and whether it is
+  CONFIG-DRIVEN). Before proposing a NEW specialist, check whether an existing config-driven capability's
+  contract fits the step with a different `config` -- ANY categorization is `classify` with new
+  categories; ANY 0..1 scoring is `rank`; ANY pass/fail-vs-a-bar is `verify`. Do NOT clone a capability
+  per domain (no "art_classifier", "cuisine_classifier" -- that is `classify` with a config).
+- Only when NO existing capability's contract fits the step's KIND of judgment: add the step (clear
+  snake_case name) AND list it under "gaps" with a proposed input/output.
 - Every step's output should be USED by a later input or condition (don't add steps whose result nothing reads).
 - Include an `act` step ONLY when the use case has a real external side-effect (post/save/send). If the output
   itself is the deliverable (a ranking, a verdict, a summary), END there — no `act`. When you DO include `act`:

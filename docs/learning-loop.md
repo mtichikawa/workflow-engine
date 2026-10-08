@@ -180,7 +180,7 @@ on its contested boundaries, not a different specialist.
 ## RESPOND's universal baseline — voice from real data, no impersonation
 
 RESPOND's shipped floor (the "good technical reply" voice) is built from **real, public
-maintainer replies**, not authored examples — `examples/harvest_respond_voice.py` pulls real
+maintainer replies**, not authored examples — a harvester pulled real
 issue→first-reply pairs from 5 respected repos (got / datasette / fastapi / yargs / click) via
 the GitHub API.
 
@@ -192,7 +192,7 @@ a person. That makes it a legitimate **universal baseline** (design #7: a generi
 capability gets a universal baseline), not impersonation — and explicitly *not* a shippable
 "reply as <named dev>" feature. A future customer layers *their* brand voice on top of this.
 
-Curated 11 exemplars (blend: yargs 4, simonw 3, pallets 2, sindresorhus 1, tiangolo 1). **Voice
+Curated 11 exemplars (blend by repo: yargs 4, datasette 3, click 2, got 1, fastapi 1). **Voice
 transfer confirmed on a fresh issue** RESPOND had never seen: it engaged the surprising symptom
 ("hanging rather than erroring"), hypothesized a specific cause, and asked for exactly the
 missing diagnostics — the maintainer craft, not the bland "have you tried restarting?" default.
@@ -213,8 +213,14 @@ instance (reply craft); the same harvest-and-strip approach generalizes:
 The invariant that keeps it legitimate (design boundary): **capture the words, not the person.**
 Strip identity, blend across many sources with a per-source cap → a *composite craft*, never an
 individual's voice, and never a shippable "act as <named dev>." Used this way, GitHub is a
-standing baseline-training corpus for any tech-domain specialist. *(Reusable harvester:
-`examples/harvest_respond_voice.py` — parameterize the repos + the reply-selection heuristic.)*
+standing baseline-training corpus for any tech-domain specialist.
+
+> **Correction (2026-10).** Two limits this section understated. (1) Stripping @mentions doesn't
+> anonymize a *verbatim* reply — a web search finds its author — so "capture the words, not the
+> person" needs paraphrase or synthesis, not just stripping. (2) GitHub's terms don't license
+> redistributing other users' comments. So these 11 golds (and the real-issue rows in the classify /
+> rank / route baselines) live in the private corpus, not this repo; the harvester lives with them. A
+> clone runs RESPOND without a baseline voice until it's rebuilt from redistributable or synthetic data.
 
 ## Tailored layer on the scope seam — the loop closed end-to-end (Phase 21)
 
