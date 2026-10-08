@@ -3,7 +3,7 @@
 The engine's few-shot + evaluation examples ("golds") live in `state/examples/<scope>/<specialist>.jsonl`.
 Most are harvested from public sources so each label is ground truth someone else recorded (see
 `docs/provenance/` for the exact endpoints, counts and scores). Third-party data stays under its own
-license — listed here — not under the code's terms.
+license — listed here — not under the code's MIT license (`LICENSE`).
 
 | Scope · files | Source | License / terms | Credit |
 |---|---|---|---|

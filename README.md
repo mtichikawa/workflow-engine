@@ -105,3 +105,8 @@ Full CLI: `run · compose · board · view · replay · eval · fit · benchmark
 Text is **$0** in development — the brain is Claude via the free CLI. `engine/core/brain.py` is a
 swappable port; the Anthropic-API backend (`ENGINE_BRAIN=api`) is there for a deployment that needs
 it. No paid LLM in the loop by default.
+
+## License
+
+Code: [MIT](LICENSE). The gold-example data in `state/examples/` keeps its sources' licenses —
+see [`DATA-NOTICE.md`](DATA-NOTICE.md) (the Wikipedia / Stack Exchange files are CC BY-SA 4.0).

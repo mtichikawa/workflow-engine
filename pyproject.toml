@@ -8,6 +8,7 @@ version = "0.0.1"
 description = "A general workflow-automation engine: modular AI specialists composed into recipes on a board."
 requires-python = ">=3.11"
 readme = "README.md"
+license = { text = "MIT" }   # code only — data licenses: DATA-NOTICE.md
 dependencies = [
     # added as phases need them (e.g. anthropic, requests). The brain call is a
     # swappable port: dev = Claude CLI (free on Max), product = Claude API (billed).
