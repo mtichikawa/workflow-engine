@@ -26,10 +26,10 @@ def _import_mcp():
 
 
 def _params(server: dict):
-    """server = {'command': 'python', 'args': [...], 'env': {...}} — how to launch the MCP server."""
+    """server = {'command': 'python', 'args': [...], 'env': {...}, 'cwd': ...} — how to launch the MCP server."""
     _, StdioServerParameters, _ = _import_mcp()
     return StdioServerParameters(command=server["command"], args=server.get("args", []),
-                                 env=server.get("env"))
+                                 env=server.get("env"), cwd=server.get("cwd"))
 
 
 def call_tool(server: dict, tool: str, arguments: dict | None = None, timeout: float = 30.0) -> Any:

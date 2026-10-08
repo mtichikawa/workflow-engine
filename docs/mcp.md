@@ -129,6 +129,10 @@ This is the flagship "it's real, not a harness" proof: expose the engine's tools
    }
    ```
    Use the absolute path from step 2 — Claude Desktop doesn't inherit your shell's `PATH`/venv.
+   Two things the server handles itself, because Desktop launches it from a read-only directory with a
+   minimal `PATH`: it works from the source checkout it runs from (override with `"env": {"ENGINE_HOME":
+   "/path/to/workflow-engine"}`), and it finds the `claude` CLI in its standard install locations
+   (override with `"ENGINE_CLAUDE_BIN": "/path/to/claude"` in the same `env`).
 4. Fully quit and reopen Claude Desktop. The engine's tools appear under the tools (plug) icon.
 5. Try: *"Use the engine's `classify` tool to label this issue as bug/feature/question: '…'."* or
    *"Use the engine's `compose_and_run` to summarize this text: …"*. Claude Desktop's model calls the tool; the engine

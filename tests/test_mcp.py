@@ -11,6 +11,7 @@ install keeps the whole suite green. Bounded by a timeout so a stuck server can'
     python tests/test_mcp.py
 """
 
+import os
 import sys
 from pathlib import Path
 
@@ -65,7 +66,24 @@ def test_server_exports_specialists_as_tools():
     print(f"    EXPORT: {len(names)} engine tools discoverable; called 'act' -> {out['status']}")
 
 
+def test_server_works_when_launched_from_a_readonly_dir():
+    """Claude Desktop starts MCP servers in a read-only directory; the server must not write relative
+    to that. Launch it from '/' and call a tool that writes (act stages a file)."""
+    if not _mcp_installed():
+        print("    skipped (optional 'mcp' dependency not installed)")
+        return
+    from engine.mcp.client import call_tool
+
+    server = {"command": sys.executable, "args": ["-m", "engine.mcp.server"], "cwd": "/",
+              "env": {**os.environ, "PYTHONPATH": str(ROOT)}}
+    out = call_tool(server, "act", {"input": {"target": "file", "mode": "staged",
+                                              "payload": {"content": "launched from /", "name": "mcp_smoke.txt"}}})
+    assert isinstance(out, dict) and out.get("status") == "staged", f"act tool result: {out!r}"
+    print("    EXPORT from a read-only launch dir: act -> staged")
+
+
 if __name__ == "__main__":
     test_client_mcp_call_specialist()
     test_server_exports_specialists_as_tools()
+    test_server_works_when_launched_from_a_readonly_dir()
     print("mcp: OK")

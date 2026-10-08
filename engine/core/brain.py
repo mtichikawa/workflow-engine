@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shutil
 import subprocess
 
 
@@ -68,16 +69,36 @@ def _parse_json(raw: str):
         raise ValueError(f"could not parse JSON from: {raw[:200]!r}")
 
 
+# GUI apps (Claude Desktop launching the MCP server), cron and systemd give child processes a minimal
+# PATH that usually lacks the CLI's install dir — so PATH alone isn't enough to find it.
+_CLAUDE_FALLBACKS = ("~/.local/bin/claude", "~/.claude/local/claude",
+                     "/opt/homebrew/bin/claude", "/usr/local/bin/claude")
+
+
+def _claude_bin() -> str:
+    """ENGINE_CLAUDE_BIN, else `claude` on PATH, else the CLI's standard install locations."""
+    if os.environ.get("ENGINE_CLAUDE_BIN"):
+        return os.path.expanduser(os.environ["ENGINE_CLAUDE_BIN"])
+    found = shutil.which("claude")
+    if found:
+        return found
+    for cand in map(os.path.expanduser, _CLAUDE_FALLBACKS):
+        if os.path.isfile(cand) and os.access(cand, os.X_OK):
+            return cand
+    raise BrainError("`claude` CLI not found on PATH or in "
+                     + ", ".join(_CLAUDE_FALLBACKS) + " — set ENGINE_CLAUDE_BIN to its path")
+
+
 def _brain_cli(prompt: str, system: str | None) -> str:
     env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
     full = f"{system}\n\n{prompt}" if system else prompt
     try:
         r = subprocess.run(
-            ["claude", "-p", "--output-format", "json", full],
+            [_claude_bin(), "-p", "--output-format", "json", full],
             capture_output=True, text=True, env=env, timeout=_CLI_TIMEOUT,
         )
     except FileNotFoundError as e:
-        raise BrainError("`claude` CLI not found on PATH") from e
+        raise BrainError(f"`claude` CLI not runnable: {e}") from e
     except subprocess.TimeoutExpired as e:
         raise BrainError("claude CLI timed out") from e
     if r.returncode != 0:

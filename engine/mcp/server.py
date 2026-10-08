@@ -12,7 +12,10 @@ only public core entry points (compose, Dispatcher, Board, get, all_specialists)
 from __future__ import annotations
 
 import asyncio
+import os
+import sys
 import uuid
+from pathlib import Path
 
 
 def build_server():
@@ -71,7 +74,26 @@ def build_server():
     return server
 
 
+def _home() -> Path:
+    """Where the engine's working-dir-relative stores (state/, output/, logs/, private/) live.
+
+    MCP clients launch servers from a directory of their choosing — Claude Desktop uses one that is
+    read-only — so the server can't trust its inherited cwd. ENGINE_HOME wins; else the source checkout
+    this package runs from (the normal `pip install -e .` case); else the inherited cwd."""
+    if os.environ.get("ENGINE_HOME"):
+        return Path(os.environ["ENGINE_HOME"]).expanduser().resolve()
+    checkout = Path(__file__).resolve().parents[2]
+    if (checkout / "pyproject.toml").is_file() and (checkout / "engine").is_dir():
+        return checkout
+    return Path.cwd()
+
+
 def main():
+    home = _home()
+    if not (home.is_dir() and os.access(home, os.W_OK)):
+        # stderr, not stdout: stdout is the MCP protocol channel
+        sys.exit(f"engine MCP server: {home} is not a writable directory — set ENGINE_HOME to one")
+    os.chdir(home)
     build_server().run()   # stdio transport by default
 
 
