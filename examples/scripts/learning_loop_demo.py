@@ -7,7 +7,7 @@ competitor, or wants to cancel / refund) — regardless of how angry or severe i
 base instruction does NOT contain this rule, so the model follows its natural prior
 (escalate on severity) and gets the decoupled cases wrong. Curated examples teach the rule.
 
-    python examples/learning_loop_demo.py
+    python examples/scripts/learning_loop_demo.py
 
 Eval set is INDEPENDENT of the training golds (no circularity): different messages, same
 policy. We score cold (no examples), inject the golds (few-shot), score warm, and promote.
@@ -77,11 +77,16 @@ def show(label, ok, total, detail):
 
 
 def main():
-    # start clean so the demo is repeatable
+    # start clean so the demo is repeatable, and leave no golds behind in state/examples/
     p = ex_path(NAME, "baseline")
-    if p.exists():
-        p.unlink()
+    p.unlink(missing_ok=True)
+    try:
+        run()
+    finally:
+        p.unlink(missing_ok=True)
 
+
+def run():
     spec = DraftedSpecialist(NAME, "escalate support messages per company policy",
                              ["message"], ["decision", "reasoning"], BASE_INSTRUCTION)
     register(spec)

@@ -4,7 +4,7 @@
 and hands you back a result — staged for a human.**
 
 Built from scratch. The core is pure Python standard library; the "brain" for the AI steps is a
-swappable port — Claude CLI (free on a Max plan) or the Anthropic API.
+swappable port — Claude CLI (no per-call cost on a Max plan) or the Anthropic API.
 
 **See it work → https://mtichikawa.github.io/workflow-engine/** · How it's built → [how-it-works.html](https://mtichikawa.github.io/workflow-engine/how-it-works.html)
 
@@ -16,12 +16,13 @@ swappable port — Claude CLI (free on a Max plan) or the Anthropic API.
 
 ```bash
 git clone https://github.com/mtichikawa/workflow-engine.git && cd workflow-engine
+python3 -m venv .venv && source .venv/bin/activate
 pip install -e .            # or  pip install -e '.[mcp]'  for MCP interop (optional)
 ```
 
 **2 · Give it a brain** — pick one:
 
-- **Claude CLI** (default, free on Max): install `claude`, sign in. Nothing to configure.
+- **Claude CLI** (default, no per-call cost on Max): install `claude`, sign in. Nothing to configure.
 - **Anthropic API**: `pip install anthropic && export ANTHROPIC_API_KEY=…  ENGINE_BRAIN=api`
 
 **3 · Describe a job — watch it build the workflow**
@@ -35,7 +36,7 @@ Composed recipe for: 'read GitHub issues, label and prioritize them, and draft a
   reuse  classify
   reuse  rank
   domn   respond
-  reuse  act
+  reuse  act             [GATE]
 
 runnable:  True
 ```
@@ -98,11 +99,11 @@ client can drive it. Runnable demos in `examples/`; walkthrough in [`docs/mcp.md
 | `tools/` | public-data harvesters, per-domain eval, generality check, explorer builder |
 | `docs/` | [`SPEC`](docs/SPEC.md) · [`execution-walkthrough`](docs/execution-walkthrough.md) (one run, line by line) · [`control-flow`](docs/control-flow.md) · [`learning-loop`](docs/learning-loop.md) · [`standards`](docs/standards.md) · [`mcp`](docs/mcp.md) · [`provenance/`](docs/provenance/) · [`RESULTS`](docs/RESULTS.md) · [`depth`](docs/depth.md) (the hard parts, honestly) |
 
-Full CLI: `run · compose · board · view · replay · eval · fit · benchmark · train · review · capture · registry · costs`.
+Full CLI: `run · approve · compose · board · view · replay · eval · fit · benchmark · train · review · capture · examples · registry · costs`.
 
 ## Cost
 
-Text is **$0** in development — the brain is Claude via the free CLI. `engine/core/brain.py` is a
+Text costs **$0 per call** in development — the brain is Claude via the CLI on a Max plan. `engine/core/brain.py` is a
 swappable port; the Anthropic-API backend (`ENGINE_BRAIN=api`) is there for a deployment that needs
 it. No paid LLM in the loop by default.
 
