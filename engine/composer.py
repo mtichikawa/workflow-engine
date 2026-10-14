@@ -59,8 +59,12 @@ Rules:
 - OUTSIDE SYSTEMS: use mcp_call only for an MCP server the request NAMES. If the work needs another system
   (Slack, Jira, a database, QuickBooks, analytics, web search or scraping) and names no MCP server, list it
   under "gaps" (e.g. "slack_post: no MCP server named for Slack") — don't plan a call to a server you assumed.
-- INPUT KINDS: work-items are text, or images for a step that reads files. Audio or video (a podcast, a
-  voicemail, a recording) needs speech-to-text, which the library lacks — a gap.
+- HOW ITEMS ARRIVE is not a step and never a gap: a webhook, a folder, a CSV or JSONL file, a pasted batch, or
+  a schedule is chosen when the workflow is saved, and each arriving thing becomes one work-item (`payload`).
+- WHAT THE LIBRARY CAN READ: text only. No specialist here looks at images, photos, scans or handwriting, and
+  none hears audio or video (a podcast, a voicemail) — work that needs those is a gap.
+- Simple measurable standards (a length limit, required words present) are a `verify` standard, not a new
+  specialist.
 - Any contract field may be wired from live data in `inputs` when it must vary per item (e.g. verify's standard
   taken from the reference document).
 - Every step's output should be USED by a later input or condition (don't add steps whose result nothing reads).
