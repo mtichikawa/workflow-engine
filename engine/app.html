@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow workbench</title>
+<style>
+:root{--bg:#f6f5f1;--panel:#fff;--ink:#1d1d1b;--muted:#6b6a64;--line:#dddbd3;--accent:#8a5a00;--accent-bg:#fbf1dc;
+  --ok:#1f7a3d;--ok-bg:#e6f4ea;--bad:#a8261b;--bad-bg:#fbe9e7;--warn:#8a5a00;--code:#f1efe8;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--body:system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;
+  --line:#34332f;--accent:#e0a23a;--accent-bg:#2c2416;--ok:#6fcf8f;--ok-bg:#16291c;--bad:#f08a7e;--bad-bg:#2e1714;--code:#262522}}
+:root[data-theme=dark]{--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#e0a23a;
+  --accent-bg:#2c2416;--ok:#6fcf8f;--ok-bg:#16291c;--bad:#f08a7e;--bad-bg:#2e1714;--code:#262522}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 var(--body)}
+header{display:flex;gap:18px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel);
+  position:sticky;top:0;z-index:5;flex-wrap:wrap}
+header b{font:600 15px var(--mono)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:none;border:1px solid transparent;color:var(--muted);padding:6px 12px;border-radius:7px;cursor:pointer;font:inherit}
+nav button.on{color:var(--ink);border-color:var(--line);background:var(--bg)}
+nav .n{background:var(--accent);color:var(--panel);border-radius:9px;padding:0 6px;font-size:12px;margin-left:5px}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 80px}
+h2{font-size:20px;margin:0 0 4px}h3{font-size:15px;margin:18px 0 8px}
+.sub{color:var(--muted);margin:0 0 16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:260px 1fr;gap:16px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.list button{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:9px 11px;margin-bottom:6px;cursor:pointer;color:var(--ink);font:inherit}
+.list button.on{border-color:var(--accent);background:var(--accent-bg)}
+.list small{display:block;color:var(--muted);font-size:12.5px}
+label{display:block;font-size:12.5px;color:var(--muted);margin:8px 0 3px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+textarea{font:13px/1.45 var(--mono);resize:vertical}
+input.mono{font:13px var(--mono)}
+.row{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 13px;cursor:pointer;font:inherit;width:auto}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:600}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:var(--panel);font-weight:600}
+.btn.bad{color:var(--bad);border-color:var(--bad)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.sm{padding:3px 9px;font-size:12.5px}
+.step{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:10px;background:var(--bg)}
+.step .head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.step .head input{width:150px;flex:none;font-family:var(--mono)}
+.step .head select{width:auto;flex:none}
+.does{font-size:12.5px;color:var(--muted);margin:6px 0}
+.fields{display:grid;grid-template-columns:140px 1fr;gap:6px 10px;align-items:center;margin-top:6px}
+.fields span{font:12.5px var(--mono);color:var(--muted);text-align:right}
+.hint{font-size:12.5px;color:var(--muted)}
+.msg{padding:8px 11px;border-radius:7px;margin:8px 0;font-size:13.5px}
+.msg.err{background:var(--bad-bg);color:var(--bad)}.msg.ok{background:var(--ok-bg);color:var(--ok)}.msg.warn{background:var(--accent-bg);color:var(--warn)}
+.msg ul{margin:4px 0 0;padding-left:18px}
+pre{background:var(--code);border-radius:7px;padding:10px;overflow:auto;font:12.5px/1.5 var(--mono);white-space:pre-wrap;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:12.5px}
+.tag{display:inline-block;font:11.5px var(--mono);padding:1px 7px;border-radius:9px;border:1px solid var(--line);color:var(--muted)}
+.tag.gated{color:var(--accent);border-color:var(--accent)}.tag.done{color:var(--ok);border-color:var(--ok)}
+.tag.failed,.tag.rejected{color:var(--bad);border-color:var(--bad)}
+.out{border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin:8px 0;background:var(--bg)}
+.out.gate{border-color:var(--accent)}
+.out .top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.out .top b{font-family:var(--mono)}
+.verdict{display:flex;gap:4px;margin-left:auto}
+.verdict button{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:6px;padding:2px 9px;cursor:pointer;font-size:12.5px}
+.verdict button.on.right{background:var(--ok-bg);color:var(--ok);border-color:var(--ok)}
+.verdict button.on.edited{background:var(--accent-bg);color:var(--accent);border-color:var(--accent)}
+.verdict button.on.wrong{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:5px 10px;margin-top:6px}
+.kv span{font:12.5px var(--mono);color:var(--muted);padding-top:6px}
+.payload{white-space:pre-wrap;background:var(--code);border-radius:7px;padding:9px;font-size:13.5px;max-height:220px;overflow:auto}
+.empty{color:var(--muted);padding:30px;text-align:center}
+.diff .add{color:var(--ok)}.diff .del{color:var(--bad)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header><b>workflow workbench</b>
+  <nav id="tabs">
+    <button data-t="workflows" class="on">Workflows</button>
+    <button data-t="review">Review<span class="n" id="nreview" hidden></span></button>
+    <button data-t="rules">Rulebooks</button>
+    <button data-t="quality">Quality</button>
+  </nav>
+</header>
+<main id="main"></main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api = async (path, body) => {
+  const r = await fetch("/api/" + path, body === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error || r.statusText);
+  return d;
+};
+const job = async (start, onTick) => {
+  const {job: id} = await start;
+  for (let t = 0; ; t++) {
+    await new Promise(r => setTimeout(r, 1000));
+    const j = await api("jobs/" + id);
+    if (j.status === "done") return j.result;
+    if (j.status === "error") throw new Error(j.error);
+    onTick && onTick(t + 1);
+  }
+};
+const msg = (kind, text, list) => `<div class="msg ${kind}">${esc(text)}${list && list.length ? `<ul>${list.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div>`;
+let SPECS = [], TAB = "workflows";
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => show(b.dataset.t));
+function show(t) {
+  TAB = t;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  ({workflows: Workflows, review: Review, rules: Rules, quality: Quality})[t]();
+}
+async function countReview() {
+  try { const q = await api("review"); const n = $("#nreview"); n.hidden = !q.length; n.textContent = q.length; } catch (e) {}
+}
+
+// ---------------------------------------------------------------- workflows
+let WF = {sel: null, draft: null};
+async function Workflows() {
+  const list = await api("workflows");
+  $("#main").innerHTML = `<h2>Workflows</h2>
+    <p class="sub">Describe a task, let the composer draft a workflow, adjust it here, and save it. Every save is a new version; nothing that fails the checks is saved.</p>
+    <div class="grid"><div class="list" id="wflist">
+      <button class="${WF.sel === null ? "on" : ""}" data-n="">+ New workflow<small>describe it in plain English</small></button>
+      ${list.map(w => `<button class="${WF.sel === w.name ? "on" : ""}" data-n="${esc(w.name)}">${esc(w.name)}
+        <small>v${w.versions} · ${w.steps} steps · ${w.runs} runs · ${esc(w.source.kind)}${w.source.every_min ? ` every ${w.source.every_min} min` : ""}</small></button>`).join("")}
+    </div><div id="wfpane"></div></div>`;
+  $("#wflist").querySelectorAll("button").forEach(b => b.onclick = () => { WF.sel = b.dataset.n || null; WF.draft = null; Workflows(); });
+  WF.sel ? openSaved(WF.sel) : newPane();
+}
+
+function newPane() {
+  $("#wfpane").innerHTML = `<div class="panel"><label>What should it do?</label>
+    <textarea id="req" rows="3" style="font-family:var(--body);font-size:14.5px" placeholder="e.g. For each expense line in a note, pick its GL category, and stage the categorised list as a file for me to approve.">${esc(WF.draft?.request || "")}</textarea>
+    <div class="row" style="margin-top:8px"><button class="btn primary" id="draftbtn" style="flex:none">Draft it</button>
+    <button class="btn" id="blankbtn" style="flex:none">Start blank</button><span id="dstat" class="hint"></span></div></div><div id="editor"></div>`;
+  $("#blankbtn").onclick = () => { WF.draft = {name: "", request: $("#req").value, recipe: {steps: [], edges: []}, source: {kind: "text"}}; editor(); };
+  $("#draftbtn").onclick = async () => {
+    const req = $("#req").value.trim(); if (!req) return;
+    $("#draftbtn").disabled = true;
+    try {
+      const r = await job(api("compose", {request: req}), t => $("#dstat").innerHTML = `<span class="spin"></span> composing… ${t}s`);
+      $("#dstat").textContent = "";
+      WF.draft = {name: "", request: req, recipe: r.recipe || {steps: [], edges: []}, source: {kind: "text"}, compose: r};
+      editor();
+    } catch (e) { $("#dstat").innerHTML = msg("err", e.message); }
+    $("#draftbtn").disabled = false;
+  };
+  if (WF.draft) editor();
+}
+
+async function openSaved(name, v) {
+  const d = await api(`workflows/${name}${v ? "?v=" + v : ""}`);
+  WF.draft = {name, request: d.request, recipe: d.recipe, source: d.source, saved: d};
+  $("#wfpane").innerHTML = `<div class="panel"><div class="row"><div><h2 style="margin:0">${esc(name)}</h2>
+      <div class="hint">version ${d.version} of ${d.versions.length} · saved ${esc(d.saved)}${d.note ? " · " + esc(d.note) : ""}</div></div>
+      <select id="ver" style="flex:none;width:auto">${d.versions.map(x => `<option ${x === d.version ? "selected" : ""}>${x}</option>`).join("")}</select>
+      ${d.version > 1 ? `<button class="btn sm" id="diffbtn" style="flex:none">changes from v${d.version - 1}</button>` : ""}</div>
+      <p style="margin:10px 0 0">${esc(d.request)}</p><div id="diffout"></div></div>
+    <div class="panel" id="runpanel"></div><div id="editor"></div>`;
+  $("#ver").onchange = e => openSaved(name, +e.target.value);
+  if ($("#diffbtn")) $("#diffbtn").onclick = async () => {
+    const {diff} = await api(`workflows/${name}/diff?a=${d.version - 1}&b=${d.version}`);
+    $("#diffout").innerHTML = `<pre class="diff">${diff.split("\n").map(l => `<span class="${l[0] === "+" ? "add" : l[0] === "-" ? "del" : ""}">${esc(l)}</span>`).join("\n") || "no change"}</pre>`;
+  };
+  runPanel(name, d);
+  editor();
+}
+
+function runPanel(name, d) {
+  const kind = d.source.kind;
+  const box = {text: "Paste the text to work on", pasted: "Paste a list — one item per " + (d.source.split === "block" ? "blank-line-separated block" : "line"),
+               csv: "Paste CSV (or choose a file) — one item per row", jsonl: "Paste JSON lines (or choose a file) — one item per line"}[kind];
+  $("#runpanel").innerHTML = `<h3 style="margin-top:0">Run it</h3>
+    ${kind === "folder" ? `<label>Folder on this machine</label><input id="rpath" class="mono" value="${esc(d.source.path || "")}">
+      <div class="hint">one item per file${d.source.every_min ? ` · also re-read every ${d.source.every_min} min while the workbench runs (new files only)` : ""}</div>`
+      : `<label>${box}</label><textarea id="rdata" rows="5"></textarea>
+         ${["csv", "jsonl"].includes(kind) ? `<input type="file" id="rfile" style="margin-top:6px;width:auto">` : ""}`}
+    <div class="row" style="margin-top:8px"><button class="btn primary" id="runbtn" style="flex:none">Run</button><span id="rstat" class="hint"></span></div>
+    <div class="hint" style="margin-top:8px">Or send items to it: <code>curl -X POST ${location.origin}/hook/${esc(name)} -H 'Content-Type: application/json' -d '{"text": "…"}'</code>${d.source.token ? " (with -H 'X-Token: …')" : ""}</div>
+    <div id="runout"></div>
+    ${d.runs.length ? `<h3>Recent runs</h3><table><tr><th>run</th><th>version</th><th>items</th><th>at</th><th>status</th></tr>
+      ${d.runs.map(r => `<tr><td><a href="#" data-run="${esc(r.run)}">${esc(r.run)}</a></td><td>v${r.version}</td><td>${r.items}</td><td>${esc(r.at)}</td>
+      <td>${Object.entries(r.snapshot).map(([k, v]) => `<span class="tag ${k}">${k} ${v.length}</span>`).join(" ")}</td></tr>`).join("")}</table>` : ""}`;
+  if ($("#rfile")) $("#rfile").onchange = async e => { $("#rdata").value = await e.target.files[0].text(); };
+  $("#runpanel").querySelectorAll("[data-run]").forEach(a => a.onclick = e => { e.preventDefault(); showRun(a.dataset.run); });
+  $("#runbtn").onclick = async () => {
+    const body = kind === "folder" ? {path: $("#rpath").value} : {data: $("#rdata").value};
+    $("#runbtn").disabled = true;
+    try {
+      const r = await job(api(`workflows/${name}/run`, body), t => $("#rstat").innerHTML = `<span class="spin"></span> running… ${t}s`);
+      $("#rstat").textContent = `${r.items} item(s) done`;
+      showRun(r.run); countReview();
+    } catch (e) { $("#rstat").innerHTML = msg("err", e.message); }
+    $("#runbtn").disabled = false;
+  };
+}
+
+async function showRun(run) {
+  const r = await api("runs/" + run);
+  const gated = r.items.filter(i => Object.values(i.steps).some(s => s.status === "gated")).length;
+  $("#runout").innerHTML = `<h3>${esc(run)}</h3>${gated ? `<p>${gated} item(s) waiting for review — <a href="#" id="toreview">open Review</a></p>` : ""}
+    <div style="overflow:auto"><table><tr><th>item</th>${r.steps.map(s => `<th>${esc(s)}</th>`).join("")}</tr>
+    ${r.items.map(i => `<tr><td title="${esc(i.text)}">${esc(i.item)}<div class="hint">${esc(i.text.slice(0, 80))}</div></td>
+      ${r.steps.map(s => { const c = i.steps[s]; return `<td><span class="tag ${c.status}">${esc(c.status)}</span><div class="hint">${esc(brief(c.output))}</div></td>`; }).join("")}</tr>`).join("")}</table></div>`;
+  if ($("#toreview")) $("#toreview").onclick = e => { e.preventDefault(); show("review"); };
+}
+const brief = o => !o ? "" : o.label ?? o.verdict ?? o.summary ?? (o.count != null ? o.count + " results" : o.items ? o.items.length + " items" : o.status ?? JSON.stringify(o).slice(0, 60));
+
+// the editor: steps as forms, edges as rows. A field's box holds a reference (payload.x, step.field, each)
+// or a fixed value — references become `inputs`, fixed values `config`.
+const REF = /^[A-Za-z_]\w*(\.[A-Za-z_]\w*)*$/;
+function editor() {
+  const d = WF.draft, R = d.recipe;
+  const c = d.compose;
+  $("#editor").innerHTML = `<div class="panel">
+    ${c ? (c.gaps.length ? msg("warn", "The composer says the library can't do part of this:", c.gaps.map(g => `${g.name}: ${g.why || ""}`)) : msg("ok", "Composed from the library — check it, then save.")) : ""}
+    <div class="row"><div><label>Name (lowercase, hyphens)</label><input id="wname" class="mono" value="${esc(d.name)}" ${d.saved ? "disabled" : ""}></div>
+      <div><label>Input</label><select id="skind">${["text", "pasted", "csv", "jsonl", "folder"].map(k => `<option ${d.source.kind === k ? "selected" : ""}>${k}</option>`).join("")}</select></div>
+      <div id="sextra"></div></div>
+    <h3>Steps</h3><div id="steps"></div><button class="btn sm" id="addstep">+ step</button>
+    <h3>Connections</h3><div class="hint">Each step waits for the steps that connect into it. A condition (e.g. <code>check.verdict == 'fail'</code>) makes a branch; connecting back to an earlier step makes a loop.</div>
+    <div id="edges"></div><button class="btn sm" id="addedge">+ connection</button>
+    <div id="checkout"></div>
+    <div class="row" style="margin-top:12px"><input id="note" placeholder="what changed (optional)"><button class="btn primary" id="savebtn" style="flex:none">Save as ${d.saved ? "v" + (d.saved.versions.at(-1) + 1) : "v1"}</button></div>
+  </div>`;
+  const sx = () => {
+    const k = $("#skind").value;
+    $("#sextra").innerHTML = k === "folder" ? `<label>Folder · re-read every (min, 0 = off)</label><div class="row"><input id="spath" class="mono" value="${esc(d.source.path || "")}"><input id="severy" type="number" min="0" value="${d.source.every_min || 0}" style="max-width:80px"></div>`
+      : k === "pasted" ? `<label>Split by</label><select id="ssplit"><option value="line">line</option><option value="block" ${d.source.split === "block" ? "selected" : ""}>blank line</option></select>` : "";
+  };
+  $("#skind").onchange = sx; sx();
+  drawSteps(); drawEdges();
+  $("#addstep").onclick = () => { collect(); R.steps.push({id: "step" + (R.steps.length + 1), specialist: SPECS[0].name}); drawSteps(); drawEdges(); recheck(); };
+  $("#addedge").onclick = () => { collect(); R.edges.push({from: R.steps[0]?.id || "", to: R.steps.at(-1)?.id || ""}); drawEdges(); recheck(); };
+  $("#savebtn").onclick = save;
+  recheck();
+}
+
+function fieldValue(s, f) {
+  const v = s.inputs?.[f] ?? s.config?.[f];
+  return v === undefined ? "" : typeof v === "string" ? v : JSON.stringify(v);
+}
+function drawSteps() {
+  const R = WF.draft.recipe;
+  $("#steps").innerHTML = R.steps.map((s, i) => {
+    const sp = SPECS.find(x => x.name === s.specialist);
+    const fields = sp ? sp.input : Object.keys({...s.config, ...s.inputs});
+    const extra = Object.fromEntries(Object.entries(s.config || {}).filter(([k]) => !fields.includes(k)));
+    const g = s.gate, gk = g === true ? "all" : g && g.sample ? "sample" : g && g.below ? "below" : "none";
+    return `<div class="step" data-i="${i}"><div class="head">
+      <input data-k="id" value="${esc(s.id)}" title="step id">
+      <select data-k="specialist">${SPECS.map(x => `<option ${x.name === s.specialist ? "selected" : ""}>${x.name}</option>`).join("")}${sp ? "" : `<option selected>${esc(s.specialist)}</option>`}</select>
+      <select data-k="gate" title="human review">
+        <option value="none" ${gk === "none" ? "selected" : ""}>no review</option><option value="all" ${gk === "all" ? "selected" : ""}>a person reviews every item</option>
+        <option value="sample" ${gk === "sample" ? "selected" : ""}>review a sample</option><option value="below" ${gk === "below" ? "selected" : ""}>review when unsure</option></select>
+      <input data-k="gnum" type="number" step="0.05" min="0" max="1" value="${g?.sample ?? g?.below ?? ""}" placeholder="0.1" style="width:70px;${gk === "sample" || gk === "below" ? "" : "display:none"}" title="share to sample, or confidence threshold">
+      <span style="margin-left:auto"></span>
+      <button class="btn sm" data-a="up">↑</button><button class="btn sm" data-a="down">↓</button><button class="btn sm bad" data-a="del">remove</button></div>
+      <div class="does">${sp ? esc(sp.does) : `<b style="color:var(--bad)">not in the library</b>`}${sp?.side_effect ? " <b>Acts outside the engine — needs a person to review every item at or before it.</b>" : ""}</div>
+      <div class="fields"><span>for each of</span><input data-k="each" class="mono" value="${esc(s.each || "")}" placeholder="optional: a list, e.g. lines.items — then read the element as each">
+        ${fields.map(f => `<span>${esc(f)}</span><input data-f="${esc(f)}" class="mono" value="${esc(fieldValue(s, f))}">`).join("")}
+        ${gk === "below" ? `<span>confidence from</span><input data-k="gconf" class="mono" value="${esc(g.confidence || s.id + ".confidence")}">` : ""}
+        <span>other settings</span><input data-k="extra" class="mono" value="${esc(Object.keys(extra).length ? JSON.stringify(extra) : "")}" placeholder='{"key": "value"}'></div></div>`;
+  }).join("") || `<div class="hint">No steps yet.</div>`;
+  $("#steps").querySelectorAll(".step").forEach(el => {
+    const i = +el.dataset.i;
+    el.querySelectorAll("input,select").forEach(x => x.onchange = () => { collect(); if (["specialist", "gate"].includes(x.dataset.k)) drawSteps(); drawEdges(); recheck(); });
+    el.querySelectorAll("[data-a]").forEach(b => b.onclick = () => {
+      collect(); const R = WF.draft.recipe, a = b.dataset.a;
+      if (a === "del") { const id = R.steps[i].id; R.steps.splice(i, 1); R.edges = R.edges.filter(e => e.from !== id && e.to !== id); }
+      else { const j = a === "up" ? i - 1 : i + 1; if (j >= 0 && j < R.steps.length) [R.steps[i], R.steps[j]] = [R.steps[j], R.steps[i]]; }
+      drawSteps(); drawEdges(); recheck();
+    });
+  });
+}
+function drawEdges() {
+  const R = WF.draft.recipe, ids = R.steps.map(s => s.id);
+  const opts = v => ids.map(id => `<option ${id === v ? "selected" : ""}>${esc(id)}</option>`).join("");
+  $("#edges").innerHTML = R.edges.map((e, i) => `<div class="row" data-e="${i}" style="margin:5px 0">
+    <select data-k="from" style="max-width:180px">${opts(e.from)}</select><span style="flex:none">→</span>
+    <select data-k="to" style="max-width:180px">${opts(e.to)}</select>
+    <input data-k="when" class="mono" value="${esc(e.when || "")}" placeholder="always (or a condition)">
+    <button class="btn sm bad" style="flex:none" data-a="del">×</button></div>`).join("");
+  $("#edges").querySelectorAll("[data-e]").forEach(el => {
+    el.querySelectorAll("input,select").forEach(x => x.onchange = () => { collect(); recheck(); });
+    $("[data-a=del]", el).onclick = () => { collect(); R.edges.splice(+el.dataset.e, 1); drawEdges(); recheck(); };
+  });
+}
+function parseVal(v, ids) {
+  v = v.trim();
+  if (!v) return [null, undefined];
+  if (REF.test(v) && ["payload", "each", ...ids].includes(v.split(".")[0])) return ["inputs", v];
+  if (/^[\[{]/.test(v)) {
+    try {
+      const j = JSON.parse(v);
+      const refs = JSON.stringify(j).match(/"([A-Za-z_]\w*)(\.[\w.]+)?"/g) || [];
+      return [refs.some(r => ["payload", "each", ...ids].includes(r.slice(1, -1).split(".")[0])) ? "inputs" : "config", j];
+    } catch (e) {}
+  }
+  if (/^(-?\d+(\.\d+)?|true|false)$/.test(v)) return ["config", JSON.parse(v)];
+  return ["config", v];
+}
+function collect() {
+  const R = WF.draft.recipe;
+  document.querySelectorAll("#steps .step").forEach(el => R.steps[+el.dataset.i].id = $("[data-k=id]", el).value.trim());
+  const ids = R.steps.map(s => s.id);
+  document.querySelectorAll("#steps .step").forEach(el => {
+    const s = R.steps[+el.dataset.i], k = n => $(`[data-k=${n}]`, el);
+    s.specialist = k("specialist").value;
+    const each = k("each").value.trim(); if (each) s.each = each; else delete s.each;
+    const gk = k("gate").value, num = parseFloat(k("gnum").value);
+    s.gate = gk === "all" ? true : gk === "sample" ? {sample: isNaN(num) ? 0.1 : num}
+      : gk === "below" ? {below: isNaN(num) ? 0.8 : num, confidence: k("gconf")?.value.trim() || s.id + ".confidence"} : false;
+    if (s.gate === false) delete s.gate;
+    let extra = {}; try { extra = k("extra").value.trim() ? JSON.parse(k("extra").value) : {}; } catch (e) {}
+    s.config = {...extra}; s.inputs = {};
+    el.querySelectorAll("[data-f]").forEach(x => { const [where, v] = parseVal(x.value, ids); if (where) s[where][x.dataset.f] = v; });
+    if (!Object.keys(s.inputs).length) delete s.inputs;
+    if (!Object.keys(s.config).length) delete s.config;
+  });
+  R.edges = [...document.querySelectorAll("#edges [data-e]")].map(el => {
+    const e = {from: $("[data-k=from]", el).value, to: $("[data-k=to]", el).value}, w = $("[data-k=when]", el).value.trim();
+    return w ? {...e, when: w} : e;
+  });
+  const k = $("#skind").value;
+  WF.draft.source = {...WF.draft.source, kind: k};
+  if (k === "folder") Object.assign(WF.draft.source, {path: $("#spath").value.trim(), every_min: +$("#severy").value || 0});
+  if (k === "pasted") WF.draft.source.split = $("#ssplit").value;
+}
+let checkT;
+function recheck() {
+  clearTimeout(checkT);
+  checkT = setTimeout(async () => {
+    collect();
+    const r = await api("check", {recipe: WF.draft.recipe});
+    $("#checkout").innerHTML = r.errors.length ? msg("err", `${r.errors.length} problem(s) — it can't be saved until these are fixed:`, r.errors)
+      : msg("ok", "Passes every check.") + (r.warnings.length ? msg("warn", "Worth a look:", r.warnings) : "");
+    $("#savebtn").disabled = !!r.errors.length || !WF.draft.recipe.steps.length;
+  }, 250);
+}
+async function save() {
+  collect();
+  const name = WF.draft.saved ? WF.draft.name : $("#wname").value.trim();
+  try {
+    const r = await api("workflows/" + encodeURIComponent(name), {recipe: WF.draft.recipe, request: WF.draft.request, source: WF.draft.source, note: $("#note").value});
+    WF.sel = name; WF.draft = null; await Workflows();
+    $("#wfpane").insertAdjacentHTML("afterbegin", msg("ok", `Saved as version ${r.version}.`));
+  } catch (e) { $("#checkout").innerHTML = msg("err", e.message); }
+}
+
+// ---------------------------------------------------------------- review
+async function Review() {
+  const q = await api("review");
+  $("#nreview").hidden = !q.length; $("#nreview").textContent = q.length;
+  $("#main").innerHTML = `<h2>Review</h2>
+    <p class="sub">Each item below stopped at a gate. For every step: leave it <b>right</b>, change its output (it's then an <b>edit</b>), or mark it <b>wrong</b> and say why. Then approve — the gated step's output, as you left it, goes on to the next step — or reject, and nothing after the gate runs. Every decision is saved as an example or a counterexample; one item in five is kept aside to measure the workflow instead of teaching it.</p>
+    <div id="queue">${q.length ? "" : `<div class="panel empty">Nothing is waiting for review.</div>`}</div>`;
+  q.forEach((it, n) => $("#queue").insertAdjacentHTML("beforeend", reviewCard(it, n)));
+  q.forEach((it, n) => wireCard(it, n));
+}
+function reviewCard(it, n) {
+  return `<div class="panel" id="rc${n}"><div class="row"><div><b>${esc(it.workflow)}</b> <span class="hint">· ${esc(it.item)} · run ${esc(it.run)}</span></div></div>
+    <div class="payload">${esc(it.payload.text || JSON.stringify(it.payload, null, 1))}</div>
+    ${it.steps.map((s, j) => `<div class="out ${s.gate ? "gate" : ""}" data-j="${j}"><div class="top"><b>${esc(s.step)}</b><span class="hint">${esc(s.specialist)}${s.gate ? " · waiting here" : ""}</span>
+      <div class="verdict"><button class="right on" data-v="right">right</button><button class="edited" data-v="edited" disabled>edited</button><button class="wrong" data-v="wrong">wrong</button></div></div>
+      <div class="kv">${Object.entries(s.output).map(([k, v]) => `<span>${esc(k)}</span>${typeof v === "string" && v.length > 70
+        ? `<textarea data-o="${esc(k)}" rows="${Math.min(10, Math.ceil(v.length / 90) + 1)}" style="font-family:var(--body);font-size:13.5px">${esc(v)}</textarea>`
+        : `<input data-o="${esc(k)}" data-json="${typeof v !== "string"}" value="${esc(typeof v === "string" ? v : JSON.stringify(v))}">`}`).join("")}</div>
+      <input class="why" placeholder="why is it wrong? (this is what it learns from)" style="display:none;margin-top:6px"></div>`).join("")}
+    <div class="row" style="margin-top:10px"><input class="reason" placeholder="reason for rejecting (optional)"><button class="btn ok" data-a="approve" style="flex:none">Approve</button>
+    <button class="btn bad" data-a="reject" style="flex:none">Reject</button></div><div class="res"></div></div>`;
+}
+function wireCard(it, n) {
+  const card = $("#rc" + n);
+  const verdicts = {};
+  card.querySelectorAll(".out").forEach(el => {
+    const s = it.steps[+el.dataset.j];
+    const set = v => { verdicts[s.step] = v; el.querySelectorAll(".verdict button").forEach(b => b.classList.toggle("on", b.dataset.v === v)); $(".why", el).style.display = v === "wrong" ? "" : "none"; };
+    verdicts[s.step] = "right";
+    el.querySelectorAll("[data-o]").forEach(x => x.oninput = () => {
+      const changed = [...el.querySelectorAll("[data-o]")].some(y => y.value !== (typeof s.output[y.dataset.o] === "string" ? s.output[y.dataset.o] : JSON.stringify(s.output[y.dataset.o])));
+      $("[data-v=edited]", el).disabled = !changed;
+      if (changed && verdicts[s.step] !== "wrong") set("edited"); else if (!changed && verdicts[s.step] === "edited") set("right");
+    });
+    el.querySelectorAll(".verdict button").forEach(b => b.onclick = () => !b.disabled && set(b.dataset.v));
+  });
+  const send = async approve => {
+    const body = {approve, reason: $(".reason", card).value, verdicts: {}};
+    try {
+      card.querySelectorAll(".out").forEach(el => {
+        const s = it.steps[+el.dataset.j], v = verdicts[s.step];
+        if (v === "edited") {
+          const out = {...s.output};
+          el.querySelectorAll("[data-o]").forEach(x => { out[x.dataset.o] = x.dataset.json === "true" ? JSON.parse(x.value) : x.value; });
+          body.verdicts[s.step] = {verdict: "edited", output: out};
+        } else body.verdicts[s.step] = v === "wrong" ? {verdict: "wrong", reason: $(".why", el).value} : {verdict: "right"};
+      });
+      if (!approve) for (const s of it.steps) if (body.verdicts[s.step].verdict === "right") delete body.verdicts[s.step];
+      const r = await api(`review/${encodeURIComponent(it.run)}/${encodeURIComponent(it.item)}`, body);
+      const l = r.learned;
+      card.innerHTML = msg("ok", `${approve ? "Approved" : "Rejected"} ${it.item}. Learned: ${Object.entries(l).map(([k, v]) => `${v} ${k}`).join(", ") || "nothing"}${r.holdout ? " — kept aside to measure, not to teach" : ""}.`);
+      countReview();
+    } catch (e) { $(".res", card).innerHTML = msg("err", e.message); }
+  };
+  $("[data-a=approve]", card).onclick = () => send(true);
+  $("[data-a=reject]", card).onclick = () => send(false);
+}
+
+// ---------------------------------------------------------------- rulebooks
+async function Rules(sel) {
+  const slots = await api("rules");
+  $("#main").innerHTML = `<h2>Rulebooks</h2>
+    <p class="sub">Once a step has 8 or more reviewed examples, the engine writes down the rules it thinks the reviewers follow, and uses them. Each time the examples change it writes a new version. Lock one to use your own wording instead, whatever the examples say.</p>
+    ${slots.length ? `<div class="grid"><div class="list">${slots.map(s => `<button data-s="${s.slot}" class="${s.slot === sel ? "on" : ""}">${esc(s.specialist)}${s.locked ? " · locked" : ""}
+      <small>${esc(taskLine(s.task))}<br>v${s.versions} · from ${s.n} examples · ${esc(s.created)}</small></button>`).join("")}</div><div id="rpane"><div class="hint">Pick a rulebook.</div></div></div>`
+      : `<div class="panel empty">No rulebooks yet — one appears once a step has 8 reviewed examples.</div>`}`;
+  document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => Rules(b.dataset.s));
+  if (sel) ruleDetail(sel);
+}
+const taskLine = t => Object.entries(t || {}).map(([k, v]) => `${k}: ${typeof v === "string" ? v : JSON.stringify(v)}`).join(" · ").slice(0, 140);
+async function ruleDetail(sl) {
+  const d = await api("rules/" + sl), cur = d.history.at(-1);
+  $("#rpane").innerHTML = `<div class="panel">
+    ${d.locked ? msg("warn", `Locked ${d.locked.locked_at}${d.locked.by ? " by " + d.locked.by : ""}: these rules are used as written.`) : ""}
+    <h3 style="margin-top:0">${d.locked ? "Rules in use (locked)" : `Version ${d.history.length} — from ${cur.n} examples${cur.rejected ? ` and ${cur.rejected} marked wrong` : ""}`}</h3>
+    <pre>${esc(d.locked ? d.locked.rules : cur.rules)}</pre>
+    ${d.diff ? `<h3>What changed from the version before</h3><pre class="diff">${d.diff.split("\n").map(l => `<span class="${l[0] === "+" ? "add" : l[0] === "-" ? "del" : ""}">${esc(l)}</span>`).join("\n")}</pre>` : ""}
+    <h3>${d.locked ? "Edit the locked rules" : "Lock — use your wording"}</h3>
+    <textarea id="lockt" rows="8">${esc(d.locked ? d.locked.rules : cur.rules)}</textarea>
+    <div class="row" style="margin-top:8px"><button class="btn primary" id="lockb" style="flex:none">${d.locked ? "Save locked rules" : "Lock these rules"}</button>
+    ${d.locked ? `<button class="btn" id="unlockb" style="flex:none">Unlock — go back to learned rules</button>` : ""}</div>
+    ${d.history.length > 1 ? `<h3>Every version</h3>${d.history.slice().reverse().map((h, i) => `<details><summary>v${d.history.length - i} · ${esc(h.created)} · ${h.n} examples</summary><pre>${esc(h.rules)}</pre></details>`).join("")}` : ""}</div>`;
+  $("#lockb").onclick = async () => { await api(`rules/${sl}/lock`, {rules: $("#lockt").value}); Rules(sl); };
+  if ($("#unlockb")) $("#unlockb").onclick = async () => { await api(`rules/${sl}/unlock`, {}); Rules(sl); };
+}
+
+// ---------------------------------------------------------------- quality
+async function Quality() {
+  const q = await api("quality");
+  $("#main").innerHTML = `<h2>Quality</h2>
+    <p class="sub">How often a person had to change or reject each step's output, from every review so far — and how each step scores on the items kept aside from learning.</p>
+    <div class="panel"><h3 style="margin-top:0">By step, from review</h3>${q.steps.length ? `<table><tr><th>workflow</th><th>step</th><th>reviewed</th><th>right</th><th>edited</th><th>wrong</th><th>needed a fix</th></tr>
+      ${q.steps.map(r => `<tr><td>${esc(r.recipe)}</td><td>${esc(r.step)} <span class="hint">${esc(r.specialist)}</span></td><td>${r.reviewed}</td><td>${r.right}</td><td>${r.edited}</td><td>${r.wrong}</td>
+      <td><b style="color:${r.error_rate > 0.2 ? "var(--bad)" : r.error_rate > 0.05 ? "var(--warn)" : "var(--ok)"}">${Math.round(r.error_rate * 100)}%</b></td></tr>`).join("")}</table>` : `<div class="hint">No reviews yet.</div>`}</div>
+    <div class="panel"><h3 style="margin-top:0">Kept-aside cases</h3>${Object.keys(q.holdout).length ? `<table><tr><th>specialist</th><th>cases</th><th>score now</th></tr>
+      ${Object.entries(q.holdout).map(([s, n]) => `<tr><td>${esc(s)}</td><td>${n}</td><td><button class="btn sm" data-h="${esc(s)}">score</button> <span id="h-${esc(s)}"></span></td></tr>`).join("")}</table>
+      <div class="hint">Scoring runs the step on each kept-aside case (model calls) and compares with what the reviewer approved.</div>` : `<div class="hint">None yet — one reviewed item in five is kept aside.</div>`}</div>`;
+  document.querySelectorAll("[data-h]").forEach(b => b.onclick = async () => {
+    const out = $("#h-" + CSS.escape(b.dataset.h)); b.disabled = true;
+    try {
+      const r = await job(api("quality/holdout/" + b.dataset.h, {}), t => out.innerHTML = `<span class="spin"></span> ${t}s`);
+      out.textContent = r ? `${r.right}/${r.holdout} right (${Math.round(r.rate * 100)}%)` : "no matcher for this specialist";
+    } catch (e) { out.textContent = e.message; }
+    b.disabled = false;
+  });
+}
+
+(async () => { SPECS = await api("specialists"); show("workflows"); countReview(); })();
+</script>
+</body>
+</html>

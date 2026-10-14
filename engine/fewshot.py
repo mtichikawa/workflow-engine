@@ -256,38 +256,58 @@ def _slot_file(kind: str, sl: str) -> Path:
     return RULES_DIR / kind / f"{sl}.json{'l' if kind == 'history' else ''}"
 
 
-def history(specialist: str, current_input) -> list[dict]:
-    """Every rulebook version written for this slot, oldest first: {created, n, rules}."""
-    p = _slot_file("history", slot(specialist, current_input))
+# Every function below takes a slot id, or (specialist, current_input) to name the slot.
+def _sl(spec_or_slot: str, current_input=None) -> str:
+    return spec_or_slot if current_input is None else slot(spec_or_slot, current_input)
+
+
+def history(spec_or_slot: str, current_input=None) -> list[dict]:
+    """Every rulebook version written for this slot, oldest first: {created, n, rejected, rules, …}."""
+    p = _slot_file("history", _sl(spec_or_slot, current_input))
     return [json.loads(l) for l in p.read_text().splitlines() if l.strip()] if p.exists() else []
 
 
-def diff(specialist: str, current_input) -> str:
-    """What changed between the last two rulebook versions (unified diff), or '' if fewer than two."""
-    h = history(specialist, current_input)
+def diff(spec_or_slot: str, current_input=None, a: int = -2, b: int = -1) -> str:
+    """What changed between two rulebook versions (default: the last two), as a unified diff."""
+    h = history(spec_or_slot, current_input)
     if len(h) < 2:
         return ""
-    a, b = h[-2], h[-1]
-    return "\n".join(difflib.unified_diff(a["rules"].splitlines(), b["rules"].splitlines(),
-                                           f"{a['n']} corrections", f"{b['n']} corrections", lineterm=""))
+    va, vb = h[a], h[b]
+    return "\n".join(difflib.unified_diff(va["rules"].splitlines(), vb["rules"].splitlines(),
+                                           f"{va['n']} corrections", f"{vb['n']} corrections", lineterm=""))
 
 
-def locked(specialist: str, current_input) -> dict | None:
-    p = _slot_file("locked", slot(specialist, current_input))
+def locked(spec_or_slot: str, current_input=None) -> dict | None:
+    p = _slot_file("locked", _sl(spec_or_slot, current_input))
     return json.loads(p.read_text()) if p.exists() else None
 
 
-def lock(specialist: str, current_input, rules_text: str, by: str = "") -> None:
+def lock(spec_or_slot: str, current_input=None, rules_text: str = "", by: str = "") -> None:
     """A person fixes the rulebook: these rules are used as written until unlocked, whatever the
     corrections say. (The corrections still accumulate, and the 6 closest still ride along.)"""
-    p = _slot_file("locked", slot(specialist, current_input))
+    if not rules_text.strip():
+        raise ValueError("a locked rulebook needs rules")
+    p = _slot_file("locked", _sl(spec_or_slot, current_input))
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps({"rules": rules_text.strip(), "locked_at": time.strftime("%Y-%m-%d %H:%M"),
                              "by": by}, indent=1))
 
 
-def unlock(specialist: str, current_input) -> None:
-    _slot_file("locked", slot(specialist, current_input)).unlink(missing_ok=True)
+def unlock(spec_or_slot: str, current_input=None) -> None:
+    _slot_file("locked", _sl(spec_or_slot, current_input)).unlink(missing_ok=True)
+
+
+def slots() -> list[dict]:
+    """Every rulebook the engine has written: which specialist and task, how many versions, locked or not."""
+    d = RULES_DIR / "history"
+    out = []
+    for p in sorted(d.glob("*.jsonl")) if d.exists() else []:
+        h = history(p.stem)
+        if h:
+            out.append({"slot": p.stem, "specialist": h[-1].get("specialist"), "task": h[-1].get("task"),
+                        "versions": len(h), "n": h[-1]["n"], "created": h[-1]["created"],
+                        "locked": locked(p.stem) is not None})
+    return out
 
 
 def rulebook(specialist: str, current_input) -> tuple[str, int]:
@@ -338,7 +358,8 @@ def rulebook(specialist: str, current_input) -> tuple[str, int]:
                 hist.parent.mkdir(parents=True, exist_ok=True)
                 with hist.open("a") as fh:
                     fh.write(json.dumps({"created": time.strftime("%Y-%m-%d %H:%M"), "n": len(golds),
-                                         "rejected": len(wrong), "key": key, "rules": _RULES_MEM[key]}) + "\n")
+                                         "rejected": len(wrong), "key": key, "specialist": specialist,
+                                         "task": task, "rules": _RULES_MEM[key]}, default=str) + "\n")
     return _RULES_MEM[key], len(golds)
 
 

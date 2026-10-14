@@ -122,7 +122,9 @@ def test_rulebook_lock_history_and_diff(store, monkeypatch):
         assert fewshot.rulebook("rv_label", inp)[0].endswith("even → b")
         assert "+2. even → b" in fewshot.diff("rv_label", inp)
         assert [h["n"] for h in fewshot.history("rv_label", inp)] == [8, 9]
-        fewshot.lock("rv_label", inp, "1. everything → b", by="mike")
+        fewshot.lock("rv_label", inp, rules_text="1. everything → b", by="mike")
+        [sl] = fewshot.slots()
+        assert sl["specialist"] == "rv_label" and sl["versions"] == 2 and sl["locked"]
         assert fewshot.rulebook("rv_label", inp) == ("1. everything → b", 9)
         fewshot.unlock("rv_label", inp)
         assert fewshot.rulebook("rv_label", inp)[0].endswith("even → b")

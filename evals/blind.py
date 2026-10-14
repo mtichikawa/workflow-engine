@@ -206,10 +206,11 @@ def validator(_args) -> None:
 
 
 # ---------------------------------------------------------------- 4. the composer
-def composer(_args) -> None:
+def composer(args) -> None:
     from engine import specialists  # noqa: F401
     from engine.composer import compose
-    items = load("composer.jsonl")
+    name = getattr(args, "set", None) or "composer"
+    items = load(f"{name}.jsonl")
 
     def one(it):
         r = compose(it["request"])
@@ -219,7 +220,7 @@ def composer(_args) -> None:
     poss = [(i, o) for i, o in zip(items, outs) if i["label"] == "possible"]
     imp = [(i, o) for i, o in zip(items, outs) if i["label"] == "impossible"]
     flagged = lambda o: bool(o.get("gaps") or o.get("missing"))
-    result = {"set": "composer.jsonl", "n": len(items), "items": [{**i, "out": o} for i, o in zip(items, outs)],
+    result = {"set": f"{name}.jsonl", "n": len(items), "items": [{**i, "out": o} for i, o in zip(items, outs)],
               "possible": {"n": len(poss),
                            "runnable plan, no gap claimed": rate(sum(1 for _, o in poss if o.get("runnable") and not flagged(o)), len(poss)),
                            "flagged a gap anyway (over-cautious)": rate(sum(1 for _, o in poss if flagged(o)), len(poss)),
@@ -228,13 +229,14 @@ def composer(_args) -> None:
                              "flagged the gap (honest)": rate(sum(1 for _, o in imp if flagged(o)), len(imp)),
                              "faked it (runnable, no gap)": rate(sum(1 for _, o in imp if o.get("runnable") and not flagged(o)), len(imp))},
               "crashes": sum(1 for o in outs if "error" in o)}
-    save("composer", result)
+    save(getattr(args, "out", None) or name, result)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("what", choices=["seal", "triage", "routing", "validator", "composer"])
-    ap.add_argument("--set", help="routing: which sealed set (routing | routing2)")
+    ap.add_argument("--out", help="composer: result file name (default: the set's name)")
+    ap.add_argument("--set", help="routing: routing | routing2; composer: composer | composer2")
     a = ap.parse_args()
     {"seal": seal, "triage": triage, "routing": routing, "validator": validator, "composer": composer}[a.what](a)
 
