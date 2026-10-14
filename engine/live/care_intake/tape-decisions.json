@@ -1,0 +1,49 @@
+{
+ "composed": [
+  "read_document",
+  "fill_form",
+  "coverage_rules",
+  "claim_draft",
+  "classify",
+  "handoff_note",
+  "patient_reply",
+  "verify",
+  "assemble_packet",
+  "act"
+ ],
+ "fields": {
+  "patient_first": "Dana",
+  "patient_middle_initial": "L",
+  "patient_last": "Morales",
+  "date_of_birth": "1994-03-17",
+  "sex": null,
+  "member_id": "DMO41827730",
+  "plan_name": "Demo Health Plan",
+  "coverage_effective_date": "2026-01-01",
+  "address": "1200 Example Ave, Apt 4B, Springfield, CA 95999",
+  "phone": "(555) 010-4471",
+  "preferred_language": "English, Spanish",
+  "estimated_due_date": "2026-12-02",
+  "recommending_provider": "Priya Natarajan, CNM",
+  "recommending_provider_npi": "9999999901",
+  "recommendation_date": "2026-10-08",
+  "recommendation_signed": "no",
+  "services_recommended": "One initial visit; Up to eight additional visits (prenatal and/or postpartum); Support during labor and delivery, including miscarriage or abortion; Up to two extended postpartum visits (up to three hours each)"
+ },
+ "missing": [
+  "sex"
+ ],
+ "identity": true,
+ "triage": "medical",
+ "rules_failed": [
+  "Recommendation signed"
+ ],
+ "claim_holds": [
+  "Box 3 (Sex) is empty",
+  "Recommendation not signed \u2014 the signature line on the faxed form is blank"
+ ],
+ "handoff": true,
+ "reply_check": "pass",
+ "reply_drafts": 1,
+ "staged": "done"
+}

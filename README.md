@@ -86,6 +86,18 @@ shipped product — a coherent, working synthesis, not a novel one.
 specialist is exported as an MCP tool (`python -m engine.mcp.server`) — so Claude Desktop or any MCP
 client can drive it. Runnable demos in `examples/`; walkthrough in [`docs/mcp.md`](docs/mcp.md).
 
+**Watch it in a browser — a worked healthcare case:** `pip install -e '.[live]'` then
+`python -m engine.live serve` and open `http://localhost:8600`. A doula-care intake on **synthetic**
+documents shaped like the real ones (a faxed referral as an image-only PDF, phone photos of an insurance
+card, an intake-form PDF, a visit-log CSV, a patient's chat message): the composer drafts the workflow
+live, the reviewed recipe runs on the board — each step's input and output visible as it happens — and
+it stops at a real Approve / Reject gate with a CMS-1500 claim draft, a patient reply and a clinical
+handoff rendered as documents. The model reads the scans; plan rules, the claim form and the safety
+sentence are plain code; anything medical in the message goes to a person, never answered by the model.
+Nothing is ever sent. A **replay** mode re-runs the same engine against a recorded tape of the model's
+answers (`engine/core/tape.py`), so the result is identical run to run; `python -m engine.live check`
+verifies the tape still matches.
+
 ## Layout
 
 | path | what |
@@ -94,6 +106,7 @@ client can drive it. Runnable demos in `examples/`; walkthrough in [`docs/mcp.md
 | `engine/recipes/` | `triage · content · refine · review` |
 | `usecases/` | the interactive step-by-step explorers embedded in the site (triage · content · refine) |
 | `engine/mcp/` | MCP client + server (optional extra) |
+| `engine/live/` | the browser view + the synthetic care-intake case (optional extra) |
 | `examples/` · `evals/` · `tests/` | real runs & runnable demos · grading harness · tests |
 | `state/examples/` | the gold examples (few-shot + eval), one folder per domain — sources + licenses in [`DATA-NOTICE.md`](DATA-NOTICE.md) |
 | `tools/` | public-data harvesters, per-domain eval, generality check, explorer builder |

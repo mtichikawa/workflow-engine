@@ -13,7 +13,7 @@ from pathlib import Path
 from .core.board import Board
 
 _COLOR = {"done": "#1f6f3f", "gated": "#8a6d00", "running": "#1c4f8a",
-          "ready": "#333", "todo": "#2a2a2a", "failed": "#7a1f1f", "blocked": "#444"}
+          "ready": "#333", "todo": "#2a2a2a", "failed": "#7a1f1f", "blocked": "#444", "rejected": "#5a2a4a"}
 
 
 def summarize(step_id: str, out: dict | None) -> str:

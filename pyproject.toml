@@ -18,6 +18,8 @@ dependencies = [
 # MCP interop lives at the edges (engine/mcp/ + the mcp_call specialist) and is OPTIONAL. Core install
 # and every non-MCP workflow run without it. From a clone:  pip install -e '.[mcp]'
 mcp = ["mcp>=1.0"]
+# The live demo view (engine/live/) reads PDFs: a text layer directly, a scanned fax as page images.
+live = ["pypdf[image]>=4"]
 
 [tool.setuptools.packages.find]
 include = ["engine*"]

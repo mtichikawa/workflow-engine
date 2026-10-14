@@ -15,13 +15,15 @@ The dispatcher only follows edges — all correctness lives in how the graph was
 
 from __future__ import annotations
 
+import time
+
 from . import specialist as registry
 from .board import Board
 from .conditions import evaluate
 from .recipe import Recipe, Step
 from .trace import Tracer
 
-_TERMINAL = ("done", "skipped", "failed")
+_TERMINAL = ("done", "skipped", "failed", "rejected")
 
 
 class Dispatcher:
@@ -41,6 +43,7 @@ class Dispatcher:
         with ThreadPoolExecutor(max_workers=max(1, self.concurrency)) as pool:
             inflight: dict = {}
             self._submit_ready(pool, inflight)
+            self.board.save()                       # the first wave shows as running at once
             while inflight:
                 done, _ = wait(set(inflight), return_when=FIRST_COMPLETED)
                 for fut in done:
@@ -118,6 +121,7 @@ class Dispatcher:
                 self._fail(card, step, f"input resolution: {e}")
                 continue
             card.status = "running"
+            card.started, card.seconds = time.time(), None
             # copy_context so the ambient scope (and any contextvar) propagates into the worker
             # thread — ThreadPoolExecutor does NOT do this by default, so few-shot in a threaded
             # specialist would otherwise ignore --scope.
@@ -132,6 +136,7 @@ class Dispatcher:
     # ---- commit + loops -------------------------------------------------
     def _commit(self, card, step, output) -> None:
         card.output = output
+        card.seconds = round(time.time() - card.started, 2) if card.started else None
         card.attempts.append({"output": output})            # per-pass history (loops accumulate; display-only, feedback still uses latest)
         card.visits += 1
         card.coverage = self._coverage(step, card.input)     # tailored-vs-baseline few-shot split
@@ -181,12 +186,26 @@ class Dispatcher:
         self.trace.event("FAIL", f"{card.item_id}:{step.id}", err=msg)
 
     def _finalize(self) -> None:
-        # any card still waiting with no path to run is a branch that was never taken
+        # any card still waiting with no path to run is a branch that was never taken — unless it is
+        # waiting behind a gate: then it is undecided until the human approves or rejects.
         for card in self.board.with_status("todo", "ready"):
-            if card.status == "ready":
+            if card.status == "ready" or self._behind_gate(card.item_id, card.step_id):
                 continue
             card.status = "skipped"
             self.board.log_event(card.item_id, card.step_id, "skipped")
+
+    def _behind_gate(self, item_id: str, step_id: str) -> bool:
+        seen, stack = set(), [step_id]
+        while stack:
+            for e in self.recipe.forward_in(stack.pop()):
+                if e.src in seen:
+                    continue
+                seen.add(e.src)
+                src = self.board.card(item_id, e.src)
+                if src and src.status == "gated":
+                    return True
+                stack.append(e.src)
+        return False
 
     # ---- gates ----------------------------------------------------------
     def approve(self, item_id: str, step_id: str, auto: bool = False) -> None:
@@ -197,6 +216,17 @@ class Dispatcher:
         self.board.log_event(item_id, step_id, "done")
         self.trace.event("approve", f"{item_id}:{step_id}", auto=auto)
         self._fire_loops(item_id, step_id)
+
+    def reject(self, item_id: str, step_id: str, reason: str = "") -> None:
+        """A human says no at the gate. The card ends `rejected`; everything downstream of it is then
+        skipped by the normal readiness rules (a required in-edge resolved without being done)."""
+        card = self.board.card(item_id, step_id)
+        if not card or card.status != "gated":
+            raise ValueError(f"{item_id}:{step_id} is not awaiting approval")
+        card.status = "rejected"
+        card.attempts.append({"rejected": reason})
+        self.board.log_event(item_id, step_id, "rejected")
+        self.trace.event("reject", f"{item_id}:{step_id}", reason=reason)
 
     # ---- conditions + input resolution ----------------------------------
     def _cond(self, when: str | None, item_id: str) -> bool:

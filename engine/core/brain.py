@@ -27,28 +27,37 @@ _CLI_TIMEOUT = int(os.environ.get("ENGINE_BRAIN_TIMEOUT", "180"))
 
 
 def brain(prompt: str, system: str | None = None, temperature: float = 0.0,
-          provider: str | None = None) -> str:
-    """Return the model's raw text response."""
+          provider: str | None = None, files: list[str] | None = None) -> str:
+    """Return the model's raw text response. `files` are images (PNG/JPEG) the model looks at."""
+    from .tape import active
+    t = active()
+    if t:                                   # a recording or replay is running (engine/core/tape.py)
+        return t.call(prompt, system, lambda: _brain(prompt, system, temperature, provider, files), files)
+    return _brain(prompt, system, temperature, provider, files)
+
+
+def _brain(prompt: str, system: str | None, temperature: float, provider: str | None,
+           files: list[str] | None = None) -> str:
     provider = provider or DEFAULT_PROVIDER
     if provider == "cli":
-        return _brain_cli(prompt, system)
+        return _brain_cli(prompt, system, files)
     if provider == "api":
-        return _brain_api(prompt, system, temperature)
+        return _brain_api(prompt, system, temperature, files)
     raise BrainError(f"unknown brain provider: {provider}")
 
 
 def brain_json(prompt: str, system: str | None = None, temperature: float = 0.0,
-               provider: str | None = None) -> dict | list:
+               provider: str | None = None, files: list[str] | None = None) -> dict | list:
     """Ask for JSON, parse it robustly, retry once on parse failure."""
     instruction = "\n\nReturn ONLY valid JSON. No prose, no markdown fences."
-    raw = brain(prompt + instruction, system, temperature, provider)
+    raw = brain(prompt + instruction, system, temperature, provider, files)
     try:
         return _parse_json(raw)
     except ValueError:
         raw2 = brain(
             prompt + instruction + "\n\nYour previous reply was not valid JSON. "
             "Reply with the JSON object ONLY.",
-            system, temperature, provider,
+            system, temperature, provider, files,
         )
         return _parse_json(raw2)
 
@@ -89,12 +98,17 @@ def _claude_bin() -> str:
                      + ", ".join(_CLAUDE_FALLBACKS) + " — set ENGINE_CLAUDE_BIN to its path")
 
 
-def _brain_cli(prompt: str, system: str | None) -> str:
+def _brain_cli(prompt: str, system: str | None, files: list[str] | None = None) -> str:
     env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
     full = f"{system}\n\n{prompt}" if system else prompt
+    args = [_claude_bin(), "-p", "--output-format", "json"]
+    if files:                               # the CLI looks at images through its Read tool, nothing else
+        full += ("\n\nLook at each of these image files with the Read tool before answering, in order:\n"
+                 + "\n".join(f"- {os.path.abspath(f)}" for f in files))
+        args.append("--allowedTools=Read")
     try:
         r = subprocess.run(
-            [_claude_bin(), "-p", "--output-format", "json", full],
+            args + [full],
             capture_output=True, text=True, env=env, timeout=_CLI_TIMEOUT,
         )
     except FileNotFoundError as e:
@@ -122,7 +136,8 @@ def _meter(model, provider, in_tok, out_tok, cli_cost=None) -> None:
         pass
 
 
-def _brain_api(prompt: str, system: str | None, temperature: float) -> str:
+def _brain_api(prompt: str, system: str | None, temperature: float,
+               files: list[str] | None = None) -> str:
     try:
         import anthropic
     except ImportError as e:
@@ -130,7 +145,7 @@ def _brain_api(prompt: str, system: str | None, temperature: float) -> str:
     model = os.environ.get("ENGINE_BRAIN_MODEL", "claude-sonnet-4-5")
     client = anthropic.Anthropic()
     kwargs = {"model": model, "max_tokens": 2048, "temperature": temperature,
-              "messages": [{"role": "user", "content": prompt}]}
+              "messages": [{"role": "user", "content": _api_content(prompt, files)}]}
     if system:
         kwargs["system"] = system
     msg = client.messages.create(**kwargs)
@@ -138,3 +153,17 @@ def _brain_api(prompt: str, system: str | None, temperature: float) -> str:
     _meter(getattr(msg, "model", model), "api",
            getattr(u, "input_tokens", None), getattr(u, "output_tokens", None))
     return "".join(b.text for b in msg.content if getattr(b, "type", None) == "text").strip()
+
+
+def _api_content(prompt: str, files: list[str] | None):
+    if not files:
+        return prompt
+    import base64
+    import mimetypes
+    blocks = []
+    for f in files:
+        mime = mimetypes.guess_type(f)[0] or "image/png"
+        with open(f, "rb") as fh:
+            data = base64.standard_b64encode(fh.read()).decode()
+        blocks.append({"type": "image", "source": {"type": "base64", "media_type": mime, "data": data}})
+    return blocks + [{"type": "text", "text": prompt}]

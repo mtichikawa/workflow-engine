@@ -11,7 +11,7 @@ import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-STATUSES = ("todo", "ready", "running", "blocked", "gated", "skipped", "done", "failed")
+STATUSES = ("todo", "ready", "running", "blocked", "gated", "skipped", "done", "failed", "rejected")
 
 
 @dataclass
@@ -24,6 +24,8 @@ class Card:
     attempts: list = field(default_factory=list)
     visits: int = 0                      # how many times this step has run (loop counter)
     coverage: dict | None = None         # few-shot layer split (tailored vs baseline) when a tenant scope is active
+    started: float | None = None         # epoch seconds the latest pass began (live views show elapsed time)
+    seconds: float | None = None         # how long the latest pass took
 
 
 class Board:
