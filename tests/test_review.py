@@ -194,3 +194,45 @@ def test_review_learns_one_example_per_element(store):
                   verdicts={"label": {"verdict": "edited", "output": edited}})
     got = [(e["input"]["text"], e["output"]["label"]) for e in examples.load_examples("rv_label")]
     assert got == [("a", "x"), ("b", "y")]
+
+
+DID = []
+
+
+class Post(Specialist):
+    name = "rv_post"; side_effect = True
+    contract = Contract(input={"label": str}, output={"posted": object})
+    def _run(self, input, config):
+        DID.append(input["label"])
+        return {"posted": input["label"]}
+
+
+register(Post())
+
+
+def test_a_gated_outside_action_waits_before_it_runs(store):
+    DID.clear()
+    recipe = Recipe("rvp", steps=[Step("label", "rv_label", inputs={"text": "payload.text"}),
+                                  Step("post", "rv_post", inputs={"label": "label.label"}, gate=True)],
+                    edges=[Edge("label", "post")])
+    board = Board("rvp", "rvp", state_dir=store)
+    board.add_item("a", {"text": "x"}); board.add_item("b", {"text": "y"})
+    disp = Dispatcher(recipe, board, Tracer("rvp", log_dir=store, echo=False))
+    disp.run()
+    assert DID == [] and board.card("a", "post").status == "gated"          # nothing done yet
+    [p] = [p for p in review.pending(board, recipe) if p["item"] == "a"]
+    assert p["steps"][-1] == {"step": "post", "specialist": "rv_post", "input": {"label": "billing"},
+                              "output": None, "gate": True, "learn": False}
+    review.decide(disp, recipe, "a", approve=True, holdout_rate=0)
+    review.decide(disp, recipe, "b", approve=False, reason="no")
+    assert DID == ["billing"]                                              # only the approved one ran
+    assert board.card("a", "post").status == "done" and board.card("b", "post").status == "rejected"
+
+
+def test_act_never_overwrites_a_different_staged_file(tmp_path):
+    from engine.specialists.act import Act
+    a = Act()
+    cfg = {"out_dir": str(tmp_path)}
+    w = lambda c: a.run({"target": "file", "mode": "staged", "payload": {"content": c, "name": "r.txt"}}, cfg)["result"]["wrote"]
+    assert w("one").endswith("r.txt") and w("one").endswith("r.txt") and w("two").endswith("r-2.txt")
+    assert (tmp_path / "r.txt").read_text() == "one"

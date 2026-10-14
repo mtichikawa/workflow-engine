@@ -45,6 +45,7 @@ def test_save_run_review_decide():
     s = app.run_summary(r["run"])
     assert {i["item"]: i["steps"]["tag"]["status"] for i in s["items"]}[item] == "done"
     assert app.quality()["steps"][0]["edited"] == 1
+    assert examples.load_examples("ap_tag", ["wf-tagger"]) and not examples.load_examples("ap_tag", ["baseline"])
 
 
 def test_check_reports_malformed_and_invalid():

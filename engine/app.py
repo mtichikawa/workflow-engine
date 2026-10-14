@@ -26,7 +26,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from . import fewshot, inputs, review, workflows
+from . import fewshot, inputs, review, scope, workflows
 from .core import Board, Dispatcher, Tracer, all_specialists, get, validate
 
 HERE = Path(__file__).parent
@@ -129,7 +129,8 @@ def decide(run_id: str, item_id: str, body: dict) -> dict:
         board = Board.load(run_id)
         recipe = workflows.lookup(board.recipe)
         disp = Dispatcher(recipe, board, Tracer(run_id, echo=False))
-        return review.decide(disp, recipe, item_id, approve=bool(body.get("approve")),
+        with scope.use_scope(workflows.scope_of(board.recipe)):   # learns in the workflow's own scope
+            return review.decide(disp, recipe, item_id, approve=bool(body.get("approve")),
                              verdicts=body.get("verdicts") or {}, reason=body.get("reason", ""),
                              by=body.get("by", ""))
 
@@ -141,8 +142,17 @@ def rule_detail(sl: str) -> dict:
 
 def quality() -> dict:
     from .examples import load_holdout
-    held = {s: len(load_holdout(s)) for s in all_specialists()}
-    return {"steps": review.error_rates(), "holdout": {k: v for k, v in held.items() if v}}
+    held = []
+    for wf in workflows.all_workflows():
+        layer = [workflows.scope_of(wf["name"])]
+        held += [{"workflow": wf["name"], "specialist": s, "cases": n}
+                 for s in all_specialists() if (n := len(load_holdout(s, layer)))]
+    return {"steps": review.error_rates(), "holdout": held}
+
+
+def holdout(workflow: str, specialist: str):
+    with scope.use_scope(workflows.scope_of(workflow)):
+        return review.holdout_score(specialist)
 
 
 # ---- schedules: a folder re-read every N minutes, new files only --------------------------------
@@ -253,8 +263,8 @@ def serve(port: int = 8602, host: str = "0.0.0.0") -> None:
                 if len(p) == 3 and p[0] == "rules" and p[2] == "unlock":
                     fewshot.unlock(p[1])
                     return rule_detail(p[1])
-                if len(p) == 3 and p[0] == "quality" and p[1] == "holdout":
-                    return {"job": _job(review.holdout_score, p[2])}
+                if len(p) == 4 and p[0] == "quality" and p[1] == "holdout":
+                    return {"job": _job(holdout, p[2], p[3])}
             raise KeyError(f"no such endpoint: {method} /{'/'.join(parts)}")
 
         def do_GET(self):

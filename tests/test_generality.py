@@ -42,8 +42,9 @@ IN_PROGRESS: set[str] = {"extract", "forecast", "match", "rank", "sequence", "su
 def _domain_count(spec: str) -> int:
     if not EX.exists():
         return 0
-    return sum(1 for s in EX.iterdir()
-               if s.is_dir() and s.name not in NON_DOMAIN and (s / f"{spec}.jsonl").exists())
+    return sum(1 for s in EX.iterdir()             # wf-* = a saved workflow's own (untracked) corrections
+               if s.is_dir() and s.name not in NON_DOMAIN and not s.name.startswith("wf-")
+               and (s / f"{spec}.jsonl").exists())
 
 
 def test_judgment_capabilities_meet_generality_bar():

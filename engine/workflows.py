@@ -1,5 +1,8 @@
 """Saved workflows — compose once, then keep, edit and rerun without touching code.
 
+Each saved workflow learns in its own scope, `wf-<name>` (examples in state/examples/wf-<name>/, never
+tracked): its runs read the public examples plus its own, and its reviews write only to its own.
+
 A saved workflow is a recipe plus the request it was made from and how it takes its input, kept as
 numbered versions in state/workflows/<name>/: an edit never overwrites, it adds the next version, so
 any earlier one can be read, diffed or run again. Nothing is saved that fails validation.
@@ -17,6 +20,7 @@ import re
 import time
 from pathlib import Path
 
+from . import scope
 from .core import Board, Dispatcher, Edge, Recipe, Step, Tracer, validate
 
 DIR = Path("state/workflows")
@@ -107,6 +111,11 @@ def diff(name: str, a: int, b: int) -> str:
     return "\n".join(difflib.unified_diff(da, db, f"v{a}", f"v{b}", lineterm=""))
 
 
+def scope_of(name: str) -> str | None:
+    """The example scope a workflow learns in — None for a built-in recipe (it uses the active scope)."""
+    return f"wf-{name}" if versions(name) else None
+
+
 def lookup(name: str) -> Recipe:
     """A built-in recipe or a saved workflow, by name — what approve / review / board need."""
     from .recipes import RECIPES
@@ -123,7 +132,8 @@ def run(name: str, items: list[tuple[str, dict]], version: int | None = None, au
     board = Board(recipe=name, run_id=run_id)
     for item_id, payload in items:
         board.add_item(item_id, payload)
-    Dispatcher(recipe, board, Tracer(run_id, echo=False), concurrency=concurrency).run(auto_approve=auto)
+    with scope.use_scope(scope_of(name)):
+        Dispatcher(recipe, board, Tracer(run_id, echo=False), concurrency=concurrency).run(auto_approve=auto)
     with (_dir(name) / "runs.jsonl").open("a") as fh:
         fh.write(json.dumps({"run": run_id, "version": meta["version"], "items": len(items),
                              "at": time.strftime("%Y-%m-%d %H:%M"), "snapshot": board.snapshot()}) + "\n")

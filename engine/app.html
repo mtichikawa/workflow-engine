@@ -369,24 +369,42 @@ async function Review() {
 function reviewCard(it, n) {
   return `<div class="panel" id="rc${n}"><div class="row"><div><b>${esc(it.workflow)}</b> <span class="hint">· ${esc(it.item)} · run ${esc(it.run)}</span></div></div>
     <div class="payload">${esc(it.payload.text || JSON.stringify(it.payload, null, 1))}</div>
-    ${it.steps.map((s, j) => `<div class="out ${s.gate ? "gate" : ""}" data-j="${j}"><div class="top"><b>${esc(s.step)}</b><span class="hint">${esc(s.specialist)}${s.gate ? " · waiting here" : ""}</span>
-      <div class="verdict"><button class="right on" data-v="right">right</button><button class="edited" data-v="edited" disabled>edited</button><button class="wrong" data-v="wrong">wrong</button></div></div>
-      <div class="kv">${Object.entries(s.output).map(([k, v]) => `<span>${esc(k)}</span>${typeof v === "string" && v.length > 70
-        ? `<textarea data-o="${esc(k)}" rows="${Math.min(10, Math.ceil(v.length / 90) + 1)}" style="font-family:var(--body);font-size:13.5px">${esc(v)}</textarea>`
-        : `<input data-o="${esc(k)}" data-json="${typeof v !== "string"}" value="${esc(typeof v === "string" ? v : JSON.stringify(v))}">`}`).join("")}</div>
+    ${it.steps.map((s, j) => `<div class="out ${s.gate ? "gate" : ""}" data-j="${j}"><div class="top"><b>${esc(s.step)}</b><span class="hint">${esc(s.specialist)}${s.gate ? " · waiting here" : ""}${s.learn ? "" : " · mechanical, nothing to learn"}</span>
+      ${s.learn ? `<div class="verdict"><button class="right on" data-v="right">right</button><button class="edited" data-v="edited" disabled>edited</button><button class="wrong" data-v="wrong">wrong</button></div>` : ""}</div>
+      ${!s.learn ? (s.output ? `<pre>${esc(JSON.stringify(s.output, null, 1))}</pre>`
+        : `<div class="hint" style="margin-top:6px">Not done yet — approving does this:</div><pre>${esc(JSON.stringify(s.input, null, 1))}</pre>`) : s.elements ? eachTable(s) : `<div class="kv">${Object.entries(s.output).map(([k, v]) => `<span>${esc(k)}</span>${field(k, v)}`).join("")}</div>`}
       <input class="why" placeholder="why is it wrong? (this is what it learns from)" style="display:none;margin-top:6px"></div>`).join("")}
     <div class="row" style="margin-top:10px"><input class="reason" placeholder="reason for rejecting (optional)"><button class="btn ok" data-a="approve" style="flex:none">Approve</button>
     <button class="btn bad" data-a="reject" style="flex:none">Reject</button></div><div class="res"></div></div>`;
+}
+const field = (k, v, i = "") => typeof v === "string" && v.length > 70
+  ? `<textarea data-o="${esc(k)}" data-i="${i}" rows="${Math.min(10, Math.ceil(v.length / 90) + 1)}" style="font-family:var(--body);font-size:13.5px">${esc(v)}</textarea>`
+  : `<input data-o="${esc(k)}" data-i="${i}" data-json="${typeof v !== "string"}" value="${esc(typeof v === "string" ? v : JSON.stringify(v))}">`;
+// a for-each step: one row per element — what it was made from, then its output fields (reasoning shown, not edited)
+function eachTable(s) {
+  const keys = [...new Set(s.output.results.flatMap(r => Object.keys(r)))].filter(k => k !== "reasoning");
+  return `<table><tr><th>from</th>${keys.map(k => `<th>${esc(k)}</th>`).join("")}</tr>${s.output.results.map((r, i) => `<tr>
+    <td style="max-width:280px">${esc(s.elements[i])}${r.reasoning ? `<div class="hint">${esc(r.reasoning)}</div>` : ""}</td>
+    ${keys.map(k => `<td>${field(k, r[k], i)}</td>`).join("")}</tr>`).join("")}</table>`;
+}
+const original = (s, x) => { const o = x.dataset.i === "" ? s.output : s.output.results[+x.dataset.i]; const v = o[x.dataset.o]; return typeof v === "string" ? v : JSON.stringify(v); };
+function edited(s, el) {
+  const val = x => x.dataset.json === "true" ? JSON.parse(x.value) : x.value;
+  if (!s.elements) { const out = {...s.output}; el.querySelectorAll("[data-o]").forEach(x => out[x.dataset.o] = val(x)); return out; }
+  const results = s.output.results.map(r => ({...r}));
+  el.querySelectorAll("[data-o]").forEach(x => results[+x.dataset.i][x.dataset.o] = val(x));
+  return {...s.output, results};
 }
 function wireCard(it, n) {
   const card = $("#rc" + n);
   const verdicts = {};
   card.querySelectorAll(".out").forEach(el => {
     const s = it.steps[+el.dataset.j];
+    if (!s.learn) return;
     const set = v => { verdicts[s.step] = v; el.querySelectorAll(".verdict button").forEach(b => b.classList.toggle("on", b.dataset.v === v)); $(".why", el).style.display = v === "wrong" ? "" : "none"; };
     verdicts[s.step] = "right";
     el.querySelectorAll("[data-o]").forEach(x => x.oninput = () => {
-      const changed = [...el.querySelectorAll("[data-o]")].some(y => y.value !== (typeof s.output[y.dataset.o] === "string" ? s.output[y.dataset.o] : JSON.stringify(s.output[y.dataset.o])));
+      const changed = [...el.querySelectorAll("[data-o]")].some(y => y.value !== original(s, y));
       $("[data-v=edited]", el).disabled = !changed;
       if (changed && verdicts[s.step] !== "wrong") set("edited"); else if (!changed && verdicts[s.step] === "edited") set("right");
     });
@@ -397,13 +415,11 @@ function wireCard(it, n) {
     try {
       card.querySelectorAll(".out").forEach(el => {
         const s = it.steps[+el.dataset.j], v = verdicts[s.step];
-        if (v === "edited") {
-          const out = {...s.output};
-          el.querySelectorAll("[data-o]").forEach(x => { out[x.dataset.o] = x.dataset.json === "true" ? JSON.parse(x.value) : x.value; });
-          body.verdicts[s.step] = {verdict: "edited", output: out};
-        } else body.verdicts[s.step] = v === "wrong" ? {verdict: "wrong", reason: $(".why", el).value} : {verdict: "right"};
+        if (!s.learn) return;
+        if (v === "edited") body.verdicts[s.step] = {verdict: "edited", output: edited(s, el)};
+        else body.verdicts[s.step] = v === "wrong" ? {verdict: "wrong", reason: $(".why", el).value} : {verdict: "right"};
       });
-      if (!approve) for (const s of it.steps) if (body.verdicts[s.step].verdict === "right") delete body.verdicts[s.step];
+      if (!approve) for (const k in body.verdicts) if (body.verdicts[k].verdict === "right") delete body.verdicts[k];
       const r = await api(`review/${encodeURIComponent(it.run)}/${encodeURIComponent(it.item)}`, body);
       const l = r.learned;
       card.innerHTML = msg("ok", `${approve ? "Approved" : "Rejected"} ${it.item}. Learned: ${Object.entries(l).map(([k, v]) => `${v} ${k}`).join(", ") || "nothing"}${r.holdout ? " — kept aside to measure, not to teach" : ""}.`);
@@ -450,13 +466,13 @@ async function Quality() {
     <div class="panel"><h3 style="margin-top:0">By step, from review</h3>${q.steps.length ? `<table><tr><th>workflow</th><th>step</th><th>reviewed</th><th>right</th><th>edited</th><th>wrong</th><th>needed a fix</th></tr>
       ${q.steps.map(r => `<tr><td>${esc(r.recipe)}</td><td>${esc(r.step)} <span class="hint">${esc(r.specialist)}</span></td><td>${r.reviewed}</td><td>${r.right}</td><td>${r.edited}</td><td>${r.wrong}</td>
       <td><b style="color:${r.error_rate > 0.2 ? "var(--bad)" : r.error_rate > 0.05 ? "var(--warn)" : "var(--ok)"}">${Math.round(r.error_rate * 100)}%</b></td></tr>`).join("")}</table>` : `<div class="hint">No reviews yet.</div>`}</div>
-    <div class="panel"><h3 style="margin-top:0">Kept-aside cases</h3>${Object.keys(q.holdout).length ? `<table><tr><th>specialist</th><th>cases</th><th>score now</th></tr>
-      ${Object.entries(q.holdout).map(([s, n]) => `<tr><td>${esc(s)}</td><td>${n}</td><td><button class="btn sm" data-h="${esc(s)}">score</button> <span id="h-${esc(s)}"></span></td></tr>`).join("")}</table>
+    <div class="panel"><h3 style="margin-top:0">Kept-aside cases</h3>${q.holdout.length ? `<table><tr><th>workflow</th><th>specialist</th><th>cases</th><th>score now</th></tr>
+      ${q.holdout.map((h, i) => `<tr><td>${esc(h.workflow)}</td><td>${esc(h.specialist)}</td><td>${h.cases}</td><td><button class="btn sm" data-h="${i}">score</button> <span id="h-${i}"></span></td></tr>`).join("")}</table>
       <div class="hint">Scoring runs the step on each kept-aside case (model calls) and compares with what the reviewer approved.</div>` : `<div class="hint">None yet — one reviewed item in five is kept aside.</div>`}</div>`;
   document.querySelectorAll("[data-h]").forEach(b => b.onclick = async () => {
-    const out = $("#h-" + CSS.escape(b.dataset.h)); b.disabled = true;
+    const h = q.holdout[+b.dataset.h], out = $("#h-" + b.dataset.h); b.disabled = true;
     try {
-      const r = await job(api("quality/holdout/" + b.dataset.h, {}), t => out.innerHTML = `<span class="spin"></span> ${t}s`);
+      const r = await job(api(`quality/holdout/${h.workflow}/${h.specialist}`, {}), t => out.innerHTML = `<span class="spin"></span> ${t}s`);
       out.textContent = r ? `${r.right}/${r.holdout} right (${Math.round(r.rate * 100)}%)` : "no matcher for this specialist";
     } catch (e) { out.textContent = e.message; }
     b.disabled = false;

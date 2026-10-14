@@ -50,8 +50,13 @@ class Act(Specialist):
                       "on": payload.get("url", "")}
         elif target == "file":
             name = os.path.basename(payload.get("name") or "post.txt")   # basename -> no path traversal
-            with _WRITE_LOCK:
-                (out_dir / name).write_text(str(payload.get("content", "")))
+            content = str(payload.get("content", ""))
+            with _WRITE_LOCK:                        # never overwrite a different staged file: number it
+                stem, suffix, n = Path(name).stem, Path(name).suffix, 1
+                while (out_dir / name).exists() and (out_dir / name).read_text() != content:
+                    n += 1
+                    name = f"{stem}-{n}{suffix}"
+                (out_dir / name).write_text(content)
             result = {"wrote": str(out_dir / name)}
         else:
             raise ValueError(f"act: unknown target '{target}'")

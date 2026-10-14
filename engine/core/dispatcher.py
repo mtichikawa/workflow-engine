@@ -126,6 +126,11 @@ class Dispatcher:
             except Exception as e:  # noqa: BLE001
                 self._fail(card, step, f"input resolution: {e}")
                 continue
+            if step.gate is True and not card.approved and getattr(registry.get(step.specialist), "side_effect", False):
+                card.status = "gated"                       # an outside action waits for a person BEFORE it runs
+                self.board.log_event(card.item_id, step.id, "gated")
+                self.trace.event("GATE", f"{card.item_id}:{step.id}", before_run=True, input=card.input)
+                continue
             card.status = "running"
             card.started, card.seconds = time.time(), None
             # copy_context so the ambient scope (and any contextvar) propagates into the worker
@@ -157,7 +162,7 @@ class Dispatcher:
         card.visits += 1
         card.coverage = self._coverage(step, card.input)     # tailored-vs-baseline few-shot split
         self.board.record_output(card.item_id, step.id, output)
-        if step.gate and self._needs_review(card.item_id, step):
+        if step.gate and not card.approved and self._needs_review(card.item_id, step):
             card.status = "gated"
             self.board.log_event(card.item_id, step.id, "gated")
             self.trace.event("GATE", f"{card.item_id}:{step.id}", out=output)
@@ -232,6 +237,12 @@ class Dispatcher:
         card = self.board.card(item_id, step_id)
         if not card or card.status != "gated":
             raise ValueError(f"{item_id}:{step_id} is not awaiting approval")
+        if card.output is None:                         # held before it ran: approving is what runs it
+            card.approved = True
+            card.status = "ready"
+            self.board.log_event(item_id, step_id, "approved")
+            self.trace.event("approve", f"{item_id}:{step_id}", auto=auto, before_run=True)
+            return
         if output is not None:
             card.output = output
             card.attempts.append({"output": output, "edited_by_reviewer": True})

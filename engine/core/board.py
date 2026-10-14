@@ -26,6 +26,7 @@ class Card:
     coverage: dict | None = None         # few-shot layer split (tailored vs baseline) when a tenant scope is active
     started: float | None = None         # epoch seconds the latest pass began (live views show elapsed time)
     seconds: float | None = None         # how long the latest pass took
+    approved: bool = False               # a person approved this step before it ran (a gated side effect)
 
 
 class Board:

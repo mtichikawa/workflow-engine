@@ -18,6 +18,7 @@ venv/
 state/*
 !state/examples/
 state/examples/t1/
+state/examples/wf-*/
 state/examples/t2/
 
 # Private companion repo (working notes + golds that can't be redistributed). Its own git repo,

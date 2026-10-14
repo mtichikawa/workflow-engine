@@ -35,19 +35,38 @@ def held_out(item_id: str, rate: float = HOLDOUT_RATE) -> bool:
 
 
 def pending(board, recipe) -> list[dict]:
-    """What a reviewer sees for each item waiting at a gate: every learnable step's input and output."""
+    """What a reviewer sees for each item waiting at a gate: every step that has produced output so far.
+    Mechanical steps (fetch, act) are shown — a reviewer must see what they approve — but teach nothing
+    (`learn: False`). A for-each step also carries `elements`: what each result was made from."""
     out = []
     for card in board.with_status("gated"):
         steps = []
         for step in recipe.steps:
             c = board.card(card.item_id, step.id)
-            if not c or c.output is None or step.specialist in examples.SKIP:
+            if not c or (c.output is None and c is not card):     # a held action has no output yet
                 continue
-            steps.append({"step": step.id, "specialist": step.specialist, "input": c.input,
-                          "output": c.output, "gate": step.id == card.step_id})
+            row = {"step": step.id, "specialist": step.specialist, "input": c.input, "output": c.output,
+                   "gate": step.id == card.step_id, "learn": _learnable(step)}
+            if step.each:
+                row["elements"] = [_element_label(i) for i in (c.input or {}).get("each", [])]
+            steps.append(row)
         out.append({"item": card.item_id, "gate": card.step_id,
                     "payload": board.items[card.item_id]["payload"], "steps": steps})
     return out
+
+
+def _learnable(step) -> bool:
+    """Judgment steps teach; mechanical ones (fetch, and anything that acts outside the engine) don't."""
+    return step.specialist not in examples.SKIP and not getattr(get(step.specialist), "side_effect", False)
+
+
+def _element_label(inp: dict) -> str:
+    """The part of a for-each element's input a person recognises: its content field, else all of it."""
+    from .fewshot import CONTENT_KEYS
+    for k in CONTENT_KEYS:
+        if isinstance(inp.get(k), str):
+            return inp[k]
+    return json.dumps(inp, default=str)[:300]
 
 
 def decide(disp, recipe, item_id: str, approve: bool, verdicts: dict | None = None,
@@ -72,7 +91,7 @@ def decide(disp, recipe, item_id: str, approve: bool, verdicts: dict | None = No
     learned = Counter()
     for step in recipe.steps:
         card = board.card(item_id, step.id)
-        if not card or card.output is None or step.specialist in examples.SKIP:
+        if not card or card.output is None or not _learnable(step):
             continue
         v = verdicts.get(step.id, {"verdict": "right"} if approve else None)
         if v is None:

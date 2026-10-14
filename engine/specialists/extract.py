@@ -13,8 +13,7 @@ from ..fewshot import block
 from ._util import as_list, one_sentence, text_of
 
 SYSTEM = ("You are an extraction specialist. You pull out exactly the requested kind of item that "
-          "actually appears in the text, as a clean list of short canonical names — no quantities, "
-          "no duplicates, nothing not present in the text.")
+          "actually appears in the text — no duplicates, nothing not present in the text.")
 
 
 class Extract(Specialist):
@@ -37,8 +36,8 @@ class Extract(Specialist):
         fs = block("extract", input)
         prompt = (
             f"From the TEXT below, extract every {input['target']}.\n"
-            "Return each as a short canonical name (lowercase, no quantities/units), no duplicates, "
-            "and include ONLY things actually present in the text.\n\n"
+            "Unless that request says how to write them, return each as a short canonical name (lowercase, "
+            "no quantities/units). No duplicates, and ONLY things actually present in the text.\n\n"
             f"TEXT:\n{text_of(input['text'])}\n\n"
             + (fs + "\n\n" if fs else "")
             + 'Return JSON: {"items": [<name>, ...], "reasoning": <one short sentence>}'
@@ -46,8 +45,8 @@ class Extract(Specialist):
         r = brain_json(prompt, system=SYSTEM, temperature=0.0)
         items, seen = [], set()
         for x in as_list(r.get("items")):
-            name = str(x).strip().lower()
-            if name and name not in seen:
-                seen.add(name)
+            name = str(x).strip()
+            if name and name.lower() not in seen:
+                seen.add(name.lower())
                 items.append(name)
         return {"items": items, "reasoning": one_sentence(r.get("reasoning"))}
