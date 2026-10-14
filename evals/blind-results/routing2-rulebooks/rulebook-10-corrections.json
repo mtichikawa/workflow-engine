@@ -1,0 +1,16 @@
+{
+ "specialist": "classify",
+ "n": 10,
+ "task": {
+  "categories": [
+   "billing_insurance",
+   "family_services",
+   "front_desk",
+   "lactation",
+   "nurse_line",
+   "records"
+  ],
+  "criteria": "which team's queue this message belongs in. The queues: front_desk \u2014 appointments, registration, and general questions about the clinic; nurse_line \u2014 non-urgent clinical requests: prescription refills, test results, clinical forms; billing_insurance \u2014 bills, payments, and insurance questions; records \u2014 medical records requests and copies; lactation \u2014 breastfeeding and lactation support; family_services \u2014 social work, community resources, and the nutrition program"
+ },
+ "rules": "1. **Someone asking about another adult's care, or setting up who may talk to the clinic about a patient \u2192 `records`.** This applies to a spouse or family member asking what was decided about a patient's care, and to a patient asking which form lets a relative discuss their care. It outranks `nurse_line`, even when the question is clinical (for example, medications) or mentions a \"form.\"\n2. **Getting a newborn added to insurance or covered \u2192 `family_services`.** This still applies when a visit was denied because the baby isn't on the plan yet. It outranks `billing_insurance`.\n3. **Formula and infant-feeding questions \u2192 `family_services`** (the nutrition program). This still applies when the message describes a symptom, such as constipation on formula. It outranks `nurse_line`. Breastfeeding questions would go to `lactation`, but the examples include none.\n4. **Safety concerns at home or with a partner, when not an emergency, and requests to talk about options or resources \u2192 `family_services`.**\n5. **Paying bills, including combining a baby's bill with the parent's \u2192 `billing_insurance`.**\n6. **Clinical questions \u2192 `nurse_line`.** This covers prescription refills (including a baby's), test results and follow-up on results, and general health questions about pregnancy, such as \"is X safe while pregnant.\"\n7. **Logistics and general clinic questions (parking, directions and the like) \u2192 `front_desk`.**\n8. **Route by what the message is about, not its language.** A message in Spanish follows the same rules."
+}

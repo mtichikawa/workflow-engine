@@ -1,0 +1,16 @@
+{
+ "specialist": "classify",
+ "n": 25,
+ "task": {
+  "categories": [
+   "billing_insurance",
+   "family_services",
+   "front_desk",
+   "lactation",
+   "nurse_line",
+   "records"
+  ],
+  "criteria": "which team's queue this message belongs in. The queues: front_desk \u2014 appointments, registration, and general questions about the clinic; nurse_line \u2014 non-urgent clinical requests: prescription refills, test results, clinical forms; billing_insurance \u2014 bills, payments, and insurance questions; records \u2014 medical records requests and copies; lactation \u2014 breastfeeding and lactation support; family_services \u2014 social work, community resources, and the nutrition program"
+ },
+ "rules": "1. **Breast pumps go to lactation, every time.** Billing, insurance, supplier and paperwork questions about a breast pump (for example a bill for a pump that never arrived, or a letter of medical necessity for a hospital-grade pump) \u2192 `lactation`. This beats the billing_insurance and nurse_line rules.\n\n2. **Prescription refills go to nurse_line, whatever the drug is for.** This includes vitamin D drops for a baby, stool softeners, and medicine taken for milk supply (e.g., Reglan). It beats the lactation rule.\n\n3. **Questions about who may see or share a patient's information go to records.** This covers:\n   - someone other than the patient (a spouse, a parent of an adult patient) asking about the patient's visit, results or treatment decisions;\n   - a patient asking how to authorize someone to discuss their care;\n   - a request to send results or records to another provider.\n\n   \u2192 `records`. This beats the nurse_line rule for clinical content.\n\n4. **Getting or keeping insurance coverage goes to family_services.** This covers adding a newborn to a plan (even when a claim was denied because the baby wasn't on it), keeping Medicaid after the postpartum period ends, and help applying for marketplace insurance. Bills, payments, receipts and how to pay (for example an FSA card or paying two bills together) \u2192 `billing_insurance`.\n\n5. **Formula feeding goes to family_services.** This includes feeding problems with formula, such as spit-up, constipation or whether to switch formula, even when the question sounds clinical.\n\n6. **Breastfeeding goes to lactation.** Questions about nursing, such as how often a breastfed newborn feeds, \u2192 `lactation`.\n\n7. **Safety and social needs go to family_services.** Concerns about safety at home or with a partner that the writer says are not an emergency, and requests for community resources, \u2192 `family_services`.\n\n8. **Clinical questions and the patient's own test results go to nurse_line.** This covers non-urgent clinical questions (e.g., \"Can I dye my hair while pregnant?\") and the patient asking about their own test results.\n\n9. **Logistics go to front_desk.** This covers:\n   - parking, building access and wheelchair access;\n   - who can bring a child to an appointment;\n   - printing an immunization or shot record on an official form for daycare or school.\n\n   These go to `front_desk` even though they involve a form or a family member.\n\n10. **Messages in Spanish (or any other language) follow the same rules.**"
+}

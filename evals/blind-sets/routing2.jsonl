@@ -1,0 +1,441 @@
+{"id": "s001", "text": "Can I book my baby's 2 month well check?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s002", "text": "This is Lena Strauss, victim advocate with the police department. Our client has asked that her address be kept from her ex, who may call your clinic pretending to be family. Please advise.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s003", "text": "How do I relactate? stopped 3 weeks ago, baby is 2 months", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s004", "text": "Hola, tengo 32 semanas y quiero aprender sobre la lactancia. ¿Hay clases?", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s005", "text": "Hola, me llegó una cuenta de la clínica y no entiendo por qué. ¿Me pueden explicar?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s006", "text": "Need a letter saying I'm cleared to fly at 30 weeks, the airline requires it", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s007", "text": "insurance ID changed, same company. Updated card attached front and back", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s008", "text": "Is it normal to still be bleeding at 5 weeks postpartum? light, no clots", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s009", "text": "anesthesiology bill came, can you give me their number", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s010", "text": "Can I get my records electronically instead of paper?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s011", "text": "My work wants proof of my COVID and flu vaccines, I got them both here", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s012", "text": "Can I switch my breastfeeding class from Saturday to the weeknight one? Due Jan 5.", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s013", "text": "Partner here — can I attend the prenatal breastfeeding class with my wife? She's 29 weeks.", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s014", "text": "Please send my lab results to my endocrinologist, Dr. Wu, fax 555-889-1203", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s015", "text": "I want my mom to be able to talk to you about my care, what form do I sign?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s016", "text": "Can I do a telehealth visit instead of coming in?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s017", "text": "Can I use my FSA card to pay my balance?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s018", "text": "Probation officer Kevin Draper. I need verification that my client Destiny Lowe attended her prenatal appointments in August and September.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s019", "text": "Milk blister on my nipple, how do I get rid of it", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s020", "text": "Necesito más latas de fórmula, ya se me acabaron los beneficios del mes.", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s021", "text": "FMLA for my husband so he can take leave to care for me after my c-section — form is attached, it needs my provider's part filled in", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s022", "text": "partner here — what was the result of Aaliyah's anatomy scan, she was told someone would call", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s023", "text": "Exclusively pumping for my 6 week old, how many times should I pump at night?", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s024", "text": "Hello — I work with the tribal family services office. I'm helping Ms. Lorraine Begay pay off her balance with you. Can she get a payment plan?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s025", "text": "Copay for my breastfeeding visit — the lactation consultant said I'd owe nothing. why the charge?", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s026", "text": "Last baby I couldn't breastfeed, I'd like help planning this time. I'm 22 weeks.", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s027", "text": "I have a hard red lump in my breast and feel kind of achy, no fever. Baby is 4 wks.", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s028", "text": "Need a refill on baby's nystatin for the thrush in his mouth", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s029", "text": "my son's girlfriend is a patient there and told us she might have gestational diabetes. as the grandparents to be we'd like to know what was found", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s030", "text": "Do you have any hypoallergenic formula on hand? Our order won't arrive til Monday.", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s031", "text": "We're switching from breastmilk to formula at 4 months, how do we do that without upsetting her tummy?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s032", "text": "Buenas tardes, le escribe la licenciada Marisol Vega de servicios sociales del condado. Solicito el registro de vacunas del bebé Mateo Salinas para su expediente de acogida.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s033", "text": "I'd like to switch providers, can I see Dr. Ramirez instead?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s034", "text": "LabCorp sent me to collections for my baby's newborn screen. Help?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s035", "text": "Refill my prenatal vitamins — my insurance only covers them with a prescription and now they want a PA", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s036", "text": "Please complete the disability form I uploaded, it's due Friday", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s037", "text": "I need a superbill to submit to my out-of-network insurance", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s038", "text": "Can you prescribe domperidone to help my supply? the lactation consultant suggested I ask", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s039", "text": "Got a bill from St. Mary's Hospital for my delivery, $1,800. why so much?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s040", "text": "Charged a records copy fee on my bill, I thought the first copy was free?", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s041", "text": "Refill on Zoloft please, still nursing and doing fine on it", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s042", "text": "How much will my postpartum visit cost? I have a high deductible plan", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s043", "text": "Baby bites while nursing now that he's teething", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s044", "text": "Is there wheelchair access at the Elm St location?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s045", "text": "I want to return the pump I got, it's way too loud. Who handles that?", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s046", "text": "Can I meet with a lactation consultant before my baby comes? I'm 35 weeks and nervous", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s047", "text": "Is it safe to take Sudafed while breastfeeding? baby is 3 months", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s048", "text": "My employer changed carriers, new card attached", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s049", "text": "Do you take new patients? My sister goes there", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s050", "text": "Do you have a sliding scale? I don't have insurance.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s051", "text": "My 2 week old is only up 2 oz from birth weight, she's exclusively breastfed. Should I be worried?", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s052", "text": "What's the fax number for the clinic?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s053", "text": "My pump suction feels weak, I'm only getting like half an ounce. Is that the pump or me?", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s054", "text": "Can my husband be added to the sliding fee program too? He gets care here", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s055", "text": "This is Marcus Bell from Riverbend Foster Family Agency. Our foster placement, baby girl Amara T., needs her 2 month appointment moved to next week. Can someone help reschedule?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s056", "text": "Explain the \"facility fee\" on my clinic bill please", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s057", "text": "Necesito cambiar la cita de mi bebé para el viernes.", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s058", "text": "My home blood pressure was 135/85 a couple of times, no symptoms. 34 weeks. Should I mention it?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s059", "text": "I'm Tamara Wells' mom. Tamara is 24 and pregnant and she won't tell me anything — can you let me know how her last appointment went?", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s060", "text": "Daycare says the shot record has to be on the official state form. Can you print that?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s061", "text": "How do I protect my supply while baby gets some bottles of my expressed milk from her dad?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s062", "text": "Can I see my baby's visit notes in my portal? I only see my own chart", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s063", "text": "Why does my bill have a lab charge from your office? I thought labs went to Quest", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s064", "text": "Me duele mucho cuando el bebé se pega al pecho. Tiene 1 semana.", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s065", "text": "Can I get a receipt for my payment last month?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s066", "text": "Medicaid says the claim for my newborn's visit was submitted under my ID instead of hers", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s067", "text": "CVS says my baby aspirin isn't ready, did the doctor send it?", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s068", "text": "Kinship care navigator here. Grandma (Doris Hampton) now has legal custody of baby Elijah and needs to be listed as his contact for appointments.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s069", "text": "My milk hasn't come in yet, baby is 4 days old, gave birth Sunday", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s070", "text": "Baby keeps spitting up after her formula bottles, could it be the formula?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s071", "text": "My portal says I have an appointment I never made", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s072", "text": "Hospital-grade pump rental — how much does it cost and is it billed through you? Baby is in the NICU.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s073", "text": "I think my insurance was billed for a visit here I never had", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s074", "text": "Is there a pharmacy in the building?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s075", "text": "I have new insurance as of Oct 1, here is a picture of my card. Please update.", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s076", "text": "I need to reschedule my nutrition program appointment on Thursday", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s077", "text": "refill request: iron supplement (ferrous sulfate), 1 a day", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s078", "text": "Hola, necesito que llenen el formulario de incapacidad de mi trabajo.", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s079", "text": "Insurance says my progesterone shots need preauthorization", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s080", "text": "Our son's insurance moved from CHIP to Medicaid, new ID attached", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s081", "text": "I'm the dad, can I schedule baby Zoe's 4 month checkup? Mom is at work.", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s082", "text": "Why was I charged for the phone call with the nurse?", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s083", "text": "Is it normal for my breastfed baby to poop only once a week? 7 weeks old", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s084", "text": "Can I get a discount on my bill? I make very little since I had to stop working.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s085", "text": "Can I pay my baby's bill and mine together?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s086", "text": "What does my one-hour glucose result of 142 mean?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s087", "text": "I left a baby blanket in the waiting room yesterday, did anyone find it?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s088", "text": "Baby has a stuffy nose, 2 weeks old, otherwise fine. Are saline drops ok?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s089", "text": "Is the lactation consult billed separately? I just got a statement with a charge for it", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s090", "text": "Hi I'm Omar, partner of Lindsay Ferro. What did the genetic screening show? Lindsay said it was fine but I want to see it myself.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s091", "text": "I'd like the notes from my postpartum visit sent to my therapist, release signed", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s092", "text": "Insurance denied the Neocate, how do we appeal? baby has a milk protein allergy", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s093", "text": "How do I get proxy access to my newborn's portal account?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s094", "text": "Hi, Kyle Benson. My ex Megan is pregnant with my baby and I'd like to know how her prenatal visits are going and if everything is normal.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s096", "text": "The portal app keeps crashing on my iphone", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s097", "text": "I'd like to set up a payment plan for my balance of $420", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s098", "text": "Return to work clearance form — I need it signed before Monday", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s099", "text": "requesting my son's complete chart since birth, we're moving out of state", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s100", "text": "Can you hold my account from collections while my insurance appeal is pending?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s101", "text": "How do I wean my 11 month old off nursing at night?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s102", "text": "Newborn screen result says \"repeat needed\" — what does that mean?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s103", "text": "Hola, soy Marco, hermano de Gabriela Soto. Ella me dijo que le hicieron una prueba de preeclampsia, ¿qué salió?", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s104", "text": "Need a doctor's note for daycare saying my son needs a special formula", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s105", "text": "My son's daycare needs a TB screening health statement signed by his doctor", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s106", "text": "My results say \"low iron\" — do I need to do anything?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s108", "text": "is it ok to use a manual pump instead of the electric? the electric one makes my nipples sore", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s109", "text": "Can I get a growth chart from Lily's visits? We want it for her baby book", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s110", "text": "How do I increase my milk supply? baby 3 weeks", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s111", "text": "bill from the pediatric hospitalist group for baby's first exam in the hospital??", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s112", "text": "How early should I arrive for my glucose test appointment?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s113", "text": "Juvenile court liaison writing re: minor parent Ashley R. The judge has requested proof of enrollment in prenatal care.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s114", "text": "Billing code on my visit looks wrong — insurance says it was coded as non-preventive", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s115", "text": "I want to sign up for the nutrition program. I'm 12 weeks pregnant.", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s116", "text": "Can I get the flu shot while I'm nursing? baby is 6 weeks", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s117", "text": "Hello, I am a caseworker at Lutheran Family Services. Can you tell me what time Ms. Hana Ito's appointment is tomorrow so I can arrange her transportation?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s118", "text": "Bill from Northwest Perinatal (the high risk specialist you referred me to). can you help sort it out", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s119", "text": "I can't log into the portal, password reset isn't working", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s120", "text": "I missed my nutrition program check-in, am I still enrolled?", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s121", "text": "Can you send a new Rx for my glucose test strips and lancets", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s122", "text": "My statement says $0 due but the portal says $45", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s123", "text": "I'm moving to another county, will my nutrition benefits transfer?", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s124", "text": "Jury duty summons came, can someone write that I'm 36 weeks pregnant", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s125", "text": "This is baby Liam's uncle (mom is my sister Hannah Briggs). I'd like to know what the doctor found at his last visit about the weight issue.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s126", "text": "I received a bill from Valley Anesthesia for my epidural. Is this from you guys?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s127", "text": "from DHS child protective unit: requesting all records for infant Zion Carter born 7/14 per court order #44-2219.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s128", "text": "Hola, me llegó una factura del hospital por el parto. ¿Ustedes me pueden ayudar?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s129", "text": "Can I take Claritin while pregnant?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s130", "text": "Baby's vitamin D drops prescription ran out", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s131", "text": "Can I join the breastfeeding support group? baby is 6 weeks", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s132", "text": "Cancel my appointment tomorrow please, my other kid is sick", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s133", "text": "I lost my job and my insurance, I'm 20 weeks. what do I do about my care?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s134", "text": "Hello, Grace Liu's sister here. Grace asked me to find out her Group B strep result from her last visit.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s135", "text": "Need my birth control pills refilled, I started them at my 6 week visit", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s136", "text": "Insurance won't cover my Diclegis without a prior auth, can you submit one?", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s137", "text": "Can I get more formula through the nutrition program? I'm enrolled and my baby is drinking more now.", "queue": "family_services", "rule": 4, "tricky": false}
+{"id": "s138", "text": "I'm 17 and my school wants a note for the classes I miss for prenatal appointments", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s139", "text": "My Medela pump order is stuck on \"pending physician signature.\" Can someone sign it?", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s140", "text": "Abuela de la bebé Valentina aquí. ¿Qué le dijeron a mi hija sobre la ictericia de la bebé? Yo la cuido mientras mi hija trabaja.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s141", "text": "How long can breast milk stay in the fridge?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s142", "text": "I need my disability paperwork extended since I had a c-section, the original only says 6 weeks", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s143", "text": "Insurance says you billed under the wrong member ID, can you rebill?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s144", "text": "How do I add my newborn to my insurance?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s145", "text": "How do I message my own doctor directly instead of the general inbox?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s146", "text": "I'm mom — grandma is watching the baby and wants a copy of his shot record, can you send it to me so I can give it to her", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s147", "text": "Can I get a second pump for work? insurance only gave me one and I want to leave one at the office", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s148", "text": "My nipples are flat, will that be a problem for nursing once the baby is born? 30 wks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s149", "text": "Please send my pap smear results to Planned Parenthood", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s150", "text": "Can I get a copy of my prenatal chart notes from my last 3 visits?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s151", "text": "Mi bebé quiere comer cada hora, ¿es normal? tiene 10 días y le doy pecho.", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s152", "text": "My strep B came back positive, what does that mean for delivery?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s153", "text": "Pharmacy wants a prior authorization for EleCare. Who does that?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s154", "text": "My postpartum Zoloft refill was denied by insurance, they want a PA.", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s155", "text": "Why did I get a bill for my baby's 2 week visit? Medicaid should cover it", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s156", "text": "Hola, ¿cómo pido mi extractor de leche gratis con Medicaid? Tengo 30 semanas.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s157", "text": "Can I freeze milk that was already in the fridge for 2 days?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s158", "text": "Was the ultrasound I had in your office billed to insurance yet?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s159", "text": "Is it safe to keep nursing my toddler while I'm pregnant? I'm 18 weeks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s160", "text": "Can the doctor sign my disabled parking placard application? hard to walk at 38 weeks", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s161", "text": "Doula program coordinator at Mama Circle (community agency). Our client Fatima Noor would like us to have access to her portal. How do we set that up?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s162", "text": "Quest Diagnostics billed me for bloodwork ordered at my prenatal visit. Insurance should have covered it", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s163", "text": "The pediatric visit note says \"change to soy formula\" — can that be changed on my nutrition benefits?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s164", "text": "Postpartum hair loss is crazy at 4 months, normal?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s165", "text": "Is the clinic open on Veterans Day?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s166", "text": "I want to make a complaint about how a staff member spoke to me at check in", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s167", "text": "Hola, ¿pueden mandar la receta de mis pastillas anticonceptivas a la farmacia?", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s168", "text": "My nipples are cracked and bleeding, baby is 5 days old", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s169", "text": "Baby's eyes are a little goopy, no redness, 10 days old", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s170", "text": "Do I need to stop breastfeeding to get a dental x-ray and novocaine?", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s171", "text": "Hi, Tiffany from Early Head Start. Our enrolled mom Chantel Price asked us to get her baby's shot record printed for her enrollment file.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s172", "text": "Need an itemized bill for my HSA", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s173", "text": "Got married and my insurance is now under my new name, new card attached, please update", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s174", "text": "Can I get a copy of my baby's shot record for daycare?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s175", "text": "hi i'm the caseworker for the Adeyemi family through refugee resettlement. mom needs her insurance card updated, she got a new Medicaid ID last week", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s176", "text": "I was charged twice for the same visit on 9/18", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s177", "text": "husband here, trying to get my wife's breast pump ordered before she delivers, what info do you need from us?", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s178", "text": "I'm Ben, my wife Claire Dubois saw you Monday after some bleeding. Can you tell me what the plan is? she doesn't want to talk about it.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s179", "text": "How much does a well-baby visit cost without insurance?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s180", "text": "pumping hurts so bad, is that normal? 3 weeks pp", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s181", "text": "Engorgement is so bad baby can't latch, 4 days postpartum", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s182", "text": "I got a bill from Aeroflow for a pump I never received", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s183", "text": "Baby's jaundice level from yesterday — did it go down?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s184", "text": "Where do I sign up to borrow a hospital pump? baby born 2 days ago at 35 weeks", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s185", "text": "My doctor mentioned hand expressing colostrum before birth because of my gestational diabetes. How do I learn to do it? 34 weeks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s186", "text": "At my postpartum visit the doctor said to ask you about tongue tie, baby clicks when nursing", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s187", "text": "Can you print an updated shot record now that he had his 4 month shots?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s188", "text": "Ultrasound pictures — can I get copies of the images from my anatomy scan?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s189", "text": "Bill from Summit Imaging for my 20 week ultrasound — I thought it was part of my prenatal care?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s190", "text": "The housing authority needs a pregnancy verification letter with my due date", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s191", "text": "Can I have a Vietnamese interpreter for my visit next Tuesday?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s192", "text": "Hi, case manager from Harbor House shelter. Resident Mia Johansson needs her prenatal vitamins refilled, she lost them when she moved in with us.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s193", "text": "Baby has a little rash on his cheeks, 3 weeks old, no fever. Should we bring him in?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s194", "text": "Unemployment office needs a form saying I'm medically able to work after giving birth", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s195", "text": "Moved last week, please update my address to 22 Pine Rd", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s196", "text": "Light spotting after sex at 14 weeks, no pain. Normal?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s197", "text": "formula assistance please — store said my nutrition card has no formula left this month", "queue": "family_services", "rule": 4, "tricky": false}
+{"id": "s198", "text": "Pharmacy changed — please send all my prescriptions to Rite Aid on Grand Ave now", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s199", "text": "The NICU sent me a bill for $12,000 and I don't even know who to call", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s200", "text": "My baby's CHIP coverage lapsed, how do I restart it?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s201", "text": "I'm her fiance. Can you tell me Courtney Ash's due date? we're planning the wedding around it lol", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s202", "text": "Necesito un resurtido de mis vitaminas prenatales, por favor.", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s203", "text": "How do I get a birth certificate for my baby? She was born at home, unplanned.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s204", "text": "The birthing center sent me a balance bill after insurance paid. Who do I talk to?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s205", "text": "my aunt Rosa is your patient and asked me to translate for her. what did the nurse say about her iron levels? she's 30 weeks", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s206", "text": "Nipple shield — how do I wean baby off it?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s207", "text": "need baby's vaccine card, we lost the one from the hospital", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s208", "text": "Running 15 min late to my 2:30, is that ok?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s209", "text": "Requesting an amendment to my medical record, the visit note from 9/12 has my history wrong", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s210", "text": "reschedule my lactation consult from Wed to Fri please", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s211", "text": "Bright Paths Foster Care here — our foster parent needs FMLA paperwork signed for bonding leave with her placement child, Lily Ann.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s212", "text": "Hola, ¿pueden mandar los resultados de mis análisis a mi nueva clínica?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s213", "text": "What has my deductible been applied to? I see charges from your clinic on my EOB", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s214", "text": "Nursing strike — my 6 month old suddenly won't nurse", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s215", "text": "Paid family leave claim form - the section for the medical provider needs to be filled out", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s216", "text": "Can my partner come to my ultrasound appointment?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s217", "text": "Do you guys give out formula samples? I'm out until payday", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s218", "text": "Can I pay my bill over the phone?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s219", "text": "Could the doctor call in something for my yeast infection? Had it before, same symptoms. 28 weeks.", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s220", "text": "Hello, this is Sharon from the Guardian ad Litem program. I'm assigned to baby Noah Reyes. Could you send me his growth chart and visit summaries?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s221", "text": "Charged a no-show fee but I called to cancel the day before", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s222", "text": "I need a letter of medical necessity for a hospital grade pump, my insurance asked for it", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s223", "text": "I got married, my last name is now Okonkwo. please update my chart", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s224", "text": "Need a refill of my APNO nipple cream prescription, almost out (baby 5 wks)", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s225", "text": "Do I need to buy nipple cream and nursing bras before delivery? First baby, 36 weeks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s226", "text": "My pregnancy Medicaid application was denied, can someone help me reapply?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s227", "text": "Me cobraron dos veces el copago. ¿Me pueden devolver el dinero?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s228", "text": "Hello this is Jen, I'm the roommate and birth support person for Kelsey Moran. Could you tell me what her blood type is? she needs it for a form and she's sleeping", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s229", "text": "How much formula should my 2 month old be eating per bottle?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s230", "text": "Why did my balance go up? I haven't been in since August", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s231", "text": "What should I bring to my first prenatal visit?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s232", "text": "I received a collections notice from you guys for an old balance, I thought it was paid", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s233", "text": "Ambulance company billed me for the ride to labor and delivery", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s234", "text": "my nipples turn white and burn after feeding, baby 3 wks", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s235", "text": "Is there a waiting list for earlier appointment slots?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s236", "text": "My c-section incision is a little itchy, it looks like it's healing ok though. Normal?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s237", "text": "I need my delivery and prenatal records for my lawyer, how do I request them?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s238", "text": "the pharmacy is out of my insulin brand, can you send a different one?", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s239", "text": "Can I get a refill on my nifedipine? also wondering if it's safe while breastfeeding", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s240", "text": "I got a statement for $85 but I already paid at check in", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s241", "text": "My job needs a doctor's note that I can't lift more than 20 lbs", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s242", "text": "Please email me a copy of the hospital discharge summary you received for my baby", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s243", "text": "i want to book a lactation visit, latch still hurts at 2 weeks", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s244", "text": "Can someone help me find diapers and a car seat? Money is really tight.", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s245", "text": "Hola, ¿puedo tomar antibióticos mientras doy pecho? Mi bebé tiene 6 semanas.", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s246", "text": "The front desk told me my visit would be free but I got a bill", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s247", "text": "From: Healthy Families home visitor, Bri Santos. Mom (Alicia Brandt) is struggling with latch and wants a lactation appointment, can I book that for her?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s248", "text": "My nipple thrush came back, can you call in more nystatin for me and the baby?", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s249", "text": "Please send my prenatal records to Dr. Hanson at Westside OB, I'm moving", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s250", "text": "New address: 418 Willow Ct Apt 2, same city", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s251", "text": "My new doctor says they never got the records you faxed. Can you resend?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s252", "text": "Baby has his own insurance card now, member ID 44XQ2210. Please put it on his chart.", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s253", "text": "Pago mi cuenta con cheque, ¿a qué dirección lo mando?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s254", "text": "Hola, soy el esposo de Leticia Ramos. ¿Me pueden decir los resultados de sus análisis de sangre? Ella no habla bien el inglés.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s255", "text": "What are your hours on Saturday?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s256", "text": "Hola, necesito cambiar mi cita del programa de nutrición, no puedo ir el martes.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s257", "text": "My period came back and my supply dropped, is that normal? 5 months pp", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s258", "text": "My Medicaid ends 60 days after delivery, how do I keep coverage? Baby is 7 weeks", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s259", "text": "Please print my Tdap record, my sister wants proof before I hold her newborn", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s260", "text": "Can I schedule my postpartum visit and the baby's 2 week visit at the same time?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s261", "text": "Things at home aren't safe sometimes with my partner. I'm ok right now, not an emergency, but I'd like to talk to someone about options.", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s262", "text": "Nuevo seguro médico, les mando foto de la tarjeta por los dos lados.", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s263", "text": "Hi, I need a prescription for a breast pump sent to Edgepark. Due date is Dec 3.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s264", "text": "Where do I park for the clinic?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s265", "text": "I need my FMLA paperwork filled out for maternity leave, my HR sent it over.", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s266", "text": "Could you send my glucose test results to my employer's wellness program? signed release attached", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s267", "text": "dropping my old insurance at the end of the month, the new one is UHC. what do you need from me?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s268", "text": "Can you send baby's records to his new pediatrician, Dr. Alvarez at Kids First?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s269", "text": "Need a new prescription for the reglan, pharmacy says it expired. using it for milk supply", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s270", "text": "Can you mix formula and breastmilk in the same bottle?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s271", "text": "My lactation consultant told me to start supplementing with formula. which formula should I buy?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s272", "text": "Feedback: the wait on Tuesday was over an hour", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s273", "text": "my girlfriend had an ultrasound today and she's being weird about it. can you tell me if the baby is ok? her name is Brianna Holt", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s274", "text": "I'd prefer a Spanish-speaking provider for my visits if possible", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s275", "text": "Can I pick up immunization printouts for both my kids tomorrow?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s276", "text": "Is a wearable pump covered or just the regular ones? I'm due in January.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s278", "text": "Is my wife's pregnancy test from last week positive? Her name is Natalie Brooks. We've been trying for a while and she hasn't heard anything.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s279", "text": "Could you upload Oliver's immunization record to the portal or email it? he starts childcare Monday", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s280", "text": "Requesting records release — form attached, please send to Blue Mountain Clinic", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s281", "text": "I need help finding housing before the baby comes", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s282", "text": "My account shows a credit, can I get a refund?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s283", "text": "Thank you all for taking such great care of us during my pregnancy!", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s284", "text": "Short term disability form from my employer needs to be completed, I'm due Nov 20", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s285", "text": "Can the nurse fill out my maternity leave dates on my employer's form? I delivered 10/2", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s286", "text": "Baby has been on Enfamil Gentlease and is still super gassy, should we switch formulas?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s287", "text": "Hi this is Derek, Sara's husband. She had her glucose test Tuesday, did she pass? She's at work and asked me to check.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s288", "text": "Hola, ¿me pueden mandar las vacunas que le pusieron a mi hija a los 2 meses?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s289", "text": "Is there someone who can help me apply for marketplace insurance? open enrollment is coming up", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s290", "text": "is it okay to use tap water to mix formula", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s291", "text": "I want to see the actual nurse notes from my phone call last week", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s293", "text": "My pump flanges cracked, can the clinic order replacement parts or do I call the company?", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s294", "text": "Baby's umbilical stump is still hanging on at 3 weeks, is that ok?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s295", "text": "Need an exercise clearance form signed, 7 weeks postpartum", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s296", "text": "Can I bring my other kids to my appointment?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s297", "text": "mild headaches in the afternoon, 24 wks, tylenol helps. Should I mention it at my next visit?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s298", "text": "Where can I get a copy of my flu shot record from my pregnancy visit?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s299", "text": "Do you have a list of food banks near the clinic?", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s300", "text": "My previous OB's records should've come over, can you check if they arrived?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s301", "text": "Es mi primer embarazo (27 semanas) y quiero dar pecho, ¿quién me puede orientar?", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s302", "text": "I need my records from my previous clinic sent TO you — do you request those?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s303", "text": "Switched from Blue Cross to Kaiser through my husband's job, how do I update that with you?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s304", "text": "Want to talk to someone about whether I should breastfeed or bottle feed, still deciding. 31 weeks.", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s306", "text": "Can I get a refill of my prenatal vitamins sent to Walgreens on 5th St?", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s307", "text": "My insurance denied the claim for my 6 week postpartum visit, can you resubmit?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s308", "text": "My baby's portal shows the wrong birth weight, can that be fixed?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s309", "text": "How do I update the credit card on file for payments?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s310", "text": "Global maternity fee - when do I get billed for that and how much is it?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s311", "text": "Husband here, I want to pay my wife's balance, can I do that online?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s312", "text": "Pharmacy says my Zofran needs a prior authorization from the doctor's office.", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s313", "text": "Hey, I'm Rocky's step-dad, she's 19 and expecting. She asked me to find out why they wanted to repeat her bloodwork.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s314", "text": "I got approved for Medicaid! here's my new card number 7783-221-09", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s315", "text": "can my baby be on my medicaid or does he need his own", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s316", "text": "The hospital charged me for the circumcision, isn't that included?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s317", "text": "Secondary insurance — I'm on my wife's plan too, can you add it to my file", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s318", "text": "I'm 28 weeks and want to sign up for the breastfeeding class", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s319", "text": "Necesito acceso al portal de mi bebé, ¿cómo lo hago?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s320", "text": "Mi seguro dice que no recibieron el reclamo de mi visita del 5 de septiembre.", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s321", "text": "I had a breast reduction years ago, will I be able to breastfeed? Due in March.", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s322", "text": "Tricare needs a copy of my records for my claim, release attached", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s323", "text": "I'm pregnant with twins, any advice on preparing to breastfeed both?", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s324", "text": "leaking colostrum at 33 weeks, should I be collecting it?", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s325", "text": "I need a statement of all payments made this year for taxes", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s326", "text": "There's an error in my chart — it says I have a penicillin allergy but I don't", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s327", "text": "ondansetron refill pls, still nauseous at 16 wks", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s328", "text": "Why was I charged a copay for my prenatal visit?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s329", "text": "This is CPS investigator R. Okafor. We need a callback regarding infant Kai Benton, seen at your clinic 10/3. Not an emergency but time sensitive for our report.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s330", "text": "Do I have to pump and dump after one glass of wine or is that a myth?", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s331", "text": "¿Qué necesito para aplicar al descuento por ingresos? No tengo seguro.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s332", "text": "Life insurance company needs my medical records, I signed their release", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s333", "text": "My mother will bring the baby to his appointment tomorrow since I work, is that ok? I'm his mom.", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s334", "text": "Is it ok to keep breastfeeding with a cold? 2 month old", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s335", "text": "why did I get a bill from Riverside Pathology? I never went there", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s336", "text": "I think I have an oversupply, baby chokes and gulps every feed", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s337", "text": "Can you sign the medical portion of my state disability claim? Claim number attached", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s338", "text": "I got a letter saying my Medicaid renewal is due. Do you help with that paperwork?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s339", "text": "Does my insurance cover a breast pump? I have Aetna and I'm 34 weeks.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s340", "text": "Is there a parenting class or support group for new dads?", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s341", "text": "I need the CPT codes for my prenatal care so my insurance can tell me what I'll owe", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s342", "text": "Can I get a copy of my ultrasound report?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s343", "text": "Necesito una copia de mi expediente médico. ¿Cómo lo pido?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s344", "text": "i was told my pump needs a prior auth from you guys before the supply company will ship it. can you send it?", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s345", "text": "The nutrition program says I need a medical form from the doctor for the special formula. Can you fill it out?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s346", "text": "Insurance paid but you still sent me a bill", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s347", "text": "Hola, necesito hacer una cita para mi chequeo de 6 semanas después del parto.", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s349", "text": "I was charged for a missed lactation appointment, I was in the hospital with the baby that day", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s350", "text": "My nutrition benefits card isn't working at the store", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s351", "text": "My doctor said my thyroid lab was off, did they decide on a dose?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s352", "text": "Thank you to the lactation team for the help last week! Quick follow up — still using the football hold, should I try cradle now?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s353", "text": "How do I set up autopay?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s354", "text": "My formula benefit has the wrong brand on it", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s355", "text": "Hola, soy trabajadora social del programa Familias Unidas. Necesito saber si la paciente Yesenia Cruz asistió a su cita postparto la semana pasada. Tengo su autorización firmada.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s356", "text": "Hi, the home visit nurse was supposed to come today and didn't show, can we reschedule?", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s357", "text": "Hi, I'm with the county public defender's office, requesting certified copies of birth-related clinic records for our client Tanya Moore. Subpoena attached.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s358", "text": "Why is there a \"new patient\" charge? I've been coming here for years", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s359", "text": "What time is the next breastfeeding class? I'm due in 6 weeks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s360", "text": "I need a copy of my complete medical records from my pregnancy", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s362", "text": "I paid $50 on my account, it's not showing", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s363", "text": "Mi bebé tiene hipo todo el tiempo, ¿es normal? Tiene 2 semanas.", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s364", "text": "Good morning. Attorney Paul Lindqvist here, representing Ms. Renata Ochoa in a custody matter. Please advise on the process to obtain her prenatal records.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s365", "text": "Can someone call me back about scheduling? It's easier for me by phone", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s366", "text": "Hola, ¿es normal tener calambres en las piernas a las 30 semanas?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s367", "text": "is the breastfeeding class covered by insurance or is it free? I'm expecting in February", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s368", "text": "Baby refuses the left side, any tips?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s369", "text": "When should I expect the results of my NIPT?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s370", "text": "Grandpa here, I bring baby Theo to his appts sometimes. What were his newborn screening results? Mom is Sasha Petrov.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s371", "text": "Natera sent me a $900 bill for the NIPT blood test. Your nurse said it would be covered", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s372", "text": "Hi, this is Dana Whitfield, caseworker with County Child Welfare. I'm requesting a copy of the immunization record and last well-baby visit note for infant Jayden Morales (DOB 6/2). Release signed by mom is attached.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s373", "text": "Hello, I'm a home visiting nurse with Nurse-Family Partnership working with your patient Keisha Grant. She got a bill for $240 she doesn't understand and asked me to reach out on her behalf.", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s374", "text": "How do I know if my baby has a good latch? 9 days old", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s375", "text": "Can I breastfeed after getting my hair dyed? lol", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s376", "text": "Can you update my insurance? I'm on my parents' plan now, Cigna", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s377", "text": "caseworker here (DCFS, Tamsin Rowe). foster baby on my caseload needs a script for hypoallergenic formula, current one is making him spit up a lot. foster mom is Linda Park", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s378", "text": "Need help getting my baby a social security number", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s379", "text": "There's a $25 charge on my statement for FMLA paperwork. Do you really charge for forms?", "queue": "billing_insurance", "rule": 13, "tricky": true}
+{"id": "s380", "text": "How often should I be pumping now that I'm back at work? baby is 10 weeks", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s381", "text": "Statement shows a charge for a urine drug screen I didn't agree to", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s382", "text": "Daycare wants immunization history for Mila, DOB 3/4/26", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s383", "text": "This is the baby's grandmother. I take care of Ava during the day. What did the doctor say at her 1 month checkup? Her mom is Jess Kim.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s384", "text": "I need a medical certification for my baby's daycare saying he's healthy enough to attend", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s386", "text": "Is it safe to get a pedicure at 20 weeks?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s387", "text": "Baby needs Alimentum, can the doctor write a prescription? Pharmacy says it needs one.", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s388", "text": "what size flange should I be using? nipple is rubbing the sides", "queue": "lactation", "rule": 3, "tricky": false}
+{"id": "s389", "text": "Esposo de la paciente Dulce Herrera. ¿Le salió bien la prueba de orina? Me dijo que la iban a llamar y nadie ha llamado.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s390", "text": "My pap came back abnormal (ASC-US), what happens next?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s391", "text": "Please send my metformin refill to the Costco pharmacy, 32 weeks", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s392", "text": "Necesito una receta para la bomba de lactancia. Mi aseguranza es Molina.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s393", "text": "Which vaccines did Ezra get at his 2 month visit? can I have a printout", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s394", "text": "I paid my hospital bill twice by mistake, how do I get a refund from them", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s395", "text": "Necesito el récord de vacunas de mi bebé para la guardería.", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s396", "text": "Adoption agency here (New Beginnings). Birth mother Kayla Dunn has a balance with you and our agency has agreed to cover her prenatal costs. Who do we pay?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s397", "text": "Prenatal visits — does my insurance cover them 100%?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s398", "text": "This is Jordan Hale, school social worker at Lincoln High. One of our students is a patient of yours, she's pregnant and asked me to help her set up her prenatal appointments. What's the best way to do that?", "queue": "family_services", "rule": 1, "tricky": true}
+{"id": "s399", "text": "The DME company billed me $189 for my Spectra pump and said insurance denied it. what do I do", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s400", "text": "vaccination record for my son for international travel?", "queue": "front_desk", "rule": 8, "tricky": true}
+{"id": "s401", "text": "Can I pick up my pump at the front desk? I got a message saying it arrived.", "queue": "lactation", "rule": 3, "tricky": true}
+{"id": "s402", "text": "Does the clinic have a financial assistance application? I just got a $600 bill.", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s403", "text": "My employer's leave form needs the expected date of delivery and a signature, attached.", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s404", "text": "My EOB says \"not medically necessary\" for the extra ultrasound done in your office", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s405", "text": "Writing for my adult daughter Emily Shaw who had her 6 week visit. Did they clear her to exercise and drive?", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s406", "text": "Baby isn't showing up on my insurance yet and his first visit got denied. how do I get him added", "queue": "family_services", "rule": 5, "tricky": true}
+{"id": "s407", "text": "Need a second lactation consult, the first one helped but we're struggling again", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s408", "text": "Insurance denied coverage for my blood pressure meds, the pharmacist said the office needs to send paperwork", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s409", "text": "I saw my lab results in the portal, what does \"rubella non-immune\" mean?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s410", "text": "I got an EOB from my insurance for \"facility charges\" from Mercy Medical Center after my c-section, is that your bill?", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s411", "text": "Is it ok to fly at 26 weeks? just asking, no letter needed", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s412", "text": "Update my emergency contact to my mom, Gloria Sandoval 555-882-0193", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s413", "text": "Prior auth for baby's reflux medicine (famotidine) — CVS says it's pending on your end", "queue": "nurse_line", "rule": 9, "tricky": true}
+{"id": "s414", "text": "I need to reschedule my prenatal appointment on Monday", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s415", "text": "How long does it take to get a copy of my records?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s416", "text": "My husband wants to be able to see my portal, how do I give him access?", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s417", "text": "Can I dye my hair while pregnant?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s418", "text": "Can I drink coffee while breastfeeding? how much is ok?", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s419", "text": "Does the clinic accept Ambetter?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s420", "text": "Cambié de número de teléfono, el nuevo es 555-301-7712", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s421", "text": "Can you tell me what I'll owe before I come in Friday?", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s422", "text": "Refill on my levothyroxine please, dose was changed last visit", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s423", "text": "Please send my statements by email instead of paper mail", "queue": "billing_insurance", "rule": 13, "tricky": false}
+{"id": "s424", "text": "Hi, my wife Priya Nair had her postpartum visit yesterday. What did they decide about her blood pressure meds? I want to make sure I understand.", "queue": "records", "rule": 2, "tricky": true}
+{"id": "s425", "text": "Necesito ayuda con transporte para mis citas, no tengo carro.", "queue": "family_services", "rule": 5, "tricky": false}
+{"id": "s426", "text": "Recibí un cobro de un laboratorio que no conozco por la prueba de diabetes del embarazo.", "queue": "front_desk", "rule": 6, "tricky": true}
+{"id": "s427", "text": "pharmacy says they never got my script for the ibuprofen 800 after delivery", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s428", "text": "My Rx for the hemorrhoid cream, can I get a refill", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s429", "text": "Please change my phone number to 555-210-8834", "queue": "front_desk", "rule": 6, "tricky": false}
+{"id": "s430", "text": "what were the results of my urine culture? haven't heard anything", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s431", "text": "can i get more of the stool softener rx? still struggling 2 wks pp", "queue": "nurse_line", "rule": 9, "tricky": false}
+{"id": "s432", "text": "How do I change my notification settings so I get texts not emails?", "queue": "front_desk", "rule": 15, "tricky": false}
+{"id": "s433", "text": "is there a coupon or something to help pay for formula, its so expensive", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s434", "text": "Is it okay to sleep on my back at 22 weeks?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s435", "text": "Necesito una carta para mi trabajo que diga que estoy embarazada y que necesito descansos.", "queue": "nurse_line", "rule": 7, "tricky": false}
+{"id": "s436", "text": "baby falls asleep at the breast every time, how do i keep her awake to eat", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s437", "text": "Can I get a work note for missing Tuesday for my appointment?", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s438", "text": "Can you fax my completed FMLA to my HR at 555-200-1000? it was supposed to be done last week", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s439", "text": "Please remove my ex-boyfriend from my authorized contacts", "queue": "records", "rule": 12, "tricky": true}
+{"id": "s440", "text": "Daycare health form for my son needs a provider signature, can I drop it off?", "queue": "nurse_line", "rule": 7, "tricky": true}
+{"id": "s441", "text": "Is ibuprofen ok while nursing? c-section pain", "queue": "lactation", "rule": 11, "tricky": true}
+{"id": "s442", "text": "My visit summary lists the wrong medication, can you correct it?", "queue": "records", "rule": 12, "tricky": false}
+{"id": "s443", "text": "I want to breastfeed but I'll be going back to work at 8 weeks. Any tips? currently 25 weeks", "queue": "front_desk", "rule": 10, "tricky": true}
+{"id": "s444", "text": "Sore arm and a low fever after my Tdap yesterday, is that expected?", "queue": "nurse_line", "rule": 14, "tricky": false}
+{"id": "s445", "text": "Can't find Similac Sensitive anywhere, store shelves are empty. What can I use instead?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s446", "text": "I've been feeling really down since the baby came. Not in crisis, but I'd like to talk to someone about it.", "queue": "nurse_line", "rule": 14, "tricky": true}
+{"id": "s448", "text": "Mi bebé tiene estreñimiento con la fórmula, ¿se la puedo cambiar?", "queue": "family_services", "rule": 4, "tricky": true}
+{"id": "s449", "text": "Cluster feeding all evening, is she getting enough?", "queue": "lactation", "rule": 11, "tricky": false}
+{"id": "s450", "text": "Can I get a payment plan for my baby's bills? like $60/month", "queue": "billing_insurance", "rule": 13, "tricky": false}

@@ -47,6 +47,28 @@ few-shot retrieval (the 6 most similar per message). No fine-tuning.
 answer. The reference row shows the labels are consistent and the remaining gap is in learning from
 examples (6 retrieved per message), not in the task.
 
+### 2b. The same question after adding the rulebook — a new sealed set
+
+The examples-only curve above flattens near 80%. The engine then gained a rulebook (`fewshot.rulebook`): from
+8 corrections on, the brain reads all of a workflow's corrections once and writes the rules they imply,
+and every call sees those rules plus the 6 most similar corrections. The system changed, so it was scored
+on a NEW set: a blind agent's 15-rule routing protocol for a women's-health clinic (6 queues), 450
+messages, 441 kept after the second labeller (224 tricky). Split once: 150 test, 291 corrections.
+
+| corrections | examples only | rulebook + examples |
+|---|---|---|
+| 0 | 89 — 59.3% (51.3–66.9) | 89 — 59.3% |
+| 10 | 104 — 69.3% | 107 — 71.3% |
+| 25 | 108 — 72.0% | 108 — 72.0% |
+| 50 | 111 — 74.0% | 124 — 82.7% (75.8–87.9) |
+| 100 | 108 — 72.0% | 137 — 91.3% (85.7–94.9) |
+| 291 | 119 — 79.3% (72.2–85.0) | **146 — 97.3% (93.3–99.0)** |
+| rules written out, no corrections (upper reference) | 150 — 100% (97.5–100) | |
+
+Errors fall from 61 to 4 of 150. Each rulebook the run wrote is saved in
+`evals/blind-results/routing2-rulebooks/`; the one written from 291 corrections matches the clinic's real
+protocol nearly rule for rule.
+
 ## 3. The validator — seeded faults from an independent list
 
 A blind agent listed 25 kinds of fault a static checker could catch (`evals/blind-sets/fault_kinds.md`);
