@@ -6,7 +6,7 @@ and hands you back a result — staged for a human.**
 Built from scratch. The core is pure Python standard library; the "brain" for the AI steps is a
 swappable port — Claude CLI (no per-call cost on a Max plan) or the Anthropic API.
 
-**See it work → https://mtichikawa.github.io/workflow-engine/** · How it's built → [how-it-works.html](https://mtichikawa.github.io/workflow-engine/how-it-works.html)
+**See it work → https://mtichikawa.github.io/workflow-engine/** · How it's built → [the How it works page](https://mtichikawa.github.io/workflow-engine/#how) · Every number, how it was measured → [docs/blind-evals.md](docs/blind-evals.md)
 
 ---
 
