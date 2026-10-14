@@ -16,10 +16,13 @@ same tenant chain); cached until the corrections change; derived only from the g
 
 from __future__ import annotations
 
+import contextvars
+import difflib
 import hashlib
 import json
 import re
 import threading
+import time
 from pathlib import Path
 
 from . import examples
@@ -86,46 +89,50 @@ def load(specialist: str) -> list[dict]:
     return examples.load_examples(specialist)
 
 
-_OVERRIDE: dict[str, list] = {}   # specialist -> explicit example set (held-out eval bypasses the file)
+# Eval switches are ContextVars, not globals: parallel evals each hold out a different example, and
+# the dispatcher already copies the caller's context into its worker threads (as it does for scope).
+_OVERRIDE: contextvars.ContextVar[dict] = contextvars.ContextVar("fewshot_override", default={})
+_FORCE: contextvars.ContextVar = contextvars.ContextVar("fewshot_force", default=None)
 
 
-class using:
+class _Switch:
+    """Set a ContextVar for the duration of a `with` block."""
+    var: contextvars.ContextVar
+
+    def __enter__(self):
+        self._tok = self.var.set(self._value())
+
+    def __exit__(self, *a):
+        self.var.reset(self._tok)
+
+
+class using(_Switch):
     """Temporarily inject a specific example set (for leave-one-out / held-out eval)."""
+    var = _OVERRIDE
 
     def __init__(self, specialist: str, examples: list):
         self.specialist, self.examples = specialist, examples
 
-    def __enter__(self):
-        _OVERRIDE[self.specialist] = self.examples
-
-    def __exit__(self, *a):
-        _OVERRIDE.pop(self.specialist, None)
+    def _value(self):
+        return {**_OVERRIDE.get(), self.specialist: self.examples}
 
 
-_FORCE = None      # None = follow cached policy; True/False = force few-shot on/off (fit eval only)
-
-
-class force:
-    """Force few-shot on/off regardless of the cached policy — used ONLY by the fit eval, so the
+class force(_Switch):
+    """Force few-shot on/off regardless of the cached policy — used ONLY by evals, so the
     'with vs without few-shot' comparison isn't short-circuited by the policy it's computing (1C)."""
+    var = _FORCE
 
     def __init__(self, on: bool):
         self.on = on
 
-    def __enter__(self):
-        global _FORCE
-        self._prev = _FORCE
-        _FORCE = self.on
-
-    def __exit__(self, *a):
-        global _FORCE
-        _FORCE = self._prev
+    def _value(self):
+        return self.on
 
 
 def policy_on(specialist: str) -> bool:
     """Should block() inject for this specialist? A `force` context overrides the cached policy."""
-    if _FORCE is not None:
-        return _FORCE
+    if _FORCE.get() is not None:
+        return _FORCE.get()
     from . import registry            # lazy import: avoid a module cycle
     return registry.fewshot_helps(specialist)
 
@@ -151,9 +158,11 @@ class tailored_weight:
         TAILORED_WEIGHT = self._prev
 
 
-def _pool(specialist: str, current_input) -> list[tuple[dict, str | None]]:
-    """The golds this call may learn from: [(record, layer)] — same config for config-keyed specialists."""
-    ov = _OVERRIDE.get(specialist)
+def _pool(specialist: str, current_input, rejected: bool = False) -> list[tuple[dict, str | None]]:
+    """The golds this call may learn from: [(record, layer)] — same config for config-keyed specialists.
+    Records a reviewer REJECTED are counterexamples: never retrieved as examples of what's right (they
+    feed the rulebook as "wrong, because…" instead); `rejected=True` returns only those."""
+    ov = _OVERRIDE.get().get(specialist)
     if ov is not None:
         pool = [(e, None) for e in ov]               # eval override: one layer, no weighting
     else:
@@ -161,7 +170,7 @@ def _pool(specialist: str, current_input) -> list[tuple[dict, str | None]]:
     if pool and specialist not in FREE_FORM_OUTPUT:  # 1A: config-keyed -> only same-config exemplars
         ck = _config_key(current_input)
         pool = [(e, lay) for e, lay in pool if _config_key(e.get("input")) == ck]
-    return pool
+    return [(e, lay) for e, lay in pool if (e.get("verdict") == "rejected") == rejected]
 
 
 def retrieve(specialist: str, current_input, k: int = 6) -> list[dict]:
@@ -217,32 +226,79 @@ def coverage(specialist: str, current_input, k: int = 6) -> dict | None:
 # ---- 5A: the rulebook --------------------------------------------------------------
 RULES_MIN = 8                         # fewer corrections than this are too few to generalize from
 RULES_DIR = Path("state/rulebooks")   # derived and cached — regenerated whenever the golds change
-_RULES_ON = True
+_RULES_ON: contextvars.ContextVar = contextvars.ContextVar("fewshot_rules", default=True)
 _RULES_LOCK = threading.Lock()
 _RULES_MEM: dict[str, str] = {}
 _NOT_A_DECISION = ("reasoning", "confidence")
 
 
-class rules:
+class rules(_Switch):
     """Turn the rulebook on/off for a scope — evals compare examples-only against rulebook + examples."""
+    var = _RULES_ON
 
     def __init__(self, on: bool):
         self.on = on
 
-    def __enter__(self):
-        global _RULES_ON
-        self._prev, _RULES_ON = _RULES_ON, self.on
+    def _value(self):
+        return self.on
 
-    def __exit__(self, *a):
-        global _RULES_ON
-        _RULES_ON = self._prev
+
+def slot(specialist: str, current_input) -> str:
+    """Which rulebook a call belongs to: this specialist, this workflow's config, this tenant chain.
+    Versions, locks and diffs are kept per slot."""
+    from . import scope as _sc
+    task = {k: v for k, v in (current_input or {}).items() if k not in CONTENT_KEYS}
+    return hashlib.sha256(json.dumps([specialist, task, _sc.read_layers()], sort_keys=True,
+                                     default=str).encode()).hexdigest()[:16]
+
+
+def _slot_file(kind: str, sl: str) -> Path:
+    return RULES_DIR / kind / f"{sl}.json{'l' if kind == 'history' else ''}"
+
+
+def history(specialist: str, current_input) -> list[dict]:
+    """Every rulebook version written for this slot, oldest first: {created, n, rules}."""
+    p = _slot_file("history", slot(specialist, current_input))
+    return [json.loads(l) for l in p.read_text().splitlines() if l.strip()] if p.exists() else []
+
+
+def diff(specialist: str, current_input) -> str:
+    """What changed between the last two rulebook versions (unified diff), or '' if fewer than two."""
+    h = history(specialist, current_input)
+    if len(h) < 2:
+        return ""
+    a, b = h[-2], h[-1]
+    return "\n".join(difflib.unified_diff(a["rules"].splitlines(), b["rules"].splitlines(),
+                                           f"{a['n']} corrections", f"{b['n']} corrections", lineterm=""))
+
+
+def locked(specialist: str, current_input) -> dict | None:
+    p = _slot_file("locked", slot(specialist, current_input))
+    return json.loads(p.read_text()) if p.exists() else None
+
+
+def lock(specialist: str, current_input, rules_text: str, by: str = "") -> None:
+    """A person fixes the rulebook: these rules are used as written until unlocked, whatever the
+    corrections say. (The corrections still accumulate, and the 6 closest still ride along.)"""
+    p = _slot_file("locked", slot(specialist, current_input))
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps({"rules": rules_text.strip(), "locked_at": time.strftime("%Y-%m-%d %H:%M"),
+                             "by": by}, indent=1))
+
+
+def unlock(specialist: str, current_input) -> None:
+    _slot_file("locked", slot(specialist, current_input)).unlink(missing_ok=True)
 
 
 def rulebook(specialist: str, current_input) -> tuple[str, int]:
     """(rules, n): the rules implied by this workflow's n corrections for this specialist, or ('', n)."""
-    if not _RULES_ON or specialist in FREE_FORM_OUTPUT:
+    if not _RULES_ON.get() or specialist in FREE_FORM_OUTPUT:
         return "", 0
     golds = [e for e, _ in _pool(specialist, current_input)]
+    fixed = locked(specialist, current_input)
+    if fixed:
+        return fixed["rules"], len(golds)
+    wrong = [e for e, _ in _pool(specialist, current_input, rejected=True)]
     if len(golds) < RULES_MIN:
         return "", len(golds)
     shown = sorted(
@@ -250,8 +306,14 @@ def rulebook(specialist: str, current_input) -> tuple[str, int]:
         + json.dumps({k: v for k, v in (e.get("output") or {}).items() if k not in _NOT_A_DECISION},
                      default=str)
         for e in golds)
+    counter = sorted(
+        f"- INPUT: {_flatten(_content(e.get('input')))[:500]}\n  WRONG OUTPUT: "
+        + json.dumps({k: v for k, v in (e.get("output") or {}).items() if k not in _NOT_A_DECISION},
+                     default=str) + (f"\n  WHY IT'S WRONG: {e['reason']}" if e.get("reason") else "")
+        for e in wrong)
     task = {k: v for k, v in (current_input or {}).items() if k not in CONTENT_KEYS}
-    key = hashlib.sha256(json.dumps([specialist, task, shown], default=str).encode()).hexdigest()[:20]
+    key = hashlib.sha256(json.dumps([specialist, task, shown] + ([counter] if counter else []),
+                                    default=str).encode()).hexdigest()[:20]
     with _RULES_LOCK:                                # induce once per pool, even under parallel calls
         if key not in _RULES_MEM:
             path = RULES_DIR / f"{specialist}-{key}.json"
@@ -266,10 +328,17 @@ def rulebook(specialist: str, current_input) -> tuple[str, int]:
                     "including non-obvious conventions and which rule wins when an input matches two — and "
                     "write them as a short numbered rulebook someone new could apply, highest-precedence rules "
                     "first. Base every rule on these examples; don't invent rules they don't support. "
-                    "Return only the rulebook.\n\n" + "\n".join(shown)).strip()
+                    "Return only the rulebook.\n\n" + "\n".join(shown)
+                    + ("\n\nThe reviewer also REJECTED these outputs; make sure the rules rule them out:\n"
+                       + "\n".join(counter) if counter else "")).strip()
                 RULES_DIR.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps({"specialist": specialist, "n": len(golds), "task": task,
                                             "rules": _RULES_MEM[key]}, indent=1, default=str))
+                hist = _slot_file("history", slot(specialist, current_input))
+                hist.parent.mkdir(parents=True, exist_ok=True)
+                with hist.open("a") as fh:
+                    fh.write(json.dumps({"created": time.strftime("%Y-%m-%d %H:%M"), "n": len(golds),
+                                         "rejected": len(wrong), "key": key, "rules": _RULES_MEM[key]}) + "\n")
     return _RULES_MEM[key], len(golds)
 
 

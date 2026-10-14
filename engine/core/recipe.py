@@ -21,7 +21,7 @@ class Step:
     specialist: str
     config: dict = field(default_factory=dict)
     inputs: dict = field(default_factory=dict)
-    gate: bool = False
+    gate: bool | dict = False             # True = a person reviews every item; a dict = a review policy
     domain: bool = False
     join: str = "and"                    # for multiple in-edges: "and" (all) | "or" (first)
 

@@ -7,10 +7,11 @@ output — a step whose result nothing reads, like an ungated `verify`).
     findings = validate(recipe)         # list of Finding(level, msg)
     if is_valid(recipe): ...            # no errors
 
-Checks 1-9 are structural (shape, loops, references, contracts). Checks 10-16 follow the DATA:
+Checks 1-9 are structural (shape, loops, references, contracts). Checks 10-17 follow the DATA:
 every wire and every condition must name a step that exists and has already run, a field that
 step actually produces, a compatible type and a value it can produce; AND-joins must be
-satisfiable; and a step with side effects must sit at or behind a human gate. (Coverage measured
+satisfiable; a step with side effects must sit at or behind a full human gate; and a review policy
+(sample / confidence) must read a field that exists. (Coverage measured
 against an independently written list of fault kinds: evals/faults.py.)
 """
 
@@ -230,12 +231,40 @@ def _dataflow(recipe: Recipe, have: dict, ids: set) -> list[Finding]:
                     out.append(Finding("error", f"step '{s.id}' waits for both '{a}' and '{b}', but they "
                                                 f"run under exclusive conditions — it can never start"))
 
-    # 16. a side effect needs a human gate at or before it
+    # 16. a side effect needs a human gate at or before it — a full one: a review policy (sample or
+    # confidence) lets some items through unseen, so it doesn't count as approval for an outside action
     for s in recipe.steps:
         sp = spec[s.id]
-        if sp is not None and sp.side_effect and not s.gate and not any(step[a].gate for a in anc[s.id]):
+        if sp is not None and sp.side_effect and s.gate is not True and not any(
+                step[a].gate is True for a in anc[s.id]):
+            partial = isinstance(s.gate, dict) or any(isinstance(step[a].gate, dict) for a in anc[s.id])
             out.append(Finding("error", f"step '{s.id}' ({s.specialist}) acts outside the engine with no human "
-                                        f"gate at or before it"))
+                                        f"gate at or before it" + (" (a sampled or confidence gate lets items "
+                                        "through unreviewed, so it doesn't count)" if partial else "")))
+
+    # 17. a review policy must be one the dispatcher understands, reading a field that exists by then
+    for s in recipe.steps:
+        g = s.gate
+        if g is True or g is False:
+            continue
+        if not isinstance(g, dict) or not g or set(g) - {"sample", "below", "confidence"}:
+            out.append(Finding("error", f"step '{s.id}': gate must be true, false, or a policy with "
+                                        f"'sample' and/or 'below' + 'confidence' (got {g!r})"))
+            continue
+        if "sample" in g and not (isinstance(g["sample"], (int, float)) and 0 < g["sample"] <= 1):
+            out.append(Finding("error", f"step '{s.id}': gate sample must be a share between 0 and 1"))
+        if "below" in g:
+            ref = g.get("confidence")
+            head, _, field = (ref or "").partition(".")
+            if not isinstance(g["below"], (int, float)) or not ref:
+                out.append(Finding("error", f"step '{s.id}': a 'below' gate needs a number and a "
+                                            f"'confidence' reference like '{s.id}.confidence'"))
+            elif head != s.id and head not in anc[s.id]:
+                out.append(Finding("error", f"step '{s.id}': gate confidence '{ref}' must come from this "
+                                            f"step or one before it"))
+            elif spec.get(head) is not None and field.split(".")[0] not in spec[head].contract.output:
+                out.append(Finding("error", f"step '{s.id}': gate confidence '{ref}' — "
+                                            f"'{step[head].specialist}' doesn't produce '{field}'"))
     return out
 
 

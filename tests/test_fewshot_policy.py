@@ -29,7 +29,7 @@ def test_force_overrides_policy():
     with fewshot.force(True):
         assert fewshot.policy_on("verify") is True
     # outside a force block, we're back to following the cached policy
-    assert fewshot._FORCE is None
+    assert fewshot._FORCE.get() is None
 
 
 def test_block_respects_cached_policy(monkeypatch):

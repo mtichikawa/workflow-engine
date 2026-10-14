@@ -15,6 +15,7 @@ The dispatcher only follows edges — all correctness lives in how the graph was
 
 from __future__ import annotations
 
+import hashlib
 import time
 
 from . import specialist as registry
@@ -146,11 +147,13 @@ class Dispatcher:
         card.visits += 1
         card.coverage = self._coverage(step, card.input)     # tailored-vs-baseline few-shot split
         self.board.record_output(card.item_id, step.id, output)
-        if step.gate:
+        if step.gate and self._needs_review(card.item_id, step):
             card.status = "gated"
             self.board.log_event(card.item_id, step.id, "gated")
             self.trace.event("GATE", f"{card.item_id}:{step.id}", out=output)
             return
+        if step.gate:
+            self.trace.event("auto-pass", f"{card.item_id}:{step.id}", policy=step.gate)
         card.status = "done"
         self.board.log_event(card.item_id, step.id, "done")
         self.trace.event(step.id, card.item_id, out=output)
@@ -213,14 +216,37 @@ class Dispatcher:
         return False
 
     # ---- gates ----------------------------------------------------------
-    def approve(self, item_id: str, step_id: str, auto: bool = False) -> None:
+    def approve(self, item_id: str, step_id: str, auto: bool = False, output: dict | None = None) -> None:
+        """A person approves at the gate. `output`, if given, is their edited version of the gated
+        step's output: it replaces the original, so every step after the gate works from the edit."""
         card = self.board.card(item_id, step_id)
         if not card or card.status != "gated":
             raise ValueError(f"{item_id}:{step_id} is not awaiting approval")
+        if output is not None:
+            card.output = output
+            card.attempts.append({"output": output, "edited_by_reviewer": True})
+            self.board.record_output(item_id, step_id, output)
         card.status = "done"
         self.board.log_event(item_id, step_id, "done")
         self.trace.event("approve", f"{item_id}:{step_id}", auto=auto)
         self._fire_loops(item_id, step_id)
+
+    def _needs_review(self, item_id: str, step) -> bool:
+        """`gate: True` holds every item. A policy dict holds only some, and lets the rest through:
+        {"sample": 0.1} holds a fixed 10% (chosen by item id, so a rerun picks the same ones);
+        {"below": 0.8, "confidence": "triage.confidence"} holds any item whose confidence is under 0.8,
+        or missing. Both together hold an item if either says so."""
+        policy = step.gate
+        if not isinstance(policy, dict):
+            return True
+        held = False
+        if "sample" in policy:
+            h = int(hashlib.sha256(f"{item_id}|{step.id}".encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
+            held |= h < float(policy["sample"])
+        if "below" in policy:
+            conf = self._resolve(policy.get("confidence", ""), item_id)
+            held |= not isinstance(conf, (int, float)) or conf < float(policy["below"])
+        return held
 
     def reject(self, item_id: str, step_id: str, reason: str = "") -> None:
         """A human says no at the gate. The card ends `rejected`; everything downstream of it is then

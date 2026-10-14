@@ -16,6 +16,7 @@ All data is SYNTHETIC. Results land in evals/blind-results/<name>.json.
 from __future__ import annotations
 
 import argparse
+import contextvars
 import hashlib
 import json
 import math
@@ -68,8 +69,9 @@ def pmap(fn, items, workers: int = WORKERS):
             return fn(x)
         except Exception as e:  # noqa: BLE001
             return {"error": f"{type(e).__name__}: {e}"}
+    ctx = contextvars.copy_context()                     # each worker sees the caller's eval switches
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        return list(pool.map(safe, items))
+        return list(pool.map(lambda x: ctx.copy().run(safe, x), items))
 
 
 def save(name: str, result: dict) -> None:

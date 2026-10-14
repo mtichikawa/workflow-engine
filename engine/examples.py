@@ -42,13 +42,36 @@ def _paths(specialist: str, scope_name: str) -> list[Path]:
 
 
 def save_example(specialist: str, inp, out, scope_name: str | None = None,
-                 private: bool = False) -> None:
-    """Append a gold to one scope (default: the active write scope — tenant if set, else baseline)."""
+                 private: bool = False, verdict: str | None = None, reason: str = "",
+                 holdout: bool = False) -> None:
+    """Append a gold to one scope (default: the active write scope — tenant if set, else baseline).
+    `verdict="rejected"` stores a counterexample (a reviewer said this output is wrong, and why): it
+    is never retrieved as an example of what's right; the rulebook uses it to rule mistakes out.
+    `holdout=True` writes to the specialist's hold-out file instead: kept apart from everything the
+    specialist learns from, so its score on them measures learning, not memory."""
     target = scope_name or scope.write_scope()
-    p = path(specialist, target, private)
+    p = holdout_path(specialist, target) if holdout else path(specialist, target, private)
     p.parent.mkdir(parents=True, exist_ok=True)
+    rec = {"input": inp, "output": out}
+    if verdict:
+        rec["verdict"] = verdict
+        if reason:
+            rec["reason"] = reason
     with p.open("a") as fh:
-        fh.write(json.dumps({"input": inp, "output": out}, default=str) + "\n")
+        fh.write(json.dumps(rec, default=str) + "\n")
+
+
+def holdout_path(specialist: str, scope_name: str) -> Path:
+    return EX_ROOT / scope_name / f"{specialist}.holdout.jsonl"
+
+
+def load_holdout(specialist: str, layers: list[str] | None = None) -> list[dict]:
+    out = []
+    for layer in (layers if layers is not None else scope.read_layers()):
+        p = holdout_path(specialist, layer)
+        if p.exists():
+            out += [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
+    return out
 
 
 def load_layered(specialist: str, layers: list[str] | None = None) -> list[tuple[dict, str]]:
