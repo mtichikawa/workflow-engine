@@ -56,6 +56,11 @@ Rules:
   names for the same thing", "transactions with no matching ledger entry"; its text may be a list or several
   texts); the biggest issue / an overview → summarize; an order → sequence; are-these-two-the-same → match.
 - Loops are capped automatically at a few passes — never add a counter step.
+- OUTSIDE SYSTEMS: use mcp_call only for an MCP server the request NAMES. If the work needs another system
+  (Slack, Jira, a database, QuickBooks, analytics, web search or scraping) and names no MCP server, list it
+  under "gaps" (e.g. "slack_post: no MCP server named for Slack") — don't plan a call to a server you assumed.
+- INPUT KINDS: work-items are text, or images for a step that reads files. Audio or video (a podcast, a
+  voicemail, a recording) needs speech-to-text, which the library lacks — a gap.
 - Any contract field may be wired from live data in `inputs` when it must vary per item (e.g. verify's standard
   taken from the reference document).
 - Every step's output should be USED by a later input or condition (don't add steps whose result nothing reads).

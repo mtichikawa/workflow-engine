@@ -17,7 +17,8 @@ class McpCall(Specialist):
     description = (
         "Call a named tool on any external MCP (Model Context Protocol) server and return its result. "
         "USE WHEN a recipe needs a capability provided by an external MCP server (a company tool, a data "
-        "service, another agent). "
+        "service, another agent) AND the request names that server. Never assume one exists: Slack, Jira, a "
+        "database, an accounting or analytics tool, or the open web with no MCP server named is a GAP. "
         "NOT for pulling a list of items from a built-in source (->fetch), staging a local side-effect "
         "(->act), or any judgment (->classify/rank/verify). "
         "CONFIG-DRIVEN via {server (how to launch it), tool, arguments} -- reuse for any MCP tool, don't "
