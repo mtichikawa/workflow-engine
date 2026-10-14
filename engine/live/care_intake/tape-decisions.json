@@ -2,6 +2,7 @@
  "composed": [
   "read_document",
   "fill_form",
+  "verify",
   "coverage_rules",
   "classify",
   "handoff_note",

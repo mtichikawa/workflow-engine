@@ -121,7 +121,8 @@ def _brain_cli(prompt: str, system: str | None, files: list[str] | None = None) 
     try:                                          # JSON envelope: {result, usage, model, total_cost_usd}
         env_json = json.loads(out)
         u = env_json.get("usage") or {}
-        _meter(env_json.get("model", "cli"), "cli", u.get("input_tokens"),
+        model = next(iter(env_json.get("modelUsage") or {}), env_json.get("model", "cli"))
+        _meter(model, "cli", u.get("input_tokens"),
                u.get("output_tokens"), cli_cost=env_json.get("total_cost_usd"))
         return str(env_json.get("result", "")).strip()
     except json.JSONDecodeError:

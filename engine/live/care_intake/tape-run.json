@@ -1,14 +1,14 @@
 {
- "run_id": "care_intake-record-1791993904",
+ "run_id": "care_intake-record-1792016319",
  "steps": [
   {
    "id": "read_referral",
    "specialist": "read_document",
    "status": "done",
-   "seconds": 16.79,
+   "seconds": 13.95,
    "visits": 1,
    "output": {
-    "text": "--- page 1 ---\nOCT-08-2026 14:12   FROM: RIVERSIDE MIDWIFERY   5550102201   TO: 5550103301   P.001/002\n\nRiverside Midwifery\n2200 Valley Rd, Suite 110, Springfield, CA 95999\nTel (555) 010-2200 \u00b7 Fax (555) 010-2201\nFAX\n\nTo: Harbor Doula Collective \u2014 Intake\nFax: (555) 010-3301\nFrom: Priya Natarajan, CNM\nDate: 10/08/2026\nRe: Doula recommendation \u2014 D. Morales\nPages: 2 (incl. cover)\n\n[ ] Urgent   [X] For review   [ ] Please reply\n\nComments:\nPt requesting doula support - G1P0, 34 wks.\nRec form attached. Please call pt to schedule.\nThx - PN\n\n[blank]\n\nCONFIDENTIALITY NOTICE: This facsimile contains protected health information that is privileged and confidential. If you are not the intended recipient, any review, disclosure, copying or distribution is prohibited. If you received this fax in error, please notify the sender by telephone and destroy all copies.\n\nSYNTHETIC DEMO DOCUMENT - - not a real patient, provider or plan\n\n--- page 2 ---\nOCT-08-2026 14:12   FROM: RIVERSIDE MIDWIFERY   5550102201   TO: 5550103301   P.002/002\n\nLICENSED PROVIDER RECOMMENDATION FOR DOULA SERVICES\nComplete and give to the member or the doula. The doula keeps this form on file\n\nSECTION 1 \u2014 MEMBER INFORMATION\nFirst name: Dana\nMiddle: L\nLast name: Morales\nDate of birth: 03/17/1994\nMember ID (if known): [blank]\n\nSECTION 2 \u2014 SERVICES RECOMMENDED\nI recommend this member receive doula services, including:\n[X] One initial visit\n[X] Up to eight additional visits (prenatal and/or postpartum)\n[X] Support during labor and delivery, including miscarriage or abortion\n[X] Up to two extended postpartum visits (up to three hours each)\n\nSECTION 3 \u2014 LICENSED PROVIDER\nProvider name: Priya Natarajan, CNM\nNPI: 9999999901\nPhone: (555) 010-2200\nDate of recommendation: 10/08/2026\n\nSignature: [blank]\n\n[blank]\n\nSYNTHETIC DEMO DOCUMENT - not a real patient, provider or plan",
+    "text": "--- page 1 ---\nOCT-08-2026 14:12   FROM: RIVERSIDE MIDWIFERY   5550102201   TO: 5550103301   P.001/002\n\nRiverside Midwifery\n2200 Valley Rd, Suite 110, Springfield, CA 95999\nTel (555) 010-2200 \u00b7 Fax (555) 010-2201\nFAX\n\nTo: Harbor Doula Collective \u2014 Intake\nFax: (555) 010-3301\nFrom: Priya Natarajan, CNM\nDate: 10/08/2026\nRe: Doula recommendation \u2014 D. Morales\nPages: 2 (incl. cover)\n\n[ ] Urgent   [X] For review   [ ] Please reply\n\nComments:\nPt requesting doula support - G1P0, 34 wks.\nRec form attached. Please call pt to schedule.\nThx - PN\n\nCONFIDENTIALITY NOTICE: This facsimile contains protected health information that is privileged and confidential. If you are not the intended recipient, any review, disclosure, copying or distribution is prohibited. If you received this fax in error, please notify the sender by telephone and destroy all copies.\n\nSYNTHETIC DEMO DOCUMENT - not a real patient, provider or plan\n\n--- page 2 ---\nOCT-08-2026 14:12   FROM: RIVERSIDE MIDWIFERY   5550102201   TO: 5550103301   P.002/002\n\nLICENSED PROVIDER RECOMMENDATION FOR DOULA SERVICES\nComplete and give to the member or the doula. The doula keeps this form on file\n\nSECTION 1 \u2014 MEMBER INFORMATION\nFirst name: Dana\nMiddle: L\nLast name: Morales\nDate of birth: 03/17/1994\nMember ID (if known): [blank]\n\nSECTION 2 \u2014 SERVICES RECOMMENDED\nI recommend this member receive doula services, including:\n[X] One initial visit\n[X] Up to eight additional visits (prenatal and/or postpartum)\n[X] Support during labor and delivery, including miscarriage or abortion\n[X] Up to two extended postpartum visits (up to three hours each)\n\nSECTION 3 \u2014 LICENSED PROVIDER\nProvider name: Priya Natarajan, CNM\nNPI: 9999999901\nPhone: (555) 010-2200\nDate of recommendation: 10/08/2026\n\nSignature: [blank]\n\n[blank]\n\nSYNTHETIC DEMO DOCUMENT - not a real patient, provider or plan",
     "method": "model read 2 page image(s)",
     "pages": 2
    }
@@ -17,10 +17,10 @@
    "id": "read_card",
    "specialist": "read_document",
    "status": "done",
-   "seconds": 12.3,
+   "seconds": 11.61,
    "visits": 1,
    "output": {
-    "text": "--- page 1 ---\nMEDICAID\nMANAGED CARE\nDemo Health Plan\nMEMBER NAME\nDANA L MORALES\nMEMBER ID\nDMO41827730\nDATE OF BIRTH\n03/17/1994\nEFFECTIVE\n01/01/2026\nPCP\nRiverside Family Clinic\nPCP PHONE\n(555) 010-2400\nPLAN TYPE\nMedicaid\nRxBIN 999999   RxPCN DEMO   RxGRP DHPMCD\nBehavioral health 1-555-010-0180\nMember Services 1-555-010-0100 (TTY 711)\nCopay: $0\ndemohealthplan.example\nSYNTHETIC \u00b7 DEMO ONLY\n\n--- page 2 ---\nMembers: Member Services 1-555-010-0100 (TTY 711)\n24/7 Nurse Advice Line 1-555-010-0199\nProviders: Eligibility & claims 1-555-010-0150\nPaper claims (CMS-1500): Demo Health Plan, PO Box 0000, Springfield, CA 95999\nEDI payer ID: DEMO0\nPharmacy help desk 1-555-010-0160 \u00b7 Prior authorization fax (555) 010-0161\nInterpreter services at no cost: 1-555-010-0100\nHaving this card does not guarantee eligibility. Emergency? Call 911 or go to the nearest emergency room.   SYNTHETIC CARD \u2014\nDEMO ONLY.",
+    "text": "--- page 1 ---\nDemo Health Plan\nMEDICAID\nMANAGED CARE\nMEMBER NAME\nDANA L MORALES\nMEMBER ID\nDMO41827730\nDATE OF BIRTH\n03/17/1994\nEFFECTIVE\n01/01/2026\nPCP\nRiverside Family Clinic\nPCP PHONE\n(555) 010-2400\nPLAN TYPE\nMedicaid\nCopay: $0\nRxBIN 999999   RxPCN DEMO   RxGRP DHPMCD\nBehavioral health 1-555-010-0180\nMember Services 1-555-010-0100 (TTY 711)\ndemohealthplan.example\nSYNTHETIC \u00b7 DEMO ONLY\n\n--- page 2 ---\nMembers: Member Services 1-555-010-0100 (TTY 711)\n24/7 Nurse Advice Line 1-555-010-0199\nProviders: Eligibility & claims 1-555-010-0150\nPaper claims (CMS-1500): Demo Health Plan, PO Box 0000, Springfield, CA 95999\nEDI payer ID: DEMO0\nPharmacy help desk 1-555-010-0160 \u00b7 Prior authorization fax (555) 010-0161\nInterpreter services at no cost: 1-555-010-0100\nHaving this card does not guarantee eligibility. Emergency? Call 911 or go to the nearest emergency room.   SYNTHETIC CARD \u2014 DEMO ONLY.",
     "method": "model read 2 page image(s)",
     "pages": 2
    }
@@ -29,7 +29,7 @@
    "id": "read_intake",
    "specialist": "read_document",
    "status": "done",
-   "seconds": 0.28,
+   "seconds": 0.23,
    "visits": 1,
    "output": {
     "text": "Harbor Doula Collective \u2014 New Client Intake\nSubmission #48213 \u00b7 Submitted Oct 9, 2026, 9:41 PM \u00b7 IP logged\nFull name Dana Morales\nDate of birth 03/17/1994\nSex (as listed with your insurance) No answer\nPronouns she/her\nPhone (555) 010-4471\nEmail dana.m@example.com\nHome address 1200 Example Ave, Apt 4B, Springfield, CA 95999\nPreferred language(s) English, Spanish\nEstimated due date 12/02/2026\nIs this your first pregnancy? Yes\nWhere do you plan to give birth? Springfield General Hospital\nHealth insurance Demo Health Plan (Medicaid)\nMember ID DMO-4182-7730\nWho referred you? My midwife, Priya at Riverside Midwifery\nEmergency contact Luis Morales (partner) \u00b7 (555) 010-4472\nServices you're interested in Prenatal support; Birth support; Postpartum support\nAnything you'd like us to know? Nervous about the birth, my family lives far away\nDoula services agreement Signed electronically \u2014 Dana Morales \u2014 10/09/2026 9:41 PM\nExported from online forms \u00b7 page 1 of 1 SYNTHETIC DEMO DOCUMENT \u2014 not a real patient, provider or plan",
@@ -45,15 +45,15 @@
    "visits": 1,
    "output": {
     "label": "medical",
-    "confidence": 0.98,
-    "reasoning": "Alongside the scheduling and coverage questions, she reports sudden swelling of the face and hands and a headache that won't go away at 34 weeks, which are physical symptoms (and possible warning signs of preeclampsia)."
+    "confidence": 0.97,
+    "reasoning": "Sudden face and hand swelling with a headache that Tylenol doesn't relieve at 34 weeks is a physical symptom and a question about whether it's normal, so it counts as medical even though the rest is about scheduling and coverage."
    }
   },
   {
    "id": "fields",
    "specialist": "fill_form",
    "status": "done",
-   "seconds": 11.77,
+   "seconds": 11.84,
    "visits": 1,
    "output": {
     "fields": {
@@ -71,7 +71,7 @@
      },
      "date_of_birth": {
       "value": "1994-03-17",
-      "source": "faxed referral"
+      "source": "insurance card"
      },
      "sex": {
       "value": null,
@@ -129,26 +129,26 @@
     "missing": [
      "sex"
     ],
-    "reasoning": "Each value is copied from the document that states it: member ID from the card, sex null because the card doesn't list it and the intake says No answer, and signed is no because the signature line is blank."
+    "reasoning": "Copied each field from the stated documents; sex is unstated (card omits it, intake says No answer), member ID taken from the card, and the recommendation signature line is [blank]."
    }
   },
   {
    "id": "identity",
    "specialist": "match",
    "status": "done",
-   "seconds": 4.96,
+   "seconds": 5.9,
    "visits": 1,
    "output": {
     "same": true,
-    "confidence": 0.97,
-    "reasoning": "Both name Dana L Morales with date of birth 03/17/1994."
+    "confidence": 0.98,
+    "reasoning": "The name Dana L Morales and the date of birth 03/17/1994 are identical on the referral form and the member card."
    }
   },
   {
    "id": "coverage",
    "specialist": "coverage_rules",
    "status": "done",
-   "seconds": 0.01,
+   "seconds": 0.0,
    "visits": 1,
    "output": {
     "lines": [
@@ -200,7 +200,7 @@
      {
       "check": "Referral and card are the same person",
       "met": true,
-      "detail": "Both name Dana L Morales with date of birth 03/17/1994.",
+      "detail": "The name Dana L Morales and the date of birth 03/17/1994 are identical on the referral form and the member card.",
       "problem": "Referral and card may be different people"
      }
     ],
@@ -225,19 +225,19 @@
    "id": "handoff",
    "specialist": "handoff_note",
    "status": "done",
-   "seconds": 0.01,
+   "seconds": 0.0,
    "visits": 1,
    "output": {
     "needed": true,
     "to": "Care team \u2014 on-call nurse (a person)",
-    "note": "Patient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Alongside the scheduling and coverage questions, she reports sudden swelling of the face and hands and a headache that won't go away at 34 weeks, which are physical symptoms (and possible warning signs of preeclampsia).\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent."
+    "note": "Patient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Sudden face and hand swelling with a headache that Tylenol doesn't relieve at 34 weeks is a physical symptom and a question about whether it's normal, so it counts as medical even though the rest is about scheduling and coverage.\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent."
    }
   },
   {
    "id": "claim",
    "specialist": "claim_draft",
    "status": "done",
-   "seconds": 0.01,
+   "seconds": 0.0,
    "visits": 1,
    "output": {
     "boxes": [
@@ -330,10 +330,10 @@
    "id": "reply",
    "specialist": "patient_reply",
    "status": "done",
-   "seconds": 9.21,
+   "seconds": 8.99,
    "visits": 1,
    "output": {
-    "reply": "Your plan still has all 8 of your pregnancy and after-birth visits with Rosa left. It also has support during labor and birth, plus 2 extra visits after the baby comes. One form still needs a signature, and we are taking care of that with your midwife. Our care coordinator will call you to set a time for Rosa's next visit, and we will keep Tuesday or Wednesday in mind. Could you also tell us the sex listed on your insurance?\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team",
+    "reply": "Good news: your plan still covers all 8 of your visits before and after birth, your labor and birth support, and 2 extra visits after birth. One form still needs a signature, and we are working with your midwife to get it done. Thank you for letting us know that Tuesday or Wednesday works next week. Our care coordinator will call you to set a time. One quick thing: please reply with your sex as it is listed on your insurance.\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team",
     "safety_line": true
    }
   },
@@ -341,7 +341,7 @@
    "id": "reply_check",
    "specialist": "verify",
    "status": "done",
-   "seconds": 7.63,
+   "seconds": 6.84,
    "visits": 1,
    "output": {
     "verdict": "pass",
@@ -483,7 +483,7 @@
       "audience": "The patient, in the app \u2014 sent only after approval",
       "blocks": [
        {
-        "p": "Your plan still has all 8 of your pregnancy and after-birth visits with Rosa left. It also has support during labor and birth, plus 2 extra visits after the baby comes. One form still needs a signature, and we are taking care of that with your midwife. Our care coordinator will call you to set a time for Rosa's next visit, and we will keep Tuesday or Wednesday in mind. Could you also tell us the sex listed on your insurance?\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team"
+        "p": "Good news: your plan still covers all 8 of your visits before and after birth, your labor and birth support, and 2 extra visits after birth. One form still needs a signature, and we are working with your midwife to get it done. Thank you for letting us know that Tuesday or Wednesday works next week. Our care coordinator will call you to set a time. One quick thing: please reply with your sex as it is listed on your insurance.\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team"
        },
        {
         "note": "Checked against the non-medical line: PASS",
@@ -505,7 +505,7 @@
         "tone": "warn"
        },
        {
-        "pre": "Patient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Alongside the scheduling and coverage questions, she reports sudden swelling of the face and hands and a headache that won't go away at 34 weeks, which are physical symptoms (and possible warning signs of preeclampsia).\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent."
+        "pre": "Patient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Sudden face and hand swelling with a headache that Tylenol doesn't relieve at 34 weeks is a physical symptom and a question about whether it's normal, so it counts as medical even though the rest is about scheduling and coverage.\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent."
        }
       ]
      },
@@ -581,7 +581,7 @@
           [
            "Date of birth",
            "1994-03-17",
-           "faxed referral"
+           "insurance card"
           ],
           [
            "Sex (as on insurance)",
@@ -654,14 +654,14 @@
       ]
      }
     ],
-    "markdown": "# Review packet \u2014 SYNTHETIC case (demo data, nothing real)\n\n## Insurance claim (CMS-1500)\n_Billing \u2014 a person submits it_\n\n> Draft \u2014 on hold, not a clean claim yet\n\n| Box | Field | Value |\n|---|---|---|\n| 1a | Insured's ID number | DMO41827730 |\n| 2 | Patient's name | MORALES, DANA L |\n| 3 | Patient's birth date | 1994-03-17 |\n| 3 | Sex | \u2014 EMPTY |\n| 5 | Patient's address | 1200 Example Ave, Apt 4B, Springfield, CA 95999 |\n| 17 | Referring provider (DN) | Priya Natarajan, CNM |\n| 17b | Referring provider NPI | 9999999901 |\n| 21 | Diagnosis (ICD-10), A | Z32.2 |\n| 31 | Signature of physician or supplier | wet signature at submission (paper) |\n| 32 | Service facility location | Patient's home (POS 12) |\n| 33 | Billing provider | Harbor Doula Collective \u00b7 88 Wharf St, Suite 2, Springfield, CA 95999 |\n| 33a | Billing NPI | 9999999917 |\n| 33b | Billing taxonomy | 374J00000X |\n\n| 24A date | 24B POS | 24D code | 24E | 24F charges | 24G units | 24J NPI | Service |\n|---|---|---|---|---|---|---|---|\n| 2026-10-10 | 12 | Z1032 XP | A | per fee schedule | 1 | 9999999925 | Initial visit \u00b7 95 min |\n\n**Holding the claim:**\n- Box 3 (Sex) is empty\n- Recommendation not signed \u2014 the signature line on the faxed form is blank\n\n## Reply to the patient\n_The patient, in the app \u2014 sent only after approval_\n\nYour plan still has all 8 of your pregnancy and after-birth visits with Rosa left. It also has support during labor and birth, plus 2 extra visits after the baby comes. One form still needs a signature, and we are taking care of that with your midwife. Our care coordinator will call you to set a time for Rosa's next visit, and we will keep Tuesday or Wednesday in mind. Could you also tell us the sex listed on your insurance?\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team\n\n> Checked against the non-medical line: PASS\n\n> The safety paragraph is fixed text inserted by code \u2014 the model did not write it.\n\n## Clinical handoff\n_Care team \u2014 on-call nurse (a person)_\n\n> Medical content found \u2014 routed to a person. The assistant did not answer it.\n\n```\nPatient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Alongside the scheduling and coverage questions, she reports sudden swelling of the face and hands and a headache that won't go away at 34 weeks, which are physical symptoms (and possible warning signs of preeclampsia).\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent.\n```\n\n## Open items\n_Care coordinator_\n\n**Plan rules not met:**\n- Recommendation not signed \u2014 the signature line on the faxed form is blank\n\n**Missing from every document:**\n- Sex (as on insurance)\n\n| Benefit | Left this pregnancy |\n|---|---|\n| Prenatal and postpartum visits (Z1034/Z1038) | 8 of 8 |\n| Labor and delivery support | 1 of 1 |\n| Extended postpartum visits (T1032) | 2 visits, up to 24 units |\n\n## Case record\n_What was read, and from which document_\n\n| Field | Value | From |\n|---|---|---|\n| First name | Dana | faxed referral |\n| Middle initial | L | faxed referral |\n| Last name | Morales | faxed referral |\n| Date of birth | 1994-03-17 | faxed referral |\n| Sex (as on insurance) | \u2014 (not in any document) | \u2014 |\n| Member ID | DMO41827730 | insurance card |\n| Plan | Demo Health Plan | insurance card |\n| Coverage effective | 2026-01-01 | insurance card |\n| Address | 1200 Example Ave, Apt 4B, Springfield, CA 95999 | intake form |\n| Phone | (555) 010-4471 | intake form |\n| Language | English, Spanish | intake form |\n| Due date | 2026-12-02 | intake form |\n| Recommending provider | Priya Natarajan, CNM | faxed referral |\n| Provider NPI | 9999999901 | faxed referral |\n| Recommendation date | 2026-10-08 | faxed referral |\n| Recommendation signed | no | faxed referral |\n| Services recommended | One initial visit; Up to eight additional visits (prenatal and/or postpartum); Support during labor and delivery, including miscarriage or abortion; Up to two extended postpartum visits (up to three hours each) | faxed referral |\n"
+    "markdown": "# Review packet \u2014 SYNTHETIC case (demo data, nothing real)\n\n## Insurance claim (CMS-1500)\n_Billing \u2014 a person submits it_\n\n> Draft \u2014 on hold, not a clean claim yet\n\n| Box | Field | Value |\n|---|---|---|\n| 1a | Insured's ID number | DMO41827730 |\n| 2 | Patient's name | MORALES, DANA L |\n| 3 | Patient's birth date | 1994-03-17 |\n| 3 | Sex | \u2014 EMPTY |\n| 5 | Patient's address | 1200 Example Ave, Apt 4B, Springfield, CA 95999 |\n| 17 | Referring provider (DN) | Priya Natarajan, CNM |\n| 17b | Referring provider NPI | 9999999901 |\n| 21 | Diagnosis (ICD-10), A | Z32.2 |\n| 31 | Signature of physician or supplier | wet signature at submission (paper) |\n| 32 | Service facility location | Patient's home (POS 12) |\n| 33 | Billing provider | Harbor Doula Collective \u00b7 88 Wharf St, Suite 2, Springfield, CA 95999 |\n| 33a | Billing NPI | 9999999917 |\n| 33b | Billing taxonomy | 374J00000X |\n\n| 24A date | 24B POS | 24D code | 24E | 24F charges | 24G units | 24J NPI | Service |\n|---|---|---|---|---|---|---|---|\n| 2026-10-10 | 12 | Z1032 XP | A | per fee schedule | 1 | 9999999925 | Initial visit \u00b7 95 min |\n\n**Holding the claim:**\n- Box 3 (Sex) is empty\n- Recommendation not signed \u2014 the signature line on the faxed form is blank\n\n## Reply to the patient\n_The patient, in the app \u2014 sent only after approval_\n\nGood news: your plan still covers all 8 of your visits before and after birth, your labor and birth support, and 2 extra visits after birth. One form still needs a signature, and we are working with your midwife to get it done. Thank you for letting us know that Tuesday or Wednesday works next week. Our care coordinator will call you to set a time. One quick thing: please reply with your sex as it is listed on your insurance.\n\nI can't advise on symptoms, so I've passed your message to your care team and a nurse will reach out to you. If anything feels severe or urgent, call 911 or go to labor and delivery now.\n\n\u2014 Your doula care team\n\n> Checked against the non-medical line: PASS\n\n> The safety paragraph is fixed text inserted by code \u2014 the model did not write it.\n\n## Clinical handoff\n_Care team \u2014 on-call nurse (a person)_\n\n> Medical content found \u2014 routed to a person. The assistant did not answer it.\n\n```\nPatient: Dana Morales  \u00b7  phone (555) 010-4471  \u00b7  language: English, Spanish\nDue date: 2026-12-02  \u00b7  midwife: Priya Natarajan, CNM\n\nTheir message, verbatim:\n[Tue Oct 13, 2026 8:52 PM] Dana Morales:\nhi!! is rosa covered by my insurance for the rest of the visits? also can she come back next week, tues or wed works. and random question but since yesterday my face and hands are super puffy and i have a headache that wont go away even w tylenol. is that normal at 34 wks?\n\nWhy it was flagged: Sudden face and hand swelling with a headache that Tylenol doesn't relieve at 34 weeks is a physical symptom and a question about whether it's normal, so it counts as medical even though the rest is about scheduling and coverage.\n\nThe assistant did not answer the medical part. It told the patient a nurse will reach out, and to call 911 or go to labor and delivery if anything feels severe or urgent.\n```\n\n## Open items\n_Care coordinator_\n\n**Plan rules not met:**\n- Recommendation not signed \u2014 the signature line on the faxed form is blank\n\n**Missing from every document:**\n- Sex (as on insurance)\n\n| Benefit | Left this pregnancy |\n|---|---|\n| Prenatal and postpartum visits (Z1034/Z1038) | 8 of 8 |\n| Labor and delivery support | 1 of 1 |\n| Extended postpartum visits (T1032) | 2 visits, up to 24 units |\n\n## Case record\n_What was read, and from which document_\n\n| Field | Value | From |\n|---|---|---|\n| First name | Dana | faxed referral |\n| Middle initial | L | faxed referral |\n| Last name | Morales | faxed referral |\n| Date of birth | 1994-03-17 | insurance card |\n| Sex (as on insurance) | \u2014 (not in any document) | \u2014 |\n| Member ID | DMO41827730 | insurance card |\n| Plan | Demo Health Plan | insurance card |\n| Coverage effective | 2026-01-01 | insurance card |\n| Address | 1200 Example Ave, Apt 4B, Springfield, CA 95999 | intake form |\n| Phone | (555) 010-4471 | intake form |\n| Language | English, Spanish | intake form |\n| Due date | 2026-12-02 | intake form |\n| Recommending provider | Priya Natarajan, CNM | faxed referral |\n| Provider NPI | 9999999901 | faxed referral |\n| Recommendation date | 2026-10-08 | faxed referral |\n| Recommendation signed | no | faxed referral |\n| Services recommended | One initial visit; Up to eight additional visits (prenatal and/or postpartum); Support during labor and delivery, including miscarriage or abortion; Up to two extended postpartum visits (up to three hours each) | faxed referral |\n"
    }
   },
   {
    "id": "stage",
    "specialist": "act",
    "status": "done",
-   "seconds": 0.01,
+   "seconds": 0.02,
    "visits": 1,
    "output": {
     "status": "staged",
