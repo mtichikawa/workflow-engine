@@ -80,3 +80,91 @@ def test_two_branches_no_gate_warning():
                edges=[Edge("verify", "act", "verify.verdict == 'pass'"),
                       Edge("verify", "act", "verify.verdict == 'fail'")])
     assert not any("single guarded" in m for m in _warnings(r))
+
+
+# ---- checks 0, 10-16: following the data (library specialists, so contracts and value sets are real) ----
+from engine import specialists  # noqa: E402,F401
+
+CLS = {"categories": ["bug", "spam"], "criteria": "kind"}
+
+
+def _lib(steps, edges=None):
+    return [f.msg for f in validate(Recipe("t", steps, edges or [])) if f.level == "error"]
+
+
+def _base():
+    return [Step("cls", "classify", config=CLS, inputs={"item": "payload"}),
+            Step("chk", "verify", config={"standard": "s"}, inputs={"subject": "cls.label"}),
+            Step("act", "act", gate=True, config={"target": "file", "mode": "staged"},
+                 inputs={"payload": {"content": "cls.reasoning"}})]
+
+
+def test_library_graph_is_clean():
+    assert _lib(_base()) == []
+
+
+def test_duplicate_step_id():
+    steps = _base() + [Step("cls", "classify", config=CLS, inputs={"item": "payload"})]
+    assert any("share the id 'cls'" in m for m in _lib(steps))
+
+
+def test_dangling_edge_is_reported_not_a_crash():
+    assert any("unknown step 'ghost'" in m for m in _lib(_base(), [Edge("cls", "ghost")]))
+
+
+def test_typo_of_a_step_is_caught_but_literals_pass():
+    steps = _base()
+    steps[1].inputs = {"subject": "clss.label"}
+    assert any("did you mean 'cls'" in m for m in _lib(steps))
+    steps[1].inputs = {"subject": "report-final.txt"}
+    assert _lib(steps) == []
+
+
+def test_reading_a_field_the_step_never_produces():
+    steps = _base()
+    steps[1].inputs = {"subject": "cls.score"}
+    assert any("doesn't produce 'score'" in m for m in _lib(steps))
+
+
+def test_reading_a_step_that_has_not_run_yet():
+    steps = _base()
+    steps[0].inputs = {"item": "chk.verdict"}
+    assert any("hasn't run by then" in m for m in _lib(steps))
+
+
+def test_loop_feedback_is_allowed():
+    steps = [Step("cls", "classify", config=CLS, inputs={"item": "payload", "fb": "chk.issues"}),
+             Step("chk", "verify", config={"standard": "s"}, inputs={"subject": "cls.label"})]
+    assert _lib(steps, [Edge("cls", "chk"), Edge("chk", "cls", "chk.verdict == 'fail'")]) == []
+
+
+def test_type_mismatch():
+    steps = _base()
+    steps[0].config = {"criteria": "kind"}
+    steps[0].inputs = {"item": "payload", "categories": "chk.verdict"}      # str into a list input
+    assert any("which takes list" in m for m in _lib(steps))
+
+
+def test_condition_operator_field_and_value():
+    for when, needle in (("chk.verdict = 'pass'", "invalid operator"),
+                         ("chk.verdcit == 'pass'", "doesn't produce"),
+                         ("chk.verdict == 'passed'", "never produces"),
+                         ("cls.label == 'feature'", "never produces")):
+        edges = [Edge("cls", "chk"), Edge("chk", "act", when), Edge("chk", "act", "chk.verdict == 'fail'")]
+        assert any(needle in m for m in _lib(_base(), edges)), when
+
+
+def test_and_join_that_can_never_start():
+    steps = _base()[:2] + [Step("alt", "verify", config={"standard": "s"}, inputs={"subject": "cls.label"}),
+                           _base()[2]]
+    edges = [Edge("cls", "chk"), Edge("chk", "act", "chk.verdict == 'pass'"),
+             Edge("chk", "alt", "chk.verdict != 'pass'"), Edge("alt", "act")]
+    assert any("can never start" in m for m in _lib(steps, edges))
+
+
+def test_side_effect_needs_a_gate_at_or_before_it():
+    steps = _base()
+    steps[2].gate = False
+    assert any("no human gate" in m for m in _lib(steps))
+    steps[1].gate = True                                                      # a gate upstream is enough
+    assert _lib(steps) == []

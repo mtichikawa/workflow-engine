@@ -22,6 +22,9 @@ class Route(Specialist):
         output={"component": str, "escalate": bool, "reasoning": str},
     )
 
+    def output_values(self, field, config):
+        return list(config["components"]) if field == "component" and isinstance(config.get("components"), list) else None
+
     def _run(self, input, config):
         components = input["components"]
         fs = block("route", input)

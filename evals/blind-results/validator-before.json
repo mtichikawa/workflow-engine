@@ -1,0 +1,354 @@
+{
+ "recipes": [
+  "triage",
+  "content",
+  "review",
+  "refine",
+  "care_intake"
+ ],
+ "false alarms on the unmutated recipes": {
+  "triage": [],
+  "content": [],
+  "review": [],
+  "refine": [],
+  "care_intake": []
+ },
+ "mutants caught": {
+  "k": 161,
+  "n": 615,
+  "rate": 0.2618,
+  "ci95": [
+   0.2286,
+   0.2979
+  ]
+ },
+ "fault kinds fully caught": "4 of 18 applicable (6 of the blind list's 25 don't apply)",
+ "by kind": {
+  "condition_syntax_error": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 14,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.2153
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify->act when verify.verdict = 'pass'",
+    "triage: verify->act when verify.verdict => 'pass'",
+    "triage: verify->act when verify.verdict = 'fail'",
+    "triage: verify->act when verify.verdict => 'fail'",
+    "content: verify->act when verify.verdict = 'pass'"
+   ]
+  },
+  "condition_unknown_ref": {
+   "should": "block",
+   "caught": {
+    "k": 7,
+    "n": 14,
+    "rate": 0.5,
+    "ci95": [
+     0.268,
+     0.732
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify->act when verify.verdictz == 'pass'",
+    "triage: verify->act when verify.verdictz == 'fail'",
+    "content: verify->act when verify.verdictz == 'pass'",
+    "review: verify->act when verify.verdictz == 'pass'",
+    "refine: verify->write when verify.verdictz == 'fail'"
+   ]
+  },
+  "condition_unsatisfiable": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 7,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.3543
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify->act when verify.verdict == 'passd'",
+    "triage: verify->act when verify.verdict == 'faild'",
+    "content: verify->act when verify.verdict == 'passd'",
+    "review: verify->act when verify.verdict == 'passd'",
+    "refine: verify->write when verify.verdict == 'faild'"
+   ]
+  },
+  "dangling_edge": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 72,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.0507
+    ]
+   },
+   "missed (first 5)": [
+    "triage: classify->rank: src -> ghost_step [validator crashed: ValueError]",
+    "triage: classify->rank: dst -> ghost_step [validator crashed: ValueError]",
+    "triage: rank->route: src -> ghost_step [validator crashed: ValueError]",
+    "triage: rank->route: dst -> ghost_step [validator crashed: ValueError]",
+    "triage: route->respond: src -> ghost_step [validator crashed: ValueError]"
+   ]
+  },
+  "duplicate_step_id": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 33,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.1043
+    ]
+   },
+   "missed (first 5)": [
+    "triage: second step 'classify'",
+    "triage: second step 'rank'",
+    "triage: second step 'route'",
+    "triage: second step 'respond'",
+    "triage: second step 'verify'"
+   ]
+  },
+  "gate_bypass": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 5,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.4345
+    ]
+   },
+   "missed (first 5)": [
+    "triage: 'act' (act) with every gate removed",
+    "content: 'act' (act) with every gate removed",
+    "review: 'act' (act) with every gate removed",
+    "refine: 'act' (act) with every gate removed",
+    "care_intake: 'stage' (act) with every gate removed"
+   ]
+  },
+  "join_deadlock": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 5,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.4345
+    ]
+   },
+   "missed (first 5)": [
+    "triage: act AND-joins verify (when 'pass') with a step that runs only when not",
+    "triage: act AND-joins verify (when 'fail') with a step that runs only when not",
+    "content: act AND-joins verify (when 'pass') with a step that runs only when not",
+    "review: act AND-joins verify (when 'pass') with a step that runs only when not",
+    "refine: act AND-joins verify (when 'pass') with a step that runs only when not"
+   ]
+  },
+  "malformed_reference": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 132,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.0283
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify reads 'classify..label'",
+    "triage: verify reads 'classify.'",
+    "triage: verify reads '.label'",
+    "triage: verify reads 'route..component'",
+    "triage: verify reads 'route.'"
+   ]
+  },
+  "missing_required_input": {
+   "should": "block",
+   "caught": {
+    "k": 84,
+    "n": 84,
+    "rate": 1.0,
+    "ci95": [
+     0.9563,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "no_path_to_terminal": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 25,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.1332
+    ]
+   },
+   "missed (first 5)": [
+    "triage: no edge out of 'classify'",
+    "triage: no edge out of 'rank'",
+    "triage: no edge out of 'route'",
+    "triage: no edge out of 'respond'",
+    "content: no edge out of 'fetch'"
+   ]
+  },
+  "non_exhaustive_branch": {
+   "should": "warn",
+   "caught": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0,
+    "ci95": [
+     0.3424,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "type_mismatch": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 44,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.0803
+    ]
+   },
+   "missed (first 5)": [
+    "triage: rank.scoring (str) <- classify.confidence (float)",
+    "triage: route.components (list) <- classify.label (str)",
+    "triage: respond.tone (str) <- route.escalate (bool)",
+    "triage: verify.standard (str) <- route.escalate (bool)",
+    "triage: act.target (str) <- rank.score (float)"
+   ]
+  },
+  "unconditional_loop": {
+   "should": "block",
+   "caught": {
+    "k": 35,
+    "n": 35,
+    "rate": 1.0,
+    "ci95": [
+     0.9011,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "unknown_specialist": {
+   "should": "block",
+   "caught": {
+    "k": 33,
+    "n": 33,
+    "rate": 1.0,
+    "ci95": [
+     0.8957,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "unreachable_step": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 18,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.1759
+    ]
+   },
+   "missed (first 5)": [
+    "triage: no edge into 'verify'",
+    "triage: no edge into 'act'",
+    "content: no edge into 'write'",
+    "content: no edge into 'verify'",
+    "content: no edge into 'act'"
+   ]
+  },
+  "wire_not_upstream": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 14,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.2153
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify reads downstream act.status",
+    "content: write reads downstream act.status",
+    "content: verify reads downstream act.status",
+    "review: verify reads downstream act.status",
+    "refine: write reads downstream act.status"
+   ]
+  },
+  "wire_unknown_field": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 34,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.1015
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify reads classify.no_such_field",
+    "triage: verify reads route.no_such_field",
+    "triage: verify reads respond.no_such_field",
+    "triage: act reads classify.no_such_field",
+    "triage: act reads route.no_such_field"
+   ]
+  },
+  "wire_unknown_source": {
+   "should": "block",
+   "caught": {
+    "k": 0,
+    "n": 44,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.0803
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify reads 'classifyx'",
+    "triage: verify reads 'routex'",
+    "triage: verify reads 'respondx'",
+    "triage: act reads 'classifyx'",
+    "triage: act reads 'routex'"
+   ]
+  }
+ },
+ "not applicable": {
+  "entry_ambiguity": "several entry steps are a feature here (parallel starts), and zero entries can't be expressed: a backward edge is a loop by definition, so the first step is always an entry",
+  "unbounded_loop": "every recipe carries a loop guard (max_visits, default 6) \u2014 a loop can't be uncapped",
+  "wire_maybe_not_run": "not attempted: needs path-sensitive analysis of OR-joins",
+  "unknown_target_input": "by design: contracts list REQUIRED fields and allow extras (e.g. loop feedback)",
+  "payload_field_undeclared": "the engine has no payload schema to check against",
+  "overlapping_conditions": "no recipe has numeric/range splits to overlap (0 sites)"
+ }
+}

@@ -87,12 +87,17 @@ class Dispatcher:
         fin = self.recipe.forward_in(step_id)
         if not fin:
             return "ready"                                  # entry step
-        results = []                                        # (resolved, satisfied)
+        # Edges from the SAME source are one dependency with alternative conditions (a pass edge and a
+        # fail edge into one step): satisfied if any of them holds. The join (and/or) is across sources.
+        by_src: dict[str, list] = {}
         for e in fin:
-            src = self.board.card(item_id, e.src)
+            by_src.setdefault(e.src, []).append(e.when)
+        results = []                                        # (resolved, satisfied) per source
+        for src_id, whens in by_src.items():
+            src = self.board.card(item_id, src_id)
             src_status = src.status if src else "todo"
             resolved = src_status in _TERMINAL
-            satisfied = src_status == "done" and self._cond(e.when, item_id)
+            satisfied = src_status == "done" and any(self._cond(w, item_id) for w in whens)
             results.append((resolved, satisfied))
         join = self.recipe.step(step_id).join
         if join == "or":

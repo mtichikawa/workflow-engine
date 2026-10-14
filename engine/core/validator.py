@@ -6,17 +6,27 @@ output — a step whose result nothing reads, like an ungated `verify`).
 
     findings = validate(recipe)         # list of Finding(level, msg)
     if is_valid(recipe): ...            # no errors
+
+Checks 1-9 are structural (shape, loops, references, contracts). Checks 10-16 follow the DATA:
+every wire and every condition must name a step that exists and has already run, a field that
+step actually produces, a compatible type and a value it can produce; AND-joins must be
+satisfiable; and a step with side effects must sit at or behind a human gate. (Coverage measured
+against an independently written list of fault kinds: evals/faults.py.)
 """
 
 from __future__ import annotations
 
+import difflib
 import re
 from dataclasses import dataclass
 
 from . import specialist as registry
+from .conditions import _literal
 from .recipe import Recipe
 
 _KEYWORDS = {"and", "or", "not", "true", "false", "null", "none", "in"}
+_REF = re.compile(r"^[A-Za-z_]\w*(\.[A-Za-z_]\w*)*$")
+_COMPARE = re.compile(r"^\s*([A-Za-z_][\w.]*)\s*(==|!=)\s*(.+?)\s*$")
 
 
 @dataclass
@@ -30,13 +40,26 @@ class Finding:
 
 def validate(recipe: Recipe, check_contracts: bool = True) -> list[Finding]:
     out: list[Finding] = []
+
+    # 0. step ids are unique (wiring and edges name steps by id)
+    seen_ids: set[str] = set()
+    for s in recipe.steps:
+        if s.id in seen_ids:
+            out.append(Finding("error", f"two steps share the id '{s.id}'"))
+        seen_ids.add(s.id)
     ids = set(recipe.step_ids())
 
-    # 1. edges reference real steps
+    # 1. edges reference real steps — later checks only see the edges that do
+    good_edges = []
     for e in recipe.edges:
-        for end in (e.src, e.dst):
-            if end not in ids:
-                out.append(Finding("error", f"edge touches unknown step '{end}'"))
+        bad = [end for end in (e.src, e.dst) if end not in ids]
+        for end in bad:
+            out.append(Finding("error", f"edge touches unknown step '{end}'"))
+        if not bad:
+            good_edges.append(e)
+    if len(good_edges) != len(recipe.edges):
+        recipe = Recipe(recipe.name, recipe.steps, good_edges or [], recipe.max_visits)
+        recipe.edges = good_edges              # keep "no edges" as no edges, not an implied chain
 
     # 2. an entry exists
     entries = recipe.entry_steps()
@@ -99,8 +122,8 @@ def validate(recipe: Recipe, check_contracts: bool = True) -> list[Finding]:
                        f"the work-item dead-ends whenever that guard is false; add an else/fail path or make it a deliberate endpoint"))
 
     # 9. specialists exist and their required inputs are provided
+    have = registry.all_specialists()
     if check_contracts:
-        have = registry.all_specialists()
         for s in recipe.steps:
             if s.specialist not in have:
                 out.append(Finding("error", f"step '{s.id}' uses unknown specialist '{s.specialist}'"))
@@ -111,7 +134,155 @@ def validate(recipe: Recipe, check_contracts: bool = True) -> list[Finding]:
                 out.append(Finding("error",
                            f"step '{s.id}' ({s.specialist}) is missing contract inputs {missing}"))
 
+    out += _dataflow(recipe, have, ids)
     return out
+
+
+def _dataflow(recipe: Recipe, have: dict, ids: set) -> list[Finding]:
+    """Checks 10-16: follow every wire and condition to the step it names."""
+    out: list[Finding] = []
+    step = {s.id: s for s in recipe.steps}
+    spec = {s.id: have.get(s.specialist) for s in recipe.steps}
+    anc = {s.id: _ancestors(recipe, s.id) for s in recipe.steps}
+    loops = [(e.src, set(recipe.loop_body(e.dst, e.src))) for e in recipe.edges if recipe.is_backward(e)]
+
+    def ran_before(src: str, consumer: str) -> bool:
+        return src in anc[consumer] or any(src == ls and consumer in body for ls, body in loops)
+
+    def produces(src: str, field: str):
+        sp = spec.get(src)
+        return None if sp is None else field in sp.contract.output
+
+    # 10-13. wires: well-formed, an existing step (not a typo of one), already run, a real field, a fitting type
+    for s in recipe.steps:
+        target = spec[s.id]
+        for path, ref in _leaves(s.inputs):
+            head, _, tail = ref.partition(".")
+            if head not in ids and head != "payload":
+                near = difflib.get_close_matches(head, sorted(ids) + ["payload"], n=1, cutoff=0.8)
+                if near and _REF.match(ref):
+                    out.append(Finding("error", f"step '{s.id}' reads '{ref}' — no step '{head}' "
+                                                f"(did you mean '{near[0]}'?)"))
+                continue                                    # anything else is a literal value
+            if "." in ref and not _REF.match(ref):
+                out.append(Finding("error", f"step '{s.id}' reads malformed reference '{ref}'"))
+                continue
+            if head == "payload":
+                continue
+            if not ran_before(head, s.id):
+                out.append(Finding("error", f"step '{s.id}' reads '{ref}', but '{head}' hasn't run by then "
+                                            f"(it isn't upstream of '{s.id}')"))
+            field = tail.split(".")[0] if tail else None
+            if field and produces(head, field) is False:
+                out.append(Finding("error", f"step '{s.id}' reads '{ref}', but '{step[head].specialist}' "
+                                            f"doesn't produce '{field}'"))
+            if field and len(path) == 1 and target and spec.get(head):
+                want = target.contract.input.get(path[0])
+                got = spec[head].contract.output.get(field)
+                if _incompatible(got, want):
+                    out.append(Finding("error", f"step '{s.id}' wires {ref} ({_tname(got)}) into "
+                                                f"'{path[0]}', which takes {_tname(want)}"))
+
+    # 14. conditions: valid syntax, a real field of a step that has run, a value that step can produce
+    for e in recipe.edges:
+        if not e.when:
+            continue
+        bare = re.sub(r"'[^']*'|\"[^\"]*\"", "''", e.when)
+        if re.search(r"(?<![=!<>])=(?!=)|=>|=<|<>|===", bare):
+            out.append(Finding("error", f"condition on {e.src}->{e.dst} has an invalid operator: {e.when!r}"))
+            continue
+        for part in re.split(r"\s+(?:and|or)\s+", e.when):
+            part = re.sub(r"^\s*not\s+", "", part)
+            m = _COMPARE.match(part)
+            ref = m.group(1) if m else part.strip()
+            head, _, tail = ref.partition(".")
+            if head not in ids:
+                continue                                    # payload, or already reported by check 6
+            if head != e.src and head not in anc.get(e.src, set()):
+                out.append(Finding("error", f"condition on {e.src}->{e.dst} reads '{head}', which hasn't "
+                                            f"run when that edge is decided"))
+            field = tail.split(".")[0] if tail else None
+            if field and produces(head, field) is False:
+                out.append(Finding("error", f"condition on {e.src}->{e.dst} reads '{ref}', but "
+                                            f"'{step[head].specialist}' doesn't produce '{field}'"))
+            if m and field and spec.get(head):
+                allowed = spec[head].output_values(field, step[head].config)
+                lit = _literal(m.group(3), lambda r: None)
+                if allowed is not None and m.group(2) == "==" and lit not in allowed:
+                    out.append(Finding("error", f"condition on {e.src}->{e.dst} compares {ref} to {lit!r}, "
+                                                f"which it never produces (it produces {allowed})"))
+
+    # 15. AND-joins that can never complete: two in-edges guarded on the same field with exclusive values
+    for s in recipe.steps:
+        if s.join != "and":
+            continue
+        guards = []
+        for e in recipe.forward_in(s.id):
+            g = _guard(e.when)
+            if g is None:                                   # the source itself may run only under a guard
+                src_in = recipe.forward_in(e.src)
+                g = _guard(src_in[0].when) if len(src_in) == 1 else None
+            if g:
+                guards.append((e.src, g))
+        for i, (a, ga) in enumerate(guards):
+            for b, gb in guards[i + 1:]:
+                if a != b and _exclusive(ga, gb):
+                    out.append(Finding("error", f"step '{s.id}' waits for both '{a}' and '{b}', but they "
+                                                f"run under exclusive conditions — it can never start"))
+
+    # 16. a side effect needs a human gate at or before it
+    for s in recipe.steps:
+        sp = spec[s.id]
+        if sp is not None and sp.side_effect and not s.gate and not any(step[a].gate for a in anc[s.id]):
+            out.append(Finding("error", f"step '{s.id}' ({s.specialist}) acts outside the engine with no human "
+                                        f"gate at or before it"))
+    return out
+
+
+def _ancestors(recipe: Recipe, sid: str) -> set:
+    seen, stack = set(), [sid]
+    while stack:
+        for e in recipe.forward_in(stack.pop()):
+            if e.src not in seen:
+                seen.add(e.src)
+                stack.append(e.src)
+    return seen
+
+
+def _guard(when: str | None):
+    m = _COMPARE.match(when or "")
+    return (m.group(1), m.group(2), _literal(m.group(3), lambda r: None)) if m else None
+
+
+def _exclusive(a, b) -> bool:
+    (ra, oa, va), (rb, ob, vb) = a, b
+    if ra != rb:
+        return False
+    return (oa, ob) in (("==", "!="), ("!=", "==")) and va == vb or (oa == ob == "==" and va != vb)
+
+
+def _incompatible(got, want) -> bool:
+    if got in (None, object) or want in (None, object):
+        return False
+    gots = got if isinstance(got, tuple) else (got,)
+    wants = want if isinstance(want, tuple) else (want,)
+    return not any(issubclass(g, w) for g in gots for w in wants)
+
+
+def _tname(t) -> str:
+    return getattr(t, "__name__", str(t))
+
+
+def _leaves(inputs, path=()):
+    for k, v in inputs.items():
+        if isinstance(v, dict):
+            yield from _leaves(v, path + (k,))
+        elif isinstance(v, list):
+            for x in v:
+                if isinstance(x, str):
+                    yield path + (k,), x
+        elif isinstance(v, str):
+            yield path + (k,), v
 
 
 def is_valid(recipe: Recipe, check_contracts: bool = True) -> bool:

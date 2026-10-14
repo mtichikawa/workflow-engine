@@ -28,6 +28,7 @@ class Act(Specialist):
         "NOT when the deliverable is the output itself (a ranking/verdict/summary) -- end there. "
         "CONFIG-DRIVEN via {target (github|file), mode (staged)}. IN target,payload,mode -> OUT status,result."
     )
+    side_effect = True
     contract = Contract(
         input={"target": str, "payload": object, "mode": str},
         output={"status": str, "result": dict},

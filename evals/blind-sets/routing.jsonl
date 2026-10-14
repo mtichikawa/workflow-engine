@@ -1,0 +1,396 @@
+{"id": "r001", "text": "I'm Lindsey's mother. The baby came early this morning, both are fine. Please tell Joy (her doula).", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r002", "text": "Does the doula help with baby sleep stuff after birth?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r003", "text": "hi can you fix the spelling of my name, it's Aaliyah with two a's", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r004", "text": "I think I want to end the contract early. how does that work", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r005", "text": "Is parking validated at your office? I paid $18 last time", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r006", "text": "We're moving to Arizona next month so I think we need to stop services. Will I get anything back for the visits I didn't use?", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r007", "text": "Hello this is Gloria, Tamika's aunt. Tamika's bus pass from you ran out, can she get another one for her visits?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r008", "text": "Can I get a superbill for my HSA?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r009", "text": "is there a waitlist for the infant CPR workshop?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r010", "text": "¿Me pueden confirmar mi cita del viernes a las 3?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r011", "text": "the hospital moved my induction date, it's now the 19th. do I need to reschedule anything?", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r012", "text": "Does anyone donate baby bathtubs or bouncers?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r013", "text": "Do you give bus passes for getting to visits?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r014", "text": "I was told I qualify for the $0 tier, how do I get that applied to my account", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r015", "text": "Hi there, I'm Grace's mom. Grace asked me to cancel her appointment on Friday, she has a family thing.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r016", "text": "I'd love to join the postpartum circle, how do I get in", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r017", "text": "If I reschedule instead of cancel, do I still get charged the late fee?", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r018", "text": "what day is my appointment, the text got cut off", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r019", "text": "Can I get reimbursed for the Uber to my visit last week?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r020", "text": "what are the income limits for the free doula program", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r021", "text": "Hello I'm Shay's partner, the baby's dad. Shay had the baby last night!! 7lb 2oz. Can you let her doula know?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r022", "text": "my new due date is december 1st. the old one was nov 20. pls update", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r023", "text": "Does my doula have any tips for getting my 3 year old ready for the baby?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r024", "text": "could i get a letter confirming my postpartum visit dates for my employer", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r025", "text": "How much would the package cost on the sliding scale if I make about $28k a year", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r026", "text": "Necesito cambiar mi cita del lunes.", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r027", "text": "¿Dónde puedo conseguir pañales gratis?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r028", "text": "I'm about to lose my insurance because I'm quitting my job. Can I still keep my doula?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r029", "text": "what's the earliest appt you have", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r030", "text": "Hi, I'm Lily's wife. Lily is asking whether the invoice from October is already paid or not.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r031", "text": "I got married and changed my last name to Okafor, can you update my file", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r032", "text": "I need a crib, can you help?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r033", "text": "Need a signed attendance form for my probation officer showing my visits", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r034", "text": "What times do you have open next week?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r035", "text": "I'd like to add my partner as an emergency contact", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r036", "text": "Tengo seguro de mi trabajo pero no sé si cubre doulas. ¿Pueden revisar?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r037", "text": "this is marisol's mom, she wants to know how much she still owes on the bill, I'd like to pay it for her", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r038", "text": "I'd like to set up a payment plan", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r039", "text": "Hola, soy hermana de Rocío. ¿Cuánto debe todavía? Quiero pagar una parte.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r040", "text": "My HR department needs a letter on your letterhead. Can you email it?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r041", "text": "FYI we're headed to the hospital now for the induction, they called us in early", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r042", "text": "Hola, ¿me pueden mandar el recibo de mi último pago?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r043", "text": "My induction was cancelled, hospital is full. They'll call me with a new date", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r044", "text": "Can my doula be there if I give birth at home?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r045", "text": "Wrong birthday on my file, it's 3/9/1996 not 9/3/1996", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r046", "text": "Will my doula come to the hospital before I'm admitted or only after?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r047", "text": "Is there a shuttle from the train station to your office?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r048", "text": "Can I sign up for the childbirth ed class in December?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r049", "text": "Can I get a letter saying I need flexible hours for appointments?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r050", "text": "Is there a hardship fund? My partner left and I'm on my own now", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r051", "text": "my bank says the charge is pending twice, which one is real?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r052", "text": "what comfort things should I have at home for early labor (like a ball, etc)?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r053", "text": "Can I get a one-time waiver on the late cancel fee? First time it's happened", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r054", "text": "On behalf of my wife Mei: her induction is scheduled for tomorrow 6am. Please let her doula know.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r055", "text": "hey this is Coco's partner. she wants to apply for the reduced fee thing, how do we do it", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r056", "text": "I wrote a draft birth plan, can my doula look it over before our next visit?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r057", "text": "I got a collections notice?? I didn't know I owed anything", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r058", "text": "running 15 min late to my appt, still ok?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r059", "text": "My caseworker said you have a reduced rate for people in shelters, how do I get that", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r060", "text": "I was told I'd be covered under the state doula benefit. Now I see a balance on my portal. ??", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r061", "text": "Soy el novio de Karla. Ella quiere saber si hay clases de lactancia en español.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r062", "text": "we need a pack n play", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r063", "text": "Do you have a sliding scale? I can't afford the full package price.", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r064", "text": "hey I'm Nia's brother. she wants to sign up for the sibling prep class with her 4 yr old, can you register her?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r065", "text": "Cambié de número de teléfono. El nuevo es 503-555-0177.", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r066", "text": "need a work excuse note for 10/14 pls", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r067", "text": "insurance says they need an NPI number for my doula to process the claim, can someone send that?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r068", "text": "is the office open on the 24th? my appt is that day", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r069", "text": "reschedule pls 🙏 tomorrow doesn't work", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r070", "text": "I'm not happy with how Dana handled things at my birth. She left before the baby came and I was alone. I want someone to know.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r071", "text": "Hello, this is Ramon. My wife Lucia's phone number changed to 503-555-0182, please update.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r072", "text": "Do you accept Venmo or Zelle?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r073", "text": "hi I switched insurance plans at work Jan 1, here's my new member id: XJ49920113", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r074", "text": "My ride for tomorrow's 9am fell through, is there anything you can do?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r075", "text": "Is there a virtual option for the childbirth class? I live 2 hours away", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r076", "text": "I'd like a refund for the overpayment on my account", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r077", "text": "got a letter that says my coverage was terminated?? what does this mean for my doula", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r078", "text": "hello I'm Ava's partner Chris. What does the doula actually do on the day? Ava's nervous and I want to explain it to her", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r079", "text": "Se adelantó mi cesárea para el lunes 12.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r080", "text": "hi im Kayla's mom, can i get a copy of what she's paid so far for her FSA", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r081", "text": "Hola, ¿necesito renovar algo para que el seguro siga pagando mis visitas posparto?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r082", "text": "New email, old one got hacked: m.santos.new@examplemail.com", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r083", "text": "My invoice has a 'late cancellation' line item. I canceled 30 hours ahead, the policy says 24.", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r084", "text": "¿Mi doula puede ayudarme con mi plan de parto?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r085", "text": "I have an induction date: Monday the 8th, 8pm check in. Who should I tell?", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r086", "text": "Necesito una carta para mi trabajo que diga que estoy en su programa.", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r087", "text": "Hey I'm Marcus, Jada's husband. We got a receipt for $150 but we paid $200, can somebody check?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r088", "text": "Can my doula take some photos during the birth?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r089", "text": "Necesito suspender mis servicios por unas semanas, tengo que viajar a México por una emergencia familiar.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r090", "text": "Do you take Kaiser? My friend said you do but the website doesn't say.", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r091", "text": "Do you have a list of affordable childcare?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r093", "text": "i was charged twice for the same missed appt fee", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r094", "text": "Does the price include the doula's travel?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r095", "text": "Can a ride be set up for me and my toddler? Need a car seat in the car too", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r096", "text": "Please withdraw me from the program. I want a refund for the unused portion of my package.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r097", "text": "Por favor actualicen mi dirección: 1500 SE Oak St.", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r098", "text": "how do I prepare my dog for the baby lol, does my doula have tips", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r099", "text": "Update my emergency contact to my mom, Linda Park, 503-555-0110", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r100", "text": "how much is the deposit to reserve a doula", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r101", "text": "I got a late cancellation fee on my invoice but my baby was sick. Can it be waived?", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r102", "text": "could i switch my home visit to an office visit", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r103", "text": "What's the difference between the birth doula and the postpartum doula roles?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r104", "text": "What is this $75 charge from Sept 12?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r105", "text": "Hola, quiero hacer un pago de $100.", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r106", "text": "I need to reschedule my visit on the 18th, something came up", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r107", "text": "My statement shows a no-show penalty for 11/2 — can someone review it?", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r108", "text": "Do you have gas cards? It's 40 min each way to the office", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r109", "text": "Can my doula meet me at home first before we go to the hospital?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r110", "text": "Do you send paper bills or only email?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r111", "text": "I need help getting a phone, mine is broken and I can't get calls from the clinic", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r112", "text": "My bill says I owe a copay but my plan says doula care is $0. Can someone check what's going on?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r113", "text": "Quiero cambiar de doula. Prefiero alguien que hable español.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r114", "text": "Can you write a letter for my court date saying I have an appointment that morning?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r115", "text": "Can we do the visit at 8am? before work", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r116", "text": "I keep getting reminders for an appointment I already cancelled", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r117", "text": "Is there a baby supply closet I can visit?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r118", "text": "i have both my husbands insurance and medicaid, which one do you bill", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r119", "text": "I lost my job and can't pay my bill this month. Is there any financial assistance?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r120", "text": "Update: my OB moved my due date to Feb 20 instead of Feb 8.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r121", "text": "This is Derek writing for my partner Sam (they/them). Sam wants to book the first prenatal visit, any weekday afternoon works.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r122", "text": "Can I get a gift card for groceries?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r123", "text": "any resources for legal help with my landlord?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r124", "text": "What should I pack in my hospital bag?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r125", "text": "Is there help with utility bills? My electric is about to be shut off", "queue": "community_resources", "rule": 14, "tricky": true}
+{"id": "r126", "text": "Hola, ¿tienen pases de autobús?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r127", "text": "Twins arrived early on Wednesday! Everyone's ok. Postpartum visits can start whenever", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r128", "text": "Can you resend the location for the birth prep class? I lost the email", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r129", "text": "Hi, how much is the late cancel fee if I cancel tomorrow's visit tonight?", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r130", "text": "Good morning, I'm Hana's mother-in-law. Could you tell me when her next postpartum visit is? I'd like to drive her.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r131", "text": "Baby came 2 weeks early on the 3rd so I guess my last prenatal visit isn't happening 😂", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r132", "text": "the EOB from aetna says \"not covered\" for doula support, is that right?? I'm confused", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r133", "text": "Is there a food pantry near me?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r134", "text": "Can you help me sign up for WIC?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r135", "text": "Can I get help paying my rent this month?", "queue": "community_resources", "rule": 14, "tricky": true}
+{"id": "r136", "text": "Can you send me a calendar invite for my visits", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r137", "text": "Is my appointment at 10 or 10:30? I forgot", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r138", "text": "Hi! I'm Nora's best friend — she asked me to find out if there's still room in the Saturday newborn care workshop", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r139", "text": "hi, Rachel's partner here — the zoom link for her video visit isn't working, can you resend it to her?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r140", "text": "How long is the first appointment? Want to plan my day", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r141", "text": "Please stop texting this number, use my email instead going forward", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r142", "text": "Can I pay cash at my next visit?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r143", "text": "Is it possible to have a second doula assigned as backup? Mine is on call for 3 other births that week", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r144", "text": "¿Hay ayuda con comida para mi familia?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r145", "text": "what time does the dads & partners group meet", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r146", "text": "I need to end my services, we lost the baby last week. please don't send any more reminders.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r147", "text": "My CHIP coverage ended, what happens with my visits?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r148", "text": "my doula Kelsey made a comment about my weight that really bothered me. I don't want her coming back.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r149", "text": "could you arrange a taxi voucher for my appointment next week, my husband has the car", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r150", "text": "Can I pause my services? I'm going through some stuff and can't do visits right now. Not cancel, just pause.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r151", "text": "Hola, perdí mi trabajo. ¿Hay ayuda para pagar mi saldo?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r152", "text": "¿Cuándo es la próxima clase de parto en español?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r153", "text": "Hospital called and my induction is pushed to next week Wednesday.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r154", "text": "Mi hija Daniela está en su programa. Quiere saber si su doula puede estar en el hospital con ella. Gracias", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r155", "text": "I wanted to share some photos of baby with Jess, can you forward?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r156", "text": "Received a renewal packet for Oregon Health Plan. Will my doula visits stop while it's pending?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r157", "text": "The zoom link for tonight's postpartum support circle isn't working", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r158", "text": "heads up my repeat c-section date is set: 3/14", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r159", "text": "Can you reschedule my birth? lol jk. but they did move my induction from Tuesday to Thursday", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r160", "text": "This is Will, Erin's partner. Erin's due date got moved up to March 3 at her last OB appt, wanted you guys to know", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r161", "text": "need help paying, is there a grant or something", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r162", "text": "I'm on WIC and applied for Medicaid but it's still pending. Can I still start visits?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r163", "text": "got charged for a no show but the visit was moved by your office, I have the text", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r164", "text": "hey its Andre, Tasha's man. can she move her 10am to the afternoon, she's got a work meeting", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r165", "text": "Can I bring my baby to the Wednesday support group?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r166", "text": "My daughter's school needs a note that I had to pick her up early for my visit", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r167", "text": "please book me for my 32 week visit", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r168", "text": "Can I get a receipt for my last payment?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r169", "text": "I'd like to set up recurring weekly visits after birth", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r170", "text": "Is there a loaner breast pump program?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r171", "text": "Me llegó una carta de Medicaid sobre mi elegibilidad. ¿Afecta mis servicios con ustedes?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r172", "text": "My appointment got double booked with my OB, can we change ours", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r173", "text": "Can my partner come to the newborn care class with me? does he need to register separately", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r174", "text": "this is Brianna's roommate, she asked me to message you bc her phone broke. she needs a letter for her job saying she's in the program", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r175", "text": "Can my doula help me write a birth plan?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r176", "text": "i want a doula thats closer to my neighborhood, mine drives like an hour and is always rushing", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r177", "text": "¿Tienen descuentos para personas de bajos ingresos?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r178", "text": "I signed up for the class twice by accident, can you remove one", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r179", "text": "Hi! My induction got scheduled for Nov 4 at 7am. Do I need to change my appointments?", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r180", "text": "Can I split the payment between two cards?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r181", "text": "Hello, writing on behalf of my partner Ruth. Ruth would like to know if she can still join the postpartum circle after the baby's born", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r182", "text": "I moved! New address is 221 Elm St, Apt 4B, Salem OR 97301.", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r183", "text": "Una nota para la escuela por favor, falté el jueves por mi cita.", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r184", "text": "confirming my 1pm tomorrow?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r185", "text": "Can I buy a gift certificate for a friend's doula package?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r186", "text": "The baby was born Sunday morning. My partner will be home for 2 weeks so we might want visits a little later.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r187", "text": "I just got approved for Medicaid!! 🎉 What do I send you?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r188", "text": "The video link for my visit today isn't loading", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r189", "text": "Le quiero dar las gracias a mi doula Lupe. ¡Fue increíble!", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r190", "text": "Can I get an evening appointment? I work until 5", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r191", "text": "Can I get my bill forgiven? things have been rough 😞", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r192", "text": "Can I get help applying for SNAP?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r193", "text": "My job needs a form filled out for my leave, can someone sign it?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r194", "text": "My bus pass expired, can I get a new one?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r195", "text": "hi can i switch doulas? mine keeps showing up late and i don't feel comfortable bringing it up with her", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r196", "text": "Can my next visit be virtual instead of in person?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r197", "text": "hi this is Kevin, partner of Lauren Mills. Our new address is 4410 Birch Ln apt 2, please update her file", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r198", "text": "How do I apply for the reduced fee program?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r199", "text": "The driver never showed for my 2pm pickup. Can you check what happened with the ride service so it doesn't happen again?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r200", "text": "Can you email me a statement for the year? For taxes", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r201", "text": "writing for my wife Fatima — she wants to set up a payment plan for the balance, she can do $50/month", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r202", "text": "I need transportation to my postpartum visit, baby will be with me", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r203", "text": "Where can I get a bassinet?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r204", "text": "What's your cancellation policy? I don't want to get hit with a fee again", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r205", "text": "I need proof of enrollment for my childcare subsidy application", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r206", "text": "Is there a laundry voucher program? our machine broke and baby makes so much laundry 😅", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r207", "text": "My legal name change went through, it's now Jordan Ellis. I can send the court paper", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r208", "text": "Hi, Dev here (Anjali's husband). She'd like to know if the doula can help her write a birth plan this week.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r209", "text": "My plan changed to a Medicaid managed care plan, CareOregon now. Does that change anything with you?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r210", "text": "Ya nació mi bebé! Fue ayer en la noche. 👶", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r211", "text": "Hola, ya no voy a seguir con el programa. Me mudo con mi familia a Texas. ¿Qué tengo que hacer?", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r212", "text": "I need an itemized receipt for my FSA", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r213", "text": "My sister Imani needs a crib before the baby comes, do you guys help with that? I'm helping her get ready", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r214", "text": "Is there a formula bank?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r215", "text": "My job wants written confirmation of my appointment times for the next month", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r216", "text": "Do you take checks?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r217", "text": "Do military families get a discount?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r218", "text": "What should my partner pack for himself?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r219", "text": "Do you have a support group for moms who had c-sections?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r220", "text": "do yall have strollers", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r221", "text": "Insurance denied the claim for my postpartum visits. They sent me a letter, what do I do?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r222", "text": "Heads up, I'm checking into the hospital tonight for my scheduled induction.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r223", "text": "Can you change my preferred language to Spanish on my record?", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r224", "text": "Good afternoon. I am the husband of Sofia Lindqvist. She would like to update her email on file to sofia.l@examplemail.com.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r225", "text": "This is Maria's teenage son typing for her bc her english isn't great. She needs help with groceries this week, do you have food pantry info?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r226", "text": "Do you have car seats available?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r227", "text": "Where do I find my invoice?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r228", "text": "my sons girlfriend Destiny is with yall. she got charged a no show fee but she was stuck at her other kid's school, can that be removed", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r229", "text": "We had our baby on Tuesday! Can you cancel my Thursday prenatal visit since, well 😅", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r231", "text": "Do you have any baby clothes donations?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r232", "text": "Do I text my doula or call when it's time?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r233", "text": "Is there a fee for paying by card?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r234", "text": "I am writing for my daughter, who does not speak much English. She would like to know if you help with rent assistance.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r235", "text": "can you check if my medicaid is active? i haven't gotten my card yet", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r236", "text": "muchas gracias a todo el equipo de doulas ❤️", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r237", "text": "how many spots left in the comfort measures workshop on the 9th?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r238", "text": "I'd like to cancel all my remaining postpartum visits and close out my account please. Baby's doing great and we're good!", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r239", "text": "Hi, my scheduled induction is tomorrow at 6. Do I still come to my Friday appointment with you? Probably not right lol", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r240", "text": "I'd prefer a Black doula, is that something I can request? my current doula is nice but I'd feel more comfortable", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r241", "text": "Is a prior authorization needed for the extra postpartum hours?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r242", "text": "My Medicaid eligibility letter says I need proof of pregnancy from a provider. Can your office give me that?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r243", "text": "Are there any resources for finding childcare after I go back to work?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r244", "text": "Need to cancel Wednesday's visit, I'll call to rebook", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r245", "text": "Hi, I'm messaging for my fiancée Olivia. She wants to know what she should pack in the hospital bag for when the doula comes", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r246", "text": "Question about coverage: I'm 28 weeks and just moved states, is my new state's Medicaid accepted?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r247", "text": "Please cancel my enrollment in the program. I've decided to have my aunt be my support person instead.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r248", "text": "Can I get a ride to my appointment on Friday? I don't have a car.", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r249", "text": "Can I get proof I attended my visit on Monday? My manager wants something in writing.", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r250", "text": "Is the extra hour at the birth billed separately? Got an invoice for overtime", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r251", "text": "we're struggling financially and the balance is a lot, can it be reduced?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r252", "text": "can the ride pick me up from work instead of home on tuesday", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r253", "text": "I'm about to lose my apartment. Is there housing help?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r254", "text": "Hola, tengo un cargo de $40 por cancelar tarde. Estaba en el hospital con mi otro hijo.", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r255", "text": "what's the total cost of the birth package", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r256", "text": "My scheduled cesarean got moved up a week to the 10th. Please update whoever needs to know.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r257", "text": "Can I put my postpartum package on hold for 2 months? My mom is staying with us until January.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r258", "text": "I want to send my doula a gift card, can I mail it to your office?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r259", "text": "I need to cancel my spot in Saturday's breastfeeding class", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r260", "text": "Is there anywhere to get maternity clothes?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r261", "text": "Can my doula help my partner know what to do during labor?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r262", "text": "Are there any classes for siblings, like getting a toddler ready for the new baby?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r263", "text": "ultrasound said baby is measuring ahead so my due date is now Jan 2 instead of Jan 14", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r264", "text": "Can I have back-to-back visits on the same day so I don't have to come twice?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r265", "text": "Do you do jury duty excuse letters? I'm due in 6 weeks", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r266", "text": "hi can we push my visit back an hour", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r267", "text": "I'll pay my balance but not the no-show charge, that was a snow day and your office was closed", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r268", "text": "My parental leave application needs a signature from a provider — can someone from your office sign?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r269", "text": "I have to take 2 buses to get to you, is there any help with transportation?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r270", "text": "Please update my email to dana.k@examplemail.com", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r271", "text": "is there anything open this saturday morning", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r272", "text": "I'd like to pay the rest of my balance today, what's the exact amount", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r273", "text": "I paid in full but still got a statement saying I owe $120", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r274", "text": "my payment plan says $60 but you took $80", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r275", "text": "how do i book the free lyft rides for appointments", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r276", "text": "hi this is Ben, Kat's husband. we never got the invoice email, can you send it to me instead?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r277", "text": "the reminder text went to my old number so I missed my visit, can the fee be dropped", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r278", "text": "hi, I gave birth on Saturday at home faster than expected, didn't have time to call anyone. Please let my team know so postpartum visits can start", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r279", "text": "Why was I charged a $40 no-show fee? I called to cancel the day before.", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r280", "text": "Why is there a missed visit fee when it was a video visit and the link didn't work??", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r281", "text": "Can I get a letter for my employer saying I'm enrolled in your program?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r282", "text": "Can you move my visit from Mon 2pm to Tue anytime", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r283", "text": "Please tell Rosa thank you so much, she made my birth so special 💕", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r284", "text": "I need a note for school saying I was at my appointment yesterday", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r285", "text": "My landlord wants a letter confirming I'm a client of your program for my lease paperwork", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r286", "text": "Can someone sign my FMLA paperwork? It's just the part about appointments", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r287", "text": "how much was the package price in my contract? I forgot", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r288", "text": "can you update my work phone, I changed jobs", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r289", "text": "Can my prenatal visit be at my house instead?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r290", "text": "Hola, soy el esposo de Carmen Ruiz. ¿Tienen pañales o fórmula para donar? Estamos cortos este mes.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r291", "text": "my doula keeps texting me late at night about stuff that isn't about my care, it's making me uncomfortable 😬", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r292", "text": "Mi fecha de parto cambió al 15 de abril.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r293", "text": "Is there a program for free car seat installation checks?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r294", "text": "I have to cancel tomorrow's appointment, sorry! Can we find another day?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r296", "text": "I didn't get a reminder for my appt, is it still on?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r297", "text": "is the babywearing workshop free?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r298", "text": "Baby girl is here!!! Born 3:14am 💕", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r299", "text": "This is Patricia, Kim's mom. Kim mentioned there's a free childbirth class but she can't find the sign-up — can you register her for the next one?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r300", "text": "Due date update: OB says 9/28 now", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r301", "text": "my autopay didn't go through, can I pay manually?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r302", "text": "I was charged twice this month", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r303", "text": "How much do I owe right now?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r304", "text": "hi im writing for my girlfriend Mackenzie. she wants to know if you do overnight postpartum visits and how to book one", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r305", "text": "Got a letter saying my Medicaid is up for renewal. Do I need to do anything for my doula coverage?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r306", "text": "I want to prepay for the postpartum package now", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r307", "text": "Just want to say Bea is the best. That's all 😊", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r308", "text": "is the no-show fee refundable? i paid it already but i think it was a mistake", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r309", "text": "Does my doula stay after the baby is born and for how long?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r310", "text": "Just wanted you all to know our son arrived yesterday. Thank you!", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r311", "text": "My doula mentioned a book at our last visit, what was the name?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r312", "text": "I want to add a visit before the baby comes, any openings?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r313", "text": "My card expired, how do I update the payment method?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r314", "text": "how do I add the baby to my Medicaid so the postpartum visits still count", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r315", "text": "I'm Jasmine's sister. She needs a ride to her appointment Monday, can someone help with that?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r316", "text": "my c section is scheduled for the 22nd at 9am, can you put that in my file", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r317", "text": "My granddaughter Tiana is in your program and I'd like to buy a gift certificate for her extra postpartum hours. How do I pay?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r318", "text": "Is there a form you can fill out for my unemployment office showing I attend appointments?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r319", "text": "I accidentally booked two appointments for the same day, please cancel the 3pm", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r320", "text": "hey so I want to drop out of the program, can you stop the payments too? thx", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r321", "text": "Can I get my receipts for all payments made this year", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r322", "text": "Will the doula bring anything with her, like massage oils?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r323", "text": "hey its Tomas, Ana's boyfriend. can I sign her up for the breastfeeding class on the 12th? she said ok", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r324", "text": "My partner and I need help finding a cheaper apartment before the baby comes", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r325", "text": "can my doula help me come up with questions to ask on the hospital tour", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r326", "text": "Can my doula sign a form for my work saying she'll be with me at the birth?", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r327", "text": "When is my next appointment?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r328", "text": "What will happen at the postpartum visit with my doula?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r329", "text": "Hi, I'm helping my friend Becca, she's in your program. Does anyone have a used stroller or pack n play?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r330", "text": "there's a missed appointment charge on my bill from october 3, I was there!", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r331", "text": "Hi, I'm Dani's husband. She asked me to move her Thursday visit to next week since she's working a double. Can you do that?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r332", "text": "Hello, my daughter Keisha Brown is a client of yours. Does your program give out car seats? She doesn't have one yet.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r334", "text": "Can I schedule my postpartum visit for the week of the 20th?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r335", "text": "Do you charge a fee if I'm more than 15 min late? want to know before tomorrow", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r336", "text": "Writing for my wife Priya — she wants to thank Rosa for everything, can you pass this along? We're so grateful 🙏", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r337", "text": "My insurance asked for an itemized statement to process my out-of-network claim, can you send one?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r338", "text": "Is the doula allowed in the OR if I have a c-section?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r339", "text": "My doula has missed two visits in a row without telling me. I'd like to change.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r340", "text": "I can't make the 6pm class anymore. Is there a morning session?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r341", "text": "Hi, I'm Jordan's dad. Jordan wanted me to say thank you to Bea the doula, she was amazing ❤️", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r342", "text": "I registered for the class but never got a confirmation email", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r343", "text": "Me cobraron por faltar a una cita pero sí avisé. ¿Lo pueden quitar?", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r344", "text": "Can my sister's doula, Ines, be my doula instead of Paula? We'd love to have the same person.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r345", "text": "Is there a way to switch my doula to Monique? She led my class and I really connected with her", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r346", "text": "my wife Jen wants a note for her school saying she was at your office tuesday, she's a grad student and missed a seminar", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r347", "text": "how do I make a postpartum meal plan, does the doula help with that", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r348", "text": "Please use my chosen name, Riley, instead of my legal name on everything", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r349", "text": "can i get a doula who has done VBACs before? the one i have says she hasn't", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r350", "text": "¿Me pueden ayudar con transporte para mi cita del jueves?", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r351", "text": "I'd like to dispute the $35 missed-visit fee on my statement", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r352", "text": "Quiero inscribirme en el grupo de apoyo posparto.", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r353", "text": "Hi I'm Abby's husband. Can you confirm her appt is still on for 2pm tomorrow? she's asleep and I don't want to wake her", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r354", "text": "Soy la mamá de Yesenia Ortiz. Ella necesita cambiar su cita del martes, ¿me pueden ayudar?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r355", "text": "I'd like to request a different doula. Nothing terrible, we just don't click.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r356", "text": "do you have a grief support circle", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r357", "text": "I need to file a complaint about my doula. She was on her phone the whole visit and didn't answer my questions.", "queue": "care_coordinator", "rule": 2, "tricky": true}
+{"id": "r358", "text": "They said my due date is actually 2 weeks later than we thought, so my 36 week visit should probably move too?", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r359", "text": "Can my fee be lowered? I'm a single mom with 3 kids", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r360", "text": "Can I talk to my doula about my fears about labor? Just want to talk it through", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r361", "text": "Hello, my partner Zoe asked me to reach out. Her parking at the clinic visit wasn't validated, can she get reimbursed for parking?", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r362", "text": "My employer insurance has a doula reimbursement program. Do you fill out their claim form?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r363", "text": "Hola, quiero agendar una cita para la próxima semana.", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r364", "text": "new phone number: 971-555-0144", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r365", "text": "Due date moved later by 10 days per my midwife.", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r366", "text": "I'd like to apply for a fee waiver. What documents do I need?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r367", "text": "Need a ride to the breastfeeding class Saturday", "queue": "community_resources", "rule": 8, "tricky": true}
+{"id": "r368", "text": "does my doula do the birth story write-up after? I'd love to have one", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r369", "text": "Can I pay my balance with a credit card over the phone?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r370", "text": "The online payment portal keeps giving me an error", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r371", "text": "Can I move my Thursday appointment to Friday?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r372", "text": "How do I reach my doula when labor starts?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r373", "text": "My income changed, can my sliding scale tier be redone?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r374", "text": "Does my doula help with swaddling and diapering practice?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r375", "text": "My pronouns are she/they, can you put that in my profile?", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r376", "text": "Is it ok if my mom is also in the room with the doula?", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r377", "text": "Hola, le escribo de parte de mi nuera Paola. Necesita una carta para su trabajo que diga que tiene citas con ustedes.", "queue": "care_coordinator", "rule": 1, "tricky": true}
+{"id": "r378", "text": "hey so we're having a planned c-section now on 6/3. Want to make sure my doula can be there", "queue": "doula_support", "rule": 4, "tricky": true}
+{"id": "r379", "text": "Can you please remove the no show fee, I had a flat tire", "queue": "scheduling", "rule": 5, "tricky": true}
+{"id": "r380", "text": "I'm not getting your texts, I think you have my old number. New one is 360-555-0199", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r381", "text": "Moving next week to 88 River Rd — please update before my next visit", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r382", "text": "Is there a scholarship for doula services?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r383", "text": "my mailing address is different from my home address now, mail goes to PO Box 812", "queue": "billing", "rule": 9, "tricky": true}
+{"id": "r384", "text": "Any baby swings available?", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r385", "text": "I got a bill for $480 but I thought Medicaid was paying for this?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r386", "text": "I missed week 2 of the 4-week class series, can I make it up in the next round?", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r387", "text": "Hola, ¿tienen citas disponibles los sábados?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r388", "text": "Do you offer any discount for students?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r389", "text": "Please move me from the Tuesday breastfeeding class to the Thursday one", "queue": "community_resources", "rule": 7, "tricky": true}
+{"id": "r390", "text": "Can I change my payment due date to the 15th? That's when I get paid", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r391", "text": "I submitted my sliding scale application two weeks ago, any update?", "queue": "community_resources", "rule": 6, "tricky": true}
+{"id": "r392", "text": "Can I book my first prenatal visit?", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r393", "text": "¿Cómo puedo pagar mi factura?", "queue": "billing", "rule": 12, "tricky": false}
+{"id": "r394", "text": "I need documentation for my housing application that I'm pregnant and in your program", "queue": "scheduling", "rule": 10, "tricky": true}
+{"id": "r395", "text": "does my insurance cover doula services? I have Blue Cross through work", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r396", "text": "Hola, necesito una cuna para mi bebé.", "queue": "community_resources", "rule": 14, "tricky": false}
+{"id": "r397", "text": "what does a doula do vs a midwife? trying to explain to my mom", "queue": "doula_support", "rule": 13, "tricky": false}
+{"id": "r398", "text": "I want to pay my balance but first can someone tell me if insurance is going to pick up part of it?", "queue": "care_coordinator", "rule": 3, "tricky": true}
+{"id": "r399", "text": "can I book 2 more postpartum visits", "queue": "scheduling", "rule": 11, "tricky": false}
+{"id": "r400", "text": "Where can I get free diapers?", "queue": "community_resources", "rule": 14, "tricky": false}

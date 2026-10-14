@@ -105,3 +105,23 @@ def test_loop_guard():
     b = _run(r)
     assert b.card("i1", "gen").visits == 4
     assert b.context["i1"]["check"]["ok"] is False
+
+
+def test_pass_and_fail_edges_from_one_source_both_reach_the_step():
+    # verify -> act when pass, verify -> act when fail: one dependency, two alternative conditions.
+    # Either verdict must reach act (it used to be skipped under the default AND-join, whichever won).
+    for v in ("pass", "fail"):
+        r = Recipe(f"passfail-{v}",
+                   steps=[Step("check", "cf_emit", config={"v": v}), Step("act", "cf_collect")],
+                   edges=[Edge("check", "act", "check.v == 'pass'"), Edge("check", "act", "check.v == 'fail'")])
+        assert _run(r).card("i1", "act").status == "done", v
+
+
+def test_alternatives_from_one_source_still_and_join_with_another_source():
+    # act waits for BOTH sources; one source's edges are alternatives, the other's guard is false -> skipped
+    r = Recipe("altjoin",
+               steps=[Step("a", "cf_emit", config={"v": "x"}), Step("b", "cf_emit", config={"v": "y"}),
+                      Step("act", "cf_collect")],
+               edges=[Edge("a", "act", "a.v == 'x'"), Edge("a", "act", "a.v == 'z'"),
+                      Edge("b", "act", "b.v == 'nope'")])
+    assert _run(r).card("i1", "act").status == "skipped"

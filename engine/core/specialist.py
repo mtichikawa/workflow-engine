@@ -20,6 +20,12 @@ class Specialist:
     description: str = ""             # first-class metadata (registry falls back to its own map)
     tags: tuple = ()
     contract: Contract = Contract(input={}, output={})
+    side_effect: bool = False         # acts outside the engine — the validator requires a human gate at or before it
+
+    def output_values(self, field: str, config: dict) -> list | None:
+        """The closed set of values an output field can take, if there is one (else None). Lets the
+        validator reject a condition that compares against a value the step can never produce."""
+        return None
 
     def run(self, input: dict, config: dict | None = None) -> dict:
         config = config or {}

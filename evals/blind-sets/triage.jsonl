@@ -1,0 +1,320 @@
+{"id": "m001", "text": "What's the best way to contact my doula after hours?", "label": "non-medical", "hard": false, "why": "contact logistics", "lang": "en"}
+{"id": "m002", "text": "Can we push the visit to 4pm? I'm out picking up my metformin and the pharmacy line is wild. Should I still take it at night now that I'm postpartum?", "label": "medical", "hard": true, "why": "medication question", "lang": "en"}
+{"id": "m003", "text": "My work wants a return date, can someone help me figure out how much leave to take?", "label": "non-medical", "hard": true, "why": "work logistics", "lang": "en"}
+{"id": "m004", "text": "the baby's birth certificate form has a social security box, do we check it?", "label": "non-medical", "hard": true, "why": "paperwork", "lang": "en"}
+{"id": "m005", "text": "I'm so tired of people touching my belly without asking lol. how do I politely tell my coworkers to stop?", "label": "non-medical", "hard": true, "why": "figurative tired", "lang": "en"}
+{"id": "m006", "text": "Ya tenemos el horario de las tomas: cada 3 horas, mi esposo hace la de las 2am. ¿Cómo organizamos las visitas de la doula?", "label": "non-medical", "hard": true, "why": "feeding routine + scheduling", "lang": "es"}
+{"id": "m007", "text": "Tengo sangrado y cólicos fuertes, tengo 12 semanas", "label": "medical", "hard": false, "why": "bleeding + cramps", "lang": "es"}
+{"id": "m008", "text": "Who's my backup doula if Sarah's at another birth?", "label": "non-medical", "hard": false, "why": "coverage", "lang": "en"}
+{"id": "m009", "text": "how do i add the baby to my insurance, is it 30 days?", "label": "non-medical", "hard": true, "why": "insurance", "lang": "en"}
+{"id": "m010", "text": "Postpartum day 10, passed a clot the size of a golf ball", "label": "medical", "hard": false, "why": "large clot", "lang": "en"}
+{"id": "m011", "text": "Paperwork done. Also my breast is red and kinda hot on one side, should I just keep pumping?", "label": "medical", "hard": true, "why": "mastitis signs", "lang": "en"}
+{"id": "m012", "text": "the grocery delivery came, thanks for setting that up! baby's been really fussy and pulling up his legs and screaming for hours, is that colic or something else", "label": "medical", "hard": true, "why": "newborn distress", "lang": "en"}
+{"id": "m013", "text": "Can my mom be in the room along with the doula?", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m014", "text": "is it safe to take tylenol while pregnant", "label": "medical", "hard": false, "why": "medication safety", "lang": "en"}
+{"id": "m015", "text": "Desde que nació mi hijo no puedo dejar de llorar y siento que no sirvo para nada, no veo salida", "label": "medical", "hard": false, "why": "hopelessness", "lang": "es"}
+{"id": "m016", "text": "Can I take my prenatal and an iron supplement at the same time?", "label": "medical", "hard": false, "why": "supplement question", "lang": "en"}
+{"id": "m017", "text": "I'd like to add dim lights and my own playlist to my birth plan", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m018", "text": "No siento al bebé moverse desde ayer", "label": "medical", "hard": false, "why": "no fetal movement", "lang": "es"}
+{"id": "m019", "text": "Wife is 36 wks, she slipped on the stairs and landed on her belly. She says she's fine but is that ok?", "label": "medical", "hard": false, "why": "fall onto belly", "lang": "en"}
+{"id": "m020", "text": "I got the swaddles you recommended, they're perfect", "label": "non-medical", "hard": false, "why": "thanks", "lang": "en"}
+{"id": "m021", "text": "wanted to tell you labor class was great! the only thing is I've been leaking a little when I cough, like not pee? kinda watery", "label": "medical", "hard": true, "why": "leaking fluid", "lang": "en"}
+{"id": "m022", "text": "Our baby loves the swaddle but we're moving to a sleep sack. Which brand did you recommend?", "label": "non-medical", "hard": true, "why": "gear", "lang": "en"}
+{"id": "m023", "text": "¿El seguro cubre la doula?", "label": "non-medical", "hard": false, "why": "insurance", "lang": "es"}
+{"id": "m024", "text": "the app keeps logging me out", "label": "non-medical", "hard": false, "why": "app help", "lang": "en"}
+{"id": "m025", "text": "Is it normal to still be bleeding 5 weeks after birth?", "label": "medical", "hard": false, "why": "postpartum bleeding normal?", "lang": "en"}
+{"id": "m026", "text": "omg ok so baby's here!! 🥰 7lb 2oz. we go home tomorrow. my blood pressure was a little high when they checked, they said keep an eye on it. can the postpartum doula start monday?", "label": "medical", "hard": true, "why": "high BP in happy news", "lang": "en"}
+{"id": "m027", "text": "Can I request a female doula only?", "label": "non-medical", "hard": false, "why": "preferences", "lang": "en"}
+{"id": "m028", "text": "my face and hands are really swollen today, my rings don't fit", "label": "medical", "hard": false, "why": "swelling", "lang": "en"}
+{"id": "m029", "text": "how do I sterilize bottles, boil them or use the microwave bags?", "label": "non-medical", "hard": true, "why": "cleaning routine", "lang": "en"}
+{"id": "m030", "text": "Mi bebé tiene 4 días y lo veo amarillito, ¿es normal? También quería saber si la doula viene el sábado", "label": "medical", "hard": true, "why": "newborn jaundice signs", "lang": "es"}
+{"id": "m031", "text": "Quiero poner en mi plan de parto que quiero música y poca gente", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "es"}
+{"id": "m032", "text": "We'd like no visitors at the hospital for the first day. How do we tell the nurses?", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m033", "text": "my water might have broken?? there's clear fluid leaking when i stand up", "label": "medical", "hard": false, "why": "leaking fluid", "lang": "en"}
+{"id": "m034", "text": "Can I switch from the 3-visit package to the 5-visit?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m035", "text": "I've had diarrhea for 3 days", "label": "medical", "hard": false, "why": "diarrhea", "lang": "en"}
+{"id": "m036", "text": "Mi esposa tiene la pierna hinchada y roja, solo una", "label": "medical", "hard": false, "why": "one-sided leg swelling", "lang": "es"}
+{"id": "m037", "text": "eating a whole pint of ice cream every night is pregnancy self-care right 😂 anyway is the class on for thursday", "label": "non-medical", "hard": true, "why": "joking, no symptom", "lang": "en"}
+{"id": "m038", "text": "Is it okay to take Zofran for nausea?", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m039", "text": "lots of pressure in my pelvis, feels like baby is pushing down, 31 weeks", "label": "medical", "hard": false, "why": "pelvic pressure preterm", "lang": "en"}
+{"id": "m040", "text": "Can I get a receipt with the NPI number on it?", "label": "non-medical", "hard": false, "why": "billing", "lang": "en"}
+{"id": "m041", "text": "hi it's Jordan's partner. She's ok, just a little swollen in her face today. Can you confirm Sunday's time?", "label": "medical", "hard": true, "why": "facial swelling via partner", "lang": "en"}
+{"id": "m042", "text": "baby's soft spot looks sunken", "label": "medical", "hard": false, "why": "newborn dehydration sign", "lang": "en"}
+{"id": "m043", "text": "I feel hopeless all the time since the baby came. Nothing feels worth it.", "label": "medical", "hard": false, "why": "hopelessness", "lang": "en"}
+{"id": "m044", "text": "I can barely eat since the birth, lost a ton of weight, and everything feels gray and pointless", "label": "medical", "hard": false, "why": "appetite loss + hopelessness", "lang": "en"}
+{"id": "m045", "text": "this is grandma. baby is fine, just a little warm and not eating as much. what time does the night doula get here", "label": "medical", "hard": true, "why": "newborn warm + poor feeding", "lang": "en"}
+{"id": "m046", "text": "i keep picturing dropping the baby down the stairs on purpose, i would never, idk why. anyway the bassinet came", "label": "medical", "hard": true, "why": "intrusive harm thoughts", "lang": "en"}
+{"id": "m047", "text": "What's the difference between the birth doula and postpartum package?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m048", "text": "I can't remember the last time I felt anything except numb. Can we talk about the schedule for next month", "label": "medical", "hard": true, "why": "emotional numbness", "lang": "en"}
+{"id": "m049", "text": "Can the doula pick me up? I don't drive", "label": "non-medical", "hard": false, "why": "rides", "lang": "en"}
+{"id": "m050", "text": "do I need to stop my allergy meds before the birth or no? the hospital forms ask about medications", "label": "medical", "hard": true, "why": "medication as paperwork", "lang": "en"}
+{"id": "m051", "text": "Can you help me figure out a pumping schedule around my work meetings? Supply is fine, just logistics", "label": "non-medical", "hard": true, "why": "pumping routine", "lang": "en"}
+{"id": "m052", "text": "itching all over especially my palms and soles, 35wks", "label": "medical", "hard": false, "why": "itching palms/soles", "lang": "en"}
+{"id": "m053", "text": "Today was rough. Baby cried a lot and I cried too and then we both napped and it was fine. Mostly just venting. Can the postpartum doula come an extra day this week?", "label": "non-medical", "hard": true, "why": "ordinary venting", "lang": "en"}
+{"id": "m054", "text": "ugh my stitches are pulling every time i sit lol. when's my next home visit?", "label": "medical", "hard": true, "why": "stitch pain", "lang": "en"}
+{"id": "m055", "text": "¿Me pueden mandar la factura? Por cierto, ¿puedo seguir tomando mi sertralina mientras amamanto?", "label": "medical", "hard": true, "why": "medication question", "lang": "es"}
+{"id": "m056", "text": "Mi suegra quiere estar en el parto y yo no quiero 😩 ¿cómo se lo digo?", "label": "non-medical", "hard": true, "why": "family boundaries", "lang": "es"}
+{"id": "m057", "text": "Is the breastfeeding class worth it if I plan to exclusively pump? trying to plan my weeks", "label": "non-medical", "hard": true, "why": "feeding plans", "lang": "en"}
+{"id": "m058", "text": "do I need a note for work? I've been having bad back pain that wraps around to the front every 10 min or so", "label": "medical", "hard": true, "why": "contraction-like pain", "lang": "en"}
+{"id": "m059", "text": "had my 6 wk checkup and was cleared for everything! 🙌 so when do the postpartum visits end?", "label": "non-medical", "hard": true, "why": "good news + services", "lang": "en"}
+{"id": "m060", "text": "my partner works nights, can the doula meet us on a Saturday", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m061", "text": "can I take my adderall again now that baby's here? I'm pumping", "label": "medical", "hard": true, "why": "medication question", "lang": "en"}
+{"id": "m062", "text": "Do you have gift cards? My coworkers want to chip in", "label": "non-medical", "hard": false, "why": "billing", "lang": "en"}
+{"id": "m063", "text": "what's the doula's name who's coming saturday?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m064", "text": "I had a miscarriage last year so I'm extra anxious this time. Is there a doula who has experience with rainbow babies?", "label": "non-medical", "hard": true, "why": "past history, ordinary anxiety", "lang": "en"}
+{"id": "m065", "text": "Honestly feeling kind of lonely since my husband went back to work. Are there any parent meetups?", "label": "non-medical", "hard": true, "why": "ordinary feelings", "lang": "en"}
+{"id": "m066", "text": "honestly don't see the point of anything lately. sorry, random. is Priya still on for friday?", "label": "medical", "hard": true, "why": "hopelessness in passing", "lang": "en"}
+{"id": "m067", "text": "my milk hasn't come in yet and it's day 5, baby seems hungry and is losing weight", "label": "medical", "hard": false, "why": "feeding problem + baby weight loss", "lang": "en"}
+{"id": "m068", "text": "thank you so much for everything last night 💕", "label": "non-medical", "hard": false, "why": "thanks", "lang": "en"}
+{"id": "m069", "text": "We had our 20 week anatomy scan, it's a girl!! 💖 Can we change the nursery consult date?", "label": "non-medical", "hard": true, "why": "good news + scheduling", "lang": "en"}
+{"id": "m070", "text": "Spotting after sex, 14 weeks, should I worry", "label": "medical", "hard": false, "why": "spotting", "lang": "en"}
+{"id": "m071", "text": "Can we schedule a NICU tour just to see it? Baby is totally healthy, I just like knowing the layout", "label": "non-medical", "hard": true, "why": "tour logistics", "lang": "en"}
+{"id": "m072", "text": "My sister had preeclampsia with her baby so I've been reading everything lol. anyway what time is the class", "label": "non-medical", "hard": true, "why": "family history, no symptom", "lang": "en"}
+{"id": "m073", "text": "can we add 'please tell me before any procedures' to the birth plan? I like knowing what's coming", "label": "non-medical", "hard": true, "why": "birth preferences", "lang": "en"}
+{"id": "m074", "text": "is there a class for partners? he's anxious about not knowing what to do", "label": "non-medical", "hard": true, "why": "partner nerves", "lang": "en"}
+{"id": "m075", "text": "baby's been sleeping a lot, like hard to wake for feeds. whatever. when is Nia coming", "label": "medical", "hard": true, "why": "lethargic newborn", "lang": "en"}
+{"id": "m076", "text": "I can't stop crying and I keep thinking about just driving away and never coming back", "label": "medical", "hard": false, "why": "mental health crisis signal", "lang": "en"}
+{"id": "m077", "text": "I'm nervous about labor, is that normal?", "label": "non-medical", "hard": true, "why": "ordinary nerves", "lang": "en"}
+{"id": "m078", "text": "fluid leaking down my leg, not sure if pee or water", "label": "medical", "hard": false, "why": "leaking fluid", "lang": "en"}
+{"id": "m079", "text": "contractions every 6 min for the last hour, 37 weeks, what do i do", "label": "medical", "hard": false, "why": "active contractions", "lang": "en"}
+{"id": "m080", "text": "is it safe for me to fly at 32 weeks?", "label": "medical", "hard": false, "why": "pregnancy safety question", "lang": "en"}
+{"id": "m081", "text": "Kind of a weird q: can the doula be there if I'm induced? Induction is booked for the 14th at 7pm", "label": "non-medical", "hard": true, "why": "scheduled induction logistics", "lang": "en"}
+{"id": "m082", "text": "what's the doula policy at St. Mary's for c-sections? mine is scheduled for the 9th", "label": "non-medical", "hard": true, "why": "planned c-section logistics", "lang": "en"}
+{"id": "m083", "text": "is it normal that my baby's poop is white?", "label": "medical", "hard": false, "why": "newborn stool color", "lang": "en"}
+{"id": "m084", "text": "I've been feeling like I can't breathe at night and my heart pounds. Probably stress. What's the schedule for next week?", "label": "medical", "hard": true, "why": "breathing + palpitations", "lang": "en"}
+{"id": "m085", "text": "Hard red painful spot on my breast and I feel achy like the flu", "label": "medical", "hard": false, "why": "breast pain + flu-like", "lang": "en"}
+{"id": "m086", "text": "Pharmacy texted that my prenatal refill is ready, can the doula grab it on the way over?", "label": "non-medical", "hard": true, "why": "errand", "lang": "en"}
+{"id": "m087", "text": "hi it's Dana's mom, Dana hasn't slept in like 4 days and she's talking really fast and not making sense", "label": "medical", "hard": false, "why": "no sleep for days + confusion", "lang": "en"}
+{"id": "m088", "text": "there's blood in my breast milk when I pump", "label": "medical", "hard": false, "why": "blood in milk", "lang": "en"}
+{"id": "m089", "text": "my newborn's skin and eyes look kinda yellow", "label": "medical", "hard": false, "why": "newborn jaundice signs", "lang": "en"}
+{"id": "m090", "text": "my due date got changed after the ultrasound to the 3rd instead of the 10th. does that change when my doula goes on call?", "label": "non-medical", "hard": true, "why": "date change, coverage", "lang": "en"}
+{"id": "m091", "text": "Thanks for the referral to the lactation consultant, her appointment is Thursday", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m092", "text": "is it normal to feel a little nervous about bringing baby home? first timer lol", "label": "non-medical", "hard": true, "why": "ordinary nerves", "lang": "en"}
+{"id": "m093", "text": "My pump parts - how many sets should I buy so I'm not washing them constantly?", "label": "non-medical", "hard": true, "why": "equipment", "lang": "en"}
+{"id": "m094", "text": "I cried at a diaper commercial today lmao. anyway, can you send me the class schedule?", "label": "non-medical", "hard": true, "why": "ordinary emotion", "lang": "en"}
+{"id": "m095", "text": "Do you have recommendations for a car seat?", "label": "non-medical", "hard": false, "why": "gear", "lang": "en"}
+{"id": "m096", "text": "haven't slept in 4 days and my thoughts are racing. baby's asleep finally. what time is the visit tmrw", "label": "medical", "hard": true, "why": "no sleep for days + racing thoughts", "lang": "en"}
+{"id": "m097", "text": "cramping and brown discharge, 7 weeks", "label": "medical", "hard": false, "why": "cramping + discharge", "lang": "en"}
+{"id": "m098", "text": "I'm on lexapro, do I need to stop it now that I'm pregnant?", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m099", "text": "We're having a planned c-section, can the doula be in the OR?", "label": "non-medical", "hard": false, "why": "birth logistics", "lang": "en"}
+{"id": "m100", "text": "¿Qué debo llevar al hospital?", "label": "non-medical", "hard": false, "why": "packing", "lang": "es"}
+{"id": "m101", "text": "Hey this is Tom, Ellie's partner. What number should I call when she goes into labor?", "label": "non-medical", "hard": false, "why": "contact logistics", "lang": "en"}
+{"id": "m102", "text": "nipples are cracked and bleeding when he latches", "label": "medical", "hard": false, "why": "bleeding nipples", "lang": "en"}
+{"id": "m103", "text": "baby is breathing really fast and grunting", "label": "medical", "hard": false, "why": "newborn breathing", "lang": "en"}
+{"id": "m104", "text": "my partner is taking over texting bc she's napping. she wanted me to ask if the cramps she's been having are normal at 33 weeks and if the doula can still come sat", "label": "medical", "hard": true, "why": "cramps via partner", "lang": "en"}
+{"id": "m105", "text": "My doctor said I'm good to go for a VBAC attempt. Can we add that to the birth plan?", "label": "non-medical", "hard": true, "why": "birth plan", "lang": "en"}
+{"id": "m106", "text": "Mi esposo pregunta si puede entrar al quirófano en la cesárea. Y yo quería saber si puedo tomar té de hojas de frambuesa", "label": "medical", "hard": true, "why": "supplement question", "lang": "es"}
+{"id": "m107", "text": "my hemorrhoids are so bad I can't sit, what can I use", "label": "medical", "hard": false, "why": "symptom + treatment", "lang": "en"}
+{"id": "m108", "text": "i want to labor at home as long as possible before going in, can we plan around that", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m109", "text": "I've been throwing up all day and can't keep water down. 9 weeks", "label": "medical", "hard": false, "why": "persistent vomiting", "lang": "en"}
+{"id": "m110", "text": "really bad heartburn, can I take tums?", "label": "medical", "hard": false, "why": "symptom + medication", "lang": "en"}
+{"id": "m111", "text": "baby has only had 2 wet diapers today", "label": "medical", "hard": false, "why": "low newborn output", "lang": "en"}
+{"id": "m112", "text": "Todo bien con el horario. Últimamente no le veo sentido a nada, pero bueno.", "label": "medical", "hard": true, "why": "hopelessness in passing", "lang": "es"}
+{"id": "m113", "text": "Do you know any good newborn photographers?", "label": "non-medical", "hard": false, "why": "referral", "lang": "en"}
+{"id": "m114", "text": "we're thinking about cloth diapers, do you know a service near us", "label": "non-medical", "hard": false, "why": "referral", "lang": "en"}
+{"id": "m115", "text": "Can you send me the invoice for my HSA?", "label": "non-medical", "hard": false, "why": "billing", "lang": "en"}
+{"id": "m116", "text": "Hola, mi doctora cambió la cita al viernes, ¿puede venir la doula?", "label": "non-medical", "hard": true, "why": "medical words, scheduling", "lang": "es"}
+{"id": "m117", "text": "Is the childbirth class in person or online?", "label": "non-medical", "hard": false, "why": "class logistics", "lang": "en"}
+{"id": "m118", "text": "Can we put in the birth plan that I want to try pushing in different positions?", "label": "non-medical", "hard": true, "why": "birth preferences", "lang": "en"}
+{"id": "m119", "text": "what's the wifi at the class location lol", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m120", "text": "Can you send me the list of breastfeeding classes. Also my nipple has a white blister thing that hurts", "label": "medical", "hard": true, "why": "nipple blister pain", "lang": "en"}
+{"id": "m121", "text": "can you recommend a good baby carrier", "label": "non-medical", "hard": false, "why": "gear", "lang": "en"}
+{"id": "m122", "text": "keep getting nosebleeds, like 2 a day now", "label": "medical", "hard": false, "why": "nosebleeds", "lang": "en"}
+{"id": "m123", "text": "Hey it's Kevin (Amara's husband). The hospital called to pre-register her, they need the doula's name for the birth team list", "label": "non-medical", "hard": true, "why": "partner paperwork", "lang": "en"}
+{"id": "m124", "text": "Can you send the zoom link for tonight?", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m125", "text": "when do I get assigned a doula, I'm 14 weeks", "label": "non-medical", "hard": false, "why": "onboarding", "lang": "en"}
+{"id": "m126", "text": "The pediatrician's office says baby's 2 week checkup is on the 18th. Can the postpartum doula drive us?", "label": "non-medical", "hard": true, "why": "rides", "lang": "en"}
+{"id": "m127", "text": "great news we got the car seat installed! also she spits up some blood-tinged stuff sometimes, I think it's from my cracked nipple?", "label": "medical", "hard": true, "why": "blood in spit-up", "lang": "en"}
+{"id": "m128", "text": "sharp pain on my right side under my ribs, comes and goes", "label": "medical", "hard": false, "why": "pain", "lang": "en"}
+{"id": "m129", "text": "The hospital wants a copy of my birth plan with the epidural preferences, can you send the final version?", "label": "non-medical", "hard": true, "why": "birth plan paperwork", "lang": "en"}
+{"id": "m130", "text": "Is postpartum doula care covered under my plan? also is it normal that I still look 6 months pregnant at 8 wks pp and my belly has a gap down the middle", "label": "medical", "hard": true, "why": "postpartum body change", "lang": "en"}
+{"id": "m131", "text": "kinda scared of the epidural needle tbh, can my doula hold my hand during it?", "label": "non-medical", "hard": true, "why": "ordinary fear", "lang": "en"}
+{"id": "m132", "text": "should I still get the Tdap shot? the clinic scheduled it the same day as my doula visit, can we move the doula", "label": "medical", "hard": true, "why": "vaccine question", "lang": "en"}
+{"id": "m133", "text": "Me duele mucho la cabeza y veo lucecitas", "label": "medical", "hard": false, "why": "headache + vision change", "lang": "es"}
+{"id": "m134", "text": "Do you have a list of pediatricians that take Medicaid?", "label": "non-medical", "hard": false, "why": "referral/coverage", "lang": "en"}
+{"id": "m135", "text": "Does the doula stay for the first feed after birth?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m136", "text": "I've been getting really bad anxiety, panic that won't stop, I can't leave the house", "label": "medical", "hard": false, "why": "panic that won't stop", "lang": "en"}
+{"id": "m137", "text": "Sore throat and fever, can I take something?", "label": "medical", "hard": false, "why": "fever + medication", "lang": "en"}
+{"id": "m138", "text": "my stitches down there really hurt and it smells off", "label": "medical", "hard": false, "why": "perineal pain + odor", "lang": "en"}
+{"id": "m139", "text": "Quick one: Is it safe to sleep on my back now, I'm 29 weeks? The pillow you recommended is backordered", "label": "medical", "hard": true, "why": "safety q with shopping", "lang": "en"}
+{"id": "m140", "text": "my mom wants to visit next week, is that ok? also my c-section incision itches like crazy and looks a bit puffy", "label": "medical", "hard": true, "why": "incision change", "lang": "en"}
+{"id": "m141", "text": "how many diapers should I buy before the baby comes", "label": "non-medical", "hard": false, "why": "shopping", "lang": "en"}
+{"id": "m142", "text": "I'm a little sad my birth didn't go to plan but mostly I'm okay. Can we do the birth story debrief visit?", "label": "non-medical", "hard": true, "why": "ordinary feelings", "lang": "en"}
+{"id": "m143", "text": "Do you guys do overnight postpartum shifts?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m144", "text": "i'm fine just weird bc baby isn't kicking as much today. anyway can i bring my sister to the tour", "label": "medical", "hard": true, "why": "decreased movement minimized", "lang": "en"}
+{"id": "m145", "text": "can I dye my hair while pregnant is it safe", "label": "medical", "hard": false, "why": "pregnancy safety question", "lang": "en"}
+{"id": "m146", "text": "Can you resend the welcome packet? I lost it", "label": "non-medical", "hard": false, "why": "paperwork", "lang": "en"}
+{"id": "m147", "text": "I want to switch my pediatrician, how do I do that", "label": "non-medical", "hard": false, "why": "admin", "lang": "en"}
+{"id": "m148", "text": "my left calf is painful and kind of warm to touch", "label": "medical", "hard": false, "why": "leg pain/warmth", "lang": "en"}
+{"id": "m149", "text": "Could I switch my doula? No hard feelings. Also not sure if relevant but I haven't really eaten in a few days, just not hungry and kinda empty inside", "label": "medical", "hard": true, "why": "appetite loss + emptiness", "lang": "en"}
+{"id": "m150", "text": "Ok so insurance approved the doula reimbursement!!! 🎉 also can I take melatonin? i cannot sleep", "label": "medical", "hard": true, "why": "supplement question", "lang": "en"}
+{"id": "m151", "text": "El seguro rechazó el reclamo del extractor de leche, ¿qué hago?", "label": "non-medical", "hard": true, "why": "insurance", "lang": "es"}
+{"id": "m152", "text": "Can we video call my mom in Manila during the birth?", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m153", "text": "What antidepressants are okay while breastfeeding?", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m154", "text": "I keep having thoughts of hurting the baby and it scares me so much", "label": "medical", "hard": false, "why": "thoughts of harming baby", "lang": "en"}
+{"id": "m155", "text": "so tired of everything. i think everyone would be better off without me. anyway can you send the invoice", "label": "medical", "hard": true, "why": "suicidal signal + invoice", "lang": "en"}
+{"id": "m156", "text": "Is there parking at the hospital or should I get dropped off?", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m157", "text": "haven't felt kicks in like 3 hours and I tried cold juice", "label": "medical", "hard": false, "why": "decreased fetal movement", "lang": "en"}
+{"id": "m158", "text": "do yall have a doula available for a home birth in march", "label": "non-medical", "hard": false, "why": "availability", "lang": "en"}
+{"id": "m159", "text": "baby has a rash all over his chest and he's fussy and warm", "label": "medical", "hard": false, "why": "newborn rash + warmth", "lang": "en"}
+{"id": "m160", "text": "My heart has been racing and pounding randomly, 28w", "label": "medical", "hard": false, "why": "palpitations", "lang": "en"}
+{"id": "m161", "text": "can I keep taking my zoloft while breastfeeding", "label": "medical", "hard": true, "why": "medication as logistics", "lang": "en"}
+{"id": "m162", "text": "my belly gets super tight and hard a lot, like 10 times an hour, I'm 30 weeks", "label": "medical", "hard": false, "why": "frequent tightening", "lang": "en"}
+{"id": "m163", "text": "the baby has a temp of 100.6, she's 2 weeks old", "label": "medical", "hard": false, "why": "newborn fever", "lang": "en"}
+{"id": "m164", "text": "what should i pack for the hospital? and btw my belly's been getting hard a lot today, braxton hicks maybe?", "label": "medical", "hard": true, "why": "tightening in packing q", "lang": "en"}
+{"id": "m165", "text": "Leg cramps every night, should I take magnesium?", "label": "medical", "hard": false, "why": "supplement question", "lang": "en"}
+{"id": "m166", "text": "lactation consultant appt got moved to friday, does that still work for the doula?", "label": "non-medical", "hard": true, "why": "medical words, scheduling", "lang": "en"}
+{"id": "m167", "text": "insurance denied the breast pump claim, what do I do", "label": "non-medical", "hard": false, "why": "insurance", "lang": "en"}
+{"id": "m168", "text": "can we do the prenatal visit on zoom instead? I'm kinda dizzy today and don't wanna drive", "label": "medical", "hard": true, "why": "dizziness", "lang": "en"}
+{"id": "m169", "text": "What's the cancellation policy?", "label": "non-medical", "hard": false, "why": "policy", "lang": "en"}
+{"id": "m170", "text": "Can I take Benadryl to sleep", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m171", "text": "I've been getting dizzy and almost fainted at work", "label": "medical", "hard": false, "why": "dizziness", "lang": "en"}
+{"id": "m172", "text": "baby's eating great, about every 3 hours. oh she felt warm earlier, 100.4 rectal. anyway can we move the lactation visit", "label": "medical", "hard": true, "why": "newborn fever buried", "lang": "en"}
+{"id": "m173", "text": "hey can my doula come at 3 instead of 2 on thursday? also been spotting a little since yesterday, prob nothing", "label": "medical", "hard": true, "why": "spotting tucked into scheduling", "lang": "en"}
+{"id": "m174", "text": "how much tylenol can I take postpartum with the motrin", "label": "medical", "hard": false, "why": "medication dosing", "lang": "en"}
+{"id": "m175", "text": "lol i peed and there was some blood in the toilet, prob just hemorrhoids. ANYWAY, coverage question for next week", "label": "medical", "hard": true, "why": "blood minimized", "lang": "en"}
+{"id": "m176", "text": "Who's on call this weekend? I've had some cramping on and off, just want to know who to text if it gets worse", "label": "medical", "hard": true, "why": "cramping in coverage q", "lang": "en"}
+{"id": "m177", "text": "Since the c-section I can't feel part of my belly, is that normal?", "label": "medical", "hard": false, "why": "numbness, normal?", "lang": "en"}
+{"id": "m178", "text": "My hospital requires a COVID test before admission, do doulas need one too?", "label": "non-medical", "hard": true, "why": "hospital policy", "lang": "en"}
+{"id": "m179", "text": "insurance denied the breast pump claim and I'm so annoyed, can you help me appeal", "label": "non-medical", "hard": true, "why": "insurance venting", "lang": "en"}
+{"id": "m180", "text": "Can we do the prenatal visit at my sister's place instead of mine?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m181", "text": "The hospital lactation person was great. Do you guys have one for home visits too?", "label": "non-medical", "hard": true, "why": "services", "lang": "en"}
+{"id": "m182", "text": "Can the doula take photos during the birth?", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m183", "text": "hate to bother, just need the address for the class. also my hands keep going numb and tingly at night", "label": "medical", "hard": true, "why": "numbness/tingling", "lang": "en"}
+{"id": "m184", "text": "is it ok to keep doing my prenatal vitamins with the sleep gummies I take?", "label": "medical", "hard": true, "why": "supplement interaction", "lang": "en"}
+{"id": "m185", "text": "Rides - can someone help me figure out how to get to the hospital for the 38 wk appt? Also been feeling short of breath walking to the car", "label": "medical", "hard": true, "why": "shortness of breath in ride q", "lang": "en"}
+{"id": "m186", "text": "can the doula help me write a birth announcement lol jk. kinda.", "label": "non-medical", "hard": false, "why": "casual request", "lang": "en"}
+{"id": "m187", "text": "¿Me pueden mandar el recibo para el reembolso?", "label": "non-medical", "hard": false, "why": "billing", "lang": "es"}
+{"id": "m188", "text": "need to reschedule the postpartum visit to next week, my bleeding picked up again so I'm just laying low", "label": "medical", "hard": true, "why": "increased bleeding in reschedule", "lang": "en"}
+{"id": "m189", "text": "Hola! Me gustaría inscribirme en la clase de lactancia", "label": "non-medical", "hard": false, "why": "class signup", "lang": "es"}
+{"id": "m190", "text": "Hola, soy la hermana de Lucía. Ella dice que el bebé casi no está mojando pañales. ¿A qué hora llega la doula?", "label": "medical", "hard": true, "why": "low newborn output", "lang": "es"}
+{"id": "m191", "text": "my husband wants to come to the next meeting, is that ok? also my vision has been kinda weird, like sparkles", "label": "medical", "hard": true, "why": "vision change", "lang": "en"}
+{"id": "m192", "text": "burning when I pee and lower belly cramps", "label": "medical", "hard": false, "why": "urinary symptoms", "lang": "en"}
+{"id": "m193", "text": "first time mom here and I'm overwhelmed by all the baby gear lists. what do I actually need?", "label": "non-medical", "hard": true, "why": "ordinary overwhelm", "lang": "en"}
+{"id": "m194", "text": "my husband snores so loud lol, can the overnight doula sleep in the nursery instead?", "label": "non-medical", "hard": true, "why": "logistics", "lang": "en"}
+{"id": "m195", "text": "my MIL wants to be in the delivery room and I do NOT. help me say no nicely 😩", "label": "non-medical", "hard": true, "why": "family boundaries", "lang": "en"}
+{"id": "m196", "text": "my OB's office is closed fri, so my appt is now mon 8am and the doula's prenatal visit is mon 9am. can we push her to 11?", "label": "non-medical", "hard": true, "why": "medical words, scheduling", "lang": "en"}
+{"id": "m197", "text": "fine thx! slight fever but whatever, still good for the visit thursday", "label": "medical", "hard": true, "why": "minimized fever", "lang": "en"}
+{"id": "m198", "text": "Estoy un poco nerviosa por el parto, es mi primer bebé. ¿Me pueden explicar qué hace la doula ese día?", "label": "non-medical", "hard": true, "why": "ordinary nerves", "lang": "es"}
+{"id": "m199", "text": "the hospital tour is on the 3rd, do I need to sign up for it?", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m200", "text": "What's included in the postpartum visit?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m201", "text": "Where do I upload my insurance card?", "label": "non-medical", "hard": false, "why": "paperwork", "lang": "en"}
+{"id": "m202", "text": "what time does the postpartum doula arrive tomorrow", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m203", "text": "Hiii the birth pool rental is confirmed! 🛁 One thing, I've had this weird pain under my ribs since last night", "label": "medical", "hard": true, "why": "pain after logistics", "lang": "en"}
+{"id": "m204", "text": "¿A qué hora es la clase? Ah, tengo los tobillos súper hinchados jaja", "label": "medical", "hard": true, "why": "casual swelling", "lang": "es"}
+{"id": "m205", "text": "my husband wants to know what he should do during labor to help", "label": "non-medical", "hard": false, "why": "partner role", "lang": "en"}
+{"id": "m206", "text": "Is the doula covered by FSA? Asking bc I'm also buying fish oil and want to know if that's ok to take with my blood thinner shots", "label": "medical", "hard": true, "why": "supplement/medication interaction", "lang": "en"}
+{"id": "m207", "text": "I'm totally fine but my husband says I seem off. I just lie in bed. I don't feel like holding the baby. Anyway are we still on for wed", "label": "medical", "hard": true, "why": "depression signs", "lang": "en"}
+{"id": "m208", "text": "My employer has a new parental leave form, can you fill out the doula part?", "label": "non-medical", "hard": false, "why": "paperwork", "lang": "en"}
+{"id": "m209", "text": "Please update my address, we moved", "label": "non-medical", "hard": false, "why": "account", "lang": "en"}
+{"id": "m210", "text": "can i take the leftover percocet from my c-section for my back", "label": "medical", "hard": true, "why": "medication question", "lang": "en"}
+{"id": "m211", "text": "hi im Brenda's mom, can I pay for her doula package as a gift?", "label": "non-medical", "hard": false, "why": "billing", "lang": "en"}
+{"id": "m212", "text": "Can I take ibuprofen for my back pain? I'm 20 weeks", "label": "medical", "hard": false, "why": "medication question + pain", "lang": "en"}
+{"id": "m213", "text": "Can I get the flu shot while pregnant?", "label": "medical", "hard": false, "why": "vaccine question", "lang": "en"}
+{"id": "m214", "text": "bleeding started again bright red, 3 wks pp, it had stopped", "label": "medical", "hard": false, "why": "returning bleeding", "lang": "en"}
+{"id": "m215", "text": "just venting i guess. been crying every day for 3 weeks, i feel like a bad mom and honestly i feel hopeless. can someone call me", "label": "medical", "hard": true, "why": "hopelessness", "lang": "en"}
+{"id": "m216", "text": "the baby's newborn screening paperwork came in the mail, which part do I fill out and where do I send it?", "label": "non-medical", "hard": true, "why": "paperwork", "lang": "en"}
+{"id": "m217", "text": "where do I buy a nursing bra that actually fits lol", "label": "non-medical", "hard": false, "why": "shopping", "lang": "en"}
+{"id": "m218", "text": "Postpartum visit - can we do it after 1? Baby naps 11-1 and I want to shower lol", "label": "non-medical", "hard": true, "why": "scheduling", "lang": "en"}
+{"id": "m219", "text": "planning the baby shower for the 22nd so I'll be out. also, my feet are swollen like 2x lol, it's the heat right", "label": "medical", "hard": true, "why": "swelling minimized", "lang": "en"}
+{"id": "m220", "text": "I'm 39 weeks and I lost my mucus plug, there's some blood in it", "label": "medical", "hard": false, "why": "bloody discharge", "lang": "en"}
+{"id": "m221", "text": "is the water birth still safe if I'm GBS positive? the tub delivery is booked for the 28th", "label": "medical", "hard": true, "why": "safety question", "lang": "en"}
+{"id": "m222", "text": "Thanks for the pump info!! One more thing, the baby's been kinda yellow, is that a thing?", "label": "medical", "hard": true, "why": "newborn jaundice signs", "lang": "en"}
+{"id": "m223", "text": "can i bring my own gown and pillow to the birth center? also my partner wants to know if he can sleep there", "label": "non-medical", "hard": true, "why": "hospital logistics", "lang": "en"}
+{"id": "m224", "text": "¿Cuánto cuesta el paquete posparto?", "label": "non-medical", "hard": false, "why": "pricing", "lang": "es"}
+{"id": "m225", "text": "Is there a sliding scale?", "label": "non-medical", "hard": false, "why": "pricing", "lang": "en"}
+{"id": "m226", "text": "Can the doula help us practice comfort positions with the peanut ball before the birth?", "label": "non-medical", "hard": true, "why": "birth prep", "lang": "en"}
+{"id": "m227", "text": "My husband and I are fighting about baby names lol any advice", "label": "non-medical", "hard": false, "why": "personal chat", "lang": "en"}
+{"id": "m228", "text": "Hi! It's Rosa, Ana's mom. Ana asked me to say she can't come to the class because she has a fever and her breast hurts", "label": "medical", "hard": true, "why": "fever + breast pain via family", "lang": "en"}
+{"id": "m229", "text": "Payment went through. I've been seeing a little bit of pink when I wipe, 37 wks", "label": "medical", "hard": true, "why": "spotting after payment", "lang": "en"}
+{"id": "m230", "text": "Is it ok if we bring the birth ball from home to the hospital?", "label": "non-medical", "hard": false, "why": "hospital logistics", "lang": "en"}
+{"id": "m231", "text": "Dad here. What can I do to support my wife postpartum? She's doing great, I just want to help more", "label": "non-medical", "hard": true, "why": "partner support", "lang": "en"}
+{"id": "m232", "text": "my baby threw up green stuff", "label": "medical", "hard": false, "why": "newborn green vomit", "lang": "en"}
+{"id": "m233", "text": "how do i log a feed in the app", "label": "non-medical", "hard": false, "why": "app help", "lang": "en"}
+{"id": "m234", "text": "My midwife scheduled my weekly NST for Tuesday at 10, can the doula meet me at the clinic after?", "label": "non-medical", "hard": true, "why": "medical words, scheduling", "lang": "en"}
+{"id": "m235", "text": "my pelvic bone hurts so bad when I walk I can barely roll over in bed", "label": "medical", "hard": false, "why": "pelvic pain", "lang": "en"}
+{"id": "m236", "text": "Hi! Just confirming the birth plan meeting on Tuesday 🙂 Also is it ok that I've had a headache for like 2 days?", "label": "medical", "hard": true, "why": "headache at end", "lang": "en"}
+{"id": "m237", "text": "Does the postpartum doula do laundry and meal prep?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m238", "text": "my vision is blurry today and my head is pounding", "label": "medical", "hard": false, "why": "vision + headache", "lang": "en"}
+{"id": "m239", "text": "my OB appointment got moved to 2:30, can the doula still come?", "label": "non-medical", "hard": true, "why": "medical words, scheduling", "lang": "en"}
+{"id": "m240", "text": "I'm 6 weeks pp and I pee myself when I sneeze, is that gonna go away", "label": "medical", "hard": false, "why": "postpartum incontinence", "lang": "en"}
+{"id": "m241", "text": "I want to formula feed and I'm worried people will judge me. Can the doula support that choice?", "label": "non-medical", "hard": true, "why": "feeding choice", "lang": "en"}
+{"id": "m242", "text": "We want the same doula as last time for baby #3, is Imani available in July?", "label": "non-medical", "hard": true, "why": "experienced parent scheduling", "lang": "en"}
+{"id": "m243", "text": "Shortness of breath even sitting down", "label": "medical", "hard": false, "why": "shortness of breath", "lang": "en"}
+{"id": "m244", "text": "Can I pay in installments?", "label": "non-medical", "hard": false, "why": "billing", "lang": "en"}
+{"id": "m245", "text": "Mi esposo quiere saber si puede quedarse en el hospital toda la noche", "label": "non-medical", "hard": false, "why": "hospital logistics", "lang": "es"}
+{"id": "m246", "text": "can you remind me which hospital bag stuff is for baby vs me? the going-home outfit, diapers, etc", "label": "non-medical", "hard": true, "why": "packing", "lang": "en"}
+{"id": "m247", "text": "the baby's umbilical stump is red around it and smells", "label": "medical", "hard": false, "why": "cord infection signs", "lang": "en"}
+{"id": "m248", "text": "We had a great appointment today, heartbeat was strong and everything looked perfect! Next one's the 20th, can the doula come?", "label": "non-medical", "hard": true, "why": "good news + scheduling", "lang": "en"}
+{"id": "m249", "text": "I need a letter for my employer saying I have a doula, for leave paperwork", "label": "non-medical", "hard": false, "why": "paperwork", "lang": "en"}
+{"id": "m250", "text": "Do you offer a sleep consultant referral for when baby's older?", "label": "non-medical", "hard": false, "why": "referral", "lang": "en"}
+{"id": "m251", "text": "Tengo cita el martes a las 10, ¿puede venir la doula? Ah, y he tenido un poco de sangrado, seguro no es nada", "label": "medical", "hard": true, "why": "bleeding after scheduling", "lang": "es"}
+{"id": "m252", "text": "is it safe to have a glass of wine at my sister's wedding? i'm 24 weeks lol", "label": "medical", "hard": true, "why": "safety question", "lang": "en"}
+{"id": "m253", "text": "We'd like to do skin to skin right away, does the hospital allow that?", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m254", "text": "my blood pressure at the pharmacy machine was 150/95", "label": "medical", "hard": false, "why": "high blood pressure", "lang": "en"}
+{"id": "m255", "text": "Need paperwork from you for my short-term disability claim, the form asks for the doula's dates of service", "label": "non-medical", "hard": true, "why": "paperwork", "lang": "en"}
+{"id": "m256", "text": "I've been feeling a bit stressed about money with the baby coming. Do you offer payment plans?", "label": "non-medical", "hard": true, "why": "ordinary stress + billing", "lang": "en"}
+{"id": "m257", "text": "baby hasn't moved much today, usually she's kicking like crazy after lunch", "label": "medical", "hard": false, "why": "decreased fetal movement", "lang": "en"}
+{"id": "m258", "text": "grandma here 👵 what's a good gift for the new mom that isn't more baby clothes", "label": "non-medical", "hard": true, "why": "family question", "lang": "en"}
+{"id": "m259", "text": "my water birth tub rental needs a delivery date, i'm due the 30th, when should I have it dropped off", "label": "non-medical", "hard": true, "why": "rental logistics", "lang": "en"}
+{"id": "m260", "text": "I'm 38 weeks and just SO done being pregnant lol. Can we confirm the on-call schedule for next week?", "label": "non-medical", "hard": true, "why": "ordinary venting + coverage", "lang": "en"}
+{"id": "m261", "text": "We're switching from breast to bottle when I go back to work. How do I get her used to a bottle schedule?", "label": "non-medical", "hard": true, "why": "feeding routine", "lang": "en"}
+{"id": "m262", "text": "Mi bebé tiene fiebre y no quiere comer", "label": "medical", "hard": false, "why": "newborn fever, not eating", "lang": "es"}
+{"id": "m263", "text": "who do I call to change my hospital pre-registration? and also has anyone ever gotten like a pounding headache after an epidural, mine started today", "label": "medical", "hard": true, "why": "post-epidural headache", "lang": "en"}
+{"id": "m264", "text": "I've been bleeding pretty heavily since this morning, soaking a pad every hour", "label": "medical", "hard": false, "why": "heavy bleeding", "lang": "en"}
+{"id": "m265", "text": "Bad headache that won't go away and I'm seeing spots. 34 weeks.", "label": "medical", "hard": false, "why": "headache + vision change", "lang": "en"}
+{"id": "m266", "text": "random q, is it ok to use the hot tub at the airbnb? 16 weeks. the trip is next week so i need to know who covers while I'm gone", "label": "medical", "hard": true, "why": "safety question", "lang": "en"}
+{"id": "m267", "text": "I have a fever of 101.2, I'm 3 days postpartum", "label": "medical", "hard": false, "why": "postpartum fever", "lang": "en"}
+{"id": "m268", "text": "spotting a little, prob nothing", "label": "medical", "hard": true, "why": "minimized spotting", "lang": "en"}
+{"id": "m269", "text": "Baby is 6 weeks and we want to start a bedtime routine. Bath, book, feed? What order do people usually do?", "label": "non-medical", "hard": true, "why": "sleep routine", "lang": "en"}
+{"id": "m270", "text": "can I keep using my retinol cream now that I'm pregnant", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m271", "text": "my baby shower is the 12th, so I can't do the class that day", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m272", "text": "Panic attacks every night, heart racing, I can't make them stop", "label": "medical", "hard": false, "why": "uncontrolled panic", "lang": "en"}
+{"id": "m273", "text": "how do I set up the breast pump I got? the parts are confusing", "label": "non-medical", "hard": false, "why": "equipment setup", "lang": "en"}
+{"id": "m274", "text": "Love the photos you sent!! 😍 btw her lips looked kinda bluish when she was crying, is that a newborn thing?", "label": "medical", "hard": true, "why": "newborn color change", "lang": "en"}
+{"id": "m275", "text": "Do I need to take baby aspirin? my friend's doctor told her to", "label": "medical", "hard": false, "why": "medication question", "lang": "en"}
+{"id": "m276", "text": "my feet are swollen and I have a headache too", "label": "medical", "hard": false, "why": "swelling + headache", "lang": "en"}
+{"id": "m277", "text": "¿Puedo tomar ibuprofeno mientras doy pecho?", "label": "medical", "hard": false, "why": "medication while breastfeeding", "lang": "es"}
+{"id": "m278", "text": "Can my doula come to the glucose test appointment? I hate needles lol", "label": "non-medical", "hard": true, "why": "scheduling + ordinary fear", "lang": "en"}
+{"id": "m279", "text": "Can I bring my dog to the prenatal visit at home? lol he'll be there anyway", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m280", "text": "baby keeps choking and turning a little blue during feeds", "label": "medical", "hard": false, "why": "newborn color change", "lang": "en"}
+{"id": "m281", "text": "Our insurance changed jan 1, do I need to resubmit anything?", "label": "non-medical", "hard": false, "why": "insurance", "lang": "en"}
+{"id": "m282", "text": "can you resend the hospital bag list? also I've been throwing up a bunch again even tho I'm 30 wks", "label": "medical", "hard": true, "why": "vomiting", "lang": "en"}
+{"id": "m283", "text": "When should I start writing my birth plan?", "label": "non-medical", "hard": false, "why": "birth plan", "lang": "en"}
+{"id": "m284", "text": "Can I drink coffee while breastfeeding? how much is safe", "label": "medical", "hard": false, "why": "safety while breastfeeding", "lang": "en"}
+{"id": "m285", "text": "my incision from the c-section is red and oozing a little", "label": "medical", "hard": false, "why": "incision infection signs", "lang": "en"}
+{"id": "m286", "text": "This is Marcus, Keisha's husband. She's got a fever and chills and says her incision hurts", "label": "medical", "hard": false, "why": "fever + incision pain", "lang": "en"}
+{"id": "m287", "text": "trying to plan who does which night feed with my husband, any tips for splitting it?", "label": "non-medical", "hard": false, "why": "feeding routine", "lang": "en"}
+{"id": "m288", "text": "Is it safe to do hot yoga at 18 weeks", "label": "medical", "hard": false, "why": "pregnancy safety question", "lang": "en"}
+{"id": "m289", "text": "my mom keeps saying the baby looks kinda yellow but she's always dramatic lol. when does the night doula start", "label": "medical", "hard": true, "why": "newborn jaundice signs", "lang": "en"}
+{"id": "m290", "text": "Can I reschedule my prenatal visit to Friday?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m291", "text": "is it normal for the baby to sleep 6 hours without eating? he's 5 days old", "label": "medical", "hard": false, "why": "newborn health normal?", "lang": "en"}
+{"id": "m292", "text": "running late to the class bc i had to change my pants, been leaking a bit of water? lol", "label": "medical", "hard": true, "why": "leaking fluid casually", "lang": "en"}
+{"id": "m293", "text": "Vent: my mom keeps giving me unsolicited advice about breastfeeding and it's driving me nuts. No question just needed to say it", "label": "non-medical", "hard": true, "why": "family venting", "lang": "en"}
+{"id": "m294", "text": "what size bottles should i buy? the nipple flow levels confuse me", "label": "non-medical", "hard": false, "why": "shopping", "lang": "en"}
+{"id": "m295", "text": "Can I bring my own snacks to the hospital? I'm gestational diabetic and my sugar was 180 after lunch", "label": "medical", "hard": true, "why": "high blood sugar", "lang": "en"}
+{"id": "m296", "text": "what should i pack for the hospital", "label": "non-medical", "hard": false, "why": "packing", "lang": "en"}
+{"id": "m297", "text": "Can we hire a sibling doula for my 4 year old during the birth?", "label": "non-medical", "hard": false, "why": "services", "lang": "en"}
+{"id": "m298", "text": "She's eating every 3 hours like clockwork, my husband takes the 2am. How should we split the rest of the nights?", "label": "non-medical", "hard": true, "why": "feeding routine", "lang": "en"}
+{"id": "m299", "text": "Can the doula come to my OB appointment on Monday at 9?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m300", "text": "What time is checkout from the birth center?", "label": "non-medical", "hard": false, "why": "logistics", "lang": "en"}
+{"id": "m301", "text": "I don't want to be here anymore", "label": "medical", "hard": false, "why": "not wanting to be here", "lang": "en"}
+{"id": "m302", "text": "Our son is 3 wks. He's been spitting up after every feed, like projectile, is that normal? Also need the postpartum doula hours for sat", "label": "medical", "hard": true, "why": "projectile vomiting newborn", "lang": "en"}
+{"id": "m303", "text": "need someone to cover thurs night, my husband's traveling. side note my scar has opened up a little at one end", "label": "medical", "hard": true, "why": "incision opening", "lang": "en"}
+{"id": "m304", "text": "Is the new parent support group still on wednesdays?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "en"}
+{"id": "m305", "text": "how do I get the hospital grade pump rental through insurance", "label": "non-medical", "hard": false, "why": "insurance", "lang": "en"}
+{"id": "m306", "text": "baby has a little cough and stuffy nose, can we still do the newborn photos sat?", "label": "medical", "hard": true, "why": "newborn illness", "lang": "en"}
+{"id": "m307", "text": "My second baby - do I need to do the full class again or is there a refresher?", "label": "non-medical", "hard": false, "why": "classes", "lang": "en"}
+{"id": "m308", "text": "We use the app to log feeds and diapers but my husband can't see them. How do I share the log with him?", "label": "non-medical", "hard": true, "why": "app help", "lang": "en"}
+{"id": "m309", "text": "¿Es normal que mi bebé tenga los ojos amarillos?", "label": "medical", "hard": false, "why": "newborn jaundice signs", "lang": "es"}
+{"id": "m310", "text": "Hola, ¿tienen doulas que hablen español?", "label": "non-medical", "hard": false, "why": "services", "lang": "es"}
+{"id": "m311", "text": "the birth plan template has so many options my head is spinning 😅 can we go through it at the next visit", "label": "non-medical", "hard": true, "why": "figurative body language", "lang": "en"}
+{"id": "m312", "text": "How do I add my husband to the app?", "label": "non-medical", "hard": false, "why": "app help", "lang": "en"}
+{"id": "m313", "text": "¿Pueden cambiar mi cita al jueves?", "label": "non-medical", "hard": false, "why": "scheduling", "lang": "es"}
+{"id": "m314", "text": "We decided we want delayed cord clamping in the birth plan, can you help word it", "label": "non-medical", "hard": false, "why": "birth preferences", "lang": "en"}
+{"id": "m315", "text": "my husband is freaking out about cutting the cord lol. can the doula talk him through it?", "label": "non-medical", "hard": true, "why": "partner nerves", "lang": "en"}
+{"id": "m316", "text": "Soy el papá. ¿Qué tengo que llevar en la maleta para el hospital?", "label": "non-medical", "hard": true, "why": "partner packing", "lang": "es"}
+{"id": "m317", "text": "thanks for checking in!! all good here 😊", "label": "non-medical", "hard": false, "why": "check-in reply", "lang": "en"}
+{"id": "m318", "text": "Tengo mucha comezón en las manos y los pies, 36 semanas", "label": "medical", "hard": false, "why": "itching palms/soles", "lang": "es"}
+{"id": "m319", "text": "lol my ankles are like balloons today. anyway what time is the class saturday", "label": "medical", "hard": true, "why": "casual swelling", "lang": "en"}
+{"id": "m320", "text": "My insurance covers 'medically necessary' doula services, what do I need to show them?", "label": "non-medical", "hard": true, "why": "insurance wording", "lang": "en"}

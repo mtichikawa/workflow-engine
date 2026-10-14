@@ -29,6 +29,9 @@ class Verify(Specialist):
         output={"verdict": str, "confidence": float, "issues": list},
     )
 
+    def output_values(self, field, config):
+        return ["pass", "fail"] if field == "verdict" else None
+
     def _run(self, input, config):
         # verify calls block() like every other specialist; whether few-shot is actually injected
         # is decided by the EMPIRICAL cached policy (fewshot.policy_on <- `engine fit`). verify is a

@@ -1,0 +1,277 @@
+{
+ "recipes": [
+  "triage",
+  "content",
+  "review",
+  "refine",
+  "care_intake"
+ ],
+ "false alarms on the unmutated recipes": {
+  "triage": [],
+  "content": [],
+  "review": [],
+  "refine": [],
+  "care_intake": []
+ },
+ "mutants caught": {
+  "k": 571,
+  "n": 615,
+  "rate": 0.9285,
+  "ci95": [
+   0.9053,
+   0.9463
+  ]
+ },
+ "fault kinds fully caught": "17 of 18 applicable (6 of the blind list's 25 don't apply)",
+ "by kind": {
+  "condition_syntax_error": {
+   "should": "block",
+   "caught": {
+    "k": 14,
+    "n": 14,
+    "rate": 1.0,
+    "ci95": [
+     0.7847,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "condition_unknown_ref": {
+   "should": "block",
+   "caught": {
+    "k": 14,
+    "n": 14,
+    "rate": 1.0,
+    "ci95": [
+     0.7847,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "condition_unsatisfiable": {
+   "should": "block",
+   "caught": {
+    "k": 7,
+    "n": 7,
+    "rate": 1.0,
+    "ci95": [
+     0.6457,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "dangling_edge": {
+   "should": "block",
+   "caught": {
+    "k": 72,
+    "n": 72,
+    "rate": 1.0,
+    "ci95": [
+     0.9493,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "duplicate_step_id": {
+   "should": "block",
+   "caught": {
+    "k": 33,
+    "n": 33,
+    "rate": 1.0,
+    "ci95": [
+     0.8957,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "gate_bypass": {
+   "should": "block",
+   "caught": {
+    "k": 5,
+    "n": 5,
+    "rate": 1.0,
+    "ci95": [
+     0.5655,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "join_deadlock": {
+   "should": "block",
+   "caught": {
+    "k": 5,
+    "n": 5,
+    "rate": 1.0,
+    "ci95": [
+     0.5655,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "malformed_reference": {
+   "should": "block",
+   "caught": {
+    "k": 88,
+    "n": 132,
+    "rate": 0.6667,
+    "ci95": [
+     0.5825,
+     0.7414
+    ]
+   },
+   "missed (first 5)": [
+    "triage: verify reads '.label'",
+    "triage: verify reads '.component'",
+    "triage: verify reads '.reply'",
+    "triage: act reads '.label'",
+    "triage: act reads '.component'"
+   ]
+  },
+  "missing_required_input": {
+   "should": "block",
+   "caught": {
+    "k": 84,
+    "n": 84,
+    "rate": 1.0,
+    "ci95": [
+     0.9563,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "no_path_to_terminal": {
+   "should": "block",
+   "caught": {
+    "k": 25,
+    "n": 25,
+    "rate": 1.0,
+    "ci95": [
+     0.8668,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "non_exhaustive_branch": {
+   "should": "warn",
+   "caught": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0,
+    "ci95": [
+     0.3424,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "type_mismatch": {
+   "should": "block",
+   "caught": {
+    "k": 44,
+    "n": 44,
+    "rate": 1.0,
+    "ci95": [
+     0.9197,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "unconditional_loop": {
+   "should": "block",
+   "caught": {
+    "k": 35,
+    "n": 35,
+    "rate": 1.0,
+    "ci95": [
+     0.9011,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "unknown_specialist": {
+   "should": "block",
+   "caught": {
+    "k": 33,
+    "n": 33,
+    "rate": 1.0,
+    "ci95": [
+     0.8957,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "unreachable_step": {
+   "should": "block",
+   "caught": {
+    "k": 18,
+    "n": 18,
+    "rate": 1.0,
+    "ci95": [
+     0.8241,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "wire_not_upstream": {
+   "should": "block",
+   "caught": {
+    "k": 14,
+    "n": 14,
+    "rate": 1.0,
+    "ci95": [
+     0.7847,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "wire_unknown_field": {
+   "should": "block",
+   "caught": {
+    "k": 34,
+    "n": 34,
+    "rate": 1.0,
+    "ci95": [
+     0.8985,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  },
+  "wire_unknown_source": {
+   "should": "block",
+   "caught": {
+    "k": 44,
+    "n": 44,
+    "rate": 1.0,
+    "ci95": [
+     0.9197,
+     1.0
+    ]
+   },
+   "missed (first 5)": []
+  }
+ },
+ "not applicable": {
+  "entry_ambiguity": "several entry steps are a feature here (parallel starts), and zero entries can't be expressed: a backward edge is a loop by definition, so the first step is always an entry",
+  "unbounded_loop": "every recipe carries a loop guard (max_visits, default 6) — a loop can't be uncapped",
+  "wire_maybe_not_run": "not attempted: needs path-sensitive analysis of OR-joins",
+  "unknown_target_input": "by design: contracts list REQUIRED fields and allow extras (e.g. loop feedback)",
+  "payload_field_undeclared": "the engine has no payload schema to check against",
+  "overlapping_conditions": "no recipe has numeric/range splits to overlap (0 sites)"
+ },
+ "measured": "2026-10-14 08:46 PDT"
+}

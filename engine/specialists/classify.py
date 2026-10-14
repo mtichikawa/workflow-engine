@@ -29,6 +29,9 @@ class Classify(Specialist):
         output={"label": str, "confidence": float, "reasoning": str},
     )
 
+    def output_values(self, field, config):
+        return list(config["categories"]) if field == "label" and isinstance(config.get("categories"), list) else None
+
     def _run(self, input, config):
         categories = input["categories"]
         fs = block("classify", input)

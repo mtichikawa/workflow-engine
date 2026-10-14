@@ -69,6 +69,7 @@ python -m engine.cli benchmark                  # the composer re-derives hand-b
 python -m engine.cli eval                        # per-specialist accuracy + leave-one-out
 python examples/scripts/learning_loop_demo.py    # a weak specialist learns from a few examples: 4/8 -> 8/8, promoted
 python -m engine.cli registry                    # every specialist, run count, and trust state
+python evals/blind.py triage                     # + routing · validator · composer: blind, sealed test sets with 95% CIs
 ```
 
 **Honest about what's what:** fifteen library specialists are built — eight judgment capabilities
@@ -110,7 +111,7 @@ verifies the tape still matches.
 | `examples/` · `evals/` · `tests/` | real runs & runnable demos · grading harness · tests |
 | `state/examples/` | the gold examples (few-shot + eval), one folder per domain — sources + licenses in [`DATA-NOTICE.md`](DATA-NOTICE.md) |
 | `tools/` | public-data harvesters, per-domain eval, generality check, explorer builder |
-| `docs/` | [`SPEC`](docs/SPEC.md) · [`execution-walkthrough`](docs/execution-walkthrough.md) (one run, line by line) · [`control-flow`](docs/control-flow.md) · [`learning-loop`](docs/learning-loop.md) · [`standards`](docs/standards.md) · [`mcp`](docs/mcp.md) · [`provenance/`](docs/provenance/) · [`RESULTS`](docs/RESULTS.md) · [`depth`](docs/depth.md) (the hard parts, honestly) |
+| `docs/` | [`SPEC`](docs/SPEC.md) · [`execution-walkthrough`](docs/execution-walkthrough.md) (one run, line by line) · [`control-flow`](docs/control-flow.md) · [`learning-loop`](docs/learning-loop.md) · [`standards`](docs/standards.md) · [`mcp`](docs/mcp.md) · [`provenance/`](docs/provenance/) · [`RESULTS`](docs/RESULTS.md) · [`depth`](docs/depth.md) (the hard parts, honestly) · [`blind-evals`](docs/blind-evals.md) (results on blind test sets) |
 
 Full CLI: `run · approve · compose · board · view · replay · eval · fit · benchmark · train · review · capture · examples · registry · costs`.
 

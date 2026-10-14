@@ -51,9 +51,14 @@ FIELDS = [
 ]
 
 MEDICAL_CRITERIA = (
-    "medical if ANY part of the message describes a symptom, a change in the body, pain, bleeding, "
-    "medication, or asks whether something about the pregnancy, the birth or the baby is normal or safe "
-    "— even when the rest of the message is about scheduling or coverage. Otherwise non-medical.")
+    "medical if ANY part of the message describes a physical symptom or a change in the body (pain, "
+    "bleeding, leaking fluid, swelling, fever, headache, the baby moving less), asks about a medication "
+    "or supplement, describes a mental-health concern beyond ordinary nerves (hopelessness, panic that "
+    "won't stop, not sleeping for days, not wanting to be here, thoughts of harming herself or the baby), "
+    "or asks whether something about the pregnancy, birth, recovery or the baby's health is normal or "
+    "safe — even when the rest of the message is about scheduling or coverage. Ordinary worries and "
+    "feelings, and logistics (scheduling, coverage, paperwork, what to pack, birth preferences, feeding "
+    "routines with no health problem) are non-medical.")
 
 NON_MEDICAL_LINE = (
     "The REPLY holds the non-medical line: it does not describe, assess, explain or reassure about any "
