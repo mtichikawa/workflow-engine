@@ -5,12 +5,22 @@ inject the few most SIMILAR to the current input — never a blanket dump of eve
 would overfit a universal specialist to one task). If nothing is similar, inject nothing and
 fall back to the general skill. Similarity here is cheap and dependency-free (token overlap);
 swap in embeddings later without touching callers.
+
+Rulebook (learning-loop 5A): six similar examples teach a convention poorly when it hinges on
+something the examples don't share words with (who is writing, which rule wins when two apply). So
+once a workflow has RULES_MIN corrections for a config-keyed specialist, the brain reads ALL of them
+once and writes the rules they imply — the notes a new hire writes after being corrected — and those
+rules ride ahead of the retrieved examples. Same scope as the examples (same specialist, same config,
+same tenant chain); cached until the corrections change; derived only from the golds, never edited.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+import threading
+from pathlib import Path
 
 from . import examples
 
@@ -141,20 +151,24 @@ class tailored_weight:
         TAILORED_WEIGHT = self._prev
 
 
-def retrieve(specialist: str, current_input, k: int = 6) -> list[dict]:
-    """The k golds most similar to the current input (most-similar first)."""
+def _pool(specialist: str, current_input) -> list[tuple[dict, str | None]]:
+    """The golds this call may learn from: [(record, layer)] — same config for config-keyed specialists."""
     ov = _OVERRIDE.get(specialist)
     if ov is not None:
         pool = [(e, None) for e in ov]               # eval override: one layer, no weighting
     else:
         pool = examples.load_layered(specialist)     # [(record, layer)] across the active read chain
-    if not pool:
-        return []
-    if specialist not in FREE_FORM_OUTPUT:           # 1A: config-keyed -> only same-config exemplars
+    if pool and specialist not in FREE_FORM_OUTPUT:  # 1A: config-keyed -> only same-config exemplars
         ck = _config_key(current_input)
         pool = [(e, lay) for e, lay in pool if _config_key(e.get("input")) == ck]
-        if not pool:
-            return []
+    return pool
+
+
+def retrieve(specialist: str, current_input, k: int = 6) -> list[dict]:
+    """The k golds most similar to the current input (most-similar first)."""
+    pool = _pool(specialist, current_input)
+    if not pool:
+        return []
     layers = _scope.read_layers()
     tenant = layers[-1] if len(layers) > 1 else None  # 4B: the tailored layer, if a tenant is active
     scored = []
@@ -200,16 +214,83 @@ def coverage(specialist: str, current_input, k: int = 6) -> dict | None:
             "baseline": total - n_tail, "total": total, "ratio": round(ratio, 3), "flag": flag}
 
 
+# ---- 5A: the rulebook --------------------------------------------------------------
+RULES_MIN = 8                         # fewer corrections than this are too few to generalize from
+RULES_DIR = Path("state/rulebooks")   # derived and cached — regenerated whenever the golds change
+_RULES_ON = True
+_RULES_LOCK = threading.Lock()
+_RULES_MEM: dict[str, str] = {}
+_NOT_A_DECISION = ("reasoning", "confidence")
+
+
+class rules:
+    """Turn the rulebook on/off for a scope — evals compare examples-only against rulebook + examples."""
+
+    def __init__(self, on: bool):
+        self.on = on
+
+    def __enter__(self):
+        global _RULES_ON
+        self._prev, _RULES_ON = _RULES_ON, self.on
+
+    def __exit__(self, *a):
+        global _RULES_ON
+        _RULES_ON = self._prev
+
+
+def rulebook(specialist: str, current_input) -> tuple[str, int]:
+    """(rules, n): the rules implied by this workflow's n corrections for this specialist, or ('', n)."""
+    if not _RULES_ON or specialist in FREE_FORM_OUTPUT:
+        return "", 0
+    golds = [e for e, _ in _pool(specialist, current_input)]
+    if len(golds) < RULES_MIN:
+        return "", len(golds)
+    shown = sorted(
+        f"- INPUT: {_flatten(_content(e.get('input')))[:500]}\n  CORRECT OUTPUT: "
+        + json.dumps({k: v for k, v in (e.get("output") or {}).items() if k not in _NOT_A_DECISION},
+                     default=str)
+        for e in golds)
+    task = {k: v for k, v in (current_input or {}).items() if k not in CONTENT_KEYS}
+    key = hashlib.sha256(json.dumps([specialist, task, shown], default=str).encode()).hexdigest()[:20]
+    with _RULES_LOCK:                                # induce once per pool, even under parallel calls
+        if key not in _RULES_MEM:
+            path = RULES_DIR / f"{specialist}-{key}.json"
+            if path.exists():
+                _RULES_MEM[key] = json.loads(path.read_text())["rules"]
+            else:
+                from .core import brain
+                _RULES_MEM[key] = brain(
+                    f"A '{specialist}' step does this task: {json.dumps(task, default=str)}\n\n"
+                    f"Below are {len(golds)} inputs with the output a human reviewer marked CORRECT. The "
+                    "reviewer's conventions were never written down. Work out the rules they follow — "
+                    "including non-obvious conventions and which rule wins when an input matches two — and "
+                    "write them as a short numbered rulebook someone new could apply, highest-precedence rules "
+                    "first. Base every rule on these examples; don't invent rules they don't support. "
+                    "Return only the rulebook.\n\n" + "\n".join(shown)).strip()
+                RULES_DIR.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps({"specialist": specialist, "n": len(golds), "task": task,
+                                            "rules": _RULES_MEM[key]}, indent=1, default=str))
+    return _RULES_MEM[key], len(golds)
+
+
 def block(specialist: str, current_input, k: int = 6) -> str:
-    """A prompt block of the relevant golds, or '' if there are none — or if the cached train-time
-    policy says few-shot doesn't help this specialist (1C: checkers skip it, mappers keep it)."""
+    """A prompt block of the learned rulebook and the relevant golds, or '' if there are none — or if
+    the cached train-time policy says few-shot doesn't help this specialist (1C: checkers skip it,
+    mappers keep it)."""
     if not policy_on(specialist):
         return ""
+    book, n = rulebook(specialist, current_input)
     ex = retrieve(specialist, current_input, k)
-    if not ex:
+    if not ex and not book:
         return ""
-    parts = ["Here are examples of the CORRECT input → output for this exact task, "
-             "curated by a human reviewer:"]
+    parts = []
+    if book:
+        parts.append(f"RULES a human reviewer's {n} past corrections for this exact task imply — apply them; "
+                     f"where a rule and your first instinct disagree, the rule wins:\n{book}")
+    if not ex:
+        return "\n\n".join(parts)
+    parts.append("Here are examples of the CORRECT input → output for this exact task, "
+                 "curated by a human reviewer:")
     for e in ex:
         parts.append(f"INPUT: {json.dumps(e['input'], default=str)}\n"
                      f"OUTPUT: {json.dumps(e['output'], default=str)}")

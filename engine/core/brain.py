@@ -107,8 +107,8 @@ def _brain_cli(prompt: str, system: str | None, files: list[str] | None = None) 
                  + "\n".join(f"- {os.path.abspath(f)}" for f in files))
         args.append("--allowedTools=Read")
     try:
-        r = subprocess.run(
-            args + [full],
+        r = subprocess.run(                 # prompt on stdin: an argv string is capped at 128 KB on Linux
+            args, input=full,
             capture_output=True, text=True, env=env, timeout=_CLI_TIMEOUT,
         )
     except FileNotFoundError as e:

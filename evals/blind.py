@@ -144,12 +144,15 @@ def _binary(items, preds, pos):
 
 # ---------------------------------------------------------------- 2. learning from corrections
 def routing(args) -> None:
+    """Learning a protocol from corrections. Set 1 (routing) was scored with examples-only learning
+    before the rulebook existed; set 2 (routing2) was written afterwards and scores both methods."""
     from engine import fewshot, specialists  # noqa: F401
     from engine.core import get
-    items = load("routing.jsonl")
-    protocol = (SETS / "routing_protocol.md").read_text()
-    queues = ["care_coordinator", "billing", "scheduling", "doula_support", "community_resources"]
-    public = (SETS / "routing_public.txt").read_text().strip()
+    name = args.set or "routing"
+    items = load(f"{name}.jsonl")
+    protocol = (SETS / f"{name}_protocol.md").read_text()
+    public = (SETS / f"{name}_public.txt").read_text().strip()
+    queues = sorted({i["queue"] for i in items})
     rng = random.Random(20261014)
     shuffled = items[:]
     rng.shuffle(shuffled)
@@ -162,32 +165,36 @@ def routing(args) -> None:
         return {"input": {"item": it["text"], "categories": queues, "criteria": criteria},
                 "output": {"label": it["queue"], "confidence": 1.0, "reasoning": "corrected by a reviewer"}}
 
-    def run(criteria, examples):
+    def run(criteria, examples, rulebook):
         def one(it):
             return clf.run({"item": it["text"]}, {"categories": queues, "criteria": criteria})["label"]
-        with fewshot.force(bool(examples)), fewshot.using("classify", examples):
+        with fewshot.force(bool(examples)), fewshot.using("classify", examples), fewshot.rules(rulebook):
             return pmap(one, test)
 
-    conditions = [("no corrections, queue names only", crit_public, 0)]
-    conditions += [(f"{n} corrections, queue names only", crit_public, n) for n in (10, 25, 50, 100, len(pool))]
-    conditions += [("written protocol, no corrections (upper reference)", crit_rules, 0)]
-    result = {"set": "routing.jsonl", "n_test": len(test), "n_pool": len(pool), "split_seed": 20261014,
-              "retrieval": "engine few-shot: the 6 most similar corrections per message (fewshot.retrieve)",
+    sizes = (10, 25, 50, 100, len(pool))
+    conditions = [("no corrections, queue names only", crit_public, 0, False)]
+    conditions += [(f"{n} corrections, examples only", crit_public, n, False) for n in sizes]
+    if name != "routing":                    # set 1 predates the rulebook; it stays scored exactly once
+        conditions += [(f"{n} corrections, rulebook + examples", crit_public, n, True) for n in sizes]
+    conditions += [("written protocol, no corrections (upper reference)", crit_rules, 0, False)]
+    result = {"set": f"{name}.jsonl", "n_test": len(test), "n_pool": len(pool), "split_seed": 20261014,
+              "learning": "examples only = the 6 most similar corrections (fewshot.retrieve); rulebook + examples "
+                          "= rules the brain induces from ALL corrections (fewshot.rulebook), then the same 6",
               "conditions": {}, "items": [{"id": i["id"], "queue": i["queue"], "tricky": i.get("tricky")} for i in test]}
-    for name, crit, n in conditions:
+    for cname, crit, n, rb in conditions:
         exs = [gold(i, crit) for i in pool[:n]]
         t0 = time.time()
-        preds = run(crit, exs)
+        preds = run(crit, exs, rb)
         ok = [p == i["queue"] for p, i in zip(preds, test)]
         tricky = [o for o, i in zip(ok, test) if i.get("tricky")]
-        result["conditions"][name] = {"corrections": n, "accuracy": rate(sum(ok), len(ok)),
+        result["conditions"][cname] = {"corrections": n, "accuracy": rate(sum(ok), len(ok)),
                                       "tricky only": rate(sum(tricky), len(tricky)),
                                       "errors": sum(1 for p in preds if isinstance(p, dict)),
                                       "seconds": round(time.time() - t0, 1)}
         for row, p in zip(result["items"], preds):
-            row[name] = p
-        print(name, result["conditions"][name]["accuracy"], flush=True)
-    save("routing", result)
+            row[cname] = p
+        print(cname, result["conditions"][cname]["accuracy"], flush=True)
+    save(name, result)
 
 
 # ---------------------------------------------------------------- 3. the validator
@@ -225,6 +232,7 @@ def composer(_args) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("what", choices=["seal", "triage", "routing", "validator", "composer"])
+    ap.add_argument("--set", help="routing: which sealed set (routing | routing2)")
     a = ap.parse_args()
     {"seal": seal, "triage": triage, "routing": routing, "validator": validator, "composer": composer}[a.what](a)
 
