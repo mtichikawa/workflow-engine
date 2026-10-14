@@ -77,17 +77,20 @@ def decide(disp, recipe, item_id: str, approve: bool, verdicts: dict | None = No
         v = verdicts.get(step.id, {"verdict": "right"} if approve else None)
         if v is None:
             continue
-        contract = get(step.specialist).contract.output
+        out = v["output"] if v["verdict"] == "edited" else card.output
+        pairs = _pairs(step, card.input, out)
         if v["verdict"] == "edited":
-            missing = [f for f in contract if f not in v["output"]]
-            if missing:
-                raise ValueError(f"{step.id}: the edited output is missing {missing}")
-        if v["verdict"] == "wrong":
-            examples.save_example(step.specialist, card.input, card.output, verdict="rejected",
-                                  reason=v.get("reason", "") or reason)
-        else:
-            out = v["output"] if v["verdict"] == "edited" else card.output
-            examples.save_example(step.specialist, card.input, out, holdout=to_holdout)
+            contract = get(step.specialist).contract.output
+            for _, o in pairs:
+                missing = [f for f in contract if f not in o]
+                if missing:
+                    raise ValueError(f"{step.id}: the edited output is missing {missing}")
+        for inp, o in pairs:
+            if v["verdict"] == "wrong":
+                examples.save_example(step.specialist, inp, o, verdict="rejected",
+                                      reason=v.get("reason", "") or reason)
+            else:
+                examples.save_example(step.specialist, inp, o, holdout=to_holdout)
         learned[v["verdict"]] += 1
         _log({"ts": int(time.time()), "run": board.run_id, "recipe": recipe.name, "item": item_id,
               "step": step.id, "specialist": step.specialist, "verdict": v["verdict"],
@@ -100,6 +103,16 @@ def decide(disp, recipe, item_id: str, approve: bool, verdicts: dict | None = No
     disp.run()
     board.save()
     return {"item": item_id, "approved": approve, "learned": dict(learned), "holdout": to_holdout}
+
+
+def _pairs(step, inp, out) -> list[tuple]:
+    """(input, output) examples one step teaches. A for-each step teaches one per element."""
+    if not step.each:
+        return [(inp, out)]
+    ins, outs = inp.get("each", []), (out or {}).get("results")
+    if not isinstance(outs, list) or len(outs) != len(ins):
+        raise ValueError(f"{step.id}: a for-each output needs one result per element ({len(ins)})")
+    return list(zip(ins, outs))
 
 
 def _log(rec: dict) -> None:

@@ -143,3 +143,52 @@ def test_validator_policy_gates():
     r = Recipe("rv2", steps=[Step("label", "rv_label", inputs={"text": "payload.text"}, gate={"sample": 0.1}),
                              Step("act", "rv_act")], edges=[Edge("label", "act")])
     assert any("doesn't count" in m for m in errs(r))
+
+
+class Split(Specialist):
+    name = "rv_split"
+    contract = Contract(input={"text": str}, output={"items": list})
+    def _run(self, input, config): return {"items": input["text"].split(";")}
+
+
+register(Split())
+
+
+def _each_recipe(each="split.items", inputs=None, gate=False):
+    return Recipe("rve", steps=[Step("split", "rv_split", inputs={"text": "payload.text"}),
+                                Step("label", "rv_label", each=each, inputs=inputs or {"text": "each"}, gate=gate)],
+                  edges=[Edge("split", "label")])
+
+
+def test_for_each_runs_once_per_element(tmp_path):
+    board = Board("rve", "rve", state_dir=tmp_path)
+    board.add_item("i0", {"text": "sure a;b;sure c"})
+    Dispatcher(_each_recipe(), board, Tracer("rve", log_dir=tmp_path, echo=False)).run()
+    out = board.context["i0"]["label"]
+    assert out["count"] == 3 and [r["confidence"] for r in out["results"]] == [0.9, 0.4, 0.9]
+
+
+def test_validator_for_each():
+    from engine.core import validate
+    errs = lambda r: [f.msg for f in validate(r) if f.level == "error"]
+    assert errs(_each_recipe()) == []
+    assert any("doesn't produce" in m for m in errs(_each_recipe(each="split.rows")))
+    assert any("no step" in m for m in errs(_each_recipe(each="splt.items")))
+    r = Recipe("x", steps=[Step("label", "rv_label", inputs={"text": "each"})])
+    assert any("set its `each`" in m for m in errs(r))
+    r = Recipe("x", steps=[Step("label", "rv_label", each="payload.rows", inputs={"text": "each.body"}),
+                           Step("send", "rv_send", inputs={"label": "label.results"})])
+    assert errs(r) == []
+
+
+def test_review_learns_one_example_per_element(store):
+    board = Board("rve", "rve", state_dir=store)
+    board.add_item("i0", {"text": "a;b"})
+    recipe = _each_recipe(gate=True)
+    disp = Dispatcher(recipe, board, Tracer("rve", log_dir=store, echo=False))
+    disp.run()
+    edited = {"results": [{"label": "x", "confidence": 1.0}, {"label": "y", "confidence": 1.0}]}
+    review.decide(disp, recipe, "i0", approve=True, holdout_rate=0,
+                  verdicts={"label": {"verdict": "edited", "output": edited}})
+    got = [(e["input"]["text"], e["output"]["label"]) for e in examples.load_examples("rv_label")]
+    assert got == [("a", "x"), ("b", "y")]

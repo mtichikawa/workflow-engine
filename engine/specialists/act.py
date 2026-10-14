@@ -24,7 +24,9 @@ class Act(Specialist):
     kind = "capability"
     description = (
         "Stage an external side-effect (post/label/comment/save) BEHIND A HUMAN GATE -- never sends "
-        "without approval. USE WHEN a recipe must DO something outside itself. "
+        "without approval. USE WHEN a recipe must DO something outside itself. It can ONLY write a staged "
+        "file or stage a GitHub label/comment: it CANNOT send email, SMS or faxes, pay, call, or post anywhere "
+        "else -- a request that needs those has a GAP (name it), even with a person approving first. "
         "NOT when the deliverable is the output itself (a ranking/verdict/summary) -- end there. "
         "CONFIG-DRIVEN via {target (github|file), mode (staged)}. IN target,payload,mode -> OUT status,result."
     )

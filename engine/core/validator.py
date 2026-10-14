@@ -26,6 +26,7 @@ from .conditions import _literal
 from .recipe import Recipe
 
 _KEYWORDS = {"and", "or", "not", "true", "false", "null", "none", "in"}
+EACH_OUTPUT = {"results": list, "count": int}            # what a for-each step produces
 _REF = re.compile(r"^[A-Za-z_]\w*(\.[A-Za-z_]\w*)*$")
 _COMPARE = re.compile(r"^\s*([A-Za-z_][\w.]*)\s*(==|!=)\s*(.+?)\s*$")
 
@@ -102,7 +103,7 @@ def validate(recipe: Recipe, check_contracts: bool = True) -> list[Finding]:
     # 7. dangling output (warning): a non-terminal step whose output nothing reads
     referenced: set[str] = set()
     for s in recipe.steps:
-        for src in _sources(s.inputs):
+        for src in list(_sources(s.inputs)) + ([s.each] if s.each else []):
             referenced.add(src.split(".")[0])
     for e in recipe.edges:
         referenced |= _ref_heads(e.when)
@@ -151,14 +152,43 @@ def _dataflow(recipe: Recipe, have: dict, ids: set) -> list[Finding]:
         return src in anc[consumer] or any(src == ls and consumer in body for ls, body in loops)
 
     def produces(src: str, field: str):
+        if step[src].each:
+            return field in EACH_OUTPUT
         sp = spec.get(src)
         return None if sp is None else field in sp.contract.output
+
+    def out_type(src: str, field: str):
+        if step[src].each:
+            return EACH_OUTPUT.get(field)
+        return spec[src].contract.output.get(field) if spec.get(src) else None
+
+    # 10a. a for-each step reads a list from a step that has run; only it may read "each"
+    for s in recipe.steps:
+        if s.each:
+            head, _, tail = s.each.partition(".")
+            field = tail.split(".")[0] if tail else None
+            if head != "payload" and head not in ids:
+                out.append(Finding("error", f"step '{s.id}' runs for each of '{s.each}' — no step '{head}'"))
+            elif head != "payload" and not ran_before(head, s.id):
+                out.append(Finding("error", f"step '{s.id}' runs for each of '{s.each}', but '{head}' hasn't "
+                                            f"run by then"))
+            elif head != "payload" and field and produces(head, field) is False:
+                out.append(Finding("error", f"step '{s.id}' runs for each of '{s.each}', but "
+                                            f"'{step[head].specialist}' doesn't produce '{field}'"))
+            elif head != "payload" and field and _incompatible(out_type(head, field), list):
+                out.append(Finding("error", f"step '{s.id}' runs for each of '{s.each}', which is "
+                                            f"{_tname(out_type(head, field))}, not a list"))
+        elif any(r.split(".")[0] == "each" for _, r in _leaves(s.inputs)):
+            out.append(Finding("error", f"step '{s.id}' reads 'each' but doesn't run for each of a list "
+                                        f"(set its `each`)"))
 
     # 10-13. wires: well-formed, an existing step (not a typo of one), already run, a real field, a fitting type
     for s in recipe.steps:
         target = spec[s.id]
         for path, ref in _leaves(s.inputs):
             head, _, tail = ref.partition(".")
+            if head == "each" and s.each:
+                continue                                    # the current element: shape unknown statically
             if head not in ids and head != "payload":
                 near = difflib.get_close_matches(head, sorted(ids) + ["payload"], n=1, cutoff=0.8)
                 if near and _REF.match(ref):
@@ -177,9 +207,9 @@ def _dataflow(recipe: Recipe, have: dict, ids: set) -> list[Finding]:
             if field and produces(head, field) is False:
                 out.append(Finding("error", f"step '{s.id}' reads '{ref}', but '{step[head].specialist}' "
                                             f"doesn't produce '{field}'"))
-            if field and len(path) == 1 and target and spec.get(head):
+            if field and len(path) == 1 and target and (spec.get(head) or step[head].each):
                 want = target.contract.input.get(path[0])
-                got = spec[head].contract.output.get(field)
+                got = out_type(head, field)
                 if _incompatible(got, want):
                     out.append(Finding("error", f"step '{s.id}' wires {ref} ({_tname(got)}) into "
                                                 f"'{path[0]}', which takes {_tname(want)}"))
@@ -206,7 +236,7 @@ def _dataflow(recipe: Recipe, have: dict, ids: set) -> list[Finding]:
             if field and produces(head, field) is False:
                 out.append(Finding("error", f"condition on {e.src}->{e.dst} reads '{ref}', but "
                                             f"'{step[head].specialist}' doesn't produce '{field}'"))
-            if m and field and spec.get(head):
+            if m and field and spec.get(head) and not step[head].each:
                 allowed = spec[head].output_values(field, step[head].config)
                 lit = _literal(m.group(3), lambda r: None)
                 if allowed is not None and m.group(2) == "==" and lit not in allowed:

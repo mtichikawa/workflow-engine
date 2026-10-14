@@ -24,7 +24,8 @@ Available specialists (the library):
 Rules:
 - A recipe runs per work-item. Each work-item's input is available as `payload` (a dict; the text of the
   item is at `payload.text`).
-- Each step is: {{"id","specialist","config":{{...}},"inputs":{{field:source}},"gate":bool}}.
+- Each step is: {{"id","specialist","config":{{...}},"inputs":{{field:source}},"gate":bool}}, plus "each" for a
+  step that runs once per element of a list (below).
 - CRITICAL — `config` vs `inputs`:
     * `config` = STATIC values YOU choose now: category lists, criteria/scoring/standard/checklist text,
       target, mode, tone. Fill every static field a specialist needs.
@@ -41,6 +42,22 @@ Rules:
   per domain (no "art_classifier", "cuisine_classifier" -- that is `classify` with a config).
 - Only when NO existing capability's contract fits the step's KIND of judgment: add the step (clear
   snake_case name) AND list it under "gaps" with a proposed input/output.
+- FOR EACH: when the work covers several things inside ONE work-item (each line item in a note, each paragraph,
+  each ticket returned by one MCP call), do NOT invent a specialist for the iteration. First produce the list
+  (extract → "STEP.items", fetch → "STEP.items", an mcp_call → "STEP.result", or "payload.KEY"), then give the
+  per-thing step "each": "<that list>". Its inputs read the current element as "each" (or "each.KEY"); its
+  output is {{"results":[one output per element],"count":n}}, read later as "STEP_ID.results". Example:
+  {{"id":"label_lines","specialist":"classify","each":"lines.items","inputs":{{"item":"each"}},
+    "config":{{"categories":["travel","meals","supplies"],"criteria":"the GL category"}}}}
+  (Many things handed in separately — CSV rows, files in a folder, pasted messages — are already one work-item
+  each: no "each" needed.)
+- WHOLE-LIST judgments are existing capabilities fed the whole list, not new specialists: dedupe, group, or
+  "which have no match" → extract with a target that says exactly what to return ("the distinct tools, merging
+  names for the same thing", "transactions with no matching ledger entry"; its text may be a list or several
+  texts); the biggest issue / an overview → summarize; an order → sequence; are-these-two-the-same → match.
+- Loops are capped automatically at a few passes — never add a counter step.
+- Any contract field may be wired from live data in `inputs` when it must vary per item (e.g. verify's standard
+  taken from the reference document).
 - Every step's output should be USED by a later input or condition (don't add steps whose result nothing reads).
 - Include an `act` step ONLY when the use case has a real external side-effect (post/save/send). If the output
   itself is the deliverable (a ranking, a verdict, a summary), END there — no `act`. When you DO include `act`:
@@ -110,7 +127,8 @@ def compose(use_case: str, draft: bool = False, max_repairs: int = 2) -> dict:
 def _steps(data) -> list[Step]:
     return [Step(id=s["id"], specialist=s["specialist"], config=s.get("config", {}),
                  inputs=s.get("inputs", {}), gate=s.get("gate", False),
-                 join=s.get("join", "and"), domain=s["specialist"] not in CAPABILITIES)
+                 join=s.get("join", "and"), each=s.get("each") or None,
+                 domain=s["specialist"] not in CAPABILITIES)
             for s in data.get("steps", []) if s.get("id") and s.get("specialist")]
 
 

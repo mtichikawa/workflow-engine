@@ -135,9 +135,19 @@ class Dispatcher:
             inflight[pool.submit(ctx.run, self._execute, card, step)] = (card, step)
             slots -= 1
 
+    EACH_WORKERS = 4
+
     @staticmethod
     def _execute(card, step):
-        return registry.get(step.specialist).run(card.input, step.config)
+        spec = registry.get(step.specialist)
+        if not step.each:
+            return spec.run(card.input, step.config)
+        import contextvars
+        from concurrent.futures import ThreadPoolExecutor
+        ctx = contextvars.copy_context()
+        with ThreadPoolExecutor(max_workers=Dispatcher.EACH_WORKERS) as pool:
+            results = list(pool.map(lambda inp: ctx.copy().run(spec.run, inp, step.config), card.input["each"]))
+        return {"results": results, "count": len(results)}
 
     # ---- commit + loops -------------------------------------------------
     def _commit(self, card, step, output) -> None:
@@ -264,19 +274,29 @@ class Dispatcher:
         return evaluate(when, lambda ref: self._resolve(ref, item_id))
 
     def _resolve_input(self, step: Step, item_id: str) -> dict:
+        if step.each:
+            elems = self._resolve(step.each, item_id)
+            if not isinstance(elems, list):
+                raise ValueError(f"each: '{step.each}' is {type(elems).__name__}, not a list")
+            return {"each": [{f: self._resolve_expr(x, item_id, el) for f, x in step.inputs.items()}
+                             for el in elems]}
         return {field: self._resolve_expr(expr, item_id) for field, expr in step.inputs.items()}
 
-    def _resolve_expr(self, expr, item_id: str):
-        if isinstance(expr, dict):
-            return {k: self._resolve_expr(v, item_id) for k, v in expr.items()}
-        if isinstance(expr, list):
-            return [self._resolve_expr(e, item_id) for e in expr]
-        return self._resolve(expr, item_id)
+    _NO = object()
 
-    def _resolve(self, expr: str, item_id: str):
+    def _resolve_expr(self, expr, item_id: str, elem=_NO):
+        if isinstance(expr, dict):
+            return {k: self._resolve_expr(v, item_id, elem) for k, v in expr.items()}
+        if isinstance(expr, list):
+            return [self._resolve_expr(e, item_id, elem) for e in expr]
+        return self._resolve(expr, item_id, elem)
+
+    def _resolve(self, expr: str, item_id: str, elem=_NO):
         head, _, tail = expr.partition(".")
         ctx = self.board.context.get(item_id, {})
-        if head == "payload":
+        if head == "each" and elem is not self._NO:
+            base = elem
+        elif head == "payload":
             base = self.board.items[item_id]["payload"]
         elif head in ctx:
             base = ctx[head]

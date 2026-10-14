@@ -8,6 +8,10 @@ conditional out-edges.
 
 `inputs` maps a specialist's contract fields to sources in the item's context:
     "payload" · "payload.<key>" · "<step_id>" · "<step_id>.<key>"  (anything else = a literal)
+
+A step with `each` runs its specialist once per element of a list ("extract.items", "payload.rows"),
+reading the current element as "each" / "each.<key>" in its inputs. Its output is
+{"results": [one output per element], "count": n}.
 """
 
 from __future__ import annotations
@@ -24,6 +28,7 @@ class Step:
     gate: bool | dict = False             # True = a person reviews every item; a dict = a review policy
     domain: bool = False
     join: str = "and"                    # for multiple in-edges: "and" (all) | "or" (first)
+    each: str | None = None              # run once per element of this list; inputs read it as "each"
 
 
 @dataclass
