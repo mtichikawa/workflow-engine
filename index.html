@@ -129,6 +129,12 @@ details li .q{color:var(--dim);font:12px var(--display)}
 .stage .legend span{display:flex;gap:6px;align-items:center}
 .stage .legend i{width:12px;height:12px;border-radius:3px;border:1px solid;display:inline-block}
 #sizer{height:1px}
+.gtools{position:absolute;top:8px;right:10px;z-index:4;display:flex;gap:6px}
+.stage .legend{max-width:calc(100% - 160px)}
+.stage.max{position:fixed;inset:0;z-index:30;border-radius:0;border:0;height:100vh!important;overflow:auto}
+.stage.max .legend,.stage.max .gtools{position:fixed}
+.stage.max .legend{max-width:calc(100% - 210px)}
+body.gmax{overflow:hidden}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #wires{position:absolute;left:0;top:0;overflow:visible}
 #wires path{fill:none}
@@ -336,6 +342,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
         <span><i style="background:transparent;border-color:var(--blue)"></i>running</span>
         <span><i style="background:transparent;border-color:#57b083"></i>done</span>
       </div>
+      <div class="gtools"><button class="btn small" id="gplay" hidden>▶ Play</button><button class="btn small" id="gmax" aria-pressed="false">⤢ Full screen</button></div>
       <div id="sizer"></div><div id="world"><svg id="wires"></svg></div>
     </div>
     <p class="note" style="margin:8px 0 0">Each box is one step; its rows are what it produces (right) and what it reads (left), wired to where they come from. Steps in the same column run at the same time. The dashed orange line is the loop: a reply that fails the check goes back to be redrafted.</p>
@@ -701,11 +708,24 @@ const fitGraph = () => { const st = $("#stage"); if (!st.clientWidth) return;
   let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
   R.nodes.forEach(n => { const b = G.geom[n.id]; x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.w); y1 = Math.max(y1, b.y + b.h); });
   WP.forEach(p => { const b = p.getBBox(); x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height); });
-  const pad = 16, top = st.querySelector(".legend").offsetHeight + 24, s = Math.max(0.5, Math.min(1, (st.clientWidth - 2 * pad) / (x1 - x0)));
+  const pad = 16, top = st.querySelector(".legend").offsetHeight + 24;
+  if (st.classList.contains("max")) {               // full screen: fit both ways, larger than life if there's room
+    const fit = Math.min(1.8, (st.clientWidth - 2 * pad) / (x1 - x0), (st.clientHeight - top - pad) / (y1 - y0));
+    const s = Math.max(0.6, fit), gw = (x1 - x0) * s, gh = (y1 - y0) * s;   // a phone scrolls rather than shrink past readable
+    $("#sizer").style.width = (gw + 2 * pad) + "px"; $("#sizer").style.height = (gh + top + pad) + "px";
+    $("#world").style.transform = `translate(${Math.max(pad, (st.clientWidth - gw) / 2) - x0 * s}px,${top + Math.max(0, (st.clientHeight - top - pad - gh) / 2) - y0 * s}px) scale(${s})`;
+    return; }
+  $("#sizer").style.height = "1px";
+  const s = Math.max(0.5, Math.min(1, (st.clientWidth - 2 * pad) / (x1 - x0)));
   const w = (x1 - x0) * s + 2 * pad;
   $("#sizer").style.width = w + "px"; st.style.height = ((y1 - y0) * s + top + pad + 8) + "px";
   $("#world").style.transform = `translate(${Math.max(pad, (st.clientWidth - (x1 - x0) * s) / 2) - x0 * s}px,${top + 4 - y0 * s}px) scale(${s})`; };
 addEventListener("resize", fitGraph);
+const setMax = on => { $("#stage").classList.toggle("max", on); document.body.classList.toggle("gmax", on);
+  $("#gmax").textContent = on ? "✕ Close" : "⤢ Full screen"; $("#gmax").setAttribute("aria-pressed", String(on)); $("#gplay").hidden = !on; fitGraph(); };
+$("#gmax").onclick = () => setMax(!$("#stage").classList.contains("max"));
+$("#gplay").onclick = () => $("#play").click();
+addEventListener("keydown", e => { if (e.key === "Escape" && $("#stage").classList.contains("max")) setMax(false); });
 const paint = () => { const started = Object.keys(ST).length > 0;
   R.nodes.forEach(n => { const d = GEL[n.id], st = n.id === "IN" ? (started ? "done" : "todo") : (ST[n.id] || "todo");
     d.className = `gn ${n.kind} s-${st}`;
