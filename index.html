@@ -149,12 +149,13 @@ details li .q{color:var(--dim);font:12px var(--display)}
 .gn.s-done .nsub{color:#9fdcbc}
 .gn.s-gated{opacity:1;border-color:var(--amber);box-shadow:0 0 0 3px var(--amber),0 0 26px rgba(216,148,74,.6)}
 .gn.s-rejected{opacity:1;box-shadow:0 0 0 2px var(--red)}
-.flow{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:f}
-.flow li{counter-increment:f;font:14px var(--body);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:7px 11px}
-.flow li::before{content:counter(f) "  ";color:var(--brass);font:12.5px var(--display)}
-.flow li+li{position:relative;margin-left:16px}
-.flow li+li::after{content:"→";position:absolute;left:-16px;top:7px;color:var(--dim)}
-.flow li.you{border-color:var(--brass);color:var(--brass)}
+.wfsum{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin:0 0 14px}
+.io{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:10px 16px;align-content:start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:15px}
+.io dt{font:600 12px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--brass);padding-top:3px}
+.io dd{margin:0}
+.wfsteps{margin:0;padding:18px 20px 18px 38px;background:var(--panel);border:1px solid var(--line);border-radius:12px;display:grid;gap:8px;font-size:15px}
+.wfsteps li:last-child{color:var(--brass)}
+@media (max-width:760px){.wfsum{grid-template-columns:minmax(0,1fr)}}
 .reqbox{margin:0 0 22px}
 .reqbox p{margin:8px 0 0;max-width:820px}
 #req{font-size:15px}
@@ -289,12 +290,21 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="sechead">
     <span class="label">Replay of a run recorded 2026-10-14 · synthetic data</span>
     <h2 id="run-h">A doula intake, from fax to claim</h2>
-    <p>Five documents in; an insurance claim and a reply to the patient out, held until a person approves.</p>
   </div>
-  <ol class="flow">
-    <li>Read the documents</li><li>Fill one record</li><li>Check plan rules</li><li>Medical to a nurse</li><li>Draft claim and reply</li><li class="you">A person approves</li>
-  </ol>
-  <details class="reqbox"><summary>The request it was given, in plain English</summary><p id="req"></p><p class="note" id="reqnote"></p></details>
+  <div class="wfsum">
+    <dl class="io">
+      <dt>In</dt><dd>A new client's paperwork: a faxed referral, phone photos of the insurance card, an intake form, a visit log and a message from the patient</dd>
+      <dt>Out</dt><dd>An insurance claim and a reply to the patient, held for a person to approve. Nothing is sent.</dd>
+    </dl>
+    <ul class="wfsteps">
+      <li>Read the documents and pull out what the claim needs</li>
+      <li>Check it against the health plan's billing rules and flag anything missing</li>
+      <li>Triage the patient's message: anything medical goes to a nurse, and the AI never answers it</li>
+      <li>Draft the claim and the reply</li>
+      <li>Stop for a person to approve</li>
+    </ul>
+  </div>
+  <details class="reqbox"><summary>The exact request it was given</summary><p id="req"></p><p class="note" id="reqnote"></p></details>
   <div class="eyebrow" style="font-size:11px;margin-bottom:8px">1 · What came in · click to open</div>
   <div class="docs" id="docs"></div>
 
