@@ -113,7 +113,7 @@ after the change.
 | 4 (95) | how items arrive is never a gap; the library reads text only | 54/57 → **56/57** | 4/38 → **0/38** |
 
 The change on set 3 was a trade (3 doable requests newly flagged as gaps); set 4's change targeted those.
-On set 4, which no version was tuned on, **this morning's composer faked 12/38 and planned 54/57; the final
+On set 4, which no version was tuned on, **the composer as it was on the morning of 2026-10-14 faked 12/38 and planned 54/57; the final
 composer faked 0/38 (95% CI 0–9.2%) and planned 56/57**. Raw: `evals/blind-results/composer{2,3,4}*.json`.
 
 ## 5. One long prompt instead of the engine's learning
