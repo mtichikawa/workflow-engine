@@ -176,7 +176,7 @@ def _compact_graph(recipe, steps) -> tuple[list, list]:
             continue
         st = steps.get(n["id"])
         if n["id"] == "IN":
-            nodes.append({**n, "title": "the case file", "sub": "6 documents, as received"})
+            nodes.append({**n, "title": "the case file", "sub": f"{len(n['outs'])} documents, as received"})
             continue
         gates = [i for i in n["ins"] if i.startswith("when ")]
         reads = [i for i in n["ins"] if not i.startswith("when ")]
