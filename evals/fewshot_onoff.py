@@ -3,7 +3,7 @@
     python evals/fewshot_onoff.py            # -> evals/blind-results/fewshot-onoff.json
 
 Every public example set (state/examples/<domain>/<specialist>.jsonl with a matcher and >= 8 examples) is
-scored LEAVE-ONE-OUT in three conditions: each example is held out in turn, the specialist runs on its
+scored LEAVE-ONE-OUT (on a fixed-seed sample of 15 per set) in three conditions: each example is held out in turn, the specialist runs on its
 input with the OTHER examples of that domain available (or none), and its output is compared with the
 held-out one by the same matcher the evals use. NOT a blind set: these are the engine's own curated
 examples, which it was developed alongside — read the result as "where does few-shot help, hurt or do
@@ -13,6 +13,7 @@ nothing", not as a headline accuracy. Wilson 95% intervals; one sample per condi
 from __future__ import annotations
 
 import json
+import random
 import sys
 import time
 from pathlib import Path
@@ -26,6 +27,7 @@ from evals.examples_eval import MATCH                    # noqa: E402
 EX = ROOT / "state/examples"
 SKIP_SCOPES = {"t1", "t2", "baseline"}                   # test scratch; baseline holds 3-11 mixed examples
 MIN = 8
+CAP = 15                 # examples scored per set (fixed-seed sample) — the full run is ~3,000 model calls
 CONDITIONS = ("off", "examples", "examples+rulebook")
 
 
@@ -39,7 +41,8 @@ def sets() -> list[tuple[str, str, list[dict]]]:
                 golds = [json.loads(l) for l in f.read_text().splitlines() if l.strip()]
                 golds = [g for g in golds if g.get("verdict") != "rejected"]
                 if len(golds) >= MIN:
-                    out.append((d.name, f.stem, golds))
+                    random.Random(f"{d.name}/{f.stem}").shuffle(golds)
+                    out.append((d.name, f.stem, golds[:CAP]))
     return out
 
 
@@ -76,7 +79,8 @@ def run() -> dict:
             r[c] = rate(r[c], r.pop("scored_" + c))
         table.append(r)
     tot = {c: rate(sum(r[c]["k"] for r in table), sum(r[c]["n"] for r in table)) for c in CONDITIONS}
-    return {"what": "leave-one-out over the public curated examples (not blind)", "sets": len(table),
+    return {"what": f"leave-one-out over the public curated examples (not blind), {CAP} per set (fixed-seed sample)",
+            "sets": len(table),
             "examples": sum(r["n"] for r in table), "total": tot, "by_set": table,
             "measured": time.strftime("%Y-%m-%d %H:%M %Z")}
 

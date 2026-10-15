@@ -1,0 +1,664 @@
+{
+ "what": "leave-one-out over the public curated examples (not blind), 15 per set (fixed-seed sample)",
+ "sets": 19,
+ "examples": 285,
+ "total": {
+  "off": {
+   "k": 254,
+   "n": 285,
+   "rate": 0.8912,
+   "ci95": [
+    0.8497,
+    0.9223
+   ]
+  },
+  "examples": {
+   "k": 257,
+   "n": 285,
+   "rate": 0.9018,
+   "ci95": [
+    0.8617,
+    0.9312
+   ]
+  },
+  "examples+rulebook": {
+   "k": 259,
+   "n": 285,
+   "rate": 0.9088,
+   "ci95": [
+    0.8697,
+    0.937
+   ]
+  }
+ },
+ "by_set": [
+  {
+   "domain": "art",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "communities",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "communities",
+   "specialist": "match",
+   "n": 15,
+   "off": {
+    "k": 12,
+    "n": 15,
+    "rate": 0.8,
+    "ci95": [
+     0.5481,
+     0.9295
+    ]
+   },
+   "examples": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "cooking",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "economics",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "general",
+   "specialist": "match",
+   "n": 15,
+   "off": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "general",
+   "specialist": "summarize",
+   "n": 15,
+   "off": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "examples+rulebook": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "government",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "history",
+   "specialist": "extract",
+   "n": 15,
+   "off": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "history",
+   "specialist": "sequence",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "legislation",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 12,
+    "n": 15,
+    "rate": 0.8,
+    "ci95": [
+     0.5481,
+     0.9295
+    ]
+   },
+   "examples": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples+rulebook": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "legislation",
+   "specialist": "forecast",
+   "n": 15,
+   "off": {
+    "k": 9,
+    "n": 15,
+    "rate": 0.6,
+    "ci95": [
+     0.3575,
+     0.8018
+    ]
+   },
+   "examples": {
+    "k": 9,
+    "n": 15,
+    "rate": 0.6,
+    "ci95": [
+     0.3575,
+     0.8018
+    ]
+   },
+   "examples+rulebook": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "nutrition",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "science",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "science",
+   "specialist": "summarize",
+   "n": 15,
+   "off": {
+    "k": 12,
+    "n": 15,
+    "rate": 0.8,
+    "ci95": [
+     0.5481,
+     0.9295
+    ]
+   },
+   "examples": {
+    "k": 9,
+    "n": 15,
+    "rate": 0.6,
+    "ci95": [
+     0.3575,
+     0.8018
+    ]
+   },
+   "examples+rulebook": {
+    "k": 9,
+    "n": 15,
+    "rate": 0.6,
+    "ci95": [
+     0.3575,
+     0.8018
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "sports",
+   "specialist": "forecast",
+   "n": 15,
+   "off": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "examples": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "examples+rulebook": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.4805,
+     0.891
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "weather",
+   "specialist": "classify",
+   "n": 15,
+   "off": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "weather",
+   "specialist": "extract",
+   "n": 15,
+   "off": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.6212,
+     0.9626
+    ]
+   },
+   "examples": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples+rulebook": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "errors": 0
+  },
+  {
+   "domain": "weather",
+   "specialist": "verify",
+   "n": 15,
+   "off": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "examples": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.7961,
+     1.0
+    ]
+   },
+   "examples+rulebook": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.7018,
+     0.9881
+    ]
+   },
+   "errors": 0
+  }
+ ],
+ "measured": "2026-10-14 20:43 PDT"
+}

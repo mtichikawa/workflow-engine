@@ -146,3 +146,14 @@ for a person instead of a guess.
 Two of the three remaining are accents (`Zoë` → `ZOÉ`, `Ramírez` → `Ramirez`). The cost is real: about 46
 fields it used to read right now come back blank, for a person to key in. On the 30 normal photos the fix
 changed nothing: 282/282 exact, 0 wrongly blanked. (`python evals/extraction.py score stress2`)
+
+## 7. Does learning from examples help on ordinary tasks? (not blind)
+
+Leave-one-out over the engine's own public example sets (19 sets with ≥ 8 examples, a fixed-seed sample of
+15 per set, 285 in all), each scored with no examples, the 6 most similar examples, and examples plus a
+rulebook: **89.1% (85.0–92.2) → 90.2% (86.2–93.1) → 90.9% (87.0–93.7)**. No clear gain: on public tasks the
+model already does well. Examples **hurt summaries** (general 13 → 11 of 15, science 12 → 9), which is what the
+per-specialist few-shot switch (`engine fit`) is for, and helped most where a convention isn't obvious
+(legislation forecasts 9 → 11 with the rulebook, weather extraction 13 → 15). Learning earns its keep on
+unwritten conventions (section 2b: 59% → 97%), not on tasks the model already knows.
+(`python evals/fewshot_onoff.py`)
