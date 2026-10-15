@@ -28,5 +28,10 @@
   "sha256": "60c402bbc1d56aa936fca56315dfcd9269206b8c1ec4a155d07368f64d6713f1",
   "sealed": "2026-10-14 16:37 PDT",
   "lines": 96
+ },
+ "composer4.jsonl": {
+  "sha256": "3da191101101e0190dd7a6ffda8bfa23b11e19e27fca3095c6cf83e6efd06465",
+  "sealed": "2026-10-14 16:55 PDT",
+  "lines": 95
  }
 }

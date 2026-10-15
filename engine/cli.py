@@ -4,6 +4,8 @@
     python -m engine.cli run content --topic "..." --brief "..." [--auto]
     python -m engine.cli approve <run_id> [item step]
     python -m engine.cli board <run_id>
+
+Saved workflows, review, rulebooks and quality live in the workbench: python -m engine.app
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ import time
 from . import specialists  # noqa: F401  (registers the library)
 from .core import Board, Dispatcher, Tracer, get
 from .recipes import RECIPES
+from .workflows import lookup
 
 
 def _run(args) -> None:
@@ -52,7 +55,7 @@ def _run(args) -> None:
 
 def _approve(args) -> None:
     board = Board.load(args.run_id)
-    recipe = RECIPES[board.recipe]
+    recipe = lookup(board.recipe)
     disp = Dispatcher(recipe, board, Tracer(args.run_id))
     gated = board.with_status("gated")
     targets = [(args.item, args.step)] if args.item else [(c.item_id, c.step_id) for c in gated]
@@ -116,10 +119,12 @@ def _compose(args) -> None:
 def _review_cmd(args) -> None:
     from .examples import write_review
     board = Board.load(args.run_id)
-    if board.recipe not in RECIPES:
-        print(f"review supports named recipes; '{board.recipe}' isn't one.")
+    try:
+        recipe = lookup(board.recipe)
+    except KeyError:
+        print(f"review supports built-in recipes and saved workflows; '{board.recipe}' is neither.")
         return
-    path = write_review(board, RECIPES[board.recipe])
+    path = write_review(board, recipe)
     n_items = len(board.with_status("gated"))
     print(f"wrote {path}  ({n_items} gated item(s))")
     print("edit any 'output' you'd correct, leave the good ones, set approve:false to skip an item, then:")
@@ -128,10 +133,13 @@ def _review_cmd(args) -> None:
 
 def _capture_cmd(args) -> None:
     from .examples import capture, count_examples, load_review
+    from . import scope
+    from .workflows import scope_of
     review = load_review(args.run_id)
-    n, approved = capture(review)
     board = Board.load(args.run_id)
-    recipe = RECIPES[board.recipe]
+    with scope.use_scope(scope_of(board.recipe) or scope.active()):   # a saved workflow learns in its own scope
+        n, approved = capture(review)
+    recipe = lookup(board.recipe)
     disp = Dispatcher(recipe, board, Tracer(args.run_id))
     for item_id in approved:
         for c in board.cards_for(item_id):
@@ -294,7 +302,7 @@ def _replay_cmd(args) -> None:
 def _view(args) -> None:
     from .view import write_view
     board = Board.load(args.run_id)
-    step_ids = [s.id for s in RECIPES[board.recipe].steps]
+    step_ids = lookup(board.recipe).step_ids()
     path = write_view(args.run_id, step_ids)
     print(f"wrote board view -> {path}")
 

@@ -199,6 +199,37 @@ def routing(args) -> None:
     save(name, result)
 
 
+def bigprompt(args) -> None:
+    """The obvious alternative to the engine's learning: the same model, ALL the corrections pasted into
+    one prompt with each test message — no rulebook, no retrieval. Same split and test messages as routing."""
+    from engine.core import brain_json
+    name = args.set or "routing2"
+    items = load(f"{name}.jsonl")
+    public = (SETS / f"{name}_public.txt").read_text().strip()
+    queues = sorted({i["queue"] for i in items})
+    rng = random.Random(20261014)
+    shuffled = items[:]
+    rng.shuffle(shuffled)
+    test, pool = shuffled[:150], shuffled[150:]
+    shown = "\n".join(f"- {json.dumps(i['text'], ensure_ascii=False)} -> {i['queue']}" for i in pool)
+    head = (f"Route this message to exactly one team's queue. The queues: {public}\n\nAllowed labels: "
+            f"{', '.join(queues)}\n\nHere are {len(pool)} past messages with the queue a reviewer put each one "
+            f"in. Their conventions were never written down; follow them.\n{shown}\n\nMESSAGE:\n")
+
+    def one(it):
+        return str(brain_json(head + it["text"] + '\n\nReturn JSON: {"label": <one allowed label>}').get("label"))
+    t0 = time.time()
+    preds = pmap(one, test)
+    ok = [p == i["queue"] for p, i in zip(preds, test)]
+    tricky = [o for o, i in zip(ok, test) if i.get("tricky")]
+    save(f"{name}-bigprompt", {"set": f"{name}.jsonl", "n_test": len(test), "corrections_in_prompt": len(pool),
+                               "prompt_chars": len(head), "accuracy": rate(sum(ok), len(ok)),
+                               "tricky only": rate(sum(tricky), len(tricky)),
+                               "errors": sum(1 for p in preds if isinstance(p, dict)),
+                               "seconds": round(time.time() - t0, 1),
+                               "items": [{"id": i["id"], "queue": i["queue"], "pred": p} for i, p in zip(test, preds)]})
+
+
 # ---------------------------------------------------------------- 3. the validator
 def validator(_args) -> None:
     from evals.faults import run_faults
@@ -234,11 +265,12 @@ def composer(args) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("what", choices=["seal", "triage", "routing", "validator", "composer"])
+    ap.add_argument("what", choices=["seal", "triage", "routing", "bigprompt", "validator", "composer"])
     ap.add_argument("--out", help="composer: result file name (default: the set's name)")
     ap.add_argument("--set", help="routing: routing | routing2; composer: composer | composer2")
     a = ap.parse_args()
-    {"seal": seal, "triage": triage, "routing": routing, "validator": validator, "composer": composer}[a.what](a)
+    {"seal": seal, "triage": triage, "routing": routing, "bigprompt": bigprompt, "validator": validator,
+     "composer": composer}[a.what](a)
 
 
 if __name__ == "__main__":

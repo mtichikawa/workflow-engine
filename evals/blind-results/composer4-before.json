@@ -1,0 +1,1919 @@
+{
+ "set": "composer4.jsonl",
+ "n": 95,
+ "items": [
+  {
+   "id": "f001",
+   "request": "When someone opens an issue in our repo that looks like a security report, add a 'security' label and a comment asking them to use our private disclosure address instead. I approve before it goes up.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify",
+     "respond",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f002",
+   "request": "For each roof inspection, look at what the inspector snapped on site and rate how bad the damage is.",
+   "label": "impossible",
+   "missing": "image analysis",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f003",
+   "request": "Make an Instagram graphic for each event announcement.",
+   "label": "impossible",
+   "missing": "image generation",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "render_graphic"
+    ],
+    "missing": [
+     "render_graphic"
+    ],
+    "errors": [
+     "[error] step 'render_graphic' uses unknown specialist 'render_graphic'"
+    ],
+    "steps": [
+     "extract",
+     "write",
+     "verify",
+     "render_graphic"
+    ]
+   }
+  },
+  {
+   "id": "f004",
+   "request": "I'll paste in a volunteer application. Give it a score from 0 to 1 for how well they fit our youth mentoring program, with reasons.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f005",
+   "request": "Using the 'docusign' MCP server's get_envelope_text tool, pull every signing party out of each envelope ID listed in the CSV.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f006",
+   "request": "Make sure every new hire's laptop and accounts are set up by their first day.",
+   "label": "impossible",
+   "missing": "IT provisioning in outside systems",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "check_provisioning_status"
+    ],
+    "missing": [
+     "check_provisioning_status"
+    ],
+    "errors": [
+     "[error] step 'check_status' uses unknown specialist 'check_provisioning_status'"
+    ],
+    "steps": [
+     "extract",
+     "check_provisioning_status",
+     "verify",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f007",
+   "request": "Add every new lead from the form to our Salesforce.",
+   "label": "impossible",
+   "missing": "Salesforce access (no MCP server named)",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "salesforce_create_lead"
+    ],
+    "missing": [
+     "salesforce_create_lead"
+    ],
+    "errors": [
+     "[error] step 'create_salesforce_lead' uses unknown specialist 'salesforce_create_lead'"
+    ],
+    "steps": [
+     "extract",
+     "salesforce_create_lead"
+    ]
+   }
+  },
+  {
+   "id": "f008",
+   "request": "For each competitor in my list tell me what they're charging this month.",
+   "label": "impossible",
+   "missing": "web lookup of current prices",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "web_price_lookup"
+    ],
+    "missing": [
+     "web_price_lookup"
+    ],
+    "errors": [
+     "[error] step 'lookup_pricing' uses unknown specialist 'web_price_lookup'"
+    ],
+    "steps": [
+     "extract",
+     "web_price_lookup",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f009",
+   "request": "Print and mail the membership renewal letters.",
+   "label": "impossible",
+   "missing": "printing and postal mail",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "print_and_mail"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f010",
+   "request": "The nurse types intake notes. Pull out every medication mentioned with its dose.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f011",
+   "request": "For each open deal in our pipeline CSV, predict whether it closes this quarter, slips to next quarter, or dies. Include how confident you are.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "forecast"
+    ]
+   }
+  },
+  {
+   "id": "f012",
+   "request": "Text every patient an appointment reminder the day before.",
+   "label": "impossible",
+   "missing": "sending SMS",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "fetch_appointments",
+     "send_sms"
+    ],
+    "missing": [
+     "fetch_appointments",
+     "send_sms"
+    ],
+    "errors": [
+     "[error] step 'get_appointments' uses unknown specialist 'fetch_appointments'",
+     "[error] step 'send' uses unknown specialist 'send_sms'"
+    ],
+    "steps": [
+     "fetch_appointments",
+     "write",
+     "verify",
+     "send_sms"
+    ]
+   }
+  },
+  {
+   "id": "f013",
+   "request": "When a client's retainer drops below $1,000, top it up from the card we have on file.",
+   "label": "impossible",
+   "missing": "charging a card / payments",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "charge_card_on_file",
+     "retainer_balance_lookup"
+    ],
+    "missing": [
+     "charge_card_on_file"
+    ],
+    "errors": [
+     "[error] step 'top_up_retainer' uses unknown specialist 'charge_card_on_file'"
+    ],
+    "steps": [
+     "verify",
+     "charge_card_on_file",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f014",
+   "request": "Pull our open tickets out of Zendesk and classify them.",
+   "label": "impossible",
+   "missing": "Zendesk access (no MCP server named)",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "zendesk_fetch"
+    ],
+    "missing": [
+     "zendesk_fetch"
+    ],
+    "errors": [
+     "[error] step 'pull_tickets' uses unknown specialist 'zendesk_fetch'"
+    ],
+    "steps": [
+     "zendesk_fetch",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f015",
+   "request": "Complaint emails get forwarded to our webhook. Draft a calm apology reply to each.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "respond"
+    ]
+   }
+  },
+  {
+   "id": "f016",
+   "request": "Here's a jumbled list of steps for onboarding a new hire. Put them in a sensible order.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f017",
+   "request": "For each pair of patient records in this CSV, tell me if they're the same patient even with typos in the name or date of birth.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "match"
+    ]
+   }
+  },
+  {
+   "id": "f018",
+   "request": "I paste a cover letter and the job posting. Tell me whether the letter actually addresses the three required qualifications — pass or fail, and which are missing.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f019",
+   "request": "Watch the lecture videos in the class folder and write quiz questions from them.",
+   "label": "impossible",
+   "missing": "video processing",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "transcribe_video",
+     "write_quiz_questions",
+     "class_folder_source"
+    ],
+    "missing": [
+     "transcribe_video",
+     "write_quiz_questions"
+    ],
+    "errors": [
+     "[error] step 'transcribe' uses unknown specialist 'transcribe_video'",
+     "[error] step 'write_quiz' uses unknown specialist 'write_quiz_questions'"
+    ],
+    "steps": [
+     "transcribe_video",
+     "extract",
+     "write_quiz_questions",
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f020",
+   "request": "Take this long email thread I'm pasting, pull out each separate question the client asked, and draft a reply that answers them.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "summarize",
+     "respond",
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f021",
+   "request": "Here's 30 grant opportunities pasted in one go, each with its due date written in. Put them in order, earliest deadline first.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f022",
+   "request": "paste a contract -> give me every deadline and notice period it mentions as a list",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f023",
+   "request": "OCR the scanned PDFs of old deeds and extract the parcel numbers.",
+   "label": "impossible",
+   "missing": "OCR of scans",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "ocr"
+    ],
+    "missing": [
+     "ocr"
+    ],
+    "errors": [
+     "[error] step 'ocr_deed' uses unknown specialist 'ocr'"
+    ],
+    "steps": [
+     "ocr",
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f024",
+   "request": "Flag the angry customers from yesterday's recorded dispatch calls.",
+   "label": "impossible",
+   "missing": "audio processing",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "speech_to_text",
+     "call_recordings_source"
+    ],
+    "missing": [
+     "speech_to_text"
+    ],
+    "errors": [
+     "[error] step 'transcribe' uses unknown specialist 'speech_to_text'"
+    ],
+    "steps": [
+     "speech_to_text",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f025",
+   "request": "Write a 2-sentence summary of each case file, then verify it names the client, the court and the next hearing date; regenerate if anything's missing.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "summarize",
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f026",
+   "request": "Every Friday at 4pm look at the new issues opened this week in our repo and write one paragraph summing them up for the team.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "schedule_trigger"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f027",
+   "request": "Sort each RFP I paste into bid / no bid / maybe using the criteria below.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f028",
+   "request": "Watch our server logs live and alert me the second the error rate spikes.",
+   "label": "impossible",
+   "missing": "real-time monitoring + alerting",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "live_log_stream",
+     "instant_alert"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "verify",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f029",
+   "request": "Turn each newsletter into a podcast episode we can upload.",
+   "label": "impossible",
+   "missing": "audio generation",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "text_to_speech",
+     "podcast_upload"
+    ],
+    "missing": [
+     "podcast_upload",
+     "text_to_speech"
+    ],
+    "errors": [
+     "[error] step 'text_to_speech' uses unknown specialist 'text_to_speech'",
+     "[error] step 'publish_episode' uses unknown specialist 'podcast_upload'"
+    ],
+    "steps": [
+     "summarize",
+     "verify",
+     "summarize",
+     "text_to_speech",
+     "podcast_upload"
+    ]
+   }
+  },
+  {
+   "id": "f030",
+   "request": "Every Friday get the GitHub issues closed this week in our-org/app, summarize them, and after I okay it post the summary to #general using the post_message tool on our 'slack' MCP server.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "summarize",
+     "mcp_call"
+    ]
+   }
+  },
+  {
+   "id": "f031",
+   "request": "Each row of the CSV has a bank transaction and an invoice. Tell me whether they're the same payment.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "match"
+    ]
+   }
+  },
+  {
+   "id": "f032",
+   "request": "Scrape the city council website for new agenda items every week.",
+   "label": "impossible",
+   "missing": "web scraping",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "scrape_web_page",
+     "filter_unseen"
+    ],
+    "missing": [
+     "filter_unseen",
+     "scrape_web_page"
+    ],
+    "errors": [
+     "[error] step 'scrape_agenda' uses unknown specialist 'scrape_web_page'",
+     "[error] step 'new_items' uses unknown specialist 'filter_unseen'"
+    ],
+    "steps": [
+     "scrape_web_page",
+     "extract",
+     "filter_unseen"
+    ]
+   }
+  },
+  {
+   "id": "f033",
+   "request": "IT help requests for the school district: route each to Network, Devices, Accounts or Software and say whether it needs escalating to the district office.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "route"
+    ]
+   }
+  },
+  {
+   "id": "f034",
+   "request": "Let me know right away whenever a competitor changes their pricing page.",
+   "label": "impossible",
+   "missing": "web monitoring + notification",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "web_page_fetch",
+     "schedule_trigger",
+     "notify_user",
+     "baseline_store"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "match",
+     "summarize",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f035",
+   "request": "There's a 'notion' MCP server with a search_pages tool. Search for pages tagged policy and give me a one-paragraph summary of each.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f036",
+   "request": "Take the intake forms patients fill out by hand in the waiting room and pull out their allergies.",
+   "label": "impossible",
+   "missing": "handwriting recognition",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f037",
+   "request": "Using our 'hubspot' MCP server, call its get_contact tool for each email address in the list I paste, then score each contact on how good a fit they'd be for our premium plan.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "mcp_call",
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f038",
+   "request": "Support tickets come in by webhook. Send each one to Billing, Installs, Warranty or Sales, and flag the ones a manager needs to see.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "helpdesk_assign"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "route",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f039",
+   "request": "Referrals come in by fax and land in a folder. Pull out the referring doctor and the reason for referral.",
+   "label": "impossible",
+   "missing": "reading faxed images",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f040",
+   "request": "Pay our approved vendor invoices through the bank every Friday.",
+   "label": "impossible",
+   "missing": "making payments",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "bank_payment",
+     "fetch_approved_invoices",
+     "weekly_schedule_trigger"
+    ],
+    "missing": [
+     "bank_payment"
+    ],
+    "errors": [
+     "[error] step 'bank_pay' uses unknown specialist 'bank_payment'"
+    ],
+    "steps": [
+     "extract",
+     "verify",
+     "bank_payment",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f041",
+   "request": "Score each blog draft in the folder 0-1 on how easy it'd be for a sixth grader to read.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f042",
+   "request": "Every morning give me a briefing on what's in my inbox.",
+   "label": "impossible",
+   "missing": "email inbox access (no MCP server)",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "fetch_inbox"
+    ],
+    "missing": [
+     "fetch_inbox"
+    ],
+    "errors": [
+     "[error] step 'fetch_inbox' uses unknown specialist 'fetch_inbox'"
+    ],
+    "steps": [
+     "fetch_inbox",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f043",
+   "request": "Transcribe our voicemails and route each to the right person.",
+   "label": "impossible",
+   "missing": "audio transcription",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "transcribe_audio",
+     "voicemail_source",
+     "notify_person",
+     "routing_directory"
+    ],
+    "missing": [
+     "transcribe_audio"
+    ],
+    "errors": [
+     "[error] step 'transcribe' uses unknown specialist 'transcribe_audio'"
+    ],
+    "steps": [
+     "transcribe_audio",
+     "route",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f044",
+   "request": "Every product description our interns write has to be 50 to 80 words, name the material, and contain no superlatives like 'best' or 'ultimate'. Check each one in the CSV and tell me which fail and why.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f045",
+   "request": "Our board minutes are saved as plain text files in a folder. Turn each one into a 3-sentence summary for the newsletter.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f046",
+   "request": "Email the weekly volunteer report to the board every Monday.",
+   "label": "impossible",
+   "missing": "sending email",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "email_send",
+     "weekly_schedule_trigger"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "summarize",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f047",
+   "request": "Keep an eye on the freezer temperature at the food pantry and tell us if it goes above 40F.",
+   "label": "impossible",
+   "missing": "sensor monitoring + alerting",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "read_freezer_sensor",
+     "send_alert"
+    ],
+    "missing": [
+     "read_freezer_sensor"
+    ],
+    "errors": [
+     "[error] step 'read_freezer' uses unknown specialist 'read_freezer_sensor'"
+    ],
+    "steps": [
+     "read_freezer_sensor",
+     "verify",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f048",
+   "request": "draft first replies to new issues in team/widget in a friendly tone and post them as comments after i approve",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "respond",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f049",
+   "request": "Rank these 40 resumes (CSV, one resume's text per row) on fit for a part-time bookkeeper job.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f050",
+   "request": "Draft replies to customer complaint emails I paste, and once I approve each one, send it with the send_email tool on our 'gmail' MCP server.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "respond",
+     "mcp_call"
+    ]
+   }
+  },
+  {
+   "id": "f051",
+   "request": "Patient portal messages hit our webhook. For each one decide if it's urgent clinical, billing, scheduling or records, and draft a polite reply the front desk can look over before anything goes out.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "portal_send",
+     "clinical_alert"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify",
+     "respond",
+     "respond",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f052",
+   "request": "Get the signed permission slips back from every family before the field trip.",
+   "label": "impossible",
+   "missing": "sending forms / collecting signatures",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "send_reminder",
+     "collect_returned_slips"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "write",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f053",
+   "request": "Read the photos of receipts staff upload and categorize the expenses.",
+   "label": "impossible",
+   "missing": "reading images",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f054",
+   "request": "Based on our notes on each grant application we've submitted, predict which ones are likely to get funded.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "forecast"
+    ]
+   }
+  },
+  {
+   "id": "f055",
+   "request": "I'll paste one long meeting transcript. Pull out every action item, then for each action item tell me whether it has an owner or nobody took it.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f056",
+   "request": "For each bug report pasted in, decide whether it's a real bug or user error. For the real ones, use the create_issue tool on our 'jira' MCP server to open a ticket.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify",
+     "summarize",
+     "mcp_call",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f057",
+   "request": "Pull last month's transactions from our Chase business account and categorize them.",
+   "label": "impossible",
+   "missing": "bank account access (no MCP server)",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "chase_fetch"
+    ],
+    "missing": [
+     "chase_fetch"
+    ],
+    "errors": [
+     "[error] step 'pull_transactions' uses unknown specialist 'chase_fetch'"
+    ],
+    "steps": [
+     "chase_fetch",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f058",
+   "request": "When a donor gives over $500, make sure a personal thank-you lands in their inbox within the hour.",
+   "label": "impossible",
+   "missing": "sending email",
+   "subtle": true,
+   "out": {
+    "runnable": true,
+    "gaps": [
+     "send_email",
+     "donation_trigger"
+    ],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "verify",
+     "respond",
+     "verify",
+     "act",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f059",
+   "request": "Issue refunds for any order the classifier marks as damaged in shipping.",
+   "label": "impossible",
+   "missing": "issuing refunds / payments",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "issue_refund"
+    ],
+    "missing": [
+     "issue_refund"
+    ],
+    "errors": [
+     "[error] step 'issue_refund' uses unknown specialist 'issue_refund'"
+    ],
+    "steps": [
+     "classify",
+     "issue_refund",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f060",
+   "request": "We run an MCP server called quickbooks-mcp with a tool list_overdue_invoices. Every Monday pull those and put each invoice into 'small - chase gently', 'large - call client' or 'disputed', then save the sorted list to a file for my bookkeeper after I approve it.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "classify",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f061",
+   "request": "Our expense app exports a CSV, one line per receipt with the description typed in. Decide for each line whether it's deductible, partly deductible, or not, using the categories I give you.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f062",
+   "request": "Search the web for any news that mentions our clinic and summarize it.",
+   "label": "impossible",
+   "missing": "web search",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "web_search_news"
+    ],
+    "missing": [
+     "web_search_news"
+    ],
+    "errors": [
+     "[error] step 'web_search_news' uses unknown specialist 'web_search_news'"
+    ],
+    "steps": [
+     "web_search_news",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f063",
+   "request": "Pull the current Hacker News front page and score each story for how relevant it is to our product, which is scheduling software for dog groomers.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "rank"
+    ]
+   }
+  },
+  {
+   "id": "f064",
+   "request": "Write a one-line headline for each press release in the folder (they're .txt).",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f065",
+   "request": "Call back every missed lead and qualify them over the phone.",
+   "label": "impossible",
+   "missing": "phone calls",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "phone_call_agent",
+     "missed_lead_source",
+     "crm_update"
+    ],
+    "missing": [
+     "phone_call_agent"
+    ],
+    "errors": [
+     "[error] step 'call_and_qualify' uses unknown specialist 'phone_call_agent'"
+    ],
+    "steps": [
+     "extract",
+     "phone_call_agent",
+     "classify",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f066",
+   "request": "For each listing description in the CSV, check it against the fair housing word list I'll give you and return pass/fail with the offending phrases.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f067",
+   "request": "Write the post for our bake sale and give it an eye-catching flyer we can pin up at the library.",
+   "label": "impossible",
+   "missing": "image/flyer generation",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "design_flyer",
+     "pin_up_at_library"
+    ],
+    "missing": [
+     "design_flyer"
+    ],
+    "errors": [
+     "[error] step 'design_flyer' uses unknown specialist 'design_flyer'"
+    ],
+    "steps": [
+     "write",
+     "design_flyer"
+    ]
+   }
+  },
+  {
+   "id": "f068",
+   "request": "Given my notes on each tenant (one per row), predict whether they'll renew their lease or move out.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "forecast"
+    ]
+   }
+  },
+  {
+   "id": "f069",
+   "request": "use the stripe-mcp server (tool list_disputes) to get this week's chargebacks and draft a response to each customer's dispute message",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "respond"
+    ]
+   }
+  },
+  {
+   "id": "f070",
+   "request": "hey can u take the issues in smallco/website, label each one bug/feature/question and put that label on the issue on github. dont touch anything till i ok it",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "classify",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f071",
+   "request": "For every PR in foo/bar with the needs-review label, give me a risk level and the main findings.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "review"
+    ]
+   }
+  },
+  {
+   "id": "f072",
+   "request": "Go through last week's board meeting recordings and pull out the motions that passed.",
+   "label": "impossible",
+   "missing": "audio/video processing",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "speech_to_text"
+    ],
+    "missing": [
+     "speech_to_text"
+    ],
+    "errors": [
+     "[error] step 'transcribe' uses unknown specialist 'speech_to_text'"
+    ],
+    "steps": [
+     "speech_to_text",
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f073",
+   "request": "Every morning grab the top Hacker News stories, keep the ones that matter to people selling small-business accounting software, and write a short LinkedIn post about the best one.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "fetch",
+     "rank",
+     "extract",
+     "sequence",
+     "write"
+    ]
+   }
+  },
+  {
+   "id": "f074",
+   "request": "I'll paste all 12 proposals we got for the roof repair at once. Score each one and give me the top three in order.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "rank",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f076",
+   "request": "Fetch new posts from r/smallbusiness on Reddit and rank them by relevance.",
+   "label": "impossible",
+   "missing": "Reddit source (no MCP server named)",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "fetch_reddit"
+    ],
+    "missing": [
+     "fetch_reddit"
+    ],
+    "errors": [
+     "[error] step 'fetch_posts' uses unknown specialist 'fetch_reddit'"
+    ],
+    "steps": [
+     "fetch_reddit",
+     "rank",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f077",
+   "request": "With the 'calendar' MCP server's list_events tool, get tomorrow's appointments and put them in priority order for the clinic manager.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f078",
+   "request": "I paste two versions of an indemnity clause. Are they substantively the same or not?",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "match"
+    ]
+   }
+  },
+  {
+   "id": "f079",
+   "request": "I paste angry Google reviews. Draft a reply to each, then check the reply doesn't admit liability; if it does, redraft it.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "respond",
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f080",
+   "request": "Once a call is classified as an emergency, book it into the on-call tech's schedule.",
+   "label": "impossible",
+   "missing": "writing to a scheduling system (no MCP)",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "book_on_call"
+    ],
+    "missing": [
+     "book_on_call"
+    ],
+    "errors": [
+     "[error] step 'book_on_call' uses unknown specialist 'book_on_call'"
+    ],
+    "steps": [
+     "classify",
+     "extract",
+     "book_on_call",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f081",
+   "request": "After pulling the medications out of the intake notes, update each patient's chart.",
+   "label": "impossible",
+   "missing": "writing to the EHR (outside system, no MCP)",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "ehr_chart_update"
+    ],
+    "missing": [
+     "ehr_chart_update"
+    ],
+    "errors": [
+     "[error] step 'update_chart' uses unknown specialist 'ehr_chart_update'"
+    ],
+    "steps": [
+     "extract",
+     "ehr_chart_update"
+    ]
+   }
+  },
+  {
+   "id": "f082",
+   "request": "Whenever someone fills out the contact form on our website (it posts to a webhook) work out whether it's spam or a real enquiry.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f083",
+   "request": "Draft a tweet announcing our bakery's new sourdough. Check it's under 280 characters and doesn't mention prices; if it fails, redo it until it passes.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "write",
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f084",
+   "request": "Parents send questions to our webhook. Draft a friendly but firm reply to each and just save the drafts to a file — I'll check them before anything goes anywhere.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "respond",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f085",
+   "request": "For each vendor in our list, find out if they're still in business and what they charge now.",
+   "label": "impossible",
+   "missing": "web lookup of current information",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "web_lookup"
+    ],
+    "missing": [
+     "web_lookup"
+    ],
+    "errors": [
+     "[error] step 'lookup' uses unknown specialist 'web_lookup'"
+    ],
+    "steps": [
+     "extract",
+     "web_lookup",
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f086",
+   "request": "Classify every paragraph of this policy document I paste as either a binding requirement or just guidance.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "classify"
+    ]
+   }
+  },
+  {
+   "id": "f087",
+   "request": "When a PR is opened on acme/billing-api, review it against our checklist (tests added, no secrets committed, migrations reversible) and post the review as a comment on the PR, but only after I click approve.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "review",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f088",
+   "request": "Each row of this CSV has two contact records side by side, one from our old CRM and one from the new one. For every row tell me if they're the same person.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "match"
+    ]
+   }
+  },
+  {
+   "id": "f089",
+   "request": "Teachers paste in a student essay. Check it against our rubric (clear thesis, three supporting paragraphs, a conclusion) and say pass or fail and what's missing.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "verify"
+    ]
+   }
+  },
+  {
+   "id": "f090",
+   "request": "Our 'postgres' MCP server has a query tool. Run select * from complaints where status = 'open' and rank every complaint by how severe it is.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "mcp_call",
+     "sequence"
+    ]
+   }
+  },
+  {
+   "id": "f091",
+   "request": "Let the parents of any absent student know by end of day.",
+   "label": "impossible",
+   "missing": "sending messages to parents",
+   "subtle": true,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "draft_parent_notice",
+     "parent_contact_lookup",
+     "send_parent_message",
+     "end_of_day_trigger"
+    ],
+    "missing": [
+     "draft_parent_notice"
+    ],
+    "errors": [
+     "[error] step 'draft_notices' uses unknown specialist 'draft_parent_notice'"
+    ],
+    "steps": [
+     "extract",
+     "draft_parent_notice",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f092",
+   "request": "I have one CSV of 500 support emails. I don't want 500 answers — just tell me what the main recurring themes are across the whole lot.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract",
+     "summarize"
+    ]
+   }
+  },
+  {
+   "id": "f093",
+   "request": "Post each approved announcement to our Facebook page.",
+   "label": "impossible",
+   "missing": "Facebook posting (no MCP server named)",
+   "subtle": false,
+   "out": {
+    "runnable": false,
+    "gaps": [
+     "facebook_post"
+    ],
+    "missing": [
+     "facebook_post"
+    ],
+    "errors": [
+     "[error] step 'post_to_facebook' uses unknown specialist 'facebook_post'"
+    ],
+    "steps": [
+     "facebook_post"
+    ]
+   }
+  },
+  {
+   "id": "f094",
+   "request": "Public comments on the rezoning proposal come in as a CSV. Label each one support, oppose or neutral, and once I sign off save the results to a file.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "classify",
+     "act"
+    ]
+   }
+  },
+  {
+   "id": "f095",
+   "request": "From this year's annual report text, pull out every claim that has a number in it (like 'served 1,200 families') so we can fact check them.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "extract"
+    ]
+   }
+  },
+  {
+   "id": "f096",
+   "request": "Write a short Facebook post for our shelter's adoption day. Have it checked against our style guide (warm, no guilt-tripping, includes date and address) and keep revising until it passes, three tries max.",
+   "label": "possible",
+   "missing": "",
+   "subtle": false,
+   "out": {
+    "runnable": true,
+    "gaps": [],
+    "missing": [],
+    "errors": [],
+    "steps": [
+     "write",
+     "verify"
+    ]
+   }
+  }
+ ],
+ "possible": {
+  "n": 57,
+  "runnable plan, no gap claimed": {
+   "k": 54,
+   "n": 57,
+   "rate": 0.9474,
+   "ci95": [
+    0.8563,
+    0.9819
+   ]
+  },
+  "flagged a gap anyway (over-cautious)": {
+   "k": 3,
+   "n": 57,
+   "rate": 0.0526,
+   "ci95": [
+    0.0181,
+    0.1437
+   ]
+  },
+  "not runnable (validator errors)": {
+   "k": 0,
+   "n": 57,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.0631
+   ]
+  }
+ },
+ "impossible": {
+  "n": 38,
+  "flagged the gap (honest)": {
+   "k": 34,
+   "n": 38,
+   "rate": 0.8947,
+   "ci95": [
+    0.7587,
+    0.9583
+   ]
+  },
+  "faked it (runnable, no gap)": {
+   "k": 4,
+   "n": 38,
+   "rate": 0.1053,
+   "ci95": [
+    0.0417,
+    0.2413
+   ]
+  }
+ },
+ "crashes": 0,
+ "measured": "2026-10-14 17:04 PDT"
+}

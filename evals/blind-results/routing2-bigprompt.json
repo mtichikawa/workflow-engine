@@ -1,0 +1,779 @@
+{
+ "set": "routing2.jsonl",
+ "n_test": 150,
+ "corrections_in_prompt": 291,
+ "prompt_chars": 28292,
+ "accuracy": {
+  "k": 147,
+  "n": 150,
+  "rate": 0.98,
+  "ci95": [
+   0.9429,
+   0.9932
+  ]
+ },
+ "tricky only": {
+  "k": 83,
+  "n": 86,
+  "rate": 0.9651,
+  "ci95": [
+   0.9024,
+   0.9881
+  ]
+ },
+ "errors": 0,
+ "seconds": 332.8,
+ "items": [
+  {
+   "id": "s290",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s363",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s335",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s278",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s202",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s214",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s084",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s071",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s379",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s312",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s175",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s234",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s357",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s388",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s018",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s262",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s103",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s080",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s317",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s293",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s042",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s181",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s100",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s405",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s169",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s056",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s251",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s432",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s148",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s034",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s392",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s093",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s118",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s384",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s092",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s245",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s223",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s282",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s178",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s439",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s446",
+   "queue": "nurse_line",
+   "pred": "family_services"
+  },
+  {
+   "id": "s301",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s204",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s412",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s285",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s252",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s028",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s101",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s190",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s002",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s091",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s177",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s359",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s213",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s010",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s053",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s274",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s404",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s221",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s020",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s110",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s067",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s383",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s247",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s372",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s370",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s159",
+   "queue": "front_desk",
+   "pred": "lactation"
+  },
+  {
+   "id": "s427",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s129",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s099",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s436",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s227",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s191",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s271",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s127",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s354",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s102",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s398",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s035",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s311",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s081",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s318",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s046",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s336",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s208",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s328",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s143",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s131",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s033",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s205",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s401",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s279",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s128",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s387",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s199",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s072",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s433",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s133",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s125",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s021",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s342",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s270",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s256",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s321",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s281",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s158",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s139",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s356",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s215",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s036",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s338",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s023",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s120",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s429",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s173",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s377",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s375",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s024",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s231",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s343",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s016",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s337",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s276",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s230",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s332",
+   "queue": "records",
+   "pred": "records"
+  },
+  {
+   "id": "s426",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s408",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s320",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s390",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s096",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s064",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s037",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s267",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s207",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s349",
+   "queue": "billing_insurance",
+   "pred": "billing_insurance"
+  },
+  {
+   "id": "s098",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s316",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s441",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s257",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s171",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s185",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s438",
+   "queue": "nurse_line",
+   "pred": "nurse_line"
+  },
+  {
+   "id": "s286",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s445",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s087",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s156",
+   "queue": "lactation",
+   "pred": "lactation"
+  },
+  {
+   "id": "s364",
+   "queue": "family_services",
+   "pred": "records"
+  },
+  {
+   "id": "s054",
+   "queue": "family_services",
+   "pred": "family_services"
+  },
+  {
+   "id": "s323",
+   "queue": "front_desk",
+   "pred": "front_desk"
+  },
+  {
+   "id": "s373",
+   "queue": "family_services",
+   "pred": "family_services"
+  }
+ ],
+ "measured": "2026-10-14 16:50 PDT"
+}

@@ -228,6 +228,7 @@ RULES_MIN = 8                         # fewer corrections than this are too few 
 RULES_DIR = Path("state/rulebooks")   # derived and cached — regenerated whenever the golds change
 _RULES_ON: contextvars.ContextVar = contextvars.ContextVar("fewshot_rules", default=True)
 _RULES_LOCK = threading.Lock()
+_KEY_LOCKS: dict[str, threading.Lock] = {}     # one per pool: the same pool is induced once, others in parallel
 _RULES_MEM: dict[str, str] = {}
 _NOT_A_DECISION = ("reasoning", "confidence")
 
@@ -334,7 +335,9 @@ def rulebook(specialist: str, current_input) -> tuple[str, int]:
     task = {k: v for k, v in (current_input or {}).items() if k not in CONTENT_KEYS}
     key = hashlib.sha256(json.dumps([specialist, task, shown] + ([counter] if counter else []),
                                     default=str).encode()).hexdigest()[:20]
-    with _RULES_LOCK:                                # induce once per pool, even under parallel calls
+    with _RULES_LOCK:
+        key_lock = _KEY_LOCKS.setdefault(key, threading.Lock())
+    with key_lock:                                   # induce once per pool, even under parallel calls
         if key not in _RULES_MEM:
             path = RULES_DIR / f"{specialist}-{key}.json"
             if path.exists():
