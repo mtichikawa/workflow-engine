@@ -110,7 +110,8 @@ def _html(c: dict) -> str:
 
 # "stress": 15 more cards, photographed badly on purpose — small, blurred, heavily compressed, steep —
 # to find where reading breaks (the normal set scored perfectly, which says it was too easy).
-TIERS = {"normal": (N, 20261014, ""), "stress": (15, 20261015, "stress")}
+TIERS = {"normal": (N, 20261014, ""), "stress": (15, 20261015, "stress"),
+         "stress2": (20, 20261016, "stressb")}         # fresh bad photos, made after the reader was changed
 
 
 def make(tier: str = "normal") -> None:
@@ -124,6 +125,7 @@ def make(tier: str = "normal") -> None:
     for c in cards:
         if prefix:
             c["id"], c["hard"] = f"{prefix}{c['id'][4:]}", True
+    suffix = "" if tier == "normal" else f"-{tier}"
     with sync_playwright() as pw:
         br = pw.chromium.launch()
         pg = br.new_page(viewport={"width": 1012, "height": 638})
@@ -143,7 +145,7 @@ def make(tier: str = "normal") -> None:
                 im = im.filter(ImageFilter.GaussianBlur(1.3))
             im.save(DIR / f"{c['id']}.jpg", "JPEG", quality=48 if c["hard"] else 72)
         br.close()
-    (DIR / f"truth{'-' + prefix if prefix else ''}.jsonl").write_text(
+    (DIR / f"truth{suffix}.jsonl").write_text(
         "".join(json.dumps(c, ensure_ascii=False) + "\n" for c in cards))
     print(f"wrote {len(cards)} cards to {DIR}")
 
@@ -188,6 +190,9 @@ def score(tier: str = "normal") -> None:
         rows.append(row)
     allf = [x for v in per_field.values() for x in v]
     present = [ok for ok, k in allf if k == "present"]
+    printed = [x for r in rows if "fields" in r for x in r["fields"].values() if x["want"] is not None]
+    misread = sum(1 for x in printed if not x["ok"] and x["got"] is not None)
+    blank = sum(1 for x in printed if x["got"] is None)
     absent = [ok for ok, k in allf if k == "absent"]
     done = [r for r in rows if "fields" in r]
     perfect = [all(x["ok"] for x in r["fields"].values()) for r in done]
@@ -198,6 +203,8 @@ def score(tier: str = "normal") -> None:
            "errors": sum(1 for r in rows if "error" in r),
            "fields printed on the card, read exactly right": rate(sum(present), len(present)),
            "fields NOT on the card, left empty (not guessed)": rate(sum(absent), len(absent)),
+           "printed fields MISREAD (a wrong value given)": rate(misread, len(printed)),
+           "printed fields left empty (unreadable or missed)": rate(blank, len(printed)),
            "cards with every field right": rate(sum(perfect), len(perfect)),
            "harder photos, fields right": rate(sum(hard), len(hard)),
            "normal photos, fields right": rate(sum(easy), len(easy)),

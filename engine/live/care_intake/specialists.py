@@ -46,9 +46,13 @@ def _iso(d: str | None) -> str | None:
     return None
 
 
+UNREADABLE = "[?]"
+
+
 def _norm(value, typ: str):
-    """Coerce a model-read value to the field's type; anything unreadable is None (= missing)."""
-    if value in (None, "", "null", "None", "unknown", "n/a", "N/A", "blank", "[blank]"):
+    """Coerce a model-read value to the field's type; anything unreadable is None (= missing). A value with
+    a character the reader couldn't make out ([?]) is None too: a gap a person fills, never a guess."""
+    if value in (None, "", "null", "None", "unknown", "n/a", "N/A", "blank", "[blank]") or UNREADABLE in str(value):
         return None
     s = str(value).strip()
     if typ == "int":
@@ -96,8 +100,10 @@ class ReadDocument(Specialist):
             f"Transcribe the {len(images)} attached page image(s) — a scanned fax, form or photo of a card. "
             "Copy every printed and handwritten line exactly as it appears, in reading order, one page after "
             "another (mark each '--- page N ---'). Keep labels with their values. Write [blank] for an empty "
-            "field or signature line, [X] for a checked box and [ ] for an empty one. Do not correct, complete "
-            "or summarize anything. Output only the transcription.",
+            "field or signature line, [X] for a checked box and [ ] for an empty one. Where you cannot make out "
+            "a character with confidence — blur, glare, a fold — write [?] in its place instead of your best "
+            "guess; IDs, numbers and dates especially. Do not correct, complete or summarize anything. Output "
+            "only the transcription.",
             system="You are a meticulous document transcriber.", files=images)
         return {"text": "\n\n".join(texts + [r.strip()]), "method": f"model read {len(images)} page image(s)",
                 "pages": len(images) + len(texts)}
@@ -124,7 +130,8 @@ class FillForm(Specialist):
         docs = "\n\n".join(f"=== {name} ===\n{text}" for name, text in input["documents"].items())
         r = brain_json(
             "Fill each FIELD from the DOCUMENTS. Copy what they state; do not infer, calculate or guess. "
-            "A field that is not stated — or is [blank] / 'No answer' on a form — is null.\n"
+            "A field that is not stated — or is [blank] / 'No answer' on a form — is null. Keep any [?] (a "
+            "character the reader couldn't make out) exactly where it is in the value.\n"
             "Dates as YYYY-MM-DD. yes/no fields as \"yes\" or \"no\".\n\n"
             f"FIELDS:\n{wanted}\n\nDOCUMENTS:\n{docs}\n\n"
             'Return JSON: {"fields": {<name>: {"value": <value or null>, "source": <document name or null>}}, '
@@ -137,6 +144,8 @@ class FillForm(Specialist):
             cell = cell if isinstance(cell, dict) else {"value": cell, "source": None}
             v = _norm(cell.get("value"), f["type"])
             fields[f["name"]] = {"value": v, "source": cell.get("source") if v is not None else None}
+            if v is None and UNREADABLE in str(cell.get("value")):
+                fields[f["name"]].update(unreadable=str(cell["value"]), source=cell.get("source"))
         missing = [f["name"] for f in spec if f.get("required") and fields[f["name"]]["value"] is None]
         return {"fields": fields, "missing": missing, "reasoning": one_sentence(r.get("reasoning"))}
 
