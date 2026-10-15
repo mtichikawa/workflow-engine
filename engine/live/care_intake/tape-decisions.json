@@ -2,11 +2,10 @@
  "composed": [
   "read_document",
   "fill_form",
-  "verify",
   "coverage_rules",
+  "claim_draft",
   "classify",
   "handoff_note",
-  "claim_draft",
   "patient_reply",
   "verify",
   "assemble_packet",

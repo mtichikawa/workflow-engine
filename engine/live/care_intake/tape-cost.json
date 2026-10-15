@@ -1,7 +1,7 @@
 {
  "model": "claude-opus-5-5",
  "calls": 9,
- "usd_list_price": 1.55,
- "what": "one full demo run: compose + run to the gate, recorded and metered in isolation on 2026-10-14",
+ "usd_list_price": 1.57,
+ "what": "one full demo run: compose + run to the gate, recorded and metered in isolation on 2026-10-14 20:45",
  "metered_by": "the Claude CLI (total_cost_usd per call, list prices)"
 }
