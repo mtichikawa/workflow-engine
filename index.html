@@ -134,7 +134,7 @@ details li .q{color:var(--dim);font:12px var(--display)}
 .mini{display:inline-block;width:26px;height:15px;border-radius:3px;border:1px solid var(--gline);border-left-width:3px;background:#333a45;flex:none}
 .mini.shared{background:#2c3a49;border-left-color:var(--steel)}
 .mini.domain{background:#43391f;border-color:#5a4c2b;border-left-color:var(--brass)}
-.mini.gate{background:#432e18;border:1px dashed var(--amber);border-left:3px solid var(--amber)}
+.mini.gate{background:var(--amber);border:2px dashed var(--amber);outline:1px solid #14171c;outline-offset:-3px}
 .mini.run{background:var(--node);border-color:var(--blue);box-shadow:0 0 0 1.5px var(--blue),0 0 8px rgba(111,159,216,.7)}
 .mini.done{background:var(--node);border-color:var(--green);box-shadow:0 0 0 1.5px var(--green)}
 .ln{display:inline-block;width:26px;height:0;flex:none}
@@ -171,8 +171,8 @@ body.gmax{overflow:hidden}
 .gn.in .nhead{background:#26384f;border-left-color:var(--blue)}
 .gn.shared .nhead{background:#2c3a49;border-left-color:var(--steel)}
 .gn.domain .nhead{background:#43391f;border-left-color:var(--brass)}
-.gn.gate .nhead{background:#432e18;border-left-color:var(--amber)}
-.gn.domain{border-color:#5a4c2b} .gn.gate{border-color:var(--amber);border-style:dashed}
+.gn.gate .nhead{background:var(--amber);color:#1b1206;border-left-color:#f0b878}
+.gn.domain{border-color:#5a4c2b} .gn.gate{border:2.5px dashed var(--amber);box-shadow:0 0 0 1px rgba(216,148,74,.25),0 6px 16px rgba(0,0,0,.35)}
 .gn .nsub{padding:5px 10px;height:23px;font-size:10.5px;color:var(--steel);border-bottom:1px solid var(--gline);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gn .row{position:relative;height:23px;display:flex;align-items:center;font-size:11.5px;color:var(--mut)}
 .gn .row.out{justify-content:flex-end;padding-right:11px;color:var(--ink)}
@@ -365,7 +365,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
         <div class="lg"><b>Box colour</b>
           <span><i class="mini shared"></i><span id="lglib">from the shared library</span></span>
           <span><i class="mini domain"></i><span id="lgown">written for this case</span></span>
-          <span><i class="mini gate"></i>a person decides</span></div>
+          <span><i class="mini gate"></i>a person approves before anything leaves</span></div>
         <div class="lg"><b>When you press play</b>
           <span><i class="mini run"></i>working now</span>
           <span><i class="mini done"></i>finished</span></div>
@@ -742,9 +742,9 @@ JUNC.forEach(j => { j.hit = document.createElementNS(NS, "path"); j.hit.setAttri
 { const L = {split: "one result feeds several steps", merge: "several results feed one step", loop: "the loop: a failed reply goes back to be redrafted", gate: "a decision that picks the next step", data: "passes a result along"};
   $("#lglines").insertAdjacentHTML("beforeend", ["data", "split", "merge", "loop", "gate"].filter(t => G.wtopo.includes(t) || G.junctions.some(j => (t === "split" && j.io === "out") || (t === "merge" && j.io === "in")))
     .map(t => { const [c, , dash] = G.WCOL[t]; return `<span><i class="ln" style="border-top:2.5px ${dash ? "dashed" : "solid"} ${c}"></i>${L[t]}</span>`; }).join("")); }
-$("#lglib").textContent = `from the shared library (${GD.lib.length} of the ${GD.lib_size}: ${GD.lib.join(", ")})`;
+$("#lglib").textContent = `from the shared library (${GD.lib.length} of its ${GD.lib_size})`;
 $("#hw-lib").textContent = GD.lib.length; $("#hw-own").textContent = GD.own.length;
-$("#lgown").textContent = `written for this healthcare case (${GD.own.length})`;
+$("#lgown").textContent = `written for this case (${GD.own.length})`;
 const CONN = {}; GN.forEach(n => CONN[n.id] = new Set()); GW.forEach(w => { CONN[w[0]].add(w[2]); CONN[w[2]].add(w[0]); });
 // a wire's resting look: its kind's colour; during playback, lit once both ends have run
 const baseWire = i => { const p = WP[i], w = GW[i], [c, op, dash] = G.WCOL[G.wtopo[i]] || G.WCOL.data, started = Object.keys(ST).length > 0;
