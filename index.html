@@ -49,6 +49,14 @@ section{margin-top:72px}
 .hero h1{font-size:clamp(28px,4.6vw,46px);line-height:1.1;margin:0}
 .hero p{font-size:18px;color:var(--mut);margin:0;max-width:64ch}
 .hero p b{color:var(--ink);font-weight:500}
+.points{margin:0;padding-left:20px;display:grid;gap:4px;font-size:17px;color:var(--mut);max-width:64ch}
+.points b{color:var(--ink);font-weight:500}
+.kv{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 14px;font-size:14px;color:var(--mut)}
+.kv dt{font:600 11px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--brass);padding-top:3px}
+.kv dd{margin:0}
+.kv dd b{color:var(--ink);font-weight:500}
+@media (max-width:760px){.kv{grid-template-columns:minmax(0,1fr);gap:2px}.kv dd{margin-bottom:6px}}
+.sechead ul{margin:0;padding-left:20px;display:grid;gap:4px;color:var(--mut);max-width:78ch}
 .byline{font-size:14px;color:var(--mut)}
 .byline b{color:var(--ink);font-weight:500}
 .byline.open{color:var(--ink);font-size:14.5px;border-left:3px solid var(--brass);padding-left:10px}
@@ -248,7 +256,13 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <header class="hero">
   <div class="eyebrow">A from-scratch AI workflow engine</div>
   <h1>Describe a task in plain English. Get an AI workflow you can check.</h1>
-  <p>It builds the workflow out of small AI specialists, <b>refuses to run a broken plan</b>, <b>stops for a person</b> before anything leaves it, and <b>learns a team's unwritten rules</b> from their corrections. Every number below comes from a test set written separately from the engine, and can be re-run.</p>
+  <ul class="points">
+    <li>Builds the workflow from <b>small, single-job AI specialists</b></li>
+    <li><b>Refuses to run</b> a plan that's wired wrong</li>
+    <li><b>Stops for a person</b> before anything leaves it</li>
+    <li><b>Learns a team's unwritten rules</b> from their corrections</li>
+  </ul>
+  <p class="note" style="margin:0;font-size:14px">Every number below comes from a test set written separately from the engine, and can be re-run.</p>
   <div class="byline">Designed and built from scratch by <b>Mike Ichikawa</b> · <a href="https://mtichikawa.github.io/">portfolio</a> · <a href="https://mtichikawa.github.io/resume.html">résumé</a> · <a href="https://www.linkedin.com/in/mike-ichikawa">LinkedIn</a> · <a href="mailto:projects.ichikawa@gmail.com">projects.ichikawa@gmail.com</a></div>
   <div class="byline open">Open to applied AI engineering roles (AI/agent engineer, forward-deployed, AI product), including founding roles · remote, or on-site in the Portland area</div>
 </header>
@@ -258,7 +272,11 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <section id="learn" aria-labelledby="learn-h">
   <div class="sechead">
     <h2 id="learn-h">It learns the rules nobody wrote down</h2>
-    <p>A clinic routes patient-portal messages by a 15-rule protocol the engine is never shown; it knows only the 6 queue names. Staff correct it as it works. Drag to add corrections and watch messages it got wrong come right, each with the rule it had to work out. Scored on 150 messages it never saw.</p>
+    <ul>
+      <li>A clinic routes patient messages by a <b>15-rule protocol the engine is never shown</b>; it knows only the 6 queue names.</li>
+      <li>Staff correct it as it works. <b>Drag the slider</b> to add corrections and watch wrong answers come right.</li>
+      <li>Scored on 150 messages it never saw.</li>
+    </ul>
   </div>
   <div class="learn">
     <div class="panel">
@@ -348,7 +366,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="panel claim">
     <div><div class="eyebrow" style="font-size:11px">1 · Hold the medical line</div><div class="num" id="tri-num"></div><div class="vs" id="tri-vs"></div></div>
     <div><h3 id="tri-h" style="margin:0 0 6px">A patient app's assistant must send anything medical to a person and never answer it.</h3>
-      <p style="margin:0;color:var(--mut);font-size:14px" id="tri-desc"></p>
+      <dl class="kv" id="tri-desc"></dl>
       <div id="tri-hard"></div><div id="tri-fa"></div>
       <p class="note">On a message that mixes paperwork with a symptom, the patient gets an answer to the paperwork, a fixed safety message, and a nurse is alerted. <a href="#run">See it in a real run</a>, under “Reply to the patient”.</p></div>
   </div>
@@ -357,7 +375,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="panel claim">
     <div><div class="eyebrow" style="font-size:11px">2 · Admit what it can't do</div><div class="num" id="cmp-num"></div><div class="vs" id="cmp-vs"></div></div>
     <div><h3 id="cmp-h" style="margin:0 0 6px">Asked for a job it can't do, does it say so, or fake a plan?</h3>
-      <p style="margin:0;color:var(--mut);font-size:14px" id="cmp-desc"></p>
+      <dl class="kv" id="cmp-desc"></dl>
       <div id="cmp-fake"></div><div id="cmp-over"></div><div id="cmp-flag"></div>
       <div class="listblock"><h4>How it got there: each change, measured on a fresh set written after it</h4>
       <div class="tw2"><table class="kinds"><thead><tr><th>Set</th><th>The change</th><th>Doable → planned</th><th>Impossible → faked</th></tr></thead><tbody id="cmp-hist"></tbody></table></div></div></div>
@@ -367,7 +385,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="panel claim">
     <div><div class="eyebrow" style="font-size:11px">3 · Refuse a broken workflow</div><div class="num" id="val-num"></div><div class="vs" id="val-vs"></div></div>
     <div><h3 id="val-h" style="margin:0 0 6px">Before anything runs, does it catch a workflow that's wired wrong?</h3>
-      <p style="margin:0 0 10px;color:var(--mut);font-size:14px" id="val-desc"></p>
+      <dl class="kv" id="val-desc" style="margin-bottom:10px"></dl>
       <details><summary id="val-sum">Every kind of fault, before and now</summary><div class="tw2"><table class="kinds"><thead><tr><th>Kind of fault (in the outside list's words)</th><th>Before</th><th>Now</th></tr></thead><tbody id="val-kinds"></tbody></table></div></details>
       <details><summary>What the validator says about five of them</summary><ul id="val-ex"></ul></details></div>
   </div>
@@ -377,23 +395,23 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <!-- ============================== HOW ============================== -->
 <div class="page" data-page="how" hidden>
 <section style="margin-top:30px" aria-labelledby="h-h">
-  <div class="sechead"><h2 id="h-h">How it works</h2><p>One sentence becomes a checked workflow of small, single-job specialists. A person approves before anything leaves it, and their corrections teach it.</p></div>
+  <div class="sechead"><h2 id="h-h">How it works</h2><ul><li>One sentence becomes a <b>checked workflow</b> of small, single-job specialists.</li><li>A person <b>approves</b> before anything leaves it.</li><li>Their <b>corrections teach it</b>.</li></ul></div>
   <div class="panel"><svg class="arch" viewBox="0 0 1080 250" role="img" aria-label="Request, composer, validator, board, gate, staged output; the library feeds the composer and corrections feed the board" id="arch"></svg></div>
   <div class="built" style="margin-top:14px">
-    <div class="panel"><h3>A shared library</h3><p>15 single-job specialists (classify, verify, match, extract, act…), one instance each. A workflow configures them; it never copies them. A new job mostly reuses what's on the shelf.</p></div>
-    <div class="panel"><h3>Checked before it runs</h3><p>A static validator follows every wire and condition: each step must read something that exists and has already run, and any step that acts outside the engine must sit behind a human gate.</p></div>
-    <div class="panel"><h3>Model where judgment is needed, code where it isn't</h3><p>Reading a scan or a message is a model call. Plan rules, the claim form and the safety sentence are plain code: the same every time, and auditable.</p></div>
+    <div class="panel"><h3>A shared library</h3><p>15 single-job specialists (classify, verify, extract, act…). A workflow configures them, never copies them, so a new job mostly reuses what's on the shelf.</p></div>
+    <div class="panel"><h3>Checked before it runs</h3><p>Every wire must lead to something that exists and has already run. Any step that acts outside the engine must sit behind a human gate.</p></div>
+    <div class="panel"><h3>Model where judgment is needed, code where it isn't</h3><p>Reading a scan or a message: the model. Plan rules, the claim form and the safety sentence: plain code, the same every time.</p></div>
   </div>
 </section>
 
-<section aria-labelledby="bw-h" style="margin-top:20px"><div class="panel"><div class="eyebrow" style="font-size:11px" id="bw-h">Built with</div><p style="margin:6px 0 0;font-size:14px" id="facts"></p></div></section>
+<section aria-labelledby="bw-h" style="margin-top:20px"><div class="panel"><div class="eyebrow" style="font-size:11px" id="bw-h">Built with</div><dl class="kv" style="margin-top:8px" id="facts"></dl></div></section>
 
 <section aria-labelledby="hc-h">
   <div class="sechead"><h2 id="hc-h">For a healthcare team</h2><p>Design facts, not compliance claims.</p></div>
   <div class="steps3">
-    <div class="panel"><h3>Medical content goes to a person</h3><p>A written policy decides what counts as medical, including mental-health warning signs. The assistant never answers it; a nurse is alerted.</p></div>
-    <div class="panel"><h3>Replies stay inside the line</h3><p>Patient replies cover coverage and scheduling only. The safety sentence is fixed text added by code, and a second model checks every draft before a person sees it.</p></div>
-    <div class="panel"><h3>A record of every decision</h3><p>Nothing leaves without approval. The packet a person approves holds the claim, the reply, the nurse handoff, the open items, and every field with the document it came from.</p></div>
+    <div class="panel"><h3>Medical content goes to a person</h3><p>A written policy decides what's medical, mental-health warning signs included. The assistant never answers it; a nurse is alerted.</p></div>
+    <div class="panel"><h3>Replies stay inside the line</h3><p>Replies cover coverage and scheduling only. The safety sentence is fixed text; a second model checks every draft.</p></div>
+    <div class="panel"><h3>A record of every decision</h3><p>The packet a person approves holds the claim, the reply, the nurse handoff, the open items, and where every field came from.</p></div>
   </div>
   <p class="note">Model calls go to Anthropic's Claude; documents and results stay on the machine running the engine. It has not been tested on real patients or real payer systems.</p>
 </section>
@@ -401,43 +419,49 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <section aria-labelledby="hl-h">
   <div class="sechead"><h2 id="hl-h">How it learns</h2><p>No fine-tuning. Each workflow keeps its own corrections, and nothing crosses between workflows or customers.</p></div>
   <div class="steps3">
-    <div class="panel"><h3>1 · Instructions</h3><p>What the step is for: its categories, its criteria, any written policy. With no corrections, this is all it has.</p></div>
-    <div class="panel"><h3>2 · A rulebook it writes</h3><p>From 8 corrections on, it reads all of them once and writes down the rules they imply, then rewrites them when a correction changes.</p></div>
-    <div class="panel"><h3>3 · The closest examples</h3><p>On every call it also sees the 6 past corrections most like the current input, so the rules come with cases.</p></div>
+    <div class="panel"><h3>1 · Instructions</h3><p>What the step is for: its categories, criteria, any written policy. With no corrections, that's all it has.</p></div>
+    <div class="panel"><h3>2 · A rulebook it writes</h3><p>From 8 corrections on, it writes down the rules they imply, and rewrites them as corrections come in.</p></div>
+    <div class="panel"><h3>3 · The closest examples</h3><p>Each call also sees the 6 past corrections most like the input, so the rules come with cases.</p></div>
   </div>
   <div class="panel rules" style="margin-top:14px">
     <div><h4>The clinic's real rules (never shown to it)</h4><ol id="proto"></ol></div>
     <div class="wrote"><h4>Rules it wrote from 291 corrections</h4><ol id="learned"></ol></div>
   </div>
-  <p class="note">The first six of each, as written. Scored blind afterwards: 97.3% on 150 messages it never saw; with the real rules written out by hand: 100%.
-  <b>The honest comparison:</b> pasting all 291 corrections into one long prompt scored <span id="bigacc"></span> — just as accurate. What the rulebook adds is a prompt about 40% the size, rules a person can read, diff and lock, and nothing that grows with every new correction.</p>
+  <p class="note" style="margin:8px 0 6px">The first six of each, as written.</p>
+  <dl class="kv">
+    <dt>Its rulebook</dt><dd><b>97.3%</b> on 150 messages it never saw</dd>
+    <dt>Real rules, by hand</dt><dd>100%</dd>
+    <dt>One long prompt</dt><dd><span id="bigacc"></span> with all 291 corrections pasted in: <b>just as accurate</b></dd>
+    <dt>So the rulebook buys</dt><dd>a prompt about 40% the size, and rules a person can read, diff and lock</dd>
+  </dl>
 </section>
 
 <section aria-labelledby="wb-h">
-  <div class="sechead"><h2 id="wb-h">The workbench</h2><p>One page to make, keep, run and correct workflows: <code>python -m engine.app</code>. Describe a task, the composer drafts it, you adjust the steps in a form, and every save is a new version. Runs take pasted text, a CSV, a folder, a webhook, or a folder re-read on a schedule.</p></div>
+  <div class="sechead"><h2 id="wb-h">The workbench</h2><p>One page to make, keep, run and correct workflows: <code>python -m engine.app</code></p>
+  <ul><li>Describe a task; the composer drafts it; adjust the steps in a form</li><li>Every save is a new version</li><li>Runs take pasted text, a CSV, a folder, a webhook, or a folder on a schedule</li></ul></div>
   <div class="shots">
     <figure class="shot"><a href="assets/workbench-review.png" target="_blank" rel="noopener"><img src="assets/workbench-review.png" alt="A review card: each step's output, editable, with right / edited / wrong, and the held file step showing what approving will do" loading="lazy"></a>
-      <figcaption><b>Review.</b> For every step: leave it, correct it, or mark it wrong and say why — each becomes an example or a counterexample. One row per line for a "for each" step. The file step hasn't run: approving runs it. One item in five is kept aside to measure the workflow instead of teaching it.</figcaption></figure>
+      <figcaption><b>Review.</b> Each step: right, corrected, or wrong with a reason; each becomes an example. The file step waits: approving runs it. One item in five is kept aside to measure, not teach.</figcaption></figure>
     <figure class="shot"><a href="assets/workbench-editor.png" target="_blank" rel="noopener"><img src="assets/workbench-editor.png" alt="The workflow editor: three steps as forms, connections, and a live check" loading="lazy"></a>
-      <figcaption><b>Edit.</b> The composer's draft as forms, checked live by the validator; it won't save a workflow that fails. Rulebooks and per-step error rates have their own pages; a rulebook can be locked in a person's own words.</figcaption></figure>
+      <figcaption><b>Edit.</b> The composer's draft as forms, checked live; a workflow that fails won't save. Rulebooks and error rates have their own pages.</figcaption></figure>
   </div>
 </section>
 
 <section aria-labelledby="hm-h">
   <div class="twocol">
     <div><h2 id="hm-h" style="font-size:22px;margin:0">How each number was measured</h2><ol>
-      <li>A separate AI agent (Claude), with no access to the code or any training data, wrote the test set.</li>
-      <li>A second, independent Claude agent labelled every item again; only items both agreed on were kept. No person checked the labels.</li>
-      <li>The set was sealed with a hash before its first score, and scored once.</li>
-      <li>A change to the engine means a new set, never a re-score.</li>
-      <li>Every result carries its sample size, a baseline and a 95% confidence interval.</li></ol>
+      <li>A separate Claude agent, with no access to the code, wrote the test set.</li>
+      <li>A second one labelled it again; only items both agreed on were kept.</li>
+      <li>Sealed with a hash before the first score; scored once.</li>
+      <li>A change to the engine gets a new set, never a re-score.</li>
+      <li>Every result has its sample size, a baseline and a 95% interval.</li></ol>
       <p class="note">Method and raw results: <a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/blind-evals.md">docs/blind-evals.md</a> · <a href="https://github.com/mtichikawa/workflow-engine/tree/main/evals/blind-results">evals/blind-results</a></p></div>
     <div><h2 style="font-size:22px;margin:0">What it can't do yet</h2><ul>
-      <li><b>No real sending or submitting:</b> no email, no claims portal, no eligibility check against a payer.</li>
-      <li><b>No general image reader:</b> reading scans and photos exists only in the healthcare demo, and on a bad photo it leaves many fields for a person to fill (below).</li>
-      <li><b>One machine, no login:</b> the workbench is for one computer or a private network.</li>
+      <li><b>No real sending:</b> no email, no claims portal, no eligibility check with a payer.</li>
+      <li><b>No general image reader:</b> scans are read only in the healthcare demo.</li>
+      <li><b>One machine, no login.</b></li>
       <li><b>Learning beats a long prompt on size, not accuracy,</b> at a few hundred corrections.</li>
-      <li><b>Every test set and the engine itself use Claude models,</b> so they may share blind spots. All test data is synthetic, and no person checked the labels.</li></ul></div>
+      <li><b>Tests and engine both use Claude,</b> so they may share blind spots. All test data is synthetic; no person has checked the labels.</li></ul></div>
   </div>
   <details style="margin-top:14px"><summary>Bugs its own tests found (5)</summary><ul>
       <li><b>A step reached by both a "pass" and a "fail" edge was always skipped,</b> so the triage workflow's approval step never ran. Found by a seeded-fault test; fixed, with a regression test.</li>
@@ -734,14 +758,19 @@ const vs = (rows) => rows.map(([label, val, us]) => `<div class="${us ? "us" : "
 const tl = D.triage_lists;
 $("#tri-num").innerHTML = `${esc(P.triage.num)}<small>medical messages sent to a person, with ${esc(P.triage.fa)} false alarms</small>`;
 $("#tri-vs").innerHTML = vs([["this engine, false alarms", P.triage.fa, 1], ["same model, no written policy", String(D.counts.triage_bare_fa)], ["keyword rule, medical missed", String(tl.keyword_missed)]]);
-$("#tri-desc").innerHTML = `${D.counts.triage_n} messages a pregnant or postpartum patient might send, half medical. 45% were written to be hard: a symptom buried in a scheduling question, mental-health warning signs, non-medical messages full of medical words.<span class="ci">${esc(P.triage.ci)}</span>`;
+const kv = rows => rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+$("#tri-desc").innerHTML = kv([["Test", `${D.counts.triage_n} messages a pregnant or postpartum patient might send, half medical`],
+  ["Hard ones", "45%: a symptom buried in a scheduling question, mental-health warning signs, non-medical messages full of medical words"],
+  ["Margin", `<span class="ci" style="margin:0">${esc(P.triage.ci)}</span>`]]);
 const sample = (title, items, render, n = 3) => `<div class="listblock"><h4>${esc(title)}</h4><ul>${items.slice(0, n).map(render).join("")}</ul>${items.length > n ? `<details><summary>Show all ${items.length}</summary><ul>${items.slice(n).map(render).join("")}</ul></details>` : ""}</div>`;
 $("#tri-hard").innerHTML = sample(`Hard medical messages: all ${tl.hard_medical.length} caught (the keyword rule missed ${tl.keyword_missed} of 160 medical)`, tl.hard_medical, t => `<li>${esc(t)}</li>`);
 $("#tri-fa").innerHTML = sample(`Non-medical messages the same model flagged without the written policy: ${tl.false_alarms.length}, all handled correctly here`, tl.false_alarms, t => `<li>${esc(t)}</li>`);
 const cl = D.composer_lists;
 $("#cmp-num").innerHTML = `${esc(P.composer.num)}<small>impossible jobs flagged as a gap instead of faked</small>`;
 $("#cmp-vs").innerHTML = vs([["flagged the gap", String(cl.flagged.length), 1], ["faked a plan", String(cl.fakes.length)], [`doable jobs given a runnable plan`, P.composer.possible], ["the version before these changes faked", String(P.composer.orig_faked)]]);
-$("#cmp-desc").innerHTML = `${D.counts.composer_n} requests a real user might type, written by an agent that saw only the list of specialists, after the last change to the composer — nothing was tuned on them. Some need something the library doesn't have: texting a patient, reading a photo, a system nobody connected.<span class="ci">${esc(P.composer.ci)}</span>`;
+$("#cmp-desc").innerHTML = kv([["Test", `${D.counts.composer_n} requests a real user might type, written after the last change to the composer; nothing was tuned on them`],
+  ["Impossible ones", "Need something the library lacks: texting a patient, reading a photo, a system nobody connected"],
+  ["Margin", `<span class="ci" style="margin:0">${esc(P.composer.ci)}</span>`]]);
 $("#cmp-fake").innerHTML = cl.fakes.length ? sample(`The ${cl.fakes.length} it faked, all of them`, cl.fakes, f => `<li>${esc(f.request)}<div class="q">needed: ${esc(f.missing)} · planned anyway: <code class="f">${f.steps.map(esc).join(" → ")}</code></div></li>`, 7) : "";
 $("#cmp-over").innerHTML = cl.over.length ? sample(`The ${cl.over.length === 1 ? "one doable request" : cl.over.length + " doable requests"} it got wrong`, cl.over, f => `<li>${esc(f.request)}<div class="q">wrongly flagged: ${esc((f.gaps || []).join(", "))}</div></li>`) : "";
 $("#cmp-flag").innerHTML = sample(`The ${cl.flagged.length} it flagged as a gap`, cl.flagged, f => `<li>${esc(f.request)}<div class="q">gap flagged: ${esc((f.gaps || []).join(", "))}</div></li>`);
@@ -755,7 +784,9 @@ $("#more").innerHTML = [
 $("#cmp-hist").innerHTML = D.composer_hist.map(h => `<tr><td class="n">${h.set} · ${h.n}</td><td>${esc(h.change)}</td><td class="n">${h.before.runnable.k}/${h.before.runnable.n} → <b>${h.after.runnable.k}</b></td><td class="n">${h.before.faked.k}/${h.before.faked.n} → <b>${h.after.faked.k}</b></td></tr>`).join("");
 $("#val-num").innerHTML = `${esc(P.validator.num)}<small>of ${D.counts.validator_n} deliberately broken workflows refused before anything ran</small>`;
 $("#val-vs").innerHTML = vs([["now", P.validator.num, 1], ["before this work", P.validator.before], ["false alarms on real workflows", "0"]]);
-$("#val-desc").textContent = `Workflows broken on purpose, then checked before they run. A separate agent listed the ways a workflow can be wired wrong, without seeing the validator. Each kind was planted at every place it fits in five real workflows. The new checks were written after reading that list, so "now" measures coverage of a known list. The one kind it misses (a reference with nothing before the dot) looks exactly like a plain text value.`;
+$("#val-desc").innerHTML = kv([["Test", `${D.counts.validator_n} workflows broken on purpose: every kind of fault on an outside agent's list, planted everywhere it fits in five real workflows`],
+  ["Caveat", "The new checks were written after reading that list, so “now” measures coverage of a known list"],
+  ["Misses", "One kind: a reference with nothing before the dot looks exactly like plain text"]]);
 $("#val-sum").textContent = `All ${D.validator_kinds.length} kinds of fault, before and now`;
 $("#val-kinds").innerHTML = D.validator_kinds.map(k => `<tr><td>${esc(k.what)}</td><td class="n">${k.before.k}/${k.before.n}</td><td class="n ${k.after.k === k.after.n ? "ok" : ""}">${k.after.k}/${k.after.n}</td></tr>`).join("");
 $("#val-ex").innerHTML = D.validator.map(v => `<li><code class="f">${esc(v.fault)}</code><div class="q">now: ${esc(v.now)}</div></li>`).join("");
@@ -771,7 +802,9 @@ $("#arch").innerHTML = (() => { const box = (x, y, w, t, s, main) => `<rect x="$
     + main.map(([t, s], i) => box(xs[i], 30, w, t, s, i === 5)).join("") + xs.slice(0, 5).map(x => arrow(x + w, 59, x + w + 18, 59)).join("")
     + box(190, 170, 250, "Library", "15 shared specialists", false) + arrow(240, 170, 240, 92)
     + box(550, 170, 340, "Corrections, per workflow", "a rulebook + the 6 closest examples", false) + arrow(630, 170, 630, 92) + `<path d="M810 92 L810 130 L760 130 L760 170" stroke="#6d7684" stroke-width="1.4" fill="none" marker-end="url(#ar)"/><text x="818" y="136" font-family="IBM Plex Sans" font-size="12" fill="#6d7684">approvals and edits</text>`; })();
-$("#facts").textContent = `Python ${F.python}+, core on the standard library only, no agent framework · ${F.loc.toLocaleString("en-US")} lines · ${F.tests} tests · runs on ${F.model_name} through the Claude CLI · one full demo run: ${F.calls} model calls, $${F.usd.toFixed(2)} at API list price, no per-call charge on a Max plan.`;
+$("#facts").innerHTML = kv([["Code", `Python ${F.python}+, standard library only, no agent framework · ${F.loc.toLocaleString("en-US")} lines · ${F.tests} tests`],
+  ["Model", `${F.model_name}, through the Claude CLI`],
+  ["One demo run", `${F.calls} model calls · $${F.usd.toFixed(2)} at API list price · no per-call charge on a Max plan`]]);
 $("#copy").onclick = async () => { const t = $("#cmds").textContent; try { await navigator.clipboard.writeText(t); $("#copy").textContent = "Copied"; } catch { const r = document.createRange(); r.selectNodeContents($("#cmds")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("#copy").textContent = "Selected: press ⌘C"; } };
 
 // ---------------- pages ----------------
