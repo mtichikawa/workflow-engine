@@ -125,9 +125,19 @@ details li .q{color:var(--dim);font:12px var(--display)}
 .stage{--node:#2a2f38;--gline:#3a414d;--grid:#1b1f26;--steel:#7b9bc4;--amber:#d8944a;--green:#57b083;--red:#d06a5f;
   position:relative;overflow-x:auto;overflow-y:hidden;border-radius:10px;border:1px solid var(--gline);
   background-color:#14171c;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px}
-.stage .legend{position:absolute;top:10px;left:12px;display:flex;gap:14px;font-size:11px;color:var(--mut);z-index:3;flex-wrap:wrap;margin:0}
-.stage .legend span{display:flex;gap:6px;align-items:center}
-.stage .legend i{width:12px;height:12px;border-radius:3px;border:1px solid;display:inline-block}
+.stage .legend{position:absolute;top:10px;left:12px;right:12px;display:grid;gap:6px;font-size:12.5px;color:var(--mut);z-index:3;margin:0}
+.stage .legend .lg{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center}
+.stage .legend b{font:600 10.5px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);min-width:150px}
+.stage .legend span{display:flex;gap:7px;align-items:center}
+@media (max-width:760px){.stage .legend b{min-width:0;width:100%}}
+.mini{display:inline-block;width:26px;height:15px;border-radius:3px;border:1px solid var(--gline);border-left-width:3px;background:#333a45;flex:none}
+.mini.shared{background:#2c3a49;border-left-color:var(--steel)}
+.mini.domain{background:#43391f;border-color:#5a4c2b;border-left-color:var(--brass)}
+.mini.gate{background:#432e18;border:1px dashed var(--amber);border-left:3px solid var(--amber)}
+.mini.run{background:var(--node);border-color:var(--blue);box-shadow:0 0 0 1.5px var(--blue),0 0 8px rgba(111,159,216,.7)}
+.mini.done{background:var(--node);border-color:var(--green);box-shadow:0 0 0 1.5px var(--green)}
+.ln{display:inline-block;width:26px;height:0;flex:none}
+
 #sizer{height:1px}
 .gtools{position:absolute;bottom:8px;right:10px;z-index:4;display:flex;gap:6px}
 
@@ -352,11 +362,14 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="panel">
     <div class="stage" id="stage">
       <div class="legend">
-        <span><i style="background:#2c3a49;border-color:#7b9bc4"></i>reused from the library</span>
-        <span><i style="background:#43391f;border-color:var(--brass)"></i>built for this job</span>
-        <span><i style="background:#432e18;border-color:#d8944a;border-style:dashed"></i>human gate</span>
-        <span><i style="background:transparent;border-color:var(--blue)"></i>running</span>
-        <span><i style="background:transparent;border-color:#57b083"></i>done</span>
+        <div class="lg"><b>Box colour</b>
+          <span><i class="mini shared"></i>a shared specialist, reused from the library</span>
+          <span><i class="mini domain"></i>built for this job</span>
+          <span><i class="mini gate"></i>a person decides</span></div>
+        <div class="lg"><b>When you press play</b>
+          <span><i class="mini run"></i>working now</span>
+          <span><i class="mini done"></i>finished</span></div>
+        <div class="lg" id="lglines"><b>Lines</b></div>
       </div>
       <div class="gtools"><button class="btn small" id="gplay" hidden>▶ Play</button><button class="btn small" id="gmax" aria-pressed="false">⤢ Full screen</button></div>
       <div id="sizer"></div><div id="world"><svg id="wires"></svg></div>
@@ -731,6 +744,9 @@ JUNC.forEach(j => { j.hit = document.createElementNS(NS, "path"); j.hit.setAttri
     GW.forEach((w, i) => { if (j.io === "out" ? (w[0] === j.node && w[1] === j.sock) : (w[2] === j.node && w[3] === j.sock)) { idx.add(i); nodes.add(j.io === "out" ? w[2] : w[0]); } });
     litWires(i => idx.has(i), nodes); }); });
   j.hit.addEventListener("mouseleave", () => { if (!expId && !animating) offWire(); }); });
+{ const L = {split: "one result feeds several steps", merge: "several results feed one step", loop: "the loop: a failed reply goes back to be redrafted", gate: "a decision that picks the next step", data: "passes a result along"};
+  $("#lglines").insertAdjacentHTML("beforeend", ["data", "split", "merge", "loop", "gate"].filter(t => G.wtopo.includes(t))
+    .map(t => { const [c, , dash] = G.WCOL[t]; return `<span><i class="ln" style="border-top:2.5px ${dash ? "dashed" : "solid"} ${c}"></i>${L[t]}</span>`; }).join("")); }
 const CONN = {}; GN.forEach(n => CONN[n.id] = new Set()); GW.forEach(w => { CONN[w[0]].add(w[2]); CONN[w[2]].add(w[0]); });
 // a wire's resting look: its kind's colour; during playback, lit once both ends have run
 const baseWire = i => { const p = WP[i], w = GW[i], [c, op, dash] = G.WCOL[G.wtopo[i]] || G.WCOL.data, started = Object.keys(ST).length > 0;
