@@ -98,3 +98,51 @@ Labellers agreed on 120/120. Drafting was off (the default).
 | possible: flagged a gap anyway | 14/72 — 19.4% — mostly "for each item" iteration inside one work-item, which the engine really lacks |
 | impossible: gap flagged instead of faked | **41/48 — 85.4% (72.8–92.8)** |
 | impossible: faked (a runnable plan, no gap) | 7/48 — 14.6% — mostly `act` (which only stages a file) planned as if it could text, pay or fax |
+
+### 4b. Composer changes, each measured on a fresh blind set (2026-10-14, later)
+
+Set 1's misses (14 doable requests flagged as gaps, 7 impossible ones faked) were studied, so set 1 can't
+measure the fixes. Each change was instead scored on a NEW set, written blind from the catalogue after the
+change, double-labelled (only agreed items kept), sealed, and scored once on the code just before and just
+after the change.
+
+| set | the change | doable → runnable plan | impossible → faked |
+|---|---|---|---|
+| 2 (99) | for-each steps; whole-list judgments; `act`'s card says what it can't send | 51/61 → **61/61** | 17/38 → **9/38** |
+| 3 (96) | an outside system with no MCP server named is a gap | 58/58 → 55/58 | 4/38 → **2/38** |
+| 4 (95) | how items arrive is never a gap; the library reads text only | 54/57 → **56/57** | 4/38 → **0/38** |
+
+The change on set 3 was a trade (3 doable requests newly flagged as gaps); set 4's change targeted those.
+On set 4, which no version was tuned on, **this morning's composer faked 12/38 and planned 54/57; the final
+composer faked 0/38 (95% CI 0–9.2%) and planned 56/57**. Raw: `evals/blind-results/composer{2,3,4}*.json`.
+
+## 5. One long prompt instead of the engine's learning
+
+Same split and 150 test messages as 2b. The same model, with **all 291 corrections pasted into each prompt**
+(no rulebook, no retrieval): **147/150 — 98.0% (94.3–99.3)**, tricky ones 83/86. The engine's rulebook +
+examples: 146/150 — 97.3%. **No accuracy difference.** The engine's prompt was ≈11.3k characters per message
+against ≈28.3k (measured on 20 test messages), and its rules are readable and lockable; at a few hundred
+corrections, those — not accuracy — are what the rulebook buys. (`python evals/blind.py bigprompt --set routing2`)
+
+## 6. Reading insurance-card photos (generated, not blind)
+
+30 SYNTHETIC cards in three layouts, photographed on a table (perspective, glare, JPEG; a third blurred and
+steeper). Truth is known by construction, so no labeller. The care-intake demo's own steps
+(`read_document` → `fill_form`): **282/282 printed fields exact (98.7–100), 18/18 absent fields left empty**.
+Too easy to separate anything, so 15 cards were photographed badly on purpose (640×480, heavy blur, JPEG 30,
+15–28°): 84/138 printed fields exact, and **27 of the 54 misses were confident wrong values** (a member ID
+`KK…` read as `KR…`, an invented phone number) — worse than a blank, which a person would see.
+(`python evals/extraction.py score [stress]`)
+
+**The fix, measured on 20 fresh bad photos** (made after the change; same reader before vs after): the
+reader now writes `[?]` for a character it can't make out, and the form-filler turns such a value into a gap
+for a person instead of a guess.
+
+| reader | printed fields right | **confidently wrong** | left empty for a person |
+|---|---|---|---|
+| before | 119/190 | **45/190 — 23.7% (18.2–30.2)** | 26/190 |
+| marks what it can't read | 73/190 | **3/190 — 1.6% (0.5–4.5)** | 114/190 |
+
+Two of the three remaining are accents (`Zoë` → `ZOÉ`, `Ramírez` → `Ramirez`). The cost is real: about 46
+fields it used to read right now come back blank, for a person to key in. On the 30 normal photos the fix
+changed nothing: 282/282 exact, 0 wrongly blanked. (`python evals/extraction.py score stress2`)

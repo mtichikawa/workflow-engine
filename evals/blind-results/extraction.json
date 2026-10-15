@@ -1,5 +1,5 @@
 {
- "what": "30 generated SYNTHETIC insurance-card photos; truth known by construction (not labelled)",
+ "what": "30 generated SYNTHETIC insurance-card photos (normal); truth known by construction",
  "pipeline": "read_document (model reads the photo) -> fill_form",
  "cards": 30,
  "errors": 0,
@@ -19,6 +19,24 @@
   "ci95": [
    0.8241,
    1.0
+  ]
+ },
+ "printed fields MISREAD (a wrong value given)": {
+  "k": 0,
+  "n": 282,
+  "rate": 0.0,
+  "ci95": [
+   0.0,
+   0.0134
+  ]
+ },
+ "printed fields left empty (unreadable or missed)": {
+  "k": 0,
+  "n": 282,
+  "rate": 0.0,
+  "ci95": [
+   0.0,
+   0.0134
   ]
  },
  "cards with every field right": {
@@ -140,8 +158,8 @@
    ]
   }
  },
- "seconds": 338.4,
- "measured": "2026-10-14 17:01 PDT",
+ "seconds": 205.3,
+ "measured": "2026-10-14 20:22 PDT",
  "items": [
   {
    "id": "card01",

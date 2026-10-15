@@ -1,0 +1,1305 @@
+{
+ "what": "20 generated SYNTHETIC insurance-card photos (stress2); truth known by construction",
+ "pipeline": "read_document (model reads the photo) -> fill_form",
+ "cards": 20,
+ "errors": 0,
+ "fields printed on the card, read exactly right": {
+  "k": 73,
+  "n": 190,
+  "rate": 0.3842,
+  "ci95": [
+   0.318,
+   0.455
+  ]
+ },
+ "fields NOT on the card, left empty (not guessed)": {
+  "k": 10,
+  "n": 10,
+  "rate": 1.0,
+  "ci95": [
+   0.7225,
+   1.0
+  ]
+ },
+ "printed fields MISREAD (a wrong value given)": {
+  "k": 3,
+  "n": 190,
+  "rate": 0.0158,
+  "ci95": [
+   0.0054,
+   0.0454
+  ]
+ },
+ "printed fields left empty (unreadable or missed)": {
+  "k": 114,
+  "n": 190,
+  "rate": 0.6,
+  "ci95": [
+   0.529,
+   0.667
+  ]
+ },
+ "cards with every field right": {
+  "k": 0,
+  "n": 20,
+  "rate": 0.0,
+  "ci95": [
+   0.0,
+   0.1611
+  ]
+ },
+ "harder photos, fields right": {
+  "k": 83,
+  "n": 200,
+  "rate": 0.415,
+  "ci95": [
+   0.3489,
+   0.4843
+  ]
+ },
+ "normal photos, fields right": {
+  "k": 0,
+  "n": 0,
+  "rate": null,
+  "ci95": [
+   0.0,
+   0.0
+  ]
+ },
+ "by field": {
+  "member_first": {
+   "k": 15,
+   "n": 20,
+   "rate": 0.75,
+   "ci95": [
+    0.5313,
+    0.8881
+   ]
+  },
+  "member_last": {
+   "k": 17,
+   "n": 20,
+   "rate": 0.85,
+   "ci95": [
+    0.6396,
+    0.9476
+   ]
+  },
+  "member_id": {
+   "k": 0,
+   "n": 20,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.1611
+   ]
+  },
+  "dob": {
+   "k": 1,
+   "n": 20,
+   "rate": 0.05,
+   "ci95": [
+    0.0089,
+    0.2361
+   ]
+  },
+  "effective_date": {
+   "k": 12,
+   "n": 20,
+   "rate": 0.6,
+   "ci95": [
+    0.3866,
+    0.7812
+   ]
+  },
+  "group_number": {
+   "k": 5,
+   "n": 20,
+   "rate": 0.25,
+   "ci95": [
+    0.1119,
+    0.4687
+   ]
+  },
+  "rx_bin": {
+   "k": 3,
+   "n": 20,
+   "rate": 0.15,
+   "ci95": [
+    0.0524,
+    0.3604
+   ]
+  },
+  "rx_pcn": {
+   "k": 10,
+   "n": 20,
+   "rate": 0.5,
+   "ci95": [
+    0.2993,
+    0.7007
+   ]
+  },
+  "plan_name": {
+   "k": 20,
+   "n": 20,
+   "rate": 1.0,
+   "ci95": [
+    0.8389,
+    1.0
+   ]
+  },
+  "member_services_phone": {
+   "k": 0,
+   "n": 20,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.1611
+   ]
+  }
+ },
+ "seconds": 229.5,
+ "measured": "2026-10-14 20:19 PDT",
+ "items": [
+  {
+   "id": "stressb01",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Siobhan",
+     "got": "SIOBHAN",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Achterberg",
+     "got": "ACHTERBERG",
+     "ok": true
+    },
+    "member_id": {
+     "want": "AC94236597",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1986-02-23",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-07-01",
+     "got": "2025-07-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "9055",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "720210",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-019-8734",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb02",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Tomasz",
+     "got": "TOMASZ",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Achterberg",
+     "got": "ACHTERBERG",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9637790329",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "2004-02-14",
+     "got": "2004-02-14",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G63250",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "234105",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-015-3416",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb03",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Siobhan",
+     "got": "Siobhan",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Haddad",
+     "got": "Haddad",
+     "ok": true
+    },
+    "member_id": {
+     "want": "CB31353768",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1980-07-15",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "15488",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "487436",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-019-1880",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb04",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Aaliyah",
+     "got": "AALIYAH",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Okafor",
+     "got": "OKAFOR",
+     "ok": true
+    },
+    "member_id": {
+     "want": "WB34793683",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1979-07-23",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "GRP58704",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-012-9374",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb05",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": null,
+     "ok": false
+    },
+    "member_last": {
+     "want": "Quiñones",
+     "got": null,
+     "ok": false
+    },
+    "member_id": {
+     "want": "9523345155",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "2005-11-01",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "41598",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-2380",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb06",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Hannah",
+     "got": "Hannah",
+     "ok": true
+    },
+    "member_last": {
+     "want": "MacPherson",
+     "got": "MacPherson",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9496639552",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1995-12-07",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "G54517",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "065005",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-1671",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb07",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": "FATIMA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Thibodeaux",
+     "got": "THIBODEAUX",
+     "ok": true
+    },
+    "member_id": {
+     "want": "300-23-1242",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1994-04-16",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-10-01",
+     "got": "2025-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "93021",
+     "got": "93021",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "677229",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-017-2080",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb08",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": "FATMA",
+     "ok": false
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "DELGADO-RUIZ",
+     "ok": true
+    },
+    "member_id": {
+     "want": "206-64-4179",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1996-12-28",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "22298",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "895372",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-010-3243",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb09",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Olusegun",
+     "got": "Olusegun",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Kowalczyk",
+     "got": "Kowalczyk",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9433427539",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1998-08-21",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-07-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "33988",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "408561",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-012-1370",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb10",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Zoë",
+     "got": "ZOÉ",
+     "ok": false
+    },
+    "member_last": {
+     "want": "Lindqvist",
+     "got": "LINDQVIST",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9733524183",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1981-06-17",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": "2026-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G5869",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "882559",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-011-1031",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb11",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": "FATIMA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "O'Connell",
+     "got": "O'CONNELL",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9958079162",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1986-05-12",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "196873",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-015-7414",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb12",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Zoë",
+     "got": "Zoë",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "Delgado-Ruiz",
+     "ok": true
+    },
+    "member_id": {
+     "want": "AK75850227",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "2000-10-13",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "054443",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "CASCRX",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-6914",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb13",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Aaliyah",
+     "got": "AALIYAH",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Achterberg",
+     "got": "ACHTERBERG",
+     "ok": true
+    },
+    "member_id": {
+     "want": "384-18-3863",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1992-08-05",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP35838",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "805063",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-9445",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb14",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Priya",
+     "got": "PRIYA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Nwosu",
+     "got": null,
+     "ok": false
+    },
+    "member_id": {
+     "want": "9847890184",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1990-07-24",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G69640",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "771163",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-017-6738",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb15",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Inés",
+     "got": null,
+     "ok": false
+    },
+    "member_last": {
+     "want": "MacPherson",
+     "got": "MacPherson",
+     "ok": true
+    },
+    "member_id": {
+     "want": "HB67798315",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1979-06-06",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": "72403",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-010-1466",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb16",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Abdirahman",
+     "got": "ABDIRAHMAN",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Nwosu",
+     "got": "NWOSU",
+     "ok": true
+    },
+    "member_id": {
+     "want": "417-79-3769",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1999-08-04",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP25483",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "223065",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-017-7044",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb17",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Luz",
+     "got": "LUZ",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Thibodeaux",
+     "got": "THIBODEAUX",
+     "ok": true
+    },
+    "member_id": {
+     "want": "836-66-5883",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1977-07-05",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": "2026-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "467663",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-7462",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb18",
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Mei-Ling",
+     "got": "Mei-Ling",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Ramírez",
+     "got": "Ramirez",
+     "ok": false
+    },
+    "member_id": {
+     "want": "KD81167531",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1993-08-24",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": null,
+     "ok": false
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "056597",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-5334",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb19",
+   "hard": true,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "José",
+     "got": "JOSÉ",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Ramírez",
+     "got": "RAMÍREZ",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9473209426",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "2002-09-09",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "76645",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "346800",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": null,
+     "ok": false
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-9353",
+     "got": null,
+     "ok": false
+    }
+   }
+  },
+  {
+   "id": "stressb20",
+   "hard": true,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Björn",
+     "got": null,
+     "ok": false
+    },
+    "member_last": {
+     "want": "Abernathy",
+     "got": "ABERNATHY",
+     "ok": true
+    },
+    "member_id": {
+     "want": "300-55-2042",
+     "got": null,
+     "ok": false
+    },
+    "dob": {
+     "want": "1987-08-23",
+     "got": null,
+     "ok": false
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP73816",
+     "got": null,
+     "ok": false
+    },
+    "rx_bin": {
+     "want": "007619",
+     "got": null,
+     "ok": false
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-019-2442",
+     "got": null,
+     "ok": false
+    }
+   }
+  }
+ ]
+}
