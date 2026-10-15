@@ -45,7 +45,8 @@ def pending(board, recipe) -> list[dict]:
             c = board.card(card.item_id, step.id)
             if not c or (c.output is None and c is not card):     # a held action has no output yet
                 continue
-            row = {"step": step.id, "specialist": step.specialist, "input": c.input, "output": c.output,
+            row = {"step": step.id, "specialist": step.specialist, "config": step.config, "input": c.input,
+                   "output": c.output,
                    "gate": step.id == card.step_id, "learn": _learnable(step)}
             if step.each:
                 row["elements"] = [_element_label(i) for i in (c.input or {}).get("each", [])]

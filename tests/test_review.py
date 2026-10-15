@@ -221,7 +221,7 @@ def test_a_gated_outside_action_waits_before_it_runs(store):
     disp.run()
     assert DID == [] and board.card("a", "post").status == "gated"          # nothing done yet
     [p] = [p for p in review.pending(board, recipe) if p["item"] == "a"]
-    assert p["steps"][-1] == {"step": "post", "specialist": "rv_post", "input": {"label": "billing"},
+    assert p["steps"][-1] == {"step": "post", "specialist": "rv_post", "config": {}, "input": {"label": "billing"},
                               "output": None, "gate": True, "learn": False}
     review.decide(disp, recipe, "a", approve=True, holdout_rate=0)
     review.decide(disp, recipe, "b", approve=False, reason="no")

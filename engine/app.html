@@ -71,6 +71,7 @@ th{color:var(--muted);font-weight:500;font-size:12.5px}
 .verdict button.on.wrong{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
 .kv{display:grid;grid-template-columns:130px 1fr;gap:5px 10px;margin-top:6px}
 .kv span{font:12.5px var(--mono);color:var(--muted);padding-top:6px}
+pre.held{max-height:240px}
 .payload{white-space:pre-wrap;background:var(--code);border-radius:7px;padding:9px;font-size:13.5px;max-height:220px;overflow:auto}
 .empty{color:var(--muted);padding:30px;text-align:center}
 .diff .add{color:var(--ok)}.diff .del{color:var(--bad)}
@@ -372,11 +373,17 @@ function reviewCard(it, n) {
     ${it.steps.map((s, j) => `<div class="out ${s.gate ? "gate" : ""}" data-j="${j}"><div class="top"><b>${esc(s.step)}</b><span class="hint">${esc(s.specialist)}${s.gate ? " · waiting here" : ""}${s.learn ? "" : " · mechanical, nothing to learn"}</span>
       ${s.learn ? `<div class="verdict"><button class="right on" data-v="right">right</button><button class="edited" data-v="edited" disabled>edited</button><button class="wrong" data-v="wrong">wrong</button></div>` : ""}</div>
       ${!s.learn ? (s.output ? `<pre>${esc(JSON.stringify(s.output, null, 1))}</pre>`
-        : `<div class="hint" style="margin-top:6px">Not done yet — approving does this:</div><pre>${esc(JSON.stringify(s.input, null, 1))}</pre>`) : s.elements ? eachTable(s) : `<div class="kv">${Object.entries(s.output).map(([k, v]) => `<span>${esc(k)}</span>${field(k, v)}`).join("")}</div>`}
+        : `<div class="hint" style="margin-top:6px">Not done yet — approving does this: <b>${esc(actionLine(s))}</b></div><pre class="held">${esc(JSON.stringify(s.input, null, 1))}</pre>`) : s.elements ? eachTable(s) : `<div class="kv">${Object.entries(s.output).map(([k, v]) => `<span>${esc(k)}</span>${field(k, v)}`).join("")}</div>`}
       <input class="why" placeholder="why is it wrong? (this is what it learns from)" style="display:none;margin-top:6px"></div>`).join("")}
     <div class="row" style="margin-top:10px"><input class="reason" placeholder="reason for rejecting (optional)"><button class="btn ok" data-a="approve" style="flex:none">Approve</button>
     <button class="btn bad" data-a="reject" style="flex:none">Reject</button></div><div class="res"></div></div>`;
 }
+const actionLine = s => {
+  const i = {...(s.config || {}), ...(s.input || {})}, p = i.payload || {};
+  if (s.specialist === "act" && i.target === "file") return `write the file ${p.name || "post.txt"} (staged for your team; nothing is sent)`;
+  if (s.specialist === "act" && i.target === "github") return `post ${(p.labels || []).length} label(s)${p.comment ? " and a comment" : ""} on ${p.url || "the issue"}`;
+  return `run ${s.specialist}`;
+};
 const field = (k, v, i = "") => typeof v === "string" && v.length > 70
   ? `<textarea data-o="${esc(k)}" data-i="${i}" rows="${Math.min(10, Math.ceil(v.length / 90) + 1)}" style="font-family:var(--body);font-size:13.5px">${esc(v)}</textarea>`
   : `<input data-o="${esc(k)}" data-i="${i}" data-json="${typeof v !== "string"}" value="${esc(typeof v === "string" ? v : JSON.stringify(v))}">`;
