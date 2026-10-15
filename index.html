@@ -149,6 +149,15 @@ details li .q{color:var(--dim);font:12px var(--display)}
 .gn.s-done .nsub{color:#9fdcbc}
 .gn.s-gated{opacity:1;border-color:var(--amber);box-shadow:0 0 0 3px var(--amber),0 0 26px rgba(216,148,74,.6)}
 .gn.s-rejected{opacity:1;box-shadow:0 0 0 2px var(--red)}
+.flow{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:f}
+.flow li{counter-increment:f;font:14px var(--body);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:7px 11px}
+.flow li::before{content:counter(f) "  ";color:var(--brass);font:12.5px var(--display)}
+.flow li+li{position:relative;margin-left:16px}
+.flow li+li::after{content:"→";position:absolute;left:-16px;top:7px;color:var(--dim)}
+.flow li.you{border-color:var(--brass);color:var(--brass)}
+.reqbox{margin:0 0 22px}
+.reqbox p{margin:8px 0 0;max-width:820px}
+#req{font-size:15px}
 .runbar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
 .clock{font:600 18px var(--display);font-variant-numeric:tabular-nums;margin-left:auto}
 .under{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;margin-top:14px}
@@ -278,11 +287,14 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <div class="page" data-page="run" hidden>
 <section aria-labelledby="run-h" style="margin-top:30px">
   <div class="sechead">
-    <span class="label">Replay of a run recorded 2026-10-14 · the model's answers come from that recording</span>
+    <span class="label">Replay of a run recorded 2026-10-14 · synthetic data</span>
     <h2 id="run-h">A doula intake, from fax to claim</h2>
-    <p>A small doula practice gets new-client paperwork the way it really arrives. The engine reads it, fills one record, checks the health plan's billing rules, keeps the patient's medical question away from the AI, and drafts the claim and a reply. Synthetic documents shaped like the real ones; no real patient, plan or ID.</p>
+    <p>Five documents in; an insurance claim and a reply to the patient out, held until a person approves.</p>
   </div>
-  <div class="panel" style="margin-bottom:22px"><div class="eyebrow" style="font-size:11px">The request</div><p style="margin:6px 0 0;font-size:15px" id="req"></p><p class="note" id="reqnote"></p></div>
+  <ol class="flow">
+    <li>Read the documents</li><li>Fill one record</li><li>Check plan rules</li><li>Medical to a nurse</li><li>Draft claim and reply</li><li class="you">A person approves</li>
+  </ol>
+  <details class="reqbox"><summary>The request it was given, in plain English</summary><p id="req"></p><p class="note" id="reqnote"></p></details>
   <div class="eyebrow" style="font-size:11px;margin-bottom:8px">1 · What came in · click to open</div>
   <div class="docs" id="docs"></div>
 
@@ -671,7 +683,7 @@ paint();
 $("#runmeta").textContent = R.meta; $("#gatesum").textContent = R.gate_summary;
 const F = D.facts;
 $("#req").textContent = `“${F.request}”`;
-$("#reqnote").textContent = `The workflow below was written and reviewed ahead of time for this request; in healthcare you don't run a plan a model drafted seconds ago. Given the same sentence, the engine's composer drafts a plan that uses ${F.composed_shared} of its ${F.recipe_n} specialists${F.composed_extra.length ? ` plus ${F.composed_extra.join(", ")}` : ""}.`;
+$("#reqnote").textContent = `The workflow that runs was reviewed ahead of time, as healthcare needs. Given this sentence live, the composer drafts a plan with ${F.composed_shared} of its ${F.recipe_n} specialists${F.composed_extra.length ? ` plus ${F.composed_extra.join(", ")}` : ""}.`;
 let playing = false;
 $("#play").onclick = () => { if (playing) return; playing = true; $("#feed").innerHTML = ""; $("#gate").hidden = true; $("#decided").hidden = true;
   Object.keys(ST).forEach(k => delete ST[k]); paint();
