@@ -132,6 +132,25 @@ STEPS = {
     "stage":         "writes the approved packet to a file — never sends",
 }
 
+# What a person reading the graph sees: each step's name in plain English, and what each column of the graph
+# is for (columns are the data-flow depth from engine.explorer.build_graph: 0 = the case file; its OUT column isn't drawn).
+LABELS = {
+    "read_referral": "Read the fax",
+    "read_card":     "Read the card photos",
+    "read_intake":   "Read the intake form",
+    "triage":        "Medical or not?",
+    "fields":        "Fill one record",
+    "identity":      "Same person?",
+    "coverage":      "Check billing rules",
+    "handoff":       "Note for the nurse",
+    "claim":         "Draft the claim",
+    "reply":         "Draft the reply",
+    "reply_check":   "Check the reply",
+    "packet":        "A person approves",
+    "stage":         "Save for the team",
+}
+PHASES = ["Comes in", "Read", "Combine", "Rules and routing", "Draft", "Check", "Approve", "Save"]
+
 _SPECIALISTS = (ReadDocument(), FillForm(), CoverageRules(), PatientReply(), HandoffNote(), ClaimDraft(),
                 AssemblePacket())
 
