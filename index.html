@@ -213,6 +213,10 @@ body.gmax{overflow:hidden}
 .wfsteps li:last-child{color:var(--brass)}
 @media (max-width:760px){.wfsum{grid-template-columns:minmax(0,1fr)}}
 .reqbox{margin:0 0 22px}
+.jump{display:flex;flex-wrap:wrap;gap:6px 18px;margin:26px 0 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font:13px var(--display)}
+.jump a{color:var(--mut);text-decoration:none;padding:0;border:0;background:none;font:13px var(--display);border-radius:0} .jump a:hover{color:var(--ink)} .jump a.uc{margin-left:auto;color:var(--brass)}
+.learnbox{margin:22px 0 14px;padding-top:18px;border-top:1px dashed var(--line)}
+.learnbox h3{font-size:19px;margin:8px 0 8px}
 .finds{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
 .finds li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start;font-size:14.5px;color:var(--ink);transition:opacity .3s}
 .finds li.later{opacity:.25}
@@ -305,7 +309,7 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 
 
 <div class="wrap">
-<nav aria-label="Pages"><a class="home" href="#home">workflow-engine</a><a href="#run">Use cases</a><a href="#break">Try to break it</a><a href="#how">How it works</a><span class="sp"></span><a class="gh" href="https://github.com/mtichikawa/workflow-engine">GitHub ↗</a></nav>
+<nav aria-label="Pages"><a class="home" href="#home">workflow-engine</a><a href="#home">The engine</a><a href="#run">Use cases</a><span class="sp"></span><a class="gh" href="https://github.com/mtichikawa/workflow-engine">GitHub ↗</a></nav>
 
 <!-- ============================== HOME ============================== -->
 <div class="page" data-page="home">
@@ -325,6 +329,8 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 <div class="proofline" id="proof" role="list"></div>
 <div class="evidence" id="evidence" hidden></div>
 
+<nav class="jump" aria-label="On this page"><a href="#how">How it works</a><a href="#learning">How it learns</a><a href="#break">Tested</a><a href="#workbench">Workbench</a><a href="#limits">Limits</a><a href="#run-it">Run it yourself</a><a href="#run" class="uc">Use cases →</a></nav>
+
 <section aria-labelledby="eng-h">
   <div class="sechead">
     <h2 id="eng-h">One engine, several workflows</h2>
@@ -337,10 +343,29 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
   <p class="note">Each column is a workflow with a recorded run. <a href="#run">See them run</a>.</p>
 </section>
 
-<section id="learn" aria-labelledby="learn-h">
+<section id="how" aria-labelledby="h-h">
+  <div class="sechead"><h2 id="h-h">How it works</h2><ul><li>One sentence becomes a <b>checked workflow</b> of small, single-job specialists.</li><li>A person <b>approves</b> before anything leaves it.</li><li>Their <b>corrections teach it</b>.</li></ul></div>
+  <div class="panel"><svg class="arch" viewBox="0 0 1080 250" role="img" aria-label="Request, composer, validator, board, gate, staged output; the library feeds the composer and corrections feed the board" id="arch"></svg></div>
+  <div class="built" style="margin-top:14px">
+    <div class="panel"><h3>A shared library</h3><p>15 single-job specialists for general judgments: sort, match, check, extract, act. A workflow configures them, never copies them. Domain work is new code: the healthcare demo uses <span id="hw-lib"></span> from the library and <span id="hw-own"></span> written for it (reading scans, plan rules, the claim).</p></div>
+    <div class="panel"><h3>Checked before it runs</h3><p>Every wire must lead to something that exists and has already run. Any step that acts outside the engine must sit behind a human gate.</p></div>
+    <div class="panel"><h3>Model where judgment is needed, code where it isn't</h3><p>Reading a scan or a message: the model. Plan rules, the claim form and the safety sentence: plain code, the same every time.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="bw-h" style="margin-top:20px"><div class="panel"><div class="eyebrow" style="font-size:11px" id="bw-h">Built with</div><dl class="kv" style="margin-top:8px" id="facts"></dl></div></section>
+
+<section id="learning" aria-labelledby="hl-h">
+  <div class="sechead"><h2 id="hl-h">How it learns</h2><p>No fine-tuning. Each workflow keeps its own corrections, and nothing crosses between workflows or customers.</p></div>
+  <div class="steps3">
+    <div class="panel"><h3>1 · Instructions</h3><p>What the step is for: its categories, criteria, any written policy. With no corrections, that's all it has.</p></div>
+    <div class="panel"><h3>2 · A rulebook it writes</h3><p>From 8 corrections on, it writes down the rules they imply, and rewrites them as corrections come in.</p></div>
+    <div class="panel"><h3>3 · The closest examples</h3><p>Each call also sees the 6 past corrections most like the input, so the rules come with cases.</p></div>
+  </div>
+<div id="learn" class="learnbox">
   <div class="sechead">
     <span class="label">Test case: a clinic's patient messages</span>
-    <h2 id="learn-h">It learns the rules nobody wrote down</h2>
+    <h3 id="learn-h">Watch it learn rules nobody wrote down</h3>
     <ul>
       <li>A clinic routes patient messages by a <b>15-rule protocol the engine is never shown</b>; it knows only the 6 queue names.</li>
       <li>Staff correct it as it works. <b>Drag the slider</b> to add corrections and watch wrong answers come right.</li>
@@ -362,12 +387,103 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="tally" id="tally"></div>
     </div>
   </div>
+</div>
+  <div class="panel rules" style="margin-top:14px">
+    <div><h4>The clinic's real rules (never shown to it)</h4><ol id="proto"></ol></div>
+    <div class="wrote"><h4>Rules it wrote from 291 corrections</h4><ol id="learned"></ol></div>
+  </div>
+  <p class="note" style="margin:8px 0 6px">The first six of each, as written.</p>
+  <dl class="kv">
+    <dt>Its rulebook</dt><dd><b>97.3%</b> on 150 messages it never saw</dd>
+    <dt>Real rules, by hand</dt><dd>100%</dd>
+    <dt>One long prompt</dt><dd><span id="bigacc"></span> with all 291 corrections pasted in: <b>just as accurate</b></dd>
+    <dt>So the rulebook buys</dt><dd>a prompt about 40% the size, and rules a person can read, diff and lock</dd>
+  </dl>
 </section>
 
-<section class="doors" aria-label="Go deeper">
-  <a class="door" href="#run"><b>Use cases</b><span>Four workflows on the same engine, each with a recorded run, and a healthcare intake in depth.</span></a>
-  <a class="door" href="#break"><b>Try to break it</b><span>Medical messages, impossible jobs, broken workflows: every test item, including the ones it got wrong.</span></a>
-  <a class="door" href="#how"><b>How it works</b><span>The parts, how it learns, how it stays safe, what it can't do yet, and how each number was measured.</span></a>
+<section id="break" aria-labelledby="b-h">
+  <div class="sechead"><h2 id="b-h">Tested: try to break it</h2><p>Three things an AI workflow must not get wrong, each tested on a set written by a separate agent that never saw the code. Every item is listed, the misses too.</p></div>
+</section>
+<section style="margin-top:20px" aria-labelledby="tri-h">
+  <div class="panel claim">
+    <div><div class="eyebrow" style="font-size:11px">1 · Hold the medical line</div><div class="num" id="tri-num"></div><div class="vs" id="tri-vs"></div></div>
+    <div><h3 id="tri-h" style="margin:0 0 6px">A patient app's assistant must send anything medical to a person and never answer it.</h3>
+      <dl class="kv" id="tri-desc"></dl>
+      <div id="tri-hard"></div><div id="tri-fa"></div>
+      <p class="note">On a message that mixes paperwork with a symptom, the patient gets an answer to the paperwork, a fixed safety message, and a nurse is alerted. <a href="#run">See it in the doula intake</a>, under “Reply to the patient”.</p></div>
+  </div>
+</section>
+<section style="margin-top:14px" aria-labelledby="cmp-h">
+  <div class="panel claim">
+    <div><div class="eyebrow" style="font-size:11px">2 · Admit what it can't do</div><div class="num" id="cmp-num"></div><div class="vs" id="cmp-vs"></div></div>
+    <div><h3 id="cmp-h" style="margin:0 0 6px">Asked for a job it can't do, does it say so, or fake a plan?</h3>
+      <dl class="kv" id="cmp-desc"></dl>
+      <div id="cmp-fake"></div><div id="cmp-over"></div><div id="cmp-flag"></div>
+      <div class="listblock"><h4>How it got there: each change, measured on a fresh set written after it</h4>
+      <div class="tw2"><table class="kinds"><thead><tr><th>Set</th><th>The change</th><th>Doable → planned</th><th>Impossible → faked</th></tr></thead><tbody id="cmp-hist"></tbody></table></div></div></div>
+  </div>
+</section>
+<section style="margin-top:14px" aria-labelledby="val-h">
+  <div class="panel claim">
+    <div><div class="eyebrow" style="font-size:11px">3 · Refuse a broken workflow</div><div class="num" id="val-num"></div><div class="vs" id="val-vs"></div></div>
+    <div><h3 id="val-h" style="margin:0 0 6px">Before anything runs, does it catch a workflow that's wired wrong?</h3>
+      <dl class="kv" id="val-desc" style="margin-bottom:10px"></dl>
+      <details><summary id="val-sum">Every kind of fault, before and now</summary><div class="tw2"><table class="kinds"><thead><tr><th>Kind of fault (in the outside list's words)</th><th>Before</th><th>Now</th></tr></thead><tbody id="val-kinds"></tbody></table></div></details>
+      <details><summary>What the validator says about five of them</summary><ul id="val-ex"></ul></details></div>
+  </div>
+</section>
+<section id="workbench" aria-labelledby="wb-h">
+  <div class="sechead"><h2 id="wb-h">The workbench</h2><p>One page to make, keep, run and correct workflows: <code>python -m engine.app</code></p>
+  <ul><li>Describe a task; the composer drafts it; adjust the steps in a form</li><li>Every save is a new version</li><li>Runs take pasted text, a CSV, a folder, a webhook, or a folder on a schedule</li></ul></div>
+  <div class="shots">
+    <figure class="shot"><a href="assets/workbench-review.png" target="_blank" rel="noopener"><img src="assets/workbench-review.png" alt="A review card: each step's output, editable, with right / edited / wrong, and the held file step showing what approving will do" loading="lazy"></a>
+      <figcaption><b>Review.</b> Each step: right, corrected, or wrong with a reason; each becomes an example. The file step waits: approving runs it. One item in five is kept aside to measure, not teach.</figcaption></figure>
+    <figure class="shot"><a href="assets/workbench-editor.png" target="_blank" rel="noopener"><img src="assets/workbench-editor.png" alt="The workflow editor: three steps as forms, connections, and a live check" loading="lazy"></a>
+      <figcaption><b>Edit.</b> The composer's draft as forms, checked live; a workflow that fails won't save. Rulebooks and error rates have their own pages.</figcaption></figure>
+  </div>
+</section>
+
+<section id="limits" aria-labelledby="hm-h">
+  <div class="twocol">
+    <div><h2 id="hm-h" style="font-size:22px;margin:0">How each number was measured</h2><ol>
+      <li>A separate Claude agent, with no access to the code, wrote the test set.</li>
+      <li>A second one labelled it again; only items both agreed on were kept.</li>
+      <li>Sealed with a hash before the first score; scored once.</li>
+      <li>A change to the engine gets a new set, never a re-score.</li>
+      <li>Every result has its sample size, a baseline and a 95% interval.</li></ol>
+      <p class="note">Method and raw results: <a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/blind-evals.md">docs/blind-evals.md</a> · <a href="https://github.com/mtichikawa/workflow-engine/tree/main/evals/blind-results">evals/blind-results</a></p></div>
+    <div><h2 style="font-size:22px;margin:0">What it can't do yet</h2><ul>
+      <li><b>No real sending:</b> no email, no claims portal, no eligibility check with a payer.</li>
+      <li><b>No general image reader:</b> scans are read only in the healthcare demo.</li>
+      <li><b>One machine, no login.</b></li>
+      <li><b>Learning beats a long prompt on size, not accuracy,</b> at a few hundred corrections.</li>
+      <li><b>Tests and engine both use Claude,</b> so they may share blind spots. All test data is synthetic; no person has checked the labels.</li></ul></div>
+  </div>
+  <details style="margin-top:14px"><summary>Bugs its own tests found (5)</summary><ul>
+      <li><b>A step reached by both a "pass" and a "fail" edge was always skipped,</b> so the triage workflow's approval step never ran. Found by a seeded-fault test; fixed, with a regression test.</li>
+      <li><b>The validator crashed</b> on an edge to a step that doesn't exist. Fixed.</li>
+      <li><b>The new validator caught the composer's own mistake:</b> in the demo, its draft wired a list into a field that takes text. The composer now repairs it before running.</li>
+      <li><b>An approval step that came after the action.</b> Driving the workbench in a browser showed a gated file step writing its file first and asking second; a rejected item had already written. Outside actions now wait for approval before they run.</li>
+      <li><b>Every item wrote the same file,</b> and a saved workflow's corrections went into the shared example set. Staged files are never overwritten now, and each workflow learns in its own folder.</li></ul></details>
+</section>
+
+<section aria-labelledby="mm-h">
+  <div class="sechead"><h2 id="mm-h">More measurements</h2><p>Smaller or less independent than the four above, so they aren't headlines.</p></div>
+  <div class="steps3" id="more"></div>
+</section>
+
+<section id="run-it" aria-labelledby="ry-h">
+  <h2 id="ry-h" style="font-size:22px;margin:0 0 10px">Run it yourself</h2>
+  <div class="ry">
+    <div><pre class="cmds" id="cmds">git clone https://github.com/mtichikawa/workflow-engine && cd workflow-engine
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e '.[live]'
+python -m engine.app                  # the workbench: http://localhost:8602
+python -m engine.cli compose "sort support emails by type and draft a reply"
+python evals/blind.py validator      # re-run a sealed evaluation</pre>
+      <button class="btn small" id="copy" style="margin-top:8px">Copy commands</button></div>
+    <div class="frame"><b>The honest frame.</b> The parts aren't new: orchestration, few-shot examples and human review all exist. What's here is a working whole, built from scratch, with every number measured and re-runnable. <a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/design.md">Why it's built this way</a>, with the costs.</div>
+  </div>
 </section>
 </div>
 
@@ -450,128 +566,6 @@ footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-si
 </section>
 </div>
 
-<!-- ============================== BREAK ============================== -->
-<div class="page" data-page="break" hidden>
-<section style="margin-top:30px" aria-labelledby="b-h">
-  <div class="sechead"><h2 id="b-h">Try to break it</h2><p>Three things an AI workflow must not get wrong, each tested on a set written by a separate agent that never saw the code. Every item is listed, the misses too.</p></div>
-</section>
-<section style="margin-top:20px" aria-labelledby="tri-h">
-  <div class="panel claim">
-    <div><div class="eyebrow" style="font-size:11px">1 · Hold the medical line</div><div class="num" id="tri-num"></div><div class="vs" id="tri-vs"></div></div>
-    <div><h3 id="tri-h" style="margin:0 0 6px">A patient app's assistant must send anything medical to a person and never answer it.</h3>
-      <dl class="kv" id="tri-desc"></dl>
-      <div id="tri-hard"></div><div id="tri-fa"></div>
-      <p class="note">On a message that mixes paperwork with a symptom, the patient gets an answer to the paperwork, a fixed safety message, and a nurse is alerted. <a href="#run">See it in the doula intake</a>, under “Reply to the patient”.</p></div>
-  </div>
-</section>
-<section style="margin-top:14px" aria-labelledby="cmp-h">
-  <div class="panel claim">
-    <div><div class="eyebrow" style="font-size:11px">2 · Admit what it can't do</div><div class="num" id="cmp-num"></div><div class="vs" id="cmp-vs"></div></div>
-    <div><h3 id="cmp-h" style="margin:0 0 6px">Asked for a job it can't do, does it say so, or fake a plan?</h3>
-      <dl class="kv" id="cmp-desc"></dl>
-      <div id="cmp-fake"></div><div id="cmp-over"></div><div id="cmp-flag"></div>
-      <div class="listblock"><h4>How it got there: each change, measured on a fresh set written after it</h4>
-      <div class="tw2"><table class="kinds"><thead><tr><th>Set</th><th>The change</th><th>Doable → planned</th><th>Impossible → faked</th></tr></thead><tbody id="cmp-hist"></tbody></table></div></div></div>
-  </div>
-</section>
-<section style="margin-top:14px" aria-labelledby="val-h">
-  <div class="panel claim">
-    <div><div class="eyebrow" style="font-size:11px">3 · Refuse a broken workflow</div><div class="num" id="val-num"></div><div class="vs" id="val-vs"></div></div>
-    <div><h3 id="val-h" style="margin:0 0 6px">Before anything runs, does it catch a workflow that's wired wrong?</h3>
-      <dl class="kv" id="val-desc" style="margin-bottom:10px"></dl>
-      <details><summary id="val-sum">Every kind of fault, before and now</summary><div class="tw2"><table class="kinds"><thead><tr><th>Kind of fault (in the outside list's words)</th><th>Before</th><th>Now</th></tr></thead><tbody id="val-kinds"></tbody></table></div></details>
-      <details><summary>What the validator says about five of them</summary><ul id="val-ex"></ul></details></div>
-  </div>
-</section>
-</div>
-
-<!-- ============================== HOW ============================== -->
-<div class="page" data-page="how" hidden>
-<section style="margin-top:30px" aria-labelledby="h-h">
-  <div class="sechead"><h2 id="h-h">How it works</h2><ul><li>One sentence becomes a <b>checked workflow</b> of small, single-job specialists.</li><li>A person <b>approves</b> before anything leaves it.</li><li>Their <b>corrections teach it</b>.</li></ul></div>
-  <div class="panel"><svg class="arch" viewBox="0 0 1080 250" role="img" aria-label="Request, composer, validator, board, gate, staged output; the library feeds the composer and corrections feed the board" id="arch"></svg></div>
-  <div class="built" style="margin-top:14px">
-    <div class="panel"><h3>A shared library</h3><p>15 single-job specialists for general judgments: sort, match, check, extract, act. A workflow configures them, never copies them. Domain work is new code: the healthcare demo uses <span id="hw-lib"></span> from the library and <span id="hw-own"></span> written for it (reading scans, plan rules, the claim).</p></div>
-    <div class="panel"><h3>Checked before it runs</h3><p>Every wire must lead to something that exists and has already run. Any step that acts outside the engine must sit behind a human gate.</p></div>
-    <div class="panel"><h3>Model where judgment is needed, code where it isn't</h3><p>Reading a scan or a message: the model. Plan rules, the claim form and the safety sentence: plain code, the same every time.</p></div>
-  </div>
-</section>
-
-<section aria-labelledby="bw-h" style="margin-top:20px"><div class="panel"><div class="eyebrow" style="font-size:11px" id="bw-h">Built with</div><dl class="kv" style="margin-top:8px" id="facts"></dl></div></section>
-
-<section aria-labelledby="hl-h">
-  <div class="sechead"><h2 id="hl-h">How it learns</h2><p>No fine-tuning. Each workflow keeps its own corrections, and nothing crosses between workflows or customers.</p></div>
-  <div class="steps3">
-    <div class="panel"><h3>1 · Instructions</h3><p>What the step is for: its categories, criteria, any written policy. With no corrections, that's all it has.</p></div>
-    <div class="panel"><h3>2 · A rulebook it writes</h3><p>From 8 corrections on, it writes down the rules they imply, and rewrites them as corrections come in.</p></div>
-    <div class="panel"><h3>3 · The closest examples</h3><p>Each call also sees the 6 past corrections most like the input, so the rules come with cases.</p></div>
-  </div>
-  <div class="panel rules" style="margin-top:14px">
-    <div><h4>The clinic's real rules (never shown to it)</h4><ol id="proto"></ol></div>
-    <div class="wrote"><h4>Rules it wrote from 291 corrections</h4><ol id="learned"></ol></div>
-  </div>
-  <p class="note" style="margin:8px 0 6px">The first six of each, as written.</p>
-  <dl class="kv">
-    <dt>Its rulebook</dt><dd><b>97.3%</b> on 150 messages it never saw</dd>
-    <dt>Real rules, by hand</dt><dd>100%</dd>
-    <dt>One long prompt</dt><dd><span id="bigacc"></span> with all 291 corrections pasted in: <b>just as accurate</b></dd>
-    <dt>So the rulebook buys</dt><dd>a prompt about 40% the size, and rules a person can read, diff and lock</dd>
-  </dl>
-</section>
-
-<section aria-labelledby="wb-h">
-  <div class="sechead"><h2 id="wb-h">The workbench</h2><p>One page to make, keep, run and correct workflows: <code>python -m engine.app</code></p>
-  <ul><li>Describe a task; the composer drafts it; adjust the steps in a form</li><li>Every save is a new version</li><li>Runs take pasted text, a CSV, a folder, a webhook, or a folder on a schedule</li></ul></div>
-  <div class="shots">
-    <figure class="shot"><a href="assets/workbench-review.png" target="_blank" rel="noopener"><img src="assets/workbench-review.png" alt="A review card: each step's output, editable, with right / edited / wrong, and the held file step showing what approving will do" loading="lazy"></a>
-      <figcaption><b>Review.</b> Each step: right, corrected, or wrong with a reason; each becomes an example. The file step waits: approving runs it. One item in five is kept aside to measure, not teach.</figcaption></figure>
-    <figure class="shot"><a href="assets/workbench-editor.png" target="_blank" rel="noopener"><img src="assets/workbench-editor.png" alt="The workflow editor: three steps as forms, connections, and a live check" loading="lazy"></a>
-      <figcaption><b>Edit.</b> The composer's draft as forms, checked live; a workflow that fails won't save. Rulebooks and error rates have their own pages.</figcaption></figure>
-  </div>
-</section>
-
-<section aria-labelledby="hm-h">
-  <div class="twocol">
-    <div><h2 id="hm-h" style="font-size:22px;margin:0">How each number was measured</h2><ol>
-      <li>A separate Claude agent, with no access to the code, wrote the test set.</li>
-      <li>A second one labelled it again; only items both agreed on were kept.</li>
-      <li>Sealed with a hash before the first score; scored once.</li>
-      <li>A change to the engine gets a new set, never a re-score.</li>
-      <li>Every result has its sample size, a baseline and a 95% interval.</li></ol>
-      <p class="note">Method and raw results: <a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/blind-evals.md">docs/blind-evals.md</a> · <a href="https://github.com/mtichikawa/workflow-engine/tree/main/evals/blind-results">evals/blind-results</a></p></div>
-    <div><h2 style="font-size:22px;margin:0">What it can't do yet</h2><ul>
-      <li><b>No real sending:</b> no email, no claims portal, no eligibility check with a payer.</li>
-      <li><b>No general image reader:</b> scans are read only in the healthcare demo.</li>
-      <li><b>One machine, no login.</b></li>
-      <li><b>Learning beats a long prompt on size, not accuracy,</b> at a few hundred corrections.</li>
-      <li><b>Tests and engine both use Claude,</b> so they may share blind spots. All test data is synthetic; no person has checked the labels.</li></ul></div>
-  </div>
-  <details style="margin-top:14px"><summary>Bugs its own tests found (5)</summary><ul>
-      <li><b>A step reached by both a "pass" and a "fail" edge was always skipped,</b> so the triage workflow's approval step never ran. Found by a seeded-fault test; fixed, with a regression test.</li>
-      <li><b>The validator crashed</b> on an edge to a step that doesn't exist. Fixed.</li>
-      <li><b>The new validator caught the composer's own mistake:</b> in the demo, its draft wired a list into a field that takes text. The composer now repairs it before running.</li>
-      <li><b>An approval step that came after the action.</b> Driving the workbench in a browser showed a gated file step writing its file first and asking second; a rejected item had already written. Outside actions now wait for approval before they run.</li>
-      <li><b>Every item wrote the same file,</b> and a saved workflow's corrections went into the shared example set. Staged files are never overwritten now, and each workflow learns in its own folder.</li></ul></details>
-</section>
-
-<section aria-labelledby="mm-h">
-  <div class="sechead"><h2 id="mm-h">More measurements</h2><p>Smaller or less independent than the four above, so they aren't headlines.</p></div>
-  <div class="steps3" id="more"></div>
-</section>
-
-<section aria-labelledby="ry-h">
-  <h2 id="ry-h" style="font-size:22px;margin:0 0 10px">Run it yourself</h2>
-  <div class="ry">
-    <div><pre class="cmds" id="cmds">git clone https://github.com/mtichikawa/workflow-engine && cd workflow-engine
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e '.[live]'
-python -m engine.app                  # the workbench: http://localhost:8602
-python -m engine.cli compose "sort support emails by type and draft a reply"
-python evals/blind.py validator      # re-run a sealed evaluation</pre>
-      <button class="btn small" id="copy" style="margin-top:8px">Copy commands</button></div>
-    <div class="frame"><b>The honest frame.</b> The parts aren't new: orchestration, few-shot examples and human review all exist. What's here is a working whole, built from scratch, with every number measured and re-runnable. <a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/design.md">Why it's built this way</a>, with the costs.</div>
-  </div>
-</section>
 </div>
 
 <footer><span>Workflow engine · designed and built by Mike Ichikawa</span><a href="https://www.linkedin.com/in/mike-ichikawa">LinkedIn</a><a href="mailto:projects.ichikawa@gmail.com">Email</a><a href="https://github.com/mtichikawa/workflow-engine">Source</a><a href="https://github.com/mtichikawa/workflow-engine/blob/main/docs/blind-evals.md">How each number was measured</a><a href="https://github.com/mtichikawa/workflow-engine/tree/main/evals/blind-results">Raw results</a></footer>
@@ -978,9 +972,11 @@ $("#facts").innerHTML = kv([["Code", `Python ${F.python}+, standard library only
 $("#copy").onclick = async () => { const t = $("#cmds").textContent; try { await navigator.clipboard.writeText(t); $("#copy").textContent = "Copied"; } catch { const r = document.createRange(); r.selectNodeContents($("#cmds")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("#copy").textContent = "Selected: press ⌘C"; } };
 
 // ---------------- pages ----------------
-const route = () => { const want = (location.hash || "#home").slice(1), page = document.querySelector(`.page[data-page="${want}"]`) ? want : "home";
+const route = () => { const want = (location.hash || "#home").slice(1), sec = document.getElementById(want);
+  const page = document.querySelector(`.page[data-page="${want}"]`) ? want : sec && sec.closest(".page") ? sec.closest(".page").dataset.page : "home";
   document.querySelectorAll(".page").forEach(p => p.hidden = p.dataset.page !== page);
   document.querySelectorAll("nav a").forEach(a => { if (a.getAttribute("href") === "#" + page) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-  window.scrollTo(0, 0); if (page === "run") requestAnimationFrame(fitGraph); };
+  if (page === "run") requestAnimationFrame(fitGraph);
+  if (sec && want !== page) requestAnimationFrame(() => sec.scrollIntoView()); else window.scrollTo(0, 0); };
 addEventListener("hashchange", route); route();
 </script>
