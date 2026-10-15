@@ -18,10 +18,12 @@
   .hdr .hs em{color:var(--steel);font-style:normal}
   .legend{position:fixed;top:18px;right:24px;display:flex;gap:18px;font-size:11.5px;color:var(--mut);z-index:9;align-items:center}
   .legend .it{display:flex;gap:7px;align-items:center}
-  .legend .sw{width:13px;height:13px;border-radius:3px;border:1px solid}
-  .legend .sw.shared{background:#2c3a49;border-color:var(--steel)}
-  .legend .sw.domain{background:#43391f;border-color:var(--brass)}
-  .legend .sw.gate{background:#432e18;border-color:var(--amber);border-style:dashed}
+  /* the key: labelled groups, each swatch a miniature of what it names (site convention) */
+  .legend .lgk,.wlegend .lgk{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .legend .sw{width:26px;height:15px;border-radius:3px;border:1px solid var(--line);border-left-width:3px;flex:none}
+  .legend .sw.shared{background:#2c3a49;border-left-color:var(--steel)}
+  .legend .sw.domain{background:#43391f;border-color:#5a4c2b;border-left-color:var(--brass)}
+  .legend .sw.gate{background:#432e18;border:1px dashed var(--amber);border-left:3px solid var(--amber)}
   .legend b{color:var(--ink);font-weight:500}
   .wlegend{position:fixed;bottom:16px;left:22px;display:flex;gap:16px;font-size:11px;color:var(--mut);z-index:9;align-items:center}
   .wlegend .wi{display:flex;gap:7px;align-items:center}
@@ -81,9 +83,10 @@
   <div class="hs">Takes a <em>topic</em>: pulls sources, picks an angle, writes a short post in a set voice, checks it's on-brand, and stages it. Reuses triage's specialists — only <em>write</em> is new.</div>
 </div>
 <div class="legend">
-  <span class="it"><span class="sw shared"></span><b>reused</b>&nbsp;from the shared library</span>
-  <span class="it"><span class="sw domain"></span><b>custom</b>&nbsp;for this job</span>
-  <span class="it"><span class="sw gate"></span><b>human gate</b></span>
+  <span class="lgk">Box colour</span>
+  <span class="it"><span class="sw shared"></span>general-purpose, from the library</span>
+  <span class="it"><span class="sw domain"></span>for one kind of work, from the library</span>
+  <span class="it"><span class="sw gate"></span>a person decides</span>
 </div>
 <div class="wlegend" id="wlegend"></div>
 <div id="canvas"><div id="world"><svg id="wires"></svg></div></div>
@@ -232,8 +235,8 @@ const detailPx={};   // measured per node after render → exact expanded height
 // the layout + orthogonal router live in the shared core (engine/graph_core.js); this file is only render + interaction
 const G=makeGraphCore(NODES,WIRES,{WEXP,detailPx,axisY:()=>innerHeight/2});
 const {sock,wtype,wtopo,WCOL,colOf,computeGeom,route,roundedPath,junctions,juncPoint}=G;
-{ const L={split:"split — fans out",merge:"merge — fans in",loop:"loop",gate:"gate"};   // legend: only the types present in this graph
-  document.getElementById("wlegend").innerHTML=["split","merge","loop","gate"].filter(t=>wtopo.includes(t))
+{ const L={split:"one result feeds several steps",merge:"several results feed one step",loop:"a loop: back for another pass",gate:"a decision that picks the next step"};   // legend: only the types this graph draws
+  document.getElementById("wlegend").innerHTML='<span class="lgk">Lines</span>'+["split","merge","loop","gate"].filter(t=>wtopo.includes(t)||junctions.some(j=>(t==="split"&&j.io==="out")||(t==="merge"&&j.io==="in")))
     .map(t=>{const c=WCOL[t];return `<span class="wi"><span class="ln" style="border-color:${c[0]}${c[2]?';border-top-style:dashed':''}"></span>${L[t]}</span>`;}).join(""); }
 
 const canvas=document.getElementById("canvas"), world=document.getElementById("world"), svg=document.getElementById("wires"), NS="http://www.w3.org/2000/svg";
