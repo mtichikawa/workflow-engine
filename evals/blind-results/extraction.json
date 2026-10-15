@@ -1,194 +1,1857 @@
 {
- "what": "30 generated SYNTHETIC insurance-card photos (normal); truth known by construction",
+ "what": "30 generated SYNTHETIC insurance-card photos; truth known by construction (not labelled)",
  "pipeline": "read_document (model reads the photo) -> fill_form",
  "cards": 30,
- "errors": 30,
+ "errors": 0,
  "fields printed on the card, read exactly right": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
+  "k": 282,
+  "n": 282,
+  "rate": 1.0,
   "ci95": [
-   0.0,
-   0.0
+   0.9866,
+   1.0
   ]
  },
  "fields NOT on the card, left empty (not guessed)": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
+  "k": 18,
+  "n": 18,
+  "rate": 1.0,
   "ci95": [
-   0.0,
-   0.0
-  ]
- },
- "printed fields MISREAD (a wrong value given)": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
-  "ci95": [
-   0.0,
-   0.0
-  ]
- },
- "printed fields left empty (unreadable or missed)": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
-  "ci95": [
-   0.0,
-   0.0
+   0.8241,
+   1.0
   ]
  },
  "cards with every field right": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
+  "k": 30,
+  "n": 30,
+  "rate": 1.0,
   "ci95": [
-   0.0,
-   0.0
+   0.8865,
+   1.0
   ]
  },
  "harder photos, fields right": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
+  "k": 100,
+  "n": 100,
+  "rate": 1.0,
   "ci95": [
-   0.0,
-   0.0
+   0.963,
+   1.0
   ]
  },
  "normal photos, fields right": {
-  "k": 0,
-  "n": 0,
-  "rate": null,
+  "k": 200,
+  "n": 200,
+  "rate": 1.0,
   "ci95": [
-   0.0,
-   0.0
+   0.9812,
+   1.0
   ]
  },
- "by field": {},
- "seconds": 78.2,
- "measured": "2026-10-14 17:17 PDT",
+ "by field": {
+  "member_first": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "member_last": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "member_id": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "dob": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "effective_date": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "group_number": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "rx_bin": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "rx_pcn": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "plan_name": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  },
+  "member_services_phone": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "ci95": [
+    0.8865,
+    1.0
+   ]
+  }
+ },
+ "seconds": 338.4,
+ "measured": "2026-10-14 17:01 PDT",
  "items": [
   {
    "id": "card01",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Yesenia",
+     "got": "YESENIA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Kowalczyk",
+     "got": "KOWALCZYK",
+     "ok": true
+    },
+    "member_id": {
+     "want": "CW68534375",
+     "got": "CW68534375",
+     "ok": true
+    },
+    "dob": {
+     "want": "1996-11-12",
+     "got": "1996-11-12",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-07-01",
+     "got": "2026-07-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP36432",
+     "got": "GRP36432",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "247987",
+     "got": "247987",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-017-6147",
+     "got": "1-555-017-6147",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card02",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Kwame",
+     "got": "KWAME",
+     "ok": true
+    },
+    "member_last": {
+     "want": "MacPherson",
+     "got": "MACPHERSON",
+     "ok": true
+    },
+    "member_id": {
+     "want": "DB61246391",
+     "got": "DB61246391",
+     "ok": true
+    },
+    "dob": {
+     "want": "2002-10-07",
+     "got": "2002-10-07",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-10-01",
+     "got": "2025-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "050388",
+     "got": "050388",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-2976",
+     "got": "1-555-016-2976",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card03",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Abdirahman",
+     "got": "Abdirahman",
+     "ok": true
+    },
+    "member_last": {
+     "want": "MacPherson",
+     "got": "MacPherson",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9502333151",
+     "got": "9502333151",
+     "ok": true
+    },
+    "dob": {
+     "want": "1984-12-25",
+     "got": "1984-12-25",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G27724",
+     "got": "G27724",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "009255",
+     "got": "009255",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-1080",
+     "got": "1-555-018-1080",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card04",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Maria",
+     "got": "MARIA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Haddad",
+     "got": "HADDAD",
+     "ok": true
+    },
+    "member_id": {
+     "want": "AB87310650",
+     "got": "AB87310650",
+     "ok": true
+    },
+    "dob": {
+     "want": "2006-12-04",
+     "got": "2006-12-04",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G2301",
+     "got": "G2301",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "874401",
+     "got": "874401",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-6175",
+     "got": "1-555-018-6175",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card05",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Mei-Ling",
+     "got": "MEI-LING",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Lindqvist",
+     "got": "LINDQVIST",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9866504733",
+     "got": "9866504733",
+     "ok": true
+    },
+    "dob": {
+     "want": "1984-02-24",
+     "got": "1984-02-24",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "907442",
+     "got": "907442",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-012-4575",
+     "got": "1-555-012-4575",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card06",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Siobhan",
+     "got": "Siobhan",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "Delgado-Ruiz",
+     "ok": true
+    },
+    "member_id": {
+     "want": "945-11-8717",
+     "got": "945-11-8717",
+     "ok": true
+    },
+    "dob": {
+     "want": "2005-08-20",
+     "got": "2005-08-20",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-10-01",
+     "got": "2026-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP35688",
+     "got": "GRP35688",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "232101",
+     "got": "232101",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-9063",
+     "got": "1-555-016-9063",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card07",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Tomasz",
+     "got": "TOMASZ",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Lindqvist",
+     "got": "LINDQVIST",
+     "ok": true
+    },
+    "member_id": {
+     "want": "DK68271634",
+     "got": "DK68271634",
+     "ok": true
+    },
+    "dob": {
+     "want": "2001-08-10",
+     "got": "2001-08-10",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": "2026-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G30351",
+     "got": "G30351",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "476573",
+     "got": "476573",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-012-4410",
+     "got": "1-555-012-4410",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card08",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Zoë",
+     "got": "ZOË",
+     "ok": true
+    },
+    "member_last": {
+     "want": "O'Connell",
+     "got": "O'CONNELL",
+     "ok": true
+    },
+    "member_id": {
+     "want": "KB54887733",
+     "got": "KB54887733",
+     "ok": true
+    },
+    "dob": {
+     "want": "1995-05-16",
+     "got": "1995-05-16",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-10-01",
+     "got": "2025-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G1081",
+     "got": "G1081",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "821791",
+     "got": "821791",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-6056",
+     "got": "1-555-016-6056",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card09",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Inés",
+     "got": "Inés",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Thibodeaux",
+     "got": "Thibodeaux",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9178719592",
+     "got": "9178719592",
+     "ok": true
+    },
+    "dob": {
+     "want": "1981-05-08",
+     "got": "1981-05-08",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G49797",
+     "got": "G49797",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "118473",
+     "got": "118473",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-019-1475",
+     "got": "1-555-019-1475",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card10",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Kateryna",
+     "got": "KATERYNA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Quiñones",
+     "got": "QUIÑONES",
+     "ok": true
+    },
+    "member_id": {
+     "want": "CK36962271",
+     "got": "CK36962271",
+     "ok": true
+    },
+    "dob": {
+     "want": "1981-12-12",
+     "got": "1981-12-12",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G21623",
+     "got": "G21623",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "458037",
+     "got": "458037",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-011-8030",
+     "got": "1-555-011-8030",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card11",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Inés",
+     "got": "INÉS",
+     "ok": true
+    },
+    "member_last": {
+     "want": "O'Connell",
+     "got": "O'CONNELL",
+     "ok": true
+    },
+    "member_id": {
+     "want": "WK59157461",
+     "got": "WK59157461",
+     "ok": true
+    },
+    "dob": {
+     "want": "1985-09-13",
+     "got": "1985-09-13",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G11992",
+     "got": "G11992",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "655538",
+     "got": "655538",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-2601",
+     "got": "1-555-016-2601",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card12",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": "Fatima",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Haddad",
+     "got": "Haddad",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9643575691",
+     "got": "9643575691",
+     "ok": true
+    },
+    "dob": {
+     "want": "1992-03-06",
+     "got": "1992-03-06",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-07-01",
+     "got": "2025-07-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G78041",
+     "got": "G78041",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "241014",
+     "got": "241014",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-015-6721",
+     "got": "1-555-015-6721",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card13",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Hannah",
+     "got": "HANNAH",
+     "ok": true
+    },
+    "member_last": {
+     "want": "MacPherson",
+     "got": "MACPHERSON",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9973227575",
+     "got": "9973227575",
+     "ok": true
+    },
+    "dob": {
+     "want": "1978-11-02",
+     "got": "1978-11-02",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-07-01",
+     "got": "2026-07-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "44363",
+     "got": "44363",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-015-8040",
+     "got": "1-555-015-8040",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card14",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Abdirahman",
+     "got": "ABDIRAHMAN",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Nakamura",
+     "got": "NAKAMURA",
+     "ok": true
+    },
+    "member_id": {
+     "want": "CD79822615",
+     "got": "CD79822615",
+     "ok": true
+    },
+    "dob": {
+     "want": "1977-01-13",
+     "got": "1977-01-13",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": "2026-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "90911",
+     "got": "90911",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-2957",
+     "got": "1-555-016-2957",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card15",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Björn",
+     "got": "Björn",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Kowalczyk",
+     "got": "Kowalczyk",
+     "ok": true
+    },
+    "member_id": {
+     "want": "BA61182394",
+     "got": "BA61182394",
+     "ok": true
+    },
+    "dob": {
+     "want": "1990-03-06",
+     "got": "1990-03-06",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP21507",
+     "got": "GRP21507",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "990008",
+     "got": "990008",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-011-1968",
+     "got": "1-555-011-1968",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card16",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Björn",
+     "got": "BJÖRN",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Lindqvist",
+     "got": "LINDQVIST",
+     "ok": true
+    },
+    "member_id": {
+     "want": "AE45853950",
+     "got": "AE45853950",
+     "ok": true
+    },
+    "dob": {
+     "want": "1996-03-19",
+     "got": "1996-03-19",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-04-01",
+     "got": "2026-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "6892",
+     "got": "6892",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-014-5699",
+     "got": "1-555-014-5699",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card17",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Nguyen",
+     "got": "NGUYEN",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "DELGADO-RUIZ",
+     "ok": true
+    },
+    "member_id": {
+     "want": "741-60-7703",
+     "got": "741-60-7703",
+     "ok": true
+    },
+    "dob": {
+     "want": "1983-06-09",
+     "got": "1983-06-09",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G77246",
+     "got": "G77246",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "857075",
+     "got": "857075",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-012-1601",
+     "got": "1-555-012-1601",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card18",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Björn",
+     "got": "Björn",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "Delgado-Ruiz",
+     "ok": true
+    },
+    "member_id": {
+     "want": "WH21640304",
+     "got": "WH21640304",
+     "ok": true
+    },
+    "dob": {
+     "want": "1999-02-01",
+     "got": "1999-02-01",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-07-01",
+     "got": "2026-07-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G45052",
+     "got": "G45052",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "921585",
+     "got": "921585",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-6820",
+     "got": "1-555-016-6820",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card19",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Mei-Ling",
+     "got": "MEI-LING",
+     "ok": true
+    },
+    "member_last": {
+     "want": "O'Connell",
+     "got": "O'CONNELL",
+     "ok": true
+    },
+    "member_id": {
+     "want": "MH22461941",
+     "got": "MH22461941",
+     "ok": true
+    },
+    "dob": {
+     "want": "2003-04-22",
+     "got": "2003-04-22",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-10-01",
+     "got": "2026-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP1718",
+     "got": "GRP1718",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "055798",
+     "got": "055798",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Cascade Community Care",
+     "got": "Cascade Community Care",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-8248",
+     "got": "1-555-013-8248",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card20",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Kateryna",
+     "got": "KATERYNA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Abernathy",
+     "got": "ABERNATHY",
+     "ok": true
+    },
+    "member_id": {
+     "want": "306-63-2582",
+     "got": "306-63-2582",
+     "ok": true
+    },
+    "dob": {
+     "want": "1998-11-06",
+     "got": "1998-11-06",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G91103",
+     "got": "G91103",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-4091",
+     "got": "1-555-018-4091",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card21",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Olusegun",
+     "got": "Olusegun",
+     "ok": true
+    },
+    "member_last": {
+     "want": "St. Clair",
+     "got": "St. Clair",
+     "ok": true
+    },
+    "member_id": {
+     "want": "659-88-5401",
+     "got": "659-88-5401",
+     "ok": true
+    },
+    "dob": {
+     "want": "1975-10-11",
+     "got": "1975-10-11",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-04-01",
+     "got": "2025-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G4463",
+     "got": "G4463",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "033944",
+     "got": "033944",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-1597",
+     "got": "1-555-018-1597",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card22",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Darnell",
+     "got": "DARNELL",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Van der Berg",
+     "got": "VAN DER BERG",
+     "ok": true
+    },
+    "member_id": {
+     "want": "BW41439713",
+     "got": "BW41439713",
+     "ok": true
+    },
+    "dob": {
+     "want": "1982-01-17",
+     "got": "1982-01-17",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-04-01",
+     "got": "2025-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G31137",
+     "got": "G31137",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "260933",
+     "got": "260933",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "CASCRX",
+     "got": "CASCRX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-015-9550",
+     "got": "1-555-015-9550",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card23",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Fatima",
+     "got": "FATIMA",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Okafor",
+     "got": "OKAFOR",
+     "ok": true
+    },
+    "member_id": {
+     "want": "MD88035332",
+     "got": "MD88035332",
+     "ok": true
+    },
+    "dob": {
+     "want": "1982-10-17",
+     "got": "1982-10-17",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-10-01",
+     "got": "2025-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "939904",
+     "got": "939904",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Prairie State Medi-Plan",
+     "got": "Prairie State Medi-Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-011-3086",
+     "got": "1-555-011-3086",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card24",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Luz",
+     "got": "Luz",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Haddad",
+     "got": "Haddad",
+     "ok": true
+    },
+    "member_id": {
+     "want": "458-43-9535",
+     "got": "458-43-9535",
+     "ok": true
+    },
+    "dob": {
+     "want": "1999-11-06",
+     "got": "1999-11-06",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-04-01",
+     "got": "2025-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G15841",
+     "got": "G15841",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "835759",
+     "got": "835759",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-017-2927",
+     "got": "1-555-017-2927",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card25",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Aaliyah",
+     "got": "AALIYAH",
+     "ok": true
+    },
+    "member_last": {
+     "want": "St. Clair",
+     "got": "ST. CLAIR",
+     "ok": true
+    },
+    "member_id": {
+     "want": "624-58-4477",
+     "got": "624-58-4477",
+     "ok": true
+    },
+    "dob": {
+     "want": "2003-04-08",
+     "got": "2003-04-08",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G33869",
+     "got": "G33869",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "195346",
+     "got": "195346",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "MCAIDPROD",
+     "got": "MCAIDPROD",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Demo Health Plan",
+     "got": "Demo Health Plan",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-019-7909",
+     "got": "1-555-019-7909",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card26",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Mei-Ling",
+     "got": "MEI-LING",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Ramírez",
+     "got": "RAMÍREZ",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9470007395",
+     "got": "9470007395",
+     "ok": true
+    },
+    "dob": {
+     "want": "2003-12-01",
+     "got": "2003-12-01",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-04-01",
+     "got": "2025-04-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "GRP34284",
+     "got": "GRP34284",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "816866",
+     "got": "816866",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "ADV",
+     "got": "ADV",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-2567",
+     "got": "1-555-018-2567",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card27",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Kwame",
+     "got": "Kwame",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Lindqvist",
+     "got": "Lindqvist",
+     "ok": true
+    },
+    "member_id": {
+     "want": "DB75153160",
+     "got": "DB75153160",
+     "ok": true
+    },
+    "dob": {
+     "want": "1978-10-02",
+     "got": "1978-10-02",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-10-01",
+     "got": "2025-10-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": "G43126",
+     "got": "G43126",
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Sunrise Medicaid Partners",
+     "got": "Sunrise Medicaid Partners",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-011-4401",
+     "got": "1-555-011-4401",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card28",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 0,
+   "fields": {
+    "member_first": {
+     "want": "Tomasz",
+     "got": "TOMASZ",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Okafor",
+     "got": "OKAFOR",
+     "ok": true
+    },
+    "member_id": {
+     "want": "510-91-1783",
+     "got": "510-91-1783",
+     "ok": true
+    },
+    "dob": {
+     "want": "1981-07-10",
+     "got": "1981-07-10",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "444812",
+     "got": "444812",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "DEMORX",
+     "got": "DEMORX",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-018-2961",
+     "got": "1-555-018-2961",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card29",
-   "error": "BrainError: claude CLI failed: "
+   "hard": false,
+   "layout": 1,
+   "fields": {
+    "member_first": {
+     "want": "Zoë",
+     "got": "ZOË",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Nwosu",
+     "got": "NWOSU",
+     "ok": true
+    },
+    "member_id": {
+     "want": "MD76065394",
+     "got": "MD76065394",
+     "ok": true
+    },
+    "dob": {
+     "want": "1994-08-25",
+     "got": "1994-08-25",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2025-01-01",
+     "got": "2025-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Lakeside Health Alliance",
+     "got": "Lakeside Health Alliance",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-016-4913",
+     "got": "1-555-016-4913",
+     "ok": true
+    }
+   }
   },
   {
    "id": "card30",
-   "error": "BrainError: claude CLI failed: "
+   "hard": true,
+   "layout": 2,
+   "fields": {
+    "member_first": {
+     "want": "Mei-Ling",
+     "got": "Mei-Ling",
+     "ok": true
+    },
+    "member_last": {
+     "want": "Delgado-Ruiz",
+     "got": "Delgado-Ruiz",
+     "ok": true
+    },
+    "member_id": {
+     "want": "9146958641",
+     "got": "9146958641",
+     "ok": true
+    },
+    "dob": {
+     "want": "1998-08-08",
+     "got": "1998-08-08",
+     "ok": true
+    },
+    "effective_date": {
+     "want": "2026-01-01",
+     "got": "2026-01-01",
+     "ok": true
+    },
+    "group_number": {
+     "want": null,
+     "got": null,
+     "ok": true
+    },
+    "rx_bin": {
+     "want": "282040",
+     "got": "282040",
+     "ok": true
+    },
+    "rx_pcn": {
+     "want": "9999",
+     "got": "9999",
+     "ok": true
+    },
+    "plan_name": {
+     "want": "Harbor Family Health",
+     "got": "Harbor Family Health",
+     "ok": true
+    },
+    "member_services_phone": {
+     "want": "1-555-013-2422",
+     "got": "1-555-013-2422",
+     "ok": true
+    }
+   }
   }
  ]
 }

@@ -68,11 +68,14 @@ def run() -> dict:
         else:
             r[cond] += h
     table = []
+    for (dom, spec, _, golds, cond), h in zip(jobs, hits):        # a failed call is not a wrong answer
+        rows[(dom, spec)].setdefault("scored_" + cond, 0)
+        rows[(dom, spec)]["scored_" + cond] += not isinstance(h, dict)
     for r in rows.values():
         for c in CONDITIONS:
-            r[c] = rate(r[c], r["n"])
+            r[c] = rate(r[c], r.pop("scored_" + c))
         table.append(r)
-    tot = {c: rate(sum(r[c]["k"] for r in table), sum(r["n"] for r in table)) for c in CONDITIONS}
+    tot = {c: rate(sum(r[c]["k"] for r in table), sum(r[c]["n"] for r in table)) for c in CONDITIONS}
     return {"what": "leave-one-out over the public curated examples (not blind)", "sets": len(table),
             "examples": sum(r["n"] for r in table), "total": tot, "by_set": table,
             "measured": time.strftime("%Y-%m-%d %H:%M %Z")}
