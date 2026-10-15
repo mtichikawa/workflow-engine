@@ -79,6 +79,7 @@ def build(slug):
                       desc=s["desc"], item_id=s.get("item"),
                       template=str(ROOT / "engine" / "explorer_engine.html"))
     out = ROOT / "usecases" / slug / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     print(f"wrote {out.relative_to(ROOT)}  ({len(html)} bytes)")
 
