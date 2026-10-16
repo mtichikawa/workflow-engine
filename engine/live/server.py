@@ -5,8 +5,9 @@
 One page, polling a small JSON API. Everything on it is the real engine: the composer composes, the
 dispatcher runs the recipe on a board, the gate waits for a person, and the staged packet is read back
 from the board. A run is either LIVE (the model answers now; the calls are recorded) or REPLAY (the same
-engine, but the model's answers come from a recorded tape — see engine/core/tape.py). The page always
-says which.
+engine, but the model's answers come from a recorded tape — see engine/core/tape.py). A replay runs at
+full speed and reports the recording's own timings, so the page can show the recorded result at once
+while a live session carries on beside it. The page always says which it is showing.
 
 Standard library only, like `engine train`'s review UI.
 """
@@ -33,6 +34,8 @@ class Session:
 
     def __init__(self, case, mode: str):
         self.case, self.mode, self.id = case, mode, uuid.uuid4().hex[:8]
+        self.recorded = ({s["id"]: s for s in json.loads(case.TAPE.with_name("tape-run.json").read_text())["steps"]}
+                         if mode == "replay" else {})
         self.tape_path = case.TAPE if mode == "replay" else TAPES / f"{self.id}.json"
         self.tapes: list = []
         self.compose: dict = {"status": "idle"}
@@ -45,7 +48,7 @@ class Session:
 
     def _tape(self):
         if self.mode == "replay":
-            return tape.replaying(self.tape_path)
+            return tape.replaying(self.tape_path, pace=0)       # full speed; the recording's times are reported
         return tape.recording(self.tape_path)
 
     def _keep(self, t) -> None:
@@ -58,12 +61,30 @@ class Session:
 
     # ---- compose ---------------------------------------------------------
     def start_compose(self) -> None:
-        self.compose = {"status": "running", "started": time.time(), "log": []}
+        self.compose, self._calls = {"status": "running", "started": time.time(), "log": []}, 0
         threading.Thread(target=self._compose, daemon=True).start()
 
+    def start_all(self) -> None:
+        """Compose, then run to the gate — on a replay, the recorded result in about a second."""
+        self.compose, self._calls = {"status": "running", "started": time.time(), "log": []}, 0
+        def go():
+            self._compose()
+            self.start_run()
+        threading.Thread(target=go, daemon=True).start()
+
     def _progress(self, event: dict) -> None:
-        """The composer's stages as they happen (draft, validator verdict, repair), timed from the start."""
-        self.compose["log"].append({**event, "at": round(time.time() - self.compose["started"], 1)})
+        """The composer's events as they happen, timed from the start: on the wall clock when live, on the
+        recording's clock (the recorded seconds of the calls so far) on a replay. A model answer also says
+        how it was served (live, or exact/approx from the recording) and, on a replay, its recorded time."""
+        t = tape.active()
+        if event["stage"] == "answer" and t and t.log:
+            event = {**event, "served": t.log[-1]["served"],
+                     **({"seconds": round(sum(c["seconds"] for c in t.log[self._calls:]), 1)}
+                        if self.mode == "replay" else {})}
+        if event["stage"] in ("draft", "repair") and t:
+            self._calls = len(t.log)                            # the calls made before this one
+        at = (sum(c["seconds"] for c in t.log) if self.mode == "replay" and t else time.time() - self.compose["started"])
+        self.compose["log"].append({**event, "at": round(at, 1)})
 
     def _compose(self) -> None:
         from ..composer import compose
@@ -77,7 +98,9 @@ class Session:
                 name = s["specialist"]
                 tag = ("new" if name in res["missing"] else "reuse" if name in CAPABILITIES else "domain")
                 steps.append({"id": s["id"], "specialist": name, "tag": tag, "gate": bool(s.get("gate"))})
-            self.compose = {"status": "done", "seconds": round(time.time() - self.compose["started"], 1),
+            log = self.compose["log"]
+            self.compose = {"status": "done", "seconds": log[-1]["at"] if self.mode == "replay" and log
+                            else round(time.time() - self.compose["started"], 1),
                             "log": self.compose["log"],
                             "steps": steps, "gaps": res["gaps"], "edges": res["edges"],
                             "findings": [str(f) for f in res["findings"]], "runnable": res["runnable"],
@@ -130,14 +153,16 @@ class Session:
         now = time.time()
         served = [c["served"] for t in self.tapes for c in t.log]
         finished = {sid: c for sid, c in cards.items() if c["status"] == "done" and c["output"] is not None}
+        # a replay runs at full speed: each step reports the time it took when it was recorded
+        secs = {sid: (self.recorded[sid]["seconds"] if sid in self.recorded else c.get("seconds")) for sid, c in cards.items()}
         return {
             "status": status, "error": self.error, "mode": self.mode, "run_id": self.run_id,
-            "elapsed": round((self.t_gate or self.t_end or now) - self.t0, 1),
-            "cards": {sid: {"status": c["status"], "seconds": c.get("seconds"), "visits": c["visits"],
+            "elapsed": None if self.mode == "replay" else round((self.t_gate or self.t_end or now) - self.t0, 1),
+            "cards": {sid: {"status": c["status"], "seconds": secs[sid], "visits": c["visits"],
                             "started": c.get("started"), "input": c["input"], "output": c["output"],
                             "attempts": c["attempts"],
                             "running_for": round(now - c["started"], 1) if c["status"] == "running" and c.get("started") else None,
-                            **(view.step_detail(self.case, sid, c["output"], c.get("seconds")) if sid in finished else {})}
+                            **(view.step_detail(self.case, sid, c["output"], secs[sid]) if sid in finished else {})}
                       for sid, c in cards.items()},
             "findings": view.findings({sid: c["output"] for sid, c in finished.items()}),
             "events": data["events"],
@@ -232,6 +257,8 @@ def serve(case, port: int = 8600, host: str = "0.0.0.0") -> None:
             action = parts[3]
             if action == "compose":
                 s.start_compose()
+            elif action == "all":
+                s.start_all()
             elif action == "run":
                 s.start_run()
             elif action in ("approve", "reject"):

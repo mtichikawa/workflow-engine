@@ -55,11 +55,14 @@ section{margin-top:22px;scroll-margin-top:76px}             /* clear of the stic
 .gaps{margin-top:10px;font-size:13px;color:var(--mut);line-height:1.5}
 .gaps b{color:#f0b4ac;font-family:var(--mono);font-weight:500}
 .vs{margin-top:10px;font-size:13px;color:var(--mut);border-left:3px solid var(--brass);padding:6px 10px;background:#1d2128}
-.plog{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px;font-size:13.5px}
-.plog li{display:grid;grid-template-columns:20px 58px minmax(0,1fr);gap:6px;align-items:baseline;color:#dfe5ee}
-.plog .ic{text-align:center;font-weight:700} .plog .ok .ic{color:var(--green)} .plog .bad .ic{color:var(--red)}
-.plog .at{font:11.5px var(--mono);color:var(--dim);text-align:right}
-.plog .er{display:block;font:12px var(--mono);color:#f0b4ac;margin-top:2px}
+.term{margin:10px 0 8px;background:#0c0e12;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+  font:12px/1.6 var(--mono);color:#c9d1dc;max-height:680px;overflow:auto}
+.term .tl{display:grid;grid-template-columns:62px 84px minmax(0,1fr);gap:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.term .t{color:var(--dim);text-align:right}
+.term .src{font-weight:600}
+.term .src.composer{color:var(--brass)} .term .src.model{color:#8fb5ea} .term .src.draft{color:var(--steel)} .term .src.validator{color:#9fdcbc}
+.term .bad{color:#f0a49a} .term .warn{color:#e2c07a} .term .good{color:#9fdcbc} .term .dim{color:var(--dim)}
+.term .now{color:#8fb5ea}
 .finds{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .finds li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start;font-size:14px;line-height:1.45;animation:flash 1.2s ease-out}
 .finds li i{font-style:normal;font-weight:700;text-align:center}
@@ -301,7 +304,7 @@ __GRAPH_CORE__
 <script>
 "use strict";
 const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let CASE=null, G=null, sess=null, mode="live", poll=null, last=null, selected=null, seenEv=0, tStart=null, tStop=null;
+let CASE=null, G=null, sess=null, mode="live", poll=null, last=null, selected=null, tStart=null;
 
 async function api(path, body){
   const r=await fetch(path, body===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
@@ -316,8 +319,7 @@ async function api(path, body){
   if(!CASE.tape.exists) $("#mode [data-m=replay]").disabled=true;
   else $("#mode [data-m=replay]").title="recorded "+CASE.tape.recorded;
   renderDocs(); buildGraph(); renderHonest();
-  $("#mode").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.disabled||busy()) return;
-    mode=b.dataset.m; document.querySelectorAll("#mode button").forEach(x=>x.classList.toggle("on",x===b)); resetAll(); };
+  $("#mode").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.disabled||b.dataset.m===mode) return; show(b.dataset.m); };
   $("#bCompose").onclick=()=>start("compose");
   $("#bRun").onclick=()=>start("run");
   $("#bApprove").onclick=()=>decide("approve");
@@ -331,24 +333,42 @@ async function api(path, body){
 })();
 
 function atGate(){ return !!(last && last.run.status==="gated"); }
-function busy(){ return last && (last.compose.status==="running" || ["running"].includes(last.run.status)); }
-function resetAll(){ sess=null; last=null; seenEv=0; tStart=tStop=null; selected=null; closeDrawer();
+// each mode keeps its own session, so a live build carries on while you look at the recording, and back.
+// The recording is shown finished: a replay runs at full speed and reports the times it was recorded at.
+const VIEW={live:{sess:null,last:null,tStart:null}, replay:{sess:null,last:null,tStart:null}};
+function show(m){
+  VIEW[mode]={sess,last,tStart}; clearInterval(poll); poll=null;
+  mode=m; ({sess,last,tStart}=VIEW[m]);
+  document.querySelectorAll("#mode button").forEach(x=>x.classList.toggle("on",x.dataset.m===m));
+  clearView();
+  if(last){ renderCompose(last.compose); renderRun(last.run, true); }
+  syncButtons();
+  if(m==="replay"&&!sess) start("all"); else if(sess){ poll=setInterval(refresh,450); refresh(); }
+}
+function clearView(){ selected=null; closeDrawer();
   $("#compose").classList.remove("on"); $("#compose").innerHTML=""; delete $("#compose").dataset.done; $("#finds").innerHTML=""; $("#findsEmpty").style.display="";
   if(expId){ const p=expId; expId=null; relayout(false,p); }
   $("#gate").classList.remove("on"); $("#decided").classList.remove("on"); $("#gateEmpty").style.display="";
   $("#packet").innerHTML='<div class="empty-p">The review packet appears here when the workflow reaches the gate.</div>'; delete $("#packet").dataset.run;
-  $("#bCompose").disabled=false; $("#bRun").disabled=false; $("#bRun").textContent="Run it on this case";
-  paint({}); $("#clock").firstChild.textContent="0.0s"; $("#clockl").textContent=mode==="replay"?"replay mode":"not started";
-  $("#sub").textContent=mode==="replay"?`REPLAY of a recorded run (${CASE.tape.recorded}) · the engine runs for real; the model's answers come from the recording`:"workflow engine · live model calls";
+  paint({}); $("#clock").firstChild.textContent=mode==="replay"?"—":"0.0s"; $("#clockl").textContent=mode==="replay"?"recorded run":"not started";
+  $("#runHint").textContent="each box is one step · click any box to open it";
+  $("#sub").textContent=mode==="replay"?`RECORDED RUN (${CASE.tape.recorded}) · the engine re-runs it for real; the model's answers come from the recording, shown with the times they took then`:"workflow engine · live model calls";
+}
+function syncButtons(){
+  const c=last?last.compose.status:"idle", r=last?last.run.status:"idle", loading=mode==="replay"&&(!last||c==="running"||r==="idle");
+  $("#bCompose").disabled=c==="running"||r!=="idle"||mode==="replay";
+  $("#bRun").disabled=loading||r==="running"||r==="gated";
+  $("#bRun").textContent=["done","rejected","failed"].includes(r)?"Run again":"Run it on this case";
 }
 
 async function start(what){
   try{
-    if(!sess || (what==="run" && last && last.run.status!=="idle")){ sess=(await api("/api/session",{mode})).id; seenEv=0; }
+    if(!sess || what==="all" || (what==="run" && last && last.run.status!=="idle")) sess=(await api("/api/session",{mode})).id;
     await api(`/api/session/${sess}/${what}`,{});
-    if(what==="compose"){ $("#bCompose").disabled=true; tStart=performance.now(); tStop=null; }
-    if(what==="run"){ $("#bRun").disabled=true; $("#bCompose").disabled=true; $("#finds").innerHTML=""; tStart=performance.now(); tStop=null;
-      $("#secRun").scrollIntoView({behavior:"smooth",block:"start"}); }
+    if(what==="compose"){ $("#bCompose").disabled=true; tStart=performance.now(); }
+    if(what==="run"){ $("#bRun").disabled=true; $("#bCompose").disabled=true; $("#finds").innerHTML=""; tStart=performance.now();
+      if(mode==="live") $("#secRun").scrollIntoView({behavior:"smooth",block:"start"}); }
+    if(what==="all") tStart=performance.now();
     clearInterval(poll); poll=setInterval(refresh,450); refresh();
   }catch(e){ alert(e.message); }
 }
@@ -360,21 +380,26 @@ async function decide(action){
 
 async function refresh(){
   if(!sess) return;
-  let s; try{ s=await api(`/api/session/${sess}`); }catch(e){ return; }
-  last=s; renderCompose(s.compose); renderRun(s.run);
-  const active=s.compose.status==="running"||s.run.status==="running";
-  if(!active){ clearInterval(poll); poll=null; if(tStart&&!tStop) tStop=performance.now(); }
+  const want=sess;
+  let s; try{ s=await api(`/api/session/${want}`); }catch(e){ return; }
+  if(sess!==want) return;                                  // the view switched while this was in flight
+  last=s; renderCompose(s.compose); renderRun(s.run); syncButtons();
+  const active=s.compose.status==="running"||s.run.status==="running"||(mode==="replay"&&s.run.status==="idle");
+  if(!active){ clearInterval(poll); poll=null; }
 }
 function tickClock(){
   if(!last) return;
   const r=last.run, c=last.compose;
   let secs=0, label="";
-  if(r.status && r.status!=="idle"){ secs=r.elapsed + ((r.status==="running")?0:0); label=r.status==="gated"?"to the gate":r.status==="running"?"running":r.status; }
-  else if(c.status==="running"){ secs=(performance.now()-tStart)/1000; label="composing"; }
-  else if(c.status==="done"){ secs=c.seconds; label="composed"; }
-  if(r.status==="running" && r._t){ secs=r.elapsed+(performance.now()-r._t)/1000; }
-  $("#clock").firstChild.textContent=secs.toFixed(1)+"s"; $("#clockl").textContent=(mode==="replay"?"replay · ":"")+label;
-  const pn=$("#plogNow"); if(pn&&c.status==="running") pn.textContent=((performance.now()-tStart)/1000).toFixed(1)+"s";
+  if(mode==="replay"){ $("#clock").firstChild.textContent="—"; $("#clockl").textContent=r.status==="gated"?"recorded run · at the gate":"recorded run"; }
+  else {
+    if(r.status && r.status!=="idle"){ secs=r.elapsed; label=r.status==="gated"?"to the gate":r.status==="running"?"running":r.status; }
+    else if(c.status==="running"){ secs=(performance.now()-tStart)/1000; label="composing"; }
+    else if(c.status==="done"){ secs=c.seconds; label="composed"; }
+    if(r.status==="running" && r._t){ secs=r.elapsed+(performance.now()-r._t)/1000; }
+    $("#clock").firstChild.textContent=secs.toFixed(1)+"s"; $("#clockl").textContent=label;
+  }
+  const pn=$("#plogNow"); if(pn&&c.status==="running") pn.textContent=`${((performance.now()-tStart)/1000-(+pn.dataset.at||0)).toFixed(1)} s so far`;
   const g=atGate(); $("#gRun").disabled=!g&&$("#bRun").disabled; $("#gRun").textContent=g?"Review and approve ↓":$("#bRun").textContent;
 }
 
@@ -383,7 +408,9 @@ function renderCompose(c){
   const box=$("#compose");
   if(c.status==="idle") return;
   box.classList.add("on");
-  if(c.status==="running"){ box.innerHTML=`<div class="cmeta">every draft goes through the validator before anything can run</div>${plog(c)}`; return; }
+  if(c.status==="running"){ const old=$("#term"), stick=!old||old.scrollTop+old.clientHeight>=old.scrollHeight-8;
+    box.innerHTML=`<div class="cmeta">composer log — every draft goes through the validator before anything can run</div>${plog(c)}`;
+    if(stick) $("#term").scrollTop=$("#term").scrollHeight; return; }
   if(c.status==="failed"){ box.innerHTML=`${plog(c)}<div class="err">composer failed: ${esc(c.error)}</div>`; $("#bCompose").disabled=false; return; }
   if(box.dataset.done===sess) return; box.dataset.done=sess;
   const recipeSpecs=new Set(Object.values(CASE.steps).map(s=>s.specialist));
@@ -392,21 +419,40 @@ function renderCompose(c){
   const chips=c.steps.map(s=>`<span class="chip ${s.tag}"><span class="tg">${s.tag==="reuse"?"reused":s.tag==="new"?"gap":"built"}</span>${esc(s.id)}${s.specialist!==s.id?` <span style="opacity:.6">(${esc(s.specialist)})</span>`:""}${s.gate?" ⏸":""}</span>`).join("");
   const gaps=c.gaps.length?`<div class="gaps">${c.gaps.map(g=>`Gap flagged, not faked: <b>${esc(g.name)}</b> — ${esc(g.why||"")}`).join("<br>")}</div>`:"";
   const served=c.served&&c.served.length?` · model answer${c.served.length>1?"s":""} ${c.served.includes("live")?"live":"from the recording"}`:"";
-  box.innerHTML=`${plog(c)}<div class="cmeta">composed in ${c.seconds}s · ${c.steps.length} steps · ${c.runnable?"validates and runs as-is":"needs the gaps filled before it can run"}${served}</div>
+  box.innerHTML=`<div class="cmeta">composer log</div>${plog(c)}<div class="cmeta">composed in ${c.seconds}s · ${c.steps.length} steps · ${c.runnable?"validates and runs as-is":"needs the gaps filled before it can run"}${served}</div>
     <div class="chips">${chips}</div>${gaps}
     <div class="vs">This is the composer's <b>live draft</b>. What runs below is a recipe for the same job that was written and reviewed ahead of time — in healthcare you don't run a workflow a model drafted seconds ago without a review. The draft uses ${both.length} of the reviewed recipe's ${recipeSpecs.size} specialists (${both.map(esc).join(", ")})${draftSpecs.size>both.length?` plus ${[...draftSpecs].filter(x=>!recipeSpecs.has(x)).map(esc).join(", ")}`:""}.</div>`;
+  $("#term").scrollTop=$("#term").scrollHeight;
 }
-// the composer's stages as they happen: each draft, the validator's verdict on it, and any repair
+// the composer's log: every event the engine reports, as it happens — the prompt, each model call and what it
+// drew, every validator check and finding, each repair, the final check
 function plog(c){
-  const L=c.log||[], running=c.status==="running";
-  const li=(cls,ic,at,txt)=>`<li class="${cls}"><span class="ic">${ic}</span><span class="at">${at}</span><span>${txt}</span></li>`;
-  return `<ul class="plog">${L.map((e,k)=>{
-    const now=running&&k===L.length-1, at=now?`<span id="plogNow"></span>`:`${e.at.toFixed(1)}s`;
-    if(e.stage==="draft") return li("",now?'<span class="spin"></span>':"·",at,`Drafting a workflow from the library (${CASE.library} shared specialists + this job's own)${now?"…":""}`);
-    if(e.stage==="repair") return li("",now?'<span class="spin"></span>':"·",at,`Repairing: the draft goes back to the model with the validator's errors (attempt ${e.attempt})${now?"…":""}`);
-    if(e.stage==="valid") return li("ok","✓",at,`The validator checked every step and connection: ${e.steps} steps, valid`);
-    return li("bad","✗",at,`The validator rejected draft ${e.attempt}:<span class="er">${e.errors.map(esc).join("<br>")}</span>`);
-  }).join("")}</ul>`;
+  const L=c.log||[], running=c.status==="running", n=x=>Number(x).toLocaleString("en-US");
+  const ln=(at,src,msg)=>`<div class="tl"><span class="t">${at==null?"":"+"+at.toFixed(1)+"s"}</span><span class="src ${src}">${src}</span><span>${msg}</span></div>`;
+  const out=[]; let calls=0;
+  L.forEach((e,k)=>{
+    const last=k===L.length-1;
+    if(e.stage==="prompt") out.push(ln(e.at,"composer",`prompt: the request (${n(e.request_chars)} chars) + the library catalogue (${e.specialists} specialists, each with its contract) + the composing rules = ${n(e.chars)} chars`));
+    else if(e.stage==="draft"||e.stage==="repair"){ calls++;
+      if(e.stage==="repair") out.push(ln(e.at,"composer",`repair: the draft goes back to the model with the validator's errors · prompt now ${n(e.chars)} chars (attempt ${e.attempt} of 3)`));
+      out.push(ln(e.at,"model",`call ${calls} → ${e.stage==="draft"?"draft a workflow":"fix the draft"}`));
+      if(running&&last) out.push(ln(null,"model",`<span class="now"><span class="spin"></span> waiting for the model · <span id="plogNow" data-at="${e.at}"></span></span>`)); }
+    else if(e.stage==="answer"){ const P=e.plan||{steps:[]};
+      out.push(ln(e.at,"model",`answered in ${e.seconds.toFixed(1)} s · ${n(e.chars)} chars of JSON · ${e.served==="live"?"live":e.served?"from the recording ("+e.served+")":"live"}`));
+      out.push(ln(null,"draft",`draft ${e.attempt}: ${P.steps.length} steps`));
+      P.steps.forEach(([id,spec,gate,each],i)=>out.push(ln(null,"",`<span class="dim">${String(i+1).padStart(2)}</span>  ${esc(id)} <span class="dim">←</span> ${esc(spec)}${gate?' <span class="warn">⏸ gate: waits for a person</span>':""}${each?' <span class="dim">(once per item)</span>':""}`)));
+      out.push(ln(null,"",`<span class="dim">${P.edges?`${P.edges} edges · ${P.conditional} conditional · ${P.loops} loop${P.loops===1?"":"s"}`:"no edges: the steps run in the order listed"} · gaps flagged: ${P.gaps.length?P.gaps.map(esc).join(", "):"none"}</span>`)); }
+    else if(e.stage==="checked"){ const C=e.checked;
+      if(C) out.push(ln(e.at,"validator",`checking ${C.steps} steps, ${C.wires} wires, ${C.edges} edges: every source exists and runs first, every type fits`));
+      e.errors.forEach(x=>out.push(ln(null,"validator",`<span class="bad">✗ error</span>  ${esc(x)}`)));
+      e.warnings.forEach(x=>out.push(ln(null,"validator",`<span class="warn">! warning</span>  ${esc(x)}`)));
+      out.push(ln(null,"validator",e.errors.length?`<span class="bad">rejected: ${e.errors.length} error${e.errors.length>1?"s":""}</span> — it can't run as drawn`:`<span class="good">✓ passed</span> · ${e.warnings.length} warning${e.warnings.length===1?"":"s"}`)); }
+    else if(e.stage==="contracts"){
+      out.push(ln(e.at,"validator",`final check, with each specialist's field contracts: ${e.errors.length?`<span class="bad">${e.errors.length} error(s)</span>`:'<span class="good">✓ 0 errors</span>'} · ${e.warnings.length} warning${e.warnings.length===1?"":"s"}`));
+      e.errors.concat(e.warnings).forEach(x=>out.push(ln(null,"validator",esc(x)))); }
+    else if(e.stage==="done") out.push(ln(e.at,"composer",`${e.runnable?'<span class="good">done</span>':'<span class="bad">done, not runnable</span>'}: ${e.steps} steps · ${e.attempts} model call${e.attempts>1?"s":""} · ${e.missing.length?"missing: "+e.missing.map(esc).join(", "):"every specialist exists"}`));
+  });
+  return `<div class="term" id="term">${out.join("")}</div>`;
 }
 
 // ---------------------------------------------------------------- documents
@@ -574,7 +620,7 @@ function animate(t){
 }
 
 // ---------------------------------------------------------------- run state
-function renderRun(r){
+function renderRun(r, quiet){                                  // quiet: re-showing a view, don't scroll
   if(!r || r.status==="idle") return;
   r._t=performance.now();
   paint(r.cards);
@@ -585,7 +631,7 @@ function renderRun(r){
   const gated=r.status==="gated";
   if(gated && !$("#gate").classList.contains("on")){
     $("#gate").classList.add("on"); $("#gateEmpty").style.display="none"; $("#bApprove").disabled=$("#bReject").disabled=false;
-    gateSummary(r); if(!$("#stage").classList.contains("max")) setTimeout(()=>$("#secGate").scrollIntoView({behavior:"smooth",block:"start"}),400);
+    gateSummary(r); if(!quiet&&mode==="live"&&!$("#stage").classList.contains("max")) setTimeout(()=>$("#secGate").scrollIntoView({behavior:"smooth",block:"start"}),400);
   }
   if(!gated) $("#gate").classList.remove("on");
   const pk=r.cards.packet;
@@ -608,7 +654,7 @@ function gateSummary(r){
     `<span class="gc">Claim: ${holds?`on hold — ${holds} issue${holds>1?"s":""}`:"clean"}</span>`,
     `<span class="gc">Patient reply: ${chk==="pass"?"passed the non-medical check":"FAILED the non-medical check"}</span>`,
     med?`<span class="gc">Medical content → on-call nurse (a person)</span>`:`<span class="gc">No medical content</span>`,
-    `<span class="gc">${r.elapsed}s from documents to this gate</span>`].join("");
+    r.elapsed==null?`<span class="gc">recorded run · each step's recorded time is in its box</span>`:`<span class="gc">${r.elapsed}s from documents to this gate</span>`].join("");
 }
 // what it found: a line appears when the step that found it finishes; each links to its box
 function renderFinds(r){

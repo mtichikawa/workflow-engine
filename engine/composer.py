@@ -10,6 +10,7 @@ have to be right first try, only right after feedback.
 from __future__ import annotations
 
 import json
+import time
 
 from .core import Edge, Recipe, Step, all_specialists, brain_json, validate
 from .registry import catalog
@@ -90,23 +91,30 @@ Return JSON: {{"steps":[...], "edges":[...], "gaps":[{{"name","why","input":[...
 
 
 def compose(use_case: str, draft: bool = False, max_repairs: int = 2, progress=None) -> dict:
-    """`progress`, if given, is called with each stage as it happens — {"stage": "draft" | "repair", "attempt"}
-    before a model call, then {"stage": "valid", "attempt", "steps"} or {"stage": "invalid", "attempt",
-    "errors"} after the validator — so a screen can show the compile-error loop instead of a spinner."""
+    """`progress`, if given, is called with each event as it happens, so a screen can show the compile-error
+    loop as a log: "prompt" (what goes to the model), "draft" / "repair" (a model call starts), "answer" (it
+    came back: seconds, size, the plan it drew), "checked" (the validator's errors and warnings on that
+    plan), "contracts" (the final check, field types included) and "done"."""
     say = progress or (lambda event: None)
-    base = PROMPT.format(use_case=use_case, catalog=json.dumps(catalog(), indent=1))
-    prompt, data = base, {}
+    cat = catalog()
+    base = PROMPT.format(use_case=use_case, catalog=json.dumps(cat, indent=1))
+    say({"stage": "prompt", "chars": len(base), "request_chars": len(use_case), "specialists": len(cat)})
+    prompt, data, attempt = base, {}, 0
     for attempt in range(1, max_repairs + 2):
-        say({"stage": "draft" if attempt == 1 else "repair", "attempt": attempt})
+        say({"stage": "draft" if attempt == 1 else "repair", "attempt": attempt, "chars": len(prompt)})
+        t0 = time.time()
         data = brain_json(prompt)
         steps, edges = _steps(data), _edges(data)
+        say({"stage": "answer", "attempt": attempt, "seconds": round(time.time() - t0, 1),
+             "chars": len(json.dumps(data)), "plan": _plan(steps, edges, data)})
         if not steps:
-            say({"stage": "invalid", "attempt": attempt, "errors": ["the draft has no steps"]})
+            say({"stage": "checked", "attempt": attempt, "errors": ["the draft has no steps"], "warnings": []})
             break
-        errs = [f for f in validate(Recipe("composed", steps, edges), check_contracts=False)
-                if f.level == "error"]
-        say({"stage": "invalid", "attempt": attempt, "errors": [f.msg for f in errs]} if errs
-            else {"stage": "valid", "attempt": attempt, "steps": len(steps)})
+        found = validate(Recipe("composed", steps, edges), check_contracts=False)
+        errs = [f for f in found if f.level == "error"]
+        say({"stage": "checked", "attempt": attempt, "errors": [f.msg for f in errs],
+             "warnings": [f.msg for f in found if f.level != "error"],
+             "checked": {"steps": len(steps), "edges": len(edges), "wires": sum(_wires(s.inputs) for s in steps)}})
         if not errs:
             break
         prompt = base + _repair(data, errs)                 # compile-error feedback loop
@@ -128,6 +136,10 @@ def compose(use_case: str, draft: bool = False, max_repairs: int = 2, progress=N
     recipe = Recipe("composed", steps, edges) if steps else None
     findings = validate(recipe) if recipe else []
     errors = [str(f) for f in findings if f.level == "error"]
+    say({"stage": "contracts", "errors": [f.msg for f in findings if f.level == "error"],
+         "warnings": [f.msg for f in findings if f.level != "error"]})
+    say({"stage": "done", "attempts": attempt, "steps": len(steps), "missing": missing,
+         "runnable": not missing and not errors})
     return {
         "recipe": recipe,
         "steps": data.get("steps", []),
@@ -139,6 +151,20 @@ def compose(use_case: str, draft: bool = False, max_repairs: int = 2, progress=N
         "errors": errors,
         "runnable": not missing and not errors,
     }
+
+
+def _plan(steps, edges, data) -> dict:
+    """What a draft drew, for the log: its steps, how they connect, and the gaps it flagged."""
+    order = {s.id: i for i, s in enumerate(steps)}
+    return {"steps": [[s.id, s.specialist, bool(s.gate), bool(s.each)] for s in steps], "edges": len(edges),
+            "conditional": sum(1 for e in edges if e.when),
+            "loops": sum(1 for e in edges if order.get(e.dst, 1e9) <= order.get(e.src, -1)),
+            "gaps": [g.get("name", "?") for g in data.get("gaps", [])]}
+
+
+def _wires(inputs) -> int:
+    """How many live-data sources a step's inputs read (a nested dict of sources counts each one)."""
+    return sum(_wires(v) if isinstance(v, dict) else 1 for v in inputs.values())
 
 
 def _steps(data) -> list[Step]:

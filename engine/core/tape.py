@@ -54,18 +54,20 @@ class Tape:
         self.entries: list[dict] = (json.loads(self.path.read_text())["calls"]
                                     if mode == "replay" else [])
         self.used: set[int] = set()
-        self.log: list[dict] = []          # per call: how it was served (live | exact | approx | miss)
+        self.log: list[dict] = []          # per call: how it was served (live | exact | approx | miss) and
+                                           # its seconds (measured live, or as recorded on a replay)
         self._lock = threading.Lock()
 
     def call(self, prompt: str, system: str | None, live, files: list[str] | None = None) -> str:
         if self.mode == "record":
             t0 = time.time()
             out = live()
+            secs = round(time.time() - t0, 2)
             with self._lock:
                 self.entries.append({"key": _key(prompt, system, files), "system": system,
                                      "files": _files_sha(files) if files else None, "prompt": prompt,
-                                     "response": out, "seconds": round(time.time() - t0, 2)})
-                self.log.append({"served": "live"})
+                                     "response": out, "seconds": secs})
+                self.log.append({"served": "live", "seconds": secs})
             return out
         hit, how = self._find(prompt, system, files)
         if hit is None:
@@ -74,7 +76,7 @@ class Tape:
             raise TapeMiss(f"prompt not on the tape {self.path.name} (sha {_key(prompt, system, files)[:10]})")
         time.sleep(hit["seconds"] * self.pace)
         with self._lock:
-            self.log.append({"served": how})
+            self.log.append({"served": how, "seconds": hit["seconds"]})
         return hit["response"]
 
     def _find(self, prompt: str, system: str | None, files: list[str] | None):

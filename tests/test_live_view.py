@@ -76,6 +76,37 @@ def test_composer_reports_each_stage(monkeypatch):
     monkeypatch.setattr(composer, "brain_json", lambda prompt: next(answers))
     events = []
     res = composer.compose("sort these", progress=events.append)
-    assert [e["stage"] for e in events] == ["draft", "invalid", "repair", "valid"]
-    assert events[1]["errors"] and all(not e.startswith("[") for e in events[1]["errors"])
-    assert events[3] == {"stage": "valid", "attempt": 2, "steps": 1} and res["runnable"]
+    assert [e["stage"] for e in events] == ["prompt", "draft", "answer", "checked", "repair", "answer", "checked",
+                                            "contracts", "done"]
+    first, second = events[3], events[6]
+    assert first["errors"] and all(not e.startswith("[") for e in first["errors"])
+    assert not second["errors"] and second["checked"] == {"steps": 1, "edges": 0, "wires": 1}
+    assert events[2]["plan"]["steps"] == [["a", "classify", False, False]] and events[2]["plan"]["edges"] == 1
+    assert events[-1] == {"stage": "done", "attempts": 2, "steps": 1, "missing": [], "runnable": True} and res["runnable"]
+
+
+def test_a_replay_shows_the_recorded_result_at_once(tmp_path, monkeypatch):
+    """A replay session runs at full speed to the gate and reports each step's recorded time, and its log is
+    stamped on the recording's clock — so the page can show the recorded result while a live run carries on."""
+    import shutil
+    import time
+
+    import pytest
+    from engine.live.server import Session
+    reg = Path(__file__).resolve().parents[1] / "state/registry.json"
+    if not reg.exists():          # the composer's prompt includes this track record; without it, no exact replay
+        pytest.skip("needs state/registry.json (the track record the tape was recorded with)")
+    (tmp_path / "state").mkdir()
+    shutil.copy(reg, tmp_path / "state/registry.json")
+    monkeypatch.chdir(tmp_path)                                   # boards and tapes land in a scratch dir
+    s = Session(case, "replay")
+    t0 = time.time()
+    s.start_all()
+    while s.state().get("status") != "gated":
+        assert time.time() - t0 < 20, (s.compose.get("status"), s.state().get("status"), s.error)
+        time.sleep(0.1)
+    cards = s.state()["cards"]
+    assert all(cards[sid]["seconds"] == r["seconds"] for sid, r in RUN.items() if sid in cards)
+    log = s.compose["log"]
+    assert log[0]["stage"] == "prompt" and log[-1]["stage"] == "done"
+    assert log[-1]["at"] == s.compose["seconds"] > 10                # the recording's clock, not the wall's
