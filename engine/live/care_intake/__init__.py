@@ -149,6 +149,12 @@ LABELS = {
     "packet":        "A person approves",
     "stage":         "Save for the team",
 }
+# Steps measured on a sealed blind set (docs/blind-evals.md). The box shows the result, read from the file in
+# evals/blind-results/: the step as configured, the same model without its written rules, and `examples` (item
+# ids) the rule-less model got wrong.
+TESTED = {"triage": {"result": "triage.json", "with": "engine (policy)", "without": "same model, no policy",
+                     "examples": ["m239", "m311"]}}
+
 PHASES = ["Comes in", "Read", "Combine", "Rules and routing", "Draft", "Check", "Approve", "Save"]
 
 _SPECIALISTS = (ReadDocument(), FillForm(), CoverageRules(), PatientReply(), HandoffNote(), ClaimDraft(),
@@ -162,5 +168,5 @@ def load() -> None:
         register(s)
 
 
-__all__ = ["DOCUMENTS", "FIELDS", "RECIPE", "REQUEST", "STEPS", "SYNTHETIC", "TAPE", "TITLE",
+__all__ = ["DOCUMENTS", "FIELDS", "RECIPE", "REQUEST", "STEPS", "SYNTHETIC", "TAPE", "TESTED", "TITLE",
            "load", "payload"]

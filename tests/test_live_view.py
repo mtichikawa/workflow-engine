@@ -50,6 +50,16 @@ def test_step_detail_from_a_recorded_step():
     assert rows["result"].startswith("medical") and rows["why"] and rows["time"].endswith(" s")
 
 
+def test_triage_box_shows_its_policy_and_blind_result():
+    rows = dict(next(n for n in view.graph(case)["nodes"] if n["id"] == "triage")["detail"])
+    assert "thoughts of harming herself" in rows["rules"]                     # the written policy, word for word
+    r = json.loads((view.RESULTS / "triage.json").read_text())
+    assert r["policy"] == case.MEDICAL_CRITERIA                               # the result is for this policy
+    bare = r["systems"]["same model, no policy"]["all"]["false alarms"]
+    assert f"<b>{bare['k']}/{bare['n']}</b> false alarms" in rows["tested"]
+    assert "my OB appointment got moved" in rows["tested"]
+
+
 def test_findings_grow_as_steps_finish():
     out = {sid: r["output"] for sid, r in RUN.items()}
     assert view.findings({}) == []

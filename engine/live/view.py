@@ -13,6 +13,8 @@ The live page asks for these as a run unfolds; the site builder bakes them from 
 from __future__ import annotations
 
 import html
+import json
+from pathlib import Path
 
 from ..core import get
 from ..explorer import build_graph
@@ -20,6 +22,7 @@ from ..specialists import CAPABILITIES, DOMAIN
 from .care_intake.render import FIELD_LABELS
 
 LIBRARY = list(CAPABILITIES) + list(DOMAIN)
+RESULTS = Path(__file__).resolve().parents[2] / "evals" / "blind-results"
 
 
 def sock(name: str) -> str:
@@ -72,18 +75,43 @@ def _kind(method: str) -> str:
     return "code" if method.startswith(("plain code", "code")) else "model"
 
 
+def _more(label: str, text: str) -> str:
+    """A row's click-to-open text: the label shows, the text opens under it."""
+    return f'<span class="rmore">{html.escape(label)} ▸</span><div class="rfull">{html.escape(text)}</div>'
+
+
+def _tested(spec: dict) -> str:
+    """A step's blind-set result (case.TESTED), read from its result file: caught and false alarms with the
+    step's written rules, then the same model without them, with messages that model wrongly flagged."""
+    r = json.loads((RESULTS / spec["result"]).read_text())
+    a, b = (r["systems"][spec[k]]["all"] for k in ("with", "without"))
+    text = {i["id"]: i["text"] for i in r["items"]}
+    assert set(spec["examples"]) <= set(b["false_alarm_ids"]) - set(a["false_alarm_ids"]), spec["examples"]
+    count = lambda m: f"{m['k']}/{m['n']}"
+    caught, fa = "caught (sensitivity)", "false alarms"
+    return (f"on {r['n']} messages written blind: <b>{count(a[caught])}</b> medical ones sent to a person, "
+            f"<b>{count(a[fa])}</b> false alarms. The same model without this written policy: {count(b[caught])}, "
+            f"but <b>{count(b[fa])}</b> false alarms ({b[fa]['rate']:.0%}), e.g. "
+            + " · ".join(f"“{html.escape(text[i])}”" for i in spec["examples"]))
+
+
 def _rows(case, st, method: str) -> list:
     e = lambda x: html.escape(str(x))
     reused = st.specialist in LIBRARY
     does = case.STEPS[st.id]
-    return [["does", e(does[0].upper() + does[1:])],
+    rows = [["does", e(does[0].upper() + does[1:])],
             ["specialist", f"<code>{e(st.specialist)}</code> · {'reused from the library' if reused else 'built for this job'} · {e(method)}"]]
+    rules = st.config.get("criteria") or st.config.get("standard")
+    if rules:
+        rows.append(["rules", _more("show the written rules", rules)])
+    if st.id in getattr(case, "TESTED", {}):
+        rows.append(["tested", _tested(case.TESTED[st.id])])
+    return rows
 
 
 def step_detail(case, step_id: str, output: dict, seconds: float | None) -> dict:
     """A finished step's box: the line under its name and its click-to-open rows (HTML-escaped)."""
     e = lambda x: html.escape(str(x))
-    more = lambda label, text: f'<span class="rmore">{e(label)} ▸</span><div class="rfull">{e(text)}</div>'
     st = next(s for s in case.RECIPE.steps if s.id == step_id)
     o, method = output or {}, how(case, st, output)
     rows = _rows(case, st, method) + [["result", e(summary(st.specialist, o))]]
@@ -96,7 +124,7 @@ def step_detail(case, step_id: str, output: dict, seconds: float | None) -> dict
             "coverage_rules": ("show the checks", "\n".join(f"{'✓' if c['met'] else '✗'} {c['check']}" for c in o.get("checks", [])))
             }.get(st.specialist)
     if full and full[1]:
-        rows.append(["see", more(*full)])
+        rows.append(["see", _more(*full)])
     rows.append(["time", f"{seconds:.1f} s" if seconds and seconds > 0.1 else "instant"])
     return {"sub": f"{st.specialist} · {_kind(method)}", "detail": rows}
 
