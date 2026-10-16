@@ -99,6 +99,9 @@ def test_a_replay_shows_the_recorded_result_at_once(tmp_path, monkeypatch):
     (tmp_path / "state").mkdir()
     shutil.copy(reg, tmp_path / "state/registry.json")
     monkeypatch.chdir(tmp_path)                                   # boards and tapes land in a scratch dir
+    from engine.specialists import CAPABILITIES, DOMAIN           # other tests register dummy specialists: the
+    real, ours = composer.catalog, set(CAPABILITIES) | set(DOMAIN) | {x.name for x in case._SPECIALISTS}
+    monkeypatch.setattr(composer, "catalog", lambda: [c for c in real() if c["name"] in ours])   # recorded catalogue
     s = Session(case, "replay")
     t0 = time.time()
     s.start_all()
