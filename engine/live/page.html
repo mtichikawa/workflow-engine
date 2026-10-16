@@ -55,7 +55,8 @@ section{margin-top:22px;scroll-margin-top:76px}             /* clear of the stic
 .gaps{margin-top:10px;font-size:13px;color:var(--mut);line-height:1.5}
 .gaps b{color:#f0b4ac;font-family:var(--mono);font-weight:500}
 .vs{margin-top:10px;font-size:13px;color:var(--mut);border-left:3px solid var(--brass);padding:6px 10px;background:#1d2128}
-.term{margin:10px 0 8px;background:#0c0e12;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+.cmd{margin:10px 0 0;font:12.5px var(--mono);color:#dfe5ee} .cmd b{color:var(--green);font-weight:600}
+.term{margin:6px 0 8px;background:#0c0e12;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
   font:12px/1.6 var(--mono);color:#c9d1dc}                 /* grows to fit: the whole log, no scrollbar */
 .term .tl{display:grid;grid-template-columns:62px 84px minmax(0,1fr);gap:8px;white-space:pre-wrap;overflow-wrap:anywhere}
 .term .t{color:var(--dim);text-align:right}
@@ -409,9 +410,9 @@ function renderCompose(c){
   if(c.status==="idle") return;
   box.classList.add("on");
   if(c.status==="running"){ const old=$("#term"), stick=!old||old.scrollTop+old.clientHeight>=old.scrollHeight-8;
-    box.innerHTML=`<div class="cmeta">composer log — every draft goes through the validator before anything can run</div>${plog(c)}`;
+    box.innerHTML=`<div class="cmeta">composer log — every draft goes through the validator before anything can run</div>${cmdLine()}${plog(c)}`;
     if(stick) $("#term").scrollTop=$("#term").scrollHeight; return; }
-  if(c.status==="failed"){ box.innerHTML=`${plog(c)}<div class="err">composer failed: ${esc(c.error)}</div>`; $("#bCompose").disabled=false; return; }
+  if(c.status==="failed"){ box.innerHTML=`${cmdLine()}${plog(c)}<div class="err">composer failed: ${esc(c.error)}</div>`; $("#bCompose").disabled=false; return; }
   if(box.dataset.done===sess) return; box.dataset.done=sess;
   const recipeSpecs=new Set(Object.values(CASE.steps).map(s=>s.specialist));
   const draftSpecs=new Set(c.steps.map(s=>s.specialist));
@@ -419,11 +420,14 @@ function renderCompose(c){
   const chips=c.steps.map(s=>`<span class="chip ${s.tag}"><span class="tg">${s.tag==="reuse"?"reused":s.tag==="new"?"gap":"built"}</span>${esc(s.id)}${s.specialist!==s.id?` <span style="opacity:.6">(${esc(s.specialist)})</span>`:""}${s.gate?" ⏸":""}</span>`).join("");
   const gaps=c.gaps.length?`<div class="gaps">${c.gaps.map(g=>`Gap flagged, not faked: <b>${esc(g.name)}</b> — ${esc(g.why||"")}`).join("<br>")}</div>`:"";
   const served=c.served&&c.served.length?` · model answer${c.served.length>1?"s":""} ${c.served.includes("live")?"live":"from the recording"}`:"";
-  box.innerHTML=`<div class="cmeta">composer log</div>${plog(c)}<div class="cmeta">composed in ${c.seconds}s · ${c.steps.length} steps · ${c.runnable?"validates and runs as-is":"needs the gaps filled before it can run"}${served}</div>
+  box.innerHTML=`<div class="cmeta">composer log</div>${cmdLine()}${plog(c)}<div class="cmeta">composed in ${c.seconds}s · ${c.steps.length} steps · ${c.runnable?"validates and runs as-is":"needs the gaps filled before it can run"}${served}</div>
     <div class="chips">${chips}</div>${gaps}
     <div class="vs">This is the composer's <b>live draft</b>. What runs below is a recipe for the same job that was written and reviewed ahead of time — in healthcare you don't run a workflow a model drafted seconds ago without a review. The draft uses ${both.length} of the reviewed recipe's ${recipeSpecs.size} specialists (${both.map(esc).join(", ")})${draftSpecs.size>both.length?` plus ${[...draftSpecs].filter(x=>!recipeSpecs.has(x)).map(esc).join(", ")}`:""}.</div>`;
   $("#term").scrollTop=$("#term").scrollHeight;
 }
+// the same build from a terminal: the command, with the request cut short
+function cmdLine(){ const w=CASE.request.split(/\s+/), short=w.slice(0,7).join(" ")+(w.length>7?" …":"");
+  return `<div class="cmd"><b>$</b> python -m engine.cli compose "${esc(short)}"</div>`; }
 // the composer's log: every event the engine reports, as it happens — the prompt, each model call and what it
 // drew, every validator check and finding, each repair, the final check
 function plog(c){
