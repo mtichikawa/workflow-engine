@@ -91,7 +91,8 @@ client can drive it. Runnable demos in `examples/`; walkthrough in [`docs/mcp.md
 `python -m engine.live serve` and open `http://localhost:8600`. A doula-care intake on **synthetic**
 documents shaped like the real ones (a faxed referral as an image-only PDF, phone photos of an insurance
 card, an intake-form PDF, a visit-log CSV, a patient's chat message): the composer drafts the workflow
-live, the reviewed recipe runs on the board — each step's input and output visible as it happens — and
+live — each draft, the validator's verdict on it and any repair shown as they happen — then the reviewed
+recipe runs on the board, drawn as the full graph with each step's result and its input and output, and
 it stops at a real Approve / Reject gate with a CMS-1500 claim draft, a patient reply and a clinical
 handoff rendered as documents. The model reads the scans; plan rules, the claim form and the safety
 sentence are plain code; anything medical in the message goes to a person, never answered by the model.

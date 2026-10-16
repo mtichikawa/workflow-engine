@@ -330,6 +330,7 @@ async function api(path, body){
   requestAnimationFrame(animate); setInterval(tickClock,100);
 })();
 
+function atGate(){ return !!(last && last.run.status==="gated"); }
 function busy(){ return last && (last.compose.status==="running" || ["running"].includes(last.run.status)); }
 function resetAll(){ sess=null; last=null; seenEv=0; tStart=tStop=null; selected=null; closeDrawer();
   $("#compose").classList.remove("on"); $("#compose").innerHTML=""; delete $("#compose").dataset.done; $("#finds").innerHTML=""; $("#findsEmpty").style.display="";
@@ -374,7 +375,7 @@ function tickClock(){
   if(r.status==="running" && r._t){ secs=r.elapsed+(performance.now()-r._t)/1000; }
   $("#clock").firstChild.textContent=secs.toFixed(1)+"s"; $("#clockl").textContent=(mode==="replay"?"replay · ":"")+label;
   const pn=$("#plogNow"); if(pn&&c.status==="running") pn.textContent=((performance.now()-tStart)/1000).toFixed(1)+"s";
-  $("#gRun").disabled=$("#bRun").disabled; $("#gRun").textContent=$("#bRun").textContent;
+  const g=atGate(); $("#gRun").disabled=!g&&$("#bRun").disabled; $("#gRun").textContent=g?"Review and approve ↓":$("#bRun").textContent;
 }
 
 // ---------------------------------------------------------------- compose
@@ -468,7 +469,8 @@ function buildGraph(){
   $("#lgown").textContent=`written for this case (${GD.own.length})`;
   $("#stage").addEventListener("click",e=>{ if(expId&&!e.target.closest(".gtools")){ const p=expId; expId=null; relayout(true,p); } });
   $("#gmax").onclick=e=>{ e.stopPropagation(); setMax(!$("#stage").classList.contains("max")); };
-  $("#gRun").onclick=e=>{ e.stopPropagation(); if(!$("#bRun").disabled) start("run"); };
+  $("#gRun").onclick=e=>{ e.stopPropagation();                // in full screen: run it, or at the gate, go decide
+    if(atGate()){ setMax(false); $("#secGate").scrollIntoView({behavior:"smooth",block:"start"}); } else if(!$("#bRun").disabled) start("run"); };
   GN.forEach(n=>setDetail(n.id,n.detail||[]));
   G.computeRouting(); relayout(false); paint({});
 }
