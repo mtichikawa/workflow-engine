@@ -89,16 +89,24 @@ Omit "edges" for a linear recipe.
 Return JSON: {{"steps":[...], "edges":[...], "gaps":[{{"name","why","input":[...],"output":[...]}}]}}"""
 
 
-def compose(use_case: str, draft: bool = False, max_repairs: int = 2) -> dict:
+def compose(use_case: str, draft: bool = False, max_repairs: int = 2, progress=None) -> dict:
+    """`progress`, if given, is called with each stage as it happens — {"stage": "draft" | "repair", "attempt"}
+    before a model call, then {"stage": "valid", "attempt", "steps"} or {"stage": "invalid", "attempt",
+    "errors"} after the validator — so a screen can show the compile-error loop instead of a spinner."""
+    say = progress or (lambda event: None)
     base = PROMPT.format(use_case=use_case, catalog=json.dumps(catalog(), indent=1))
     prompt, data = base, {}
-    for _ in range(max_repairs + 1):
+    for attempt in range(1, max_repairs + 2):
+        say({"stage": "draft" if attempt == 1 else "repair", "attempt": attempt})
         data = brain_json(prompt)
         steps, edges = _steps(data), _edges(data)
         if not steps:
+            say({"stage": "invalid", "attempt": attempt, "errors": ["the draft has no steps"]})
             break
         errs = [f for f in validate(Recipe("composed", steps, edges), check_contracts=False)
                 if f.level == "error"]
+        say({"stage": "invalid", "attempt": attempt, "errors": [f.msg for f in errs]} if errs
+            else {"stage": "valid", "attempt": attempt, "steps": len(steps)})
         if not errs:
             break
         prompt = base + _repair(data, errs)                 # compile-error feedback loop

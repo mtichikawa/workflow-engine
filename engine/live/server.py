@@ -21,8 +21,8 @@ import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from ..core import Board, Dispatcher, Tracer, all_specialists, get, tape, validate
-from ..explorer import build_graph
+from ..core import Board, Dispatcher, Tracer, all_specialists, tape, validate
+from . import view
 
 HERE = Path(__file__).parent
 TAPES = Path("state/live/tapes")           # every live session records here; `keep` promotes one
@@ -58,15 +58,19 @@ class Session:
 
     # ---- compose ---------------------------------------------------------
     def start_compose(self) -> None:
-        self.compose = {"status": "running", "started": time.time()}
+        self.compose = {"status": "running", "started": time.time(), "log": []}
         threading.Thread(target=self._compose, daemon=True).start()
+
+    def _progress(self, event: dict) -> None:
+        """The composer's stages as they happen (draft, validator verdict, repair), timed from the start."""
+        self.compose["log"].append({**event, "at": round(time.time() - self.compose["started"], 1)})
 
     def _compose(self) -> None:
         from ..composer import compose
         from ..specialists import CAPABILITIES
         try:
             with self._tape() as t:
-                res = compose(self.case.REQUEST)
+                res = compose(self.case.REQUEST, progress=self._progress)
             self._keep(t)
             steps = []
             for s in res["steps"]:
@@ -74,11 +78,12 @@ class Session:
                 tag = ("new" if name in res["missing"] else "reuse" if name in CAPABILITIES else "domain")
                 steps.append({"id": s["id"], "specialist": name, "tag": tag, "gate": bool(s.get("gate"))})
             self.compose = {"status": "done", "seconds": round(time.time() - self.compose["started"], 1),
+                            "log": self.compose["log"],
                             "steps": steps, "gaps": res["gaps"], "edges": res["edges"],
                             "findings": [str(f) for f in res["findings"]], "runnable": res["runnable"],
                             "served": [c["served"] for c in t.log]}
         except Exception as e:  # noqa: BLE001 — shown on the page, never a silent hang
-            self.compose = {"status": "failed", "error": str(e)}
+            self.compose = {"status": "failed", "error": str(e), "log": self.compose["log"]}
 
     # ---- run -------------------------------------------------------------
     def start_run(self) -> None:
@@ -124,14 +129,17 @@ class Session:
                   else "rejected" if "rejected" in statuses else "done")
         now = time.time()
         served = [c["served"] for t in self.tapes for c in t.log]
+        finished = {sid: c for sid, c in cards.items() if c["status"] == "done" and c["output"] is not None}
         return {
             "status": status, "error": self.error, "mode": self.mode, "run_id": self.run_id,
             "elapsed": round((self.t_gate or self.t_end or now) - self.t0, 1),
             "cards": {sid: {"status": c["status"], "seconds": c.get("seconds"), "visits": c["visits"],
                             "started": c.get("started"), "input": c["input"], "output": c["output"],
                             "attempts": c["attempts"],
-                            "running_for": round(now - c["started"], 1) if c["status"] == "running" and c.get("started") else None}
+                            "running_for": round(now - c["started"], 1) if c["status"] == "running" and c.get("started") else None,
+                            **(view.step_detail(self.case, sid, c["output"], c.get("seconds")) if sid in finished else {})}
                       for sid, c in cards.items()},
+            "findings": view.findings({sid: c["output"] for sid, c in finished.items()}),
             "events": data["events"],
             "packet": (ctx.get("packet") or {}).get("documents"),
             "staged": (ctx.get("stage") or {}).get("result"),
@@ -141,15 +149,12 @@ class Session:
 
 def case_info(case) -> dict:
     specs = all_specialists()
-    lib = __import__("engine.specialists", fromlist=["CAPABILITIES"])
     steps = {}
     for s in case.RECIPE.steps:
-        spec = get(s.specialist)
-        reused = s.specialist in lib.CAPABILITIES or s.specialist in lib.DOMAIN
-        how = getattr(spec, "how", None) or ("code" if s.specialist in ("act", "fetch") else "model")
+        reused = s.specialist in view.LIBRARY
+        how = view.how(case, s)
         steps[s.id] = {"specialist": s.specialist, "reused": reused, "gate": s.gate, "how": how,
-                       "does": case.STEPS.get(s.id, ""), "config": s.config}
-    nodes, wires = _compact_graph(case.RECIPE, steps)
+                       "title": case.LABELS[s.id], "does": case.STEPS.get(s.id, ""), "config": s.config}
     docs = []
     for d in case.DOCUMENTS:
         docs.append({**d, "preview": [f"/docs/{p}" for p in d.get("preview", [])],
@@ -159,48 +164,9 @@ def case_info(case) -> dict:
     if case.TAPE.exists():
         recorded = json.loads(case.TAPE.read_text()).get("recorded")
     return {"title": case.TITLE, "request": case.REQUEST, "synthetic": case.SYNTHETIC, "documents": docs,
-            "nodes": nodes, "wires": wires, "steps": steps, "validator": findings,
-            "library": len([s for s in specs if s in lib.CAPABILITIES or s in lib.DOMAIN]),
+            "graph": view.graph(case), "steps": steps, "validator": findings,
+            "library": len([s for s in specs if s in view.LIBRARY]),
             "tape": {"exists": case.TAPE.exists(), "recorded": recorded}}
-
-
-def _compact_graph(recipe, steps) -> tuple[list, list]:
-    """The explorer's graph (engine/explorer.build_graph), simplified for a screen: one input and one
-    output socket per step (a step's own field-level wiring is in its drawer), the gate/loop sockets kept,
-    the case file's documents kept as separate outputs, and no separate OUT node — `stage` is the end."""
-    g = build_graph(recipe, work_item="case")
-    contract_out = {s.id: next(iter(get(s.specialist).contract.output)) for s in recipe.steps}
-    nodes, wires, seen = [], [], set()
-    for n in g["nodes"]:
-        if n["id"] == "OUT":
-            continue
-        st = steps.get(n["id"])
-        if n["id"] == "IN":
-            nodes.append({**n, "title": "the case file", "sub": f"{len(n['outs'])} documents, as received"})
-            continue
-        gates = [i for i in n["ins"] if i.startswith("when ")]
-        reads = [i for i in n["ins"] if not i.startswith("when ")]
-        kind = "gate" if n.get("gate") else ("shared" if st["reused"] else "domain")
-        label = (reads[0] + (f" +{len(reads) - 1}" if len(reads) > 1 else "")) if reads else None
-        nodes.append({**n, "kind": kind, "title": n["id"], "sub": st["how"],
-                      "outs": [contract_out[n["id"]]] if n["id"] != "stage" else [],
-                      "ins": gates + ([label] if label else [])})
-    by_id = {n["id"]: n for n in nodes}
-    later = {w["dst"] for w in g["wires"] if w["src"] != "IN" and w["type"] == "data"}
-    shown = {w["srcSock"] for w in g["wires"] if w["src"] == "IN" and w["dst"] not in later}
-    for w in g["wires"]:
-        if w["dst"] == "OUT" or (w["src"] == "IN" and w["dst"] in later and w["srcSock"] in shown):
-            continue                       # a document already wired to its first reader; later reads are in the drawer
-        if w["type"] == "loop" and not w.get("when"):
-            continue                       # the loop's feedback data rides the guarded loop edge drawn below
-        src_sock = w["srcSock"] if w["src"] == "IN" else by_id[w["src"]]["outs"][0]
-        dst = by_id[w["dst"]]
-        dst_sock = w["dstSock"] if w["dstSock"].startswith("when ") else dst["ins"][-1]
-        key = (w["src"], src_sock, w["dst"], dst_sock)
-        if key not in seen:
-            seen.add(key)
-            wires.append(list(key) + ([w["type"]] if w["type"] != "data" else []))
-    return nodes, wires
 
 
 def _page() -> str:

@@ -66,6 +66,18 @@ def _norm(value, typ: str):
     return s
 
 
+def _text_layer(reader) -> str:
+    """A PDF's own text, or "" when it has none worth reading (an image-only fax)."""
+    layer = "\n".join(p.extract_text() or "" for p in reader.pages).strip()
+    return layer if len(layer) > 40 else ""
+
+
+def reads_with_model(files: list[str]) -> bool:
+    """Whether read_document will need the model for these files: any image, or a PDF with no text layer."""
+    import pypdf
+    return any(not f.lower().endswith(".pdf") or not _text_layer(pypdf.PdfReader(f)) for f in files)
+
+
 class ReadDocument(Specialist):
     name = "read_document"
     kind = "domain"
@@ -83,8 +95,8 @@ class ReadDocument(Specialist):
             if f.lower().endswith(".pdf"):
                 import pypdf
                 reader = pypdf.PdfReader(f)
-                layer = "\n".join(p.extract_text() or "" for p in reader.pages).strip()
-                if len(layer) > 40:                                    # a real text layer: no model needed
+                layer = _text_layer(reader)
+                if layer:                                              # a real text layer: no model needed
                     texts.append(layer)
                     continue
                 PAGES_DIR.mkdir(parents=True, exist_ok=True)
