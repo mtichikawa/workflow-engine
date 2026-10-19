@@ -98,7 +98,9 @@ handoff rendered as documents. The model reads the scans; plan rules, the claim 
 sentence are plain code; anything medical in the message goes to a person, never answered by the model.
 Nothing is ever sent. A **replay** mode re-runs the same engine against a recorded tape of the model's
 answers (`engine/core/tape.py`), so the result is identical run to run; `python -m engine.live check`
-verifies the tape still matches.
+verifies the tape still matches. **Try it without installing:** [the recorded run, in your
+browser](https://mtichikawa.github.io/workflow-engine/demo/): the same page as static files
+(`python -m engine.live static`), playing the recording back at 4× speed. Nothing runs live there.
 
 ## Layout
 
