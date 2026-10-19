@@ -23,6 +23,7 @@ from pathlib import Path
 from .server import Session, _page, case_info
 
 ROOT = Path(__file__).resolve().parents[2]
+SPEED = 4            # the static page plays the recording back this many times faster, and says so
 
 
 def _wait(cond, what: str, timeout: float = 60) -> None:
@@ -75,12 +76,20 @@ def record(case) -> dict:
             rejected = r.state()
         finally:
             os.chdir(here)
+    # when each step started and how long it took, on the recording's own clock (tape-run.json), for the
+    # steps that ran before the gate: the page plays the run back from these
+    rec = {x["id"]: x for x in json.loads(case.TAPE.with_name("tape-run.json").read_text())["steps"]}
+    timeline = {sid: [rec[sid]["start"], rec[sid]["seconds"]] for sid, c in gated["cards"].items()
+                if c["status"] in ("done", "gated")}
+    if any(v[0] is None for v in timeline.values()):
+        raise RuntimeError("export: tape-run.json has no start times; re-export the run (python -m engine.live export-run)")
     info = case_info(case)
     for d in info["documents"]:                            # served beside the page, not from a server's /docs/
         d["preview"] = [p.lstrip("/") for p in d["preview"]]
         d["download"] = [p.lstrip("/") for p in d["download"]]
     return {"exported": time.strftime("%Y-%m-%d %H:%M %Z"), "case": info, "composed": s.compose,
-            "run": {"gated": gated, "approved": approved, "rejected": rejected}}
+            "run": {"gated": gated, "approved": approved, "rejected": rejected},
+            "timeline": timeline, "speed": SPEED}
 
 
 def export(case, out: Path) -> Path:

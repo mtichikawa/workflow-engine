@@ -66,8 +66,11 @@ def export_run(board: Board) -> Path:
     """The recorded run's steps — timing, status and output — for pages that replay it (the site's run page).
     Written beside the tape, so the replay and the page come from the same run."""
     item = next(iter(board.items))
-    steps = [{"id": s.id, "specialist": s.specialist, "status": board.card(item, s.id).status,
-              "seconds": board.card(item, s.id).seconds, "visits": board.card(item, s.id).visits,
+    cards = {s.id: board.card(item, s.id) for s in CASE.RECIPE.steps}
+    t0 = min(c.started for c in cards.values() if c.started)      # each step's start, on the run's own clock
+    steps = [{"id": s.id, "specialist": s.specialist, "status": cards[s.id].status,
+              "seconds": cards[s.id].seconds, "visits": cards[s.id].visits,
+              "start": round(cards[s.id].started - t0, 2) if cards[s.id].started else None,
               "output": board.context.get(item, {}).get(s.id)} for s in CASE.RECIPE.steps]
     RUN.write_text(json.dumps({"run_id": board.run_id, "steps": steps}, indent=1, default=str))
     return RUN

@@ -20,10 +20,10 @@ button{font:inherit;cursor:pointer}
 .top .s{font:13px var(--mono);color:var(--mut);margin-top:2px}
 .syn{flex:none;margin-left:8px;border:1.5px solid var(--amber);color:var(--amber);border-radius:5px;padding:4px 9px;
   font:600 12.5px var(--mono);letter-spacing:.04em;white-space:nowrap}
-.syn.rec{border-color:var(--steel);color:var(--steel)}
+.syn.rec{border-color:var(--steel);color:var(--steel);flex:0 1 auto;white-space:normal}
 .sp{flex:1}
 .mode{display:flex;flex:none;border:1px solid var(--line);border-radius:7px;overflow:hidden}
-.top>div:first-child{min-width:0}
+.top>div:first-child{flex:0 1 auto;min-width:300px}
 .mode button{background:transparent;border:0;color:var(--mut);padding:7px 13px;font-size:14px;white-space:nowrap}
 .mode button.on{background:#2c3a49;color:#fff}
 .mode button:disabled{opacity:.45;cursor:default}
@@ -228,7 +228,7 @@ body.gmax{overflow:hidden}
 <div class="top">
   <div><div class="t" id="title">Workflow engine</div><div class="s" id="sub">workflow engine · live view</div></div>
   <div class="syn" id="syn">SYNTHETIC DATA — invented patient, providers, plan and IDs</div>
-  <div class="syn rec" id="recnote" hidden>RECORDED RUN — nothing runs live, no model is called</div>
+  <div class="syn rec" id="recnote" hidden>RECORDED RUN · no model is called</div>
   <div class="sp"></div>
   <div class="mode" id="mode"><button data-m="live" class="on">Live model</button><button data-m="replay">Replay recorded run</button></div>
   <div class="clock" id="clock">0.0s<small id="clockl">not started</small></div>
@@ -311,19 +311,37 @@ const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"]/g,c=>
 let CASE=null, G=null, sess=null, mode="live", poll=null, last=null, selected=null, tStart=null;
 
 // A static copy (python -m engine.live static): the recorded run's answers come from a file the export saved
-// from one replay through the real server, and nothing runs here. Same page, same rendering.
-const STATIC=window.STATIC_DEMO||null, REC={data:null,compose:null,run:null};
+// from one replay through the real server, and nothing runs here. Same page, same rendering. Build and Run
+// play back on the recording's own clock (each log line's time, each step's start and length), sped up.
+const STATIC=window.STATIC_DEMO||null, REC={data:null,compose:null,run:null,c0:0,r0:0};
+const recClock=t0=>(performance.now()-t0)/1000*REC.data.speed;          // seconds on the recording's clock
+const runEnd=()=>Math.max(...Object.values(REC.data.timeline).map(([st,sec])=>st+sec));
+function playCompose(){
+  const C=REC.data.composed, e=recClock(REC.c0);
+  return e>=C.seconds?C:{status:"running",started:C.started,log:C.log.filter(x=>x.at<=e)};
+}
+function playRun(){
+  const G=REC.data.run.gated, e=recClock(REC.r0);
+  if(e>=runEnd()) return G;
+  const cards={};
+  Object.entries(REC.data.timeline).forEach(([sid,[st,sec]])=>{
+    if(e>=st+sec) cards[sid]=G.cards[sid];
+    else if(e>=st){ const {sub,detail,...c}=G.cards[sid];
+      cards[sid]={...c,status:"running",output:null,seconds:null,attempts:[],running_for:+(e-st).toFixed(1)}; } });
+  return {...G,status:"running",cards,packet:null,staged:null,elapsed:+e.toFixed(1),
+          findings:G.findings.filter(f=>cards[f.step]&&cards[f.step].status==="done")};
+}
 async function recorded(path, body){
   if(!REC.data) REC.data=await (await fetch(STATIC.data)).json();
   const D=REC.data, action=path.split("/").pop();
   if(path==="/api/case") return D.case;
-  if(body===undefined) return {id:"recorded",mode:"replay",compose:REC.compose||{status:"idle"},run:REC.run||{status:"idle"}};
+  const now=x=>x==="play-compose"?playCompose():x==="play-run"?playRun():x;
+  if(body===undefined) return {id:"recorded",mode:"replay",compose:now(REC.compose)||{status:"idle"},run:now(REC.run)||{status:"idle"}};
   if(path==="/api/session"){ REC.compose=null; REC.run=null; return {id:"recorded"}; }
-  if(action==="compose") REC.compose=D.composed;
-  else if(action==="run") REC.run=D.run.gated;
-  else if(action==="all"){ REC.compose=D.composed; REC.run=D.run.gated; }
+  if(action==="compose"){ REC.compose="play-compose"; REC.c0=performance.now(); }
+  else if(action==="run"){ REC.run="play-run"; REC.r0=performance.now(); }
   else if(action==="approve"||action==="reject"){
-    if(!REC.run||REC.run.status!=="gated") throw new Error("nothing is waiting at the gate");
+    if((now(REC.run)||{}).status!=="gated") throw new Error("nothing is waiting at the gate");
     REC.run=D.run[action==="approve"?"approved":"rejected"]; }
   return {ok:true};
 }
@@ -340,7 +358,8 @@ async function api(path, body){
   $("#request").textContent=CASE.request;
   if(!CASE.tape.exists) $("#mode [data-m=replay]").disabled=true;
   else $("#mode [data-m=replay]").title="recorded "+CASE.tape.recorded;
-  if(STATIC){ mode="replay"; $("#mode").hidden=true; $("#recnote").hidden=false; }
+  if(STATIC){ mode="replay"; $("#mode").hidden=true; $("#recnote").hidden=false;
+    $("#recnote").textContent=`RECORDED RUN · played back at ${REC.data.speed}× speed · no model is called`; }
   renderDocs(); buildGraph(); renderHonest(); if(STATIC){ clearView(); syncButtons(); }
   $("#mode").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.disabled||b.dataset.m===mode) return; show(b.dataset.m); };
   $("#bCompose").onclick=()=>start("compose");
@@ -408,14 +427,17 @@ async function refresh(){
   let s; try{ s=await api(`/api/session/${want}`); }catch(e){ return; }
   if(sess!==want) return;                                  // the view switched while this was in flight
   last=s; renderCompose(s.compose); renderRun(s.run); syncButtons();
-  const active=s.compose.status==="running"||s.run.status==="running"||(mode==="replay"&&s.run.status==="idle");
+  const active=s.compose.status==="running"||s.run.status==="running"||(mode==="replay"&&!STATIC&&s.run.status==="idle");
   if(!active){ clearInterval(poll); poll=null; }
 }
 function tickClock(){
   if(!last) return;
   const r=last.run, c=last.compose;
   let secs=0, label="";
-  if(mode==="replay"){ $("#clock").firstChild.textContent="—"; $("#clockl").textContent=r.status==="gated"?"recorded run · at the gate":"recorded run"; }
+  if(STATIC){ const t=r.status==="running"?recClock(REC.r0):r.status==="gated"?runEnd():c.status==="running"?recClock(REC.c0):c.status==="done"&&r.status==="idle"?c.seconds:null;
+    $("#clock").firstChild.textContent=t==null?"—":t.toFixed(1)+"s";
+    $("#clockl").textContent=`recorded time · ${REC.data.speed}× speed`; }
+  else if(mode==="replay"){ $("#clock").firstChild.textContent="—"; $("#clockl").textContent=r.status==="gated"?"recorded run · at the gate":"recorded run"; }
   else {
     if(r.status && r.status!=="idle"){ secs=r.elapsed; label=r.status==="gated"?"to the gate":r.status==="running"?"running":r.status; }
     else if(c.status==="running"){ secs=(performance.now()-tStart)/1000; label="composing"; }
@@ -423,7 +445,7 @@ function tickClock(){
     if(r.status==="running" && r._t){ secs=r.elapsed+(performance.now()-r._t)/1000; }
     $("#clock").firstChild.textContent=secs.toFixed(1)+"s"; $("#clockl").textContent=label;
   }
-  const pn=$("#plogNow"); if(pn&&c.status==="running") pn.textContent=`${((performance.now()-tStart)/1000-(+pn.dataset.at||0)).toFixed(1)} s so far`;
+  const pn=$("#plogNow"); if(pn&&c.status==="running") pn.textContent=`${((STATIC?recClock(REC.c0):(performance.now()-tStart)/1000)-(+pn.dataset.at||0)).toFixed(1)} s so far`;
   const g=atGate(); $("#gRun").disabled=!g&&$("#bRun").disabled; $("#gRun").textContent=g?"Review and approve ↓":$("#bRun").textContent;
 }
 

@@ -142,6 +142,10 @@ def test_a_static_copy_holds_every_answer_the_page_asks_for(tmp_path, monkeypatc
     assert any(e["stage"] == "checked" and e["errors"] for e in data["composed"]["log"])     # the rejected draft
     assert [data["run"][k]["status"] for k in ("gated", "approved", "rejected")] == ["gated", "done", "rejected"]
     assert data["run"]["approved"]["staged"]
+    T = data["timeline"]                                   # the playback: each step on the recording's clock
+    assert set(T) == {sid for sid, c in data["run"]["gated"]["cards"].items() if c["status"] in ("done", "gated")}
+    assert T["fields"][0] >= T["read_referral"][0] + T["read_referral"][1] - 0.05     # waits for the documents
+    assert T["reply_check"][0] >= T["reply"][0] + T["reply"][1] - 0.05
     files = {p.name for p in (out / "docs").iterdir()}
     assert {f.split("/")[-1] for d in data["case"]["documents"] for f in d["preview"] + d["download"]} <= files
     page = (out / "index.html").read_text()
