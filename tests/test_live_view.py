@@ -123,3 +123,26 @@ def test_a_replay_shows_the_recorded_result_at_once(tmp_path, monkeypatch):
     log = s.compose["log"]
     assert log[0]["stage"] == "prompt" and log[-1]["stage"] == "done"
     assert log[-1]["at"] == s.compose["seconds"] > 10                # the recording's clock, not the wall's
+
+
+def test_a_static_copy_holds_every_answer_the_page_asks_for(tmp_path, monkeypatch):
+    """`python -m engine.live static`: one replay through the real server code, saved for a page with no
+    server — the composer's log (with the validator's rejection), the run at the gate, and after approve and
+    reject; the documents beside it; no path on this machine in it; and the page reads it, not the API."""
+    import pytest
+    from engine.live.export import ROOT, export
+    if not (ROOT / "state/registry.json").exists():
+        pytest.skip("needs state/registry.json (the track record the tape was recorded with)")
+    from engine.specialists import CAPABILITIES, DOMAIN           # the catalogue the tape was recorded with
+    real, ours = composer.catalog, set(CAPABILITIES) | set(DOMAIN) | {x.name for x in case._SPECIALISTS}
+    monkeypatch.setattr(composer, "catalog", lambda: [c for c in real() if c["name"] in ours])
+    out = export(case, tmp_path / "demo")
+    data = json.loads((out / "recorded.json").read_text())
+    assert data["composed"]["status"] == "done" and set(data["composed"]["served"]) == {"exact"}
+    assert any(e["stage"] == "checked" and e["errors"] for e in data["composed"]["log"])     # the rejected draft
+    assert [data["run"][k]["status"] for k in ("gated", "approved", "rejected")] == ["gated", "done", "rejected"]
+    assert data["run"]["approved"]["staged"]
+    files = {p.name for p in (out / "docs").iterdir()}
+    assert {f.split("/")[-1] for d in data["case"]["documents"] for f in d["preview"] + d["download"]} <= files
+    page = (out / "index.html").read_text()
+    assert 'window.STATIC_DEMO={data:"recorded.json"}' in page and "__GRAPH_CORE__" not in page

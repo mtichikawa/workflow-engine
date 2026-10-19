@@ -10,7 +10,7 @@
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Liberation Sans",Arial,sans-serif;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box} [hidden]{display:none!important}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans)}
 button{font:inherit;cursor:pointer}
 /* ---------- top bar ---------- */
@@ -20,6 +20,7 @@ button{font:inherit;cursor:pointer}
 .top .s{font:13px var(--mono);color:var(--mut);margin-top:2px}
 .syn{flex:none;margin-left:8px;border:1.5px solid var(--amber);color:var(--amber);border-radius:5px;padding:4px 9px;
   font:600 12.5px var(--mono);letter-spacing:.04em;white-space:nowrap}
+.syn.rec{border-color:var(--steel);color:var(--steel)}
 .sp{flex:1}
 .mode{display:flex;flex:none;border:1px solid var(--line);border-radius:7px;overflow:hidden}
 .top>div:first-child{min-width:0}
@@ -211,9 +212,9 @@ body.gmax{overflow:hidden}
 .paper .lbl{font-weight:650;margin-top:10px}
 .empty-p{color:var(--mut);font-size:15px;padding:18px;border:1px dashed var(--line);border-radius:10px}
 /* honesty */
-.honest{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14.5px;color:var(--mut);line-height:1.5}
+.honest{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;font-size:14.5px;color:var(--mut);line-height:1.5}
 .honest .card{padding:12px 14px}
-.honest b{color:var(--ink)}
+.honest b{color:var(--ink)} .honest a{color:var(--brass)}
 /* lightbox */
 .lb{position:fixed;inset:0;background:rgba(5,6,8,.88);z-index:50;display:none;align-items:center;justify-content:center;padding:30px}
 .lb.on{display:flex}
@@ -227,6 +228,7 @@ body.gmax{overflow:hidden}
 <div class="top">
   <div><div class="t" id="title">Workflow engine</div><div class="s" id="sub">workflow engine · live view</div></div>
   <div class="syn" id="syn">SYNTHETIC DATA — invented patient, providers, plan and IDs</div>
+  <div class="syn rec" id="recnote" hidden>RECORDED RUN — nothing runs live, no model is called</div>
   <div class="sp"></div>
   <div class="mode" id="mode"><button data-m="live" class="on">Live model</button><button data-m="replay">Replay recorded run</button></div>
   <div class="clock" id="clock">0.0s<small id="clockl">not started</small></div>
@@ -308,7 +310,25 @@ __GRAPH_CORE__
 const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let CASE=null, G=null, sess=null, mode="live", poll=null, last=null, selected=null, tStart=null;
 
+// A static copy (python -m engine.live static): the recorded run's answers come from a file the export saved
+// from one replay through the real server, and nothing runs here. Same page, same rendering.
+const STATIC=window.STATIC_DEMO||null, REC={data:null,compose:null,run:null};
+async function recorded(path, body){
+  if(!REC.data) REC.data=await (await fetch(STATIC.data)).json();
+  const D=REC.data, action=path.split("/").pop();
+  if(path==="/api/case") return D.case;
+  if(body===undefined) return {id:"recorded",mode:"replay",compose:REC.compose||{status:"idle"},run:REC.run||{status:"idle"}};
+  if(path==="/api/session"){ REC.compose=null; REC.run=null; return {id:"recorded"}; }
+  if(action==="compose") REC.compose=D.composed;
+  else if(action==="run") REC.run=D.run.gated;
+  else if(action==="all"){ REC.compose=D.composed; REC.run=D.run.gated; }
+  else if(action==="approve"||action==="reject"){
+    if(!REC.run||REC.run.status!=="gated") throw new Error("nothing is waiting at the gate");
+    REC.run=D.run[action==="approve"?"approved":"rejected"]; }
+  return {ok:true};
+}
 async function api(path, body){
+  if(STATIC) return recorded(path, body);
   const r=await fetch(path, body===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
   const j=await r.json(); if(!r.ok) throw new Error(j.error||r.statusText); return j;
 }
@@ -320,7 +340,8 @@ async function api(path, body){
   $("#request").textContent=CASE.request;
   if(!CASE.tape.exists) $("#mode [data-m=replay]").disabled=true;
   else $("#mode [data-m=replay]").title="recorded "+CASE.tape.recorded;
-  renderDocs(); buildGraph(); renderHonest();
+  if(STATIC){ mode="replay"; $("#mode").hidden=true; $("#recnote").hidden=false; }
+  renderDocs(); buildGraph(); renderHonest(); if(STATIC){ clearView(); syncButtons(); }
   $("#mode").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.disabled||b.dataset.m===mode) return; show(b.dataset.m); };
   $("#bCompose").onclick=()=>start("compose");
   $("#bRun").onclick=()=>start("run");
@@ -354,11 +375,12 @@ function clearView(){ selected=null; closeDrawer();
   $("#packet").innerHTML='<div class="empty-p">The review packet appears here when the workflow reaches the gate.</div>'; delete $("#packet").dataset.run;
   paint({}); $("#clock").firstChild.textContent=mode==="replay"?"—":"0.0s"; $("#clockl").textContent=mode==="replay"?"recorded run":"not started";
   $("#runHint").textContent="each box is one step · click any box to open it";
-  $("#sub").textContent=mode==="replay"?`RECORDED RUN (${CASE.tape.recorded}) · the engine re-runs it for real; the model's answers come from the recording, shown with the times they took then`:"workflow engine · live model calls";
+  $("#sub").textContent=STATIC?"workflow engine · a recording of one run":mode==="replay"?`RECORDED RUN (${CASE.tape.recorded}) · the engine re-runs it for real; the model's answers come from the recording, shown with the times they took then`:"workflow engine · live model calls";
 }
 function syncButtons(){
-  const c=last?last.compose.status:"idle", r=last?last.run.status:"idle", loading=mode==="replay"&&(!last||c==="running"||r==="idle");
-  $("#bCompose").disabled=c==="running"||r!=="idle"||mode==="replay";
+  const auto=mode==="replay"&&!STATIC;                      // the server's Replay shows the result at once
+  const c=last?last.compose.status:"idle", r=last?last.run.status:"idle", loading=auto&&(!last||c==="running"||r==="idle");
+  $("#bCompose").disabled=c==="running"||r!=="idle"||auto;
   $("#bRun").disabled=loading||r==="running"||r==="gated";
   $("#bRun").textContent=["done","rejected","failed"].includes(r)?"Run again":"Run it on this case";
 }
@@ -369,7 +391,7 @@ async function start(what){
     await api(`/api/session/${sess}/${what}`,{});
     if(what==="compose"){ $("#bCompose").disabled=true; tStart=performance.now(); }
     if(what==="run"){ $("#bRun").disabled=true; $("#bCompose").disabled=true; $("#finds").innerHTML=""; tStart=performance.now();
-      if(mode==="live") $("#secRun").scrollIntoView({behavior:"smooth",block:"start"}); }
+      if(mode==="live"||STATIC) $("#secRun").scrollIntoView({behavior:"smooth",block:"start"}); }
     if(what==="all") tStart=performance.now();
     clearInterval(poll); poll=setInterval(refresh,450); refresh();
   }catch(e){ alert(e.message); }
@@ -423,7 +445,7 @@ function renderCompose(c){
   const served=c.served&&c.served.length?` · model answer${c.served.length>1?"s":""} ${c.served.includes("live")?"live":"from the recording"}`:"";
   box.innerHTML=`<div class="cmeta">composer log</div>${cmdLine()}${plog(c)}<div class="cmeta">composed in ${c.seconds}s · ${c.steps.length} steps · ${c.runnable?"validates and runs as-is":"needs the gaps filled before it can run"}${served}</div>
     <div class="chips">${chips}</div>${gaps}
-    <div class="vs">This is the composer's <b>live draft</b>. What runs below is a recipe for the same job that was written and reviewed ahead of time — in healthcare you don't run a workflow a model drafted seconds ago without a review. The draft uses ${both.length} of the reviewed recipe's ${recipeSpecs.size} specialists (${both.map(esc).join(", ")})${draftSpecs.size>both.length?` plus ${[...draftSpecs].filter(x=>!recipeSpecs.has(x)).map(esc).join(", ")}`:""}.</div>`;
+    <div class="vs">This is the composer's <b>${mode==="replay"?"recorded draft":"live draft"}</b>. What runs below is a recipe for the same job that was written and reviewed ahead of time — in healthcare you don't run a workflow a model drafted seconds ago without a review. The draft uses ${both.length} of the reviewed recipe's ${recipeSpecs.size} specialists (${both.map(esc).join(", ")})${draftSpecs.size>both.length?` plus ${[...draftSpecs].filter(x=>!recipeSpecs.has(x)).map(esc).join(", ")}`:""}.</div>`;
   $("#term").scrollTop=$("#term").scrollHeight;
 }
 // the same build from a terminal: the command, with the request cut short
@@ -733,8 +755,9 @@ function renderHonest(){
   const isModel=s=>/model/.test(s.how)&&!/^code/.test(s.how), name=([,s])=>esc(s.title);
   const model=S.filter(([,s])=>isModel(s)).map(name), code=S.filter(([,s])=>!isModel(s)).map(name);
   $("#honest").innerHTML=`
-   <div class="card"><b>Model judgment (${model.length} steps):</b> ${model.join(", ")}. The document readers, the record filler and the reply writer are new for this job and have <b>no eval yet</b>; same-person, medical-or-not and the reply check are the library's shared specialists.</div>
+   <div class="card"><b>Model judgment (${model.length} steps):</b> ${model.join(", ")}. The document readers, the record filler and the reply writer are new for this job. Only reading the card photos has an eval (on generated photos, not a blind set); the rest have <b>no eval yet</b>. Same-person, medical-or-not and the reply check are the library's shared specialists; medical-or-not has a blind eval, the reply check doesn't.</div>
    <div class="card"><b>Plain code, on purpose (${code.length} steps):</b> ${code.join(", ")}. Plan rules, the claim form, the clinical handoff and the safety sentence are fixed rules and templates — auditable, the same every time.</div>
+   ${STATIC?`<div class="card"><b>A recording:</b> this page plays back one run of the engine, recorded ${esc(CASE.tape.recorded)}. Nothing runs here and no model is called; every result is what the engine produced then. The engine itself: <a href="https://github.com/mtichikawa/workflow-engine">github.com/mtichikawa/workflow-engine</a>.</div>`:""}
    <div class="card"><b>Synthetic, and staged:</b> every person, provider, plan, NPI and ID is invented. The plan's rules mirror a real 2026 Medicaid doula billing guide. Nothing is ever sent — the last step writes a file, and only after a person approves.</div>`;
 }
 </script>

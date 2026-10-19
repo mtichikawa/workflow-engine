@@ -110,13 +110,15 @@ class Session:
 
     # ---- run -------------------------------------------------------------
     def start_run(self) -> None:
-        self.run_id = f"care_intake-{self.mode}-{self.id}"
-        self.board = Board(self.case.RECIPE.name, self.run_id)
+        run_id = f"care_intake-{self.mode}-{self.id}"
+        board = Board(self.case.RECIPE.name, run_id)
         p = self.case.payload()
-        self.board.add_item(p["id"], p)
-        self.disp = Dispatcher(self.case.RECIPE, self.board, Tracer(self.run_id, echo=False), concurrency=6)
+        board.add_item(p["id"], p)
         self.t0, self.t_gate, self.t_end, self.error = time.time(), None, None, None
-        self.board.save()
+        board.save()
+        # published only once its file exists, so a poll (state()) never sees a run it can't read
+        self.board, self.run_id = board, run_id
+        self.disp = Dispatcher(self.case.RECIPE, board, Tracer(run_id, echo=False), concurrency=6)
         threading.Thread(target=self._drive, args=(lambda: self.disp.run(),), daemon=True).start()
 
     def _drive(self, fn) -> None:

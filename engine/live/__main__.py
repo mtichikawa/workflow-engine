@@ -5,6 +5,7 @@
     python -m engine.live check                   # replay the tape at full speed; fail on any miss or drift
     python -m engine.live keep <session>          # promote a session recorded from the page to the tape
     python -m engine.live export-run <run_id>     # save a recorded run's steps (timings, outputs) beside the tape
+    python -m engine.live static [--out demo]     # the recorded run as static files: a public page, no server
 
 Needs the optional extra: pip install -e '.[live]'
 """
@@ -16,6 +17,7 @@ import json
 import shutil
 import sys
 import time
+from pathlib import Path
 
 from ..core import Board, Dispatcher, Tracer, tape, validate
 from . import care_intake as CASE
@@ -83,6 +85,8 @@ def main(argv=None) -> int:
     kp.add_argument("session")
     ex = sub.add_parser("export-run")
     ex.add_argument("run_id")
+    st = sub.add_parser("static")
+    st.add_argument("--out", default="demo")
     a = ap.parse_args(argv)
 
     CASE.load()
@@ -120,6 +124,10 @@ def main(argv=None) -> int:
         print(f"{src} -> {CASE.TAPE}  (decisions file not updated — run `check` to see the replay's)")
     elif a.cmd == "export-run":
         print("wrote", export_run(Board.load(a.run_id)))
+    elif a.cmd == "static":
+        from .export import export
+        out = export(CASE, Path(a.out))
+        print(f"wrote {out}/index.html, recorded.json and docs/ — open index.html over http (any static host)")
     return 0
 
 
